@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Reading – Giraffes in the Wild</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --bg:#fff;--text:#000;--hbg:#fff;--border:#e0e0e0;
+  --panel:#fff;--ibg:#fff;--iborder:#bfbfbf;--ifocus:#3581d8;
+  --ok:#28a745;--bad:#dc3545;--hl:#ffff00;--modal:#fff;
+  --nav:#fff;--rzr:#f0f0f0;--phdr:#f1f2ec;--tmr:#f0f0f0;
+  --link:#1e88e5;--shad:rgba(0,0,0,.1);--tbdr:#ccc;--thbg:#2c3e50;
+}
+[data-theme="dark"]{
+  --bg:#1a1a1a;--text:#e0e0e0;--hbg:#2d2d2d;--border:#444;
+  --panel:#2d2d2d;--ibg:#3a3a3a;--iborder:#555;--ifocus:#4a90e2;
+  --ok:#2ecc71;--bad:#e74c3c;--hl:#ffeb3b;--modal:#2d2d2d;
+  --nav:#2d2d2d;--rzr:#444;--phdr:#3a3a3a;--tmr:#444;
+  --link:#64b5f6;--shad:rgba(0,0,0,.3);--tbdr:#555;--thbg:#1a2533;
+}
+
+body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;font-size:16px;transition:background .3s,color .3s}
+
+/* ── HEADER ── */
+.header{background:var(--hbg);padding:12px 20px;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+  position:fixed;top:0;left:0;right:0;z-index:100;height:60px}
+.hl{display:flex;align-items:center;gap:20px}
+.logo{height:50px}
+.tg{display:flex;align-items:center;gap:6px;text-decoration:none;color:var(--link);font-weight:700;font-size:14px}
+.tg:hover{text-decoration:underline}
+.timer-wrap{display:flex;align-items:center;gap:10px}
+.timer-num{font-weight:700;font-size:18px;color:var(--text);min-width:62px}
+.timer-warn{color:#dc3545!important;animation:blink 1s step-end infinite}
+@keyframes blink{50%{opacity:.4}}
+.tctrls{display:flex;gap:8px}
+.icn-btn{background:var(--tmr);border:1px solid var(--border);border-radius:50%;width:32px;height:32px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:background .2s,transform .2s;position:relative}
+.icn-btn:hover{background:var(--border);transform:scale(1.05)}
+.icn-btn svg{width:20px;height:20px;fill:var(--text)}
+.sun,.moon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);transition:opacity .3s,transform .3s}
+.moon{opacity:0;transform:translate(-50%,-50%) rotate(90deg)}
+[data-theme="dark"] .sun{opacity:0;transform:translate(-50%,-50%) rotate(-90deg)}
+[data-theme="dark"] .moon{opacity:1;transform:translate(-50%,-50%) rotate(0)}
+
+/* ── LAYOUT ── */
+.main{margin-top:60px;display:flex;flex-direction:column;height:calc(100vh - 60px)}
+.part-hdr{background:var(--phdr);padding:11px 20px;border:1px solid var(--border);
+  margin:10px 20px;border-radius:5px}
+.part-hdr p{color:var(--text);margin:0}
+.part-hdr p:first-child{margin-bottom:3px}
+.panels{display:flex;flex:1;overflow:hidden}
+.pp,.qp{flex:1;padding:20px 20px 110px;overflow-y:auto;min-width:200px;background:var(--panel)}
+.qp{border-left:1px solid var(--border)}
+.rzr{width:10px;cursor:col-resize;background:var(--rzr) url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23888"/></svg>') no-repeat center;flex-shrink:0}
+[data-theme="dark"] .rzr{background-image:url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23aaa"/></svg>')}
+
+/* ── PASSAGE ── */
+.passage h4{font-size:20px;font-weight:700;margin-bottom:14px;text-align:center;color:var(--text)}
+.passage h5{font-size:16px;font-weight:700;margin:18px 0 10px;color:var(--text)}
+.passage p{margin-bottom:1.1em;color:var(--text)}
+.passage strong{color:var(--text)}
+.img-wrap{float:right;margin:0 0 16px 20px;max-width:260px;width:35%}
+.img-wrap img{width:100%;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.pbody::after{content:"";display:table;clear:both}
+
+/* ── ANSWER HIGHLIGHTS (shown after submission) ── */
+.ans-hl{
+  background:rgba(255,230,0,.55);
+  border-radius:3px;
+  padding:1px 3px;
+  position:relative;
+  transition:background .3s;
+}
+[data-theme="dark"] .ans-hl{background:rgba(255,210,0,.35)}
+.ans-badge{
+  display:inline-flex;align-items:center;justify-content:center;
+  color:#fff;font-size:10px;font-weight:700;
+  min-width:17px;height:17px;border-radius:50%;
+  margin-left:2px;vertical-align:super;padding:0 3px;
+  line-height:1;
+}
+
+/* ── TRUE/FALSE/NG QUESTIONS ── */
+.tfq{margin-bottom:20px}
+.tfq-line{display:flex;align-items:flex-start;margin-bottom:9px}
+.tfq-num{border:2px solid var(--border);padding:2px 8px;margin-right:10px;border-radius:3px;
+  font-weight:700;background:var(--ibg);color:var(--text);white-space:nowrap;flex-shrink:0}
+.tfq.active .tfq-num{border-color:var(--ifocus)}
+.tfq-txt{padding-top:3px;color:var(--text);line-height:1.5}
+.opts{padding-left:4px}
+.opt{display:flex;align-items:center;padding:8px 12px;background:var(--ibg);
+  border:1px solid var(--border);border-radius:4px;margin-bottom:5px;
+  cursor:pointer;color:var(--text);transition:background .2s}
+.opt:hover{background:var(--phdr)}
+.opt:has(input:checked){background:rgba(74,144,226,.2);border-color:var(--ifocus)}
+.opt.ok{background:rgba(40,167,69,.2)!important;border-color:var(--ok)!important}
+.opt.bad{background:rgba(220,53,69,.2)!important;border-color:var(--bad)!important}
+.opt.show-correct{outline:2px solid var(--ok)}
+.opt input{margin-right:10px;transform:scale(1.2);accent-color:var(--ifocus)}
+
+/* ── TABLE QUESTIONS ── */
+.question{margin-bottom:32px}
+.qprompt p{margin-bottom:8px;color:var(--text)}
+.qprompt strong{color:var(--text)}
+.btable{width:100%;border-collapse:collapse;margin-top:12px;font-size:15px}
+.btable caption{font-weight:700;font-size:16px;text-align:center;
+  caption-side:top;padding-bottom:8px;color:var(--text)}
+.btable th{background:var(--thbg);color:#fff;padding:11px 14px;
+  text-align:left;border:1px solid var(--tbdr);font-size:15px}
+.btable td{padding:11px 14px;border:1px solid var(--tbdr);color:var(--text);
+  vertical-align:top;line-height:1.8}
+.btable td:first-child{width:32%;font-weight:500;background:var(--phdr)}
+.btable td:last-child{width:68%;background:var(--panel)}
+.ainput{border:1px solid var(--iborder);border-radius:4px;background:var(--ibg);
+  padding:2px 7px;font-size:14px;font-weight:700;color:var(--text);
+  height:28px;min-width:115px;transition:border-color .2s,background .3s}
+.ainput:focus{border-color:var(--ifocus);border-width:2px;outline:none}
+.ainput.active-i{border-color:var(--ifocus);border-width:2px}
+.ainput.ok{border-color:var(--ok);background:rgba(40,167,69,.1)}
+.ainput.bad{border-color:var(--bad);background:rgba(220,53,69,.1)}
+.ainput::placeholder{font-weight:400;opacity:.6}
+.linput{border:1px solid var(--iborder);border-radius:4px;background:var(--ibg);
+  padding:2px 7px;font-size:14px;font-weight:700;color:var(--text);
+  height:28px;min-width:95px;transition:border-color .2s,background .3s}
+.linput:focus{border-color:var(--ifocus);border-width:2px;outline:none}
+.linput.active-i{border-color:var(--ifocus);border-width:2px}
+.linput.ok{border-color:var(--ok);background:rgba(40,167,69,.1)}
+.linput.bad{border-color:var(--bad);background:rgba(220,53,69,.1)}
+.ca-hint{font-weight:700;color:var(--ok);margin-left:6px;font-size:13px}
+
+/* ── NAV ARROWS ── */
+.navarrows{position:fixed;bottom:100px;right:20px;display:flex;gap:6px;z-index:101}
+.nava{width:48px;height:48px;border:none;cursor:pointer;display:flex;
+  align-items:center;justify-content:center;color:#fff;border-radius:50%;
+  box-shadow:0 2px 6px var(--shad);outline:none;transition:transform .1s}
+.nava.p{background:#4b5563}
+.nava.n{background:#000}
+[data-theme="dark"] .nava.p{background:#6b7280}
+[data-theme="dark"] .nava.n{background:#333}
+.nava:hover{transform:translateY(-1px)}
+
+/* ── BOTTOM NAV ── */
+.bnav{position:fixed;bottom:0;left:0;right:0;background:var(--nav);height:80px;
+  z-index:100;border-top:1px solid var(--border);
+  display:flex;align-items:center;padding:0 10px;gap:4px;overflow-x:auto}
+.nlbl{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;
+  margin-right:6px;padding:0 6px;flex-shrink:0}
+.sq{width:34px;height:34px;border:1px solid var(--border);background:var(--ibg);
+  color:var(--text);font-size:13px;font-weight:500;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;border-radius:3px;flex-shrink:0}
+.sq:hover{background:var(--phdr);border-color:var(--ifocus)}
+.sq.answered{background:var(--phdr)}
+.sq.correct{background:var(--ok);color:#fff;border-color:var(--ok)}
+.sq.incorrect{background:var(--bad);color:#fff;border-color:var(--bad)}
+.sq.active{background:var(--ifocus);color:#fff;border-color:var(--ifocus)}
+.submit-btn{margin-left:auto;margin-right:8px;flex-shrink:0;
+  background:var(--phdr);color:var(--text);border:1px solid var(--border);
+  padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;
+  min-width:148px;justify-content:center;border-radius:4px;transition:background .2s}
+.submit-btn:hover{background:var(--border)}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ── MODAL ── */
+.moverlay{position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(17,24,39,.6);backdrop-filter:blur(3px);
+  z-index:2000;display:flex;justify-content:center;align-items:center}
+.moverlay.hidden{display:none!important}
+.mcontent{background:var(--modal);padding:24px;border-radius:14px;
+  width:92%;max-width:720px;max-height:86vh;
+  display:flex;flex-direction:column;position:relative;
+  border:1px solid var(--border);box-shadow:0 20px 60px var(--shad);color:var(--text)}
+.mclose{position:absolute;top:10px;right:15px;background:none;border:none;
+  font-size:28px;cursor:pointer;color:var(--text)}
+.mcontent h2{text-align:center;margin-bottom:14px}
+.rsum{display:flex;gap:16px;justify-content:center;margin-bottom:12px;
+  border-bottom:1px solid var(--border);padding-bottom:10px}
+.rsum p{margin:0;font-size:15px;color:var(--text)}
+.rsum p span{display:inline-block;padding:3px 10px;margin-left:6px;
+  border-radius:999px;background:var(--phdr);font-weight:700;color:var(--text)}
+.rdetails{overflow-y:auto;padding-right:8px}
+.rrow{display:grid;grid-template-columns:48px 1fr 1fr 108px;
+  gap:10px;padding:8px;border-bottom:1px solid var(--border);font-size:14px;align-items:center}
+.rrow.ok{background:rgba(40,167,69,.07)}
+.rrow.bad{background:rgba(220,53,69,.07)}
+.rrow .qn{font-weight:700;background:var(--ibg);border:1px solid var(--border);
+  border-radius:6px;width:38px;height:28px;display:inline-flex;
+  align-items:center;justify-content:center;color:var(--text)}
+.rrow .ua{background:var(--phdr);border:1px solid var(--border);padding:3px 7px;
+  border-radius:5px;color:var(--text);font-size:13px;word-break:break-word}
+.rrow .ca{color:var(--ok);font-weight:600;background:rgba(40,167,69,.1);
+  border:1px solid var(--ok);padding:3px 7px;border-radius:5px;font-size:13px}
+.sbadge{justify-self:end;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:700;border:1px solid transparent}
+.sbadge.ok{background:rgba(40,167,69,.2);color:var(--ok);border-color:var(--ok)}
+.sbadge.bad{background:rgba(220,53,69,.2);color:var(--bad);border-color:var(--bad)}
+
+/* ── CONTEXT MENU ── */
+.ctx{position:absolute;background:var(--modal);border:1px solid var(--border);
+  border-radius:6px;box-shadow:0 4px 12px var(--shad);z-index:1000;display:none;min-width:130px}
+.ctx-item{padding:11px 15px;cursor:pointer;font-size:14px;
+  border-bottom:1px solid var(--border);display:flex;align-items:center;
+  gap:8px;color:var(--text);transition:background .2s}
+.ctx-item:hover{background:var(--phdr)}
+.ctx-item:last-child{border-bottom:none}
+.highlight{background:var(--hl);color:#000}
+.comment-highlight{background:#90EE90;cursor:help;color:#000}
+
+body::after{content:"@FOZILBEK_IELTS";position:fixed;left:50%;top:50%;
+  transform:translate(-50%,-50%) rotate(-20deg);font-size:72px;font-weight:800;
+  color:var(--text);opacity:.04;pointer-events:none;z-index:0;white-space:nowrap}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:var(--panel)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:5px}
+::-webkit-scrollbar-thumb:hover{background:var(--ifocus)}
+.hidden{display:none!important}
+</style>
+</head>
+<body data-theme="light">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="hl">
+    <img src="https://i.pinimg.com/736x/88/93/a8/8893a81fed78f6989142a13e3605c45e.jpg" class="logo" alt="IELTS">
+    <a href="https://t.me/FOZILBEK_IELTS" target="_blank" class="tg">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-.38.24-1.07.7-.96.66-1.89 1.28-1.89 1.28s-.17.11-.49.03c-.32-.08-.72-.26-1.16-.47-.54-.26-1.17-.53-1.17-.53s-.87-.55.62-1.14c.32-.13 1.96-.84 2.99-1.2 1.05-.37 2.86-1.01 2.86-1.01s1.02-.4 1.02 0z" fill="currentColor"/></svg>
+      @FOZILBEK_IELTS
+    </a>
+  </div>
+  <div class="hl">
+    <div class="timer-wrap">
+      <span class="timer-num" id="tnum">20:00</span>
+      <div class="tctrls">
+        <button class="icn-btn" id="tbtn">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+        <button class="icn-btn" id="trst">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+        </button>
+        <button class="icn-btn" id="dmbtn">
+          <svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="part-hdr">
+    <p><strong>Reading Passage 1</strong></p>
+    <p>You should spend about 20 minutes on <strong>Questions 1–13</strong>, which are based on Reading Passage 1 below.</p>
+  </div>
+  <div class="panels">
+
+    <!-- PASSAGE -->
+    <div class="pp" id="pp">
+      <div class="passage">
+        <h4>New Understanding of Giraffes in the Wild</h4>
+        <div class="pbody" id="passage-body">
+
+          <div class="img-wrap">
+            <img src="https://i.pinimg.com/736x/20/48/19/2048194b590acc562bf5f8073cd369d4.jpg" alt="Giraffes">
+          </div>
+
+          <p id="p1">Even as the tallest animals on Earth, giraffes can be easy to overlook. Despite being a favorite in zoos, until recently almost nobody studied giraffes in the wild. 'When I first became interested in giraffes in 2008 and started looking through the scientific literature, I was really surprised to see how little had been done,' said Megan Strauss, an animal researcher at the University of Minnesota, USA. All that is changing fast, as a growing number of researchers seek to understand the biology and complex behavior of this graceful giant in its native habitat.</p>
+
+          <p id="p2">Giraffes, found throughout sub-Saharan Africa, are currently classified as a single species with up to nine varieties that differ by features like head shape and whether the fur on their legs is plain or patterned. The giraffe is not listed as endangered, but researchers point to evidence that in the past 15 years, the population has fallen some 40 percent.</p>
+
+          <p id="p3">Recent studies have allowed researchers new insights into giraffes' social structures. Groups of female giraffes, for example, have been found to form close friendships that can last for years. 'We're just at the beginnings of trying to understand this kind of behavior,' Dr Strauss said. Female giraffes can live 20 years or more, and it makes sense they might rely on each other for clues to the best feeding grounds, help with taking care of their young, or the reduction of stress, by staying in groups.</p>
+
+          <p id="p4">Mother giraffes have displayed signs of grief after losing their young, known as calves, to lions. Dr Strauss described one case in which a mother spent four days at the place where a lion had eaten her calf, refusing food, and often in the company of two other adult females. Giraffe calves are extremely vulnerable to predators, and though mothers will fight valiantly to keep their young alive — kicking forward and backward — half of all calves are killed in their first year of life.</p>
+
+          <p id="p5">Male giraffes, known as bulls, generally become more important with age, and older bulls display that dominance physically and behaviorally: as their neck muscles grow, the male's posture becomes prouder and more vertical. Recent observations show young bulls, when left on their own, mimicking their elders: head held high and neck puffed out. But should a dominant older bull come into view, the younger males instantly try to make themselves look small and innocent.</p>
+
+          <p id="p6">The younger bulls have reason to fear their elders. Clashes have been witnessed between adults when each bull repeatedly 'necks' the other, using his massive neck to slam his head against his rival. One bull somehow survived with a broken neck.</p>
+
+          <h5>Physical features of giraffes: study findings</h5>
+
+          <p id="p7">The skin of a giraffe is mostly gray. The coat has dark patches separated by light hair, which serves as camouflage, allowing them to blend in with the light and shade patterns of the acacia trees from which they feed. Grazing giraffes are hard to see even a few meters away.</p>
+
+          <p id="p8">Research indicates that giraffes also have excellent sight, can see in color and over great distances, which helps them to spot lions and keep track of each other. In addition, a giraffe's extraordinary mouth has lips and tongue that can together grasp a branch and then pluck away the leaves while avoiding thorns, almost as humans would grab with their hands. Each day, a giraffe consumes about 30 kilograms of leaves, shoots and vines, all digested in its four-chambered stomach.</p>
+
+          <p id="p9">A giraffe can stand more than six meters tall, with its neck accounting for roughly a third of its height and its legs the same. The giraffe's long neck is due to the length of the vertebrae, not the number of vertebrae. The growth of the neck largely takes place during early childhood, as giraffe mothers would have a difficult time giving birth to young with longer necks. The giraffe's head and neck are held up by large muscles attached to the lower spine.</p>
+
+          <p id="p10">Recent studies show that the greatest challenge to the giraffe's cardiovascular system is how to both pump blood very high and retrieve it from far below. The outside of a giraffe's veins are extremely thick, to prevent blood leaking into surrounding tissue. Other adaptations in the cardiovascular system allow the giraffe to bend over for a drink of water, and then raise its head again quickly without fainting.</p>
+
+          <p id="p11">Researchers were also surprised to find that a giraffe does not have an unusually large heart. It is half a percent of body mass, the same as in a mouse. Moreover, the amount of blood pumped into circulation is modest, proportionally lower than it is in humans. That could help explain why giraffes rarely run for very long: enough oxygen cannot be delivered to their muscles fast enough for them to keep running. Or maybe the giraffes are worried about tripping over their own feet. This is because signals from the nerves travel at about the same speed in giraffes as in rats or other mammals. Given the greater distance they have to travel in the giraffe to reach the brain, it is possible the giraffe faces real challenges in reacting quickly to a rock beneath its hoof or a bite to its ankle.</p>
+
+          <p id="p12">New understanding of this wonderful animal sheds light on both its physiology and its behavior. Researchers hope to use this knowledge to increase their ability to work with preservation, as its habitat is reduced and the giraffe becomes scarcer.</p>
+
+        </div><!-- pbody -->
+      </div>
+    </div><!-- pp -->
+
+    <div class="rzr" id="rzr"></div>
+
+    <!-- QUESTIONS -->
+    <div class="qp" id="qp">
+
+      <!-- Q1–7 TRUE/FALSE/NOT GIVEN -->
+      <div class="question">
+        <div class="qprompt">
+          <p><strong>Questions 1–7</strong></p>
+          <p>Do the following statements agree with the information given in Reading Passage 1?</p>
+          <p>In boxes 1–7, write</p>
+          <p>&nbsp;&nbsp;<strong>TRUE</strong> &nbsp;&nbsp;&nbsp;if the statement agrees with the information</p>
+          <p>&nbsp;&nbsp;<strong>FALSE</strong> &nbsp;&nbsp;if the statement contradicts the information</p>
+          <p>&nbsp;&nbsp;<strong>NOT GIVEN</strong> &nbsp;if there is no information on this</p>
+        </div>
+
+        <div class="tfq" data-q="1">
+          <div class="tfq-line"><span class="tfq-num">1</span><span class="tfq-txt">The amount of research on giraffes in their natural environment has increased lately.</span></div>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q1" value="TRUE"> TRUE</label>
+            <label class="opt"><input type="radio" name="q1" value="FALSE"> FALSE</label>
+            <label class="opt"><input type="radio" name="q1" value="NOT GIVEN"> NOT GIVEN</label>
+          </div>
+        </div>
+
+        <div class="tfq" data-q="2">
+          <div class="tfq-line"><span class="tfq-num">2</span><span class="tfq-txt">Megan Strauss disapproves of keeping giraffes in zoos.</span></div>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q2" value="TRUE"> TRUE</label>
+            <label class="opt"><input type="radio" name="q2" value="FALSE"> FALSE</label>
+            <label class="opt"><input type="radio" name="q2" value="NOT GIVEN"> NOT GIVEN</label>
+          </div>
+        </div>
+
+        <div class="tfq" data-q="3">
+          <div class="tfq-line"><span class="tfq-num">3</span><span class="tfq-txt">The number of giraffes in Africa has nearly doubled.</span></div>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q3" value="TRUE"> TRUE</label>
+            <label class="opt"><input type="radio" name="q3" value="FALSE"> FALSE</label>
+            <label class="opt"><input type="radio" name="q3" value="NOT GIVEN"> NOT GIVEN</label>
+          </div>
+        </div>
+
+        <div class="tfq" data-q="4">
+          <div class="tfq-line"><span class="tfq-num">4</span><span class="tfq-txt">Female giraffes tend to live longer than males.</span></div>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q4" value="TRUE"> TRUE</label>
+            <label class="opt"><input type="radio" name="q4" value="FALSE"> FALSE</label>
+            <label class="opt"><input type="radio" name="q4" value="NOT GIVEN"> NOT GIVEN</label>
+          </div>
+        </div>
+
+        <div class="tfq" data-q="5">
+          <div class="tfq-line"><span class="tfq-num">5</span><span class="tfq-txt">Mother giraffes sometimes use their legs to defend their young.</span></div>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q5" value="TRUE"> TRUE</label>
+            <label class="opt"><input type="radio" name="q5" value="FALSE"> FALSE</label>
+            <label class="opt"><input type="radio" name="q5" value="NOT GIVEN"> NOT GIVEN</label>
+          </div>
+        </div>
+
+        <div class="tfq" data-q="6">
+          <div class="tfq-line"><span class="tfq-num">6</span><span class="tfq-txt">Younger bulls hold their necks higher in the presence of more powerful males.</span></div>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q6" value="TRUE"> TRUE</label>
+            <label class="opt"><input type="radio" name="q6" value="FALSE"> FALSE</label>
+            <label class="opt"><input type="radio" name="q6" value="NOT GIVEN"> NOT GIVEN</label>
+          </div>
+        </div>
+
+        <div class="tfq" data-q="7">
+          <div class="tfq-line"><span class="tfq-num">7</span><span class="tfq-txt">Male giraffes have been observed fighting.</span></div>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q7" value="TRUE"> TRUE</label>
+            <label class="opt"><input type="radio" name="q7" value="FALSE"> FALSE</label>
+            <label class="opt"><input type="radio" name="q7" value="NOT GIVEN"> NOT GIVEN</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q8–13 TABLE -->
+      <div class="question">
+        <div class="qprompt">
+          <p><strong>Questions 8–13</strong></p>
+          <p>Complete the table below.</p>
+          <p>Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+        </div>
+        <table class="btable">
+          <caption>Giraffes: body structure</caption>
+          <thead><tr><th>Physical features</th><th>Study findings</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Skin / Coat</td>
+              <td>• Provides <input type="text" id="q8" class="ainput" placeholder="8" data-q="8"> when standing near trees</td>
+            </tr>
+            <tr>
+              <td>Eyes</td>
+              <td>• Let them look out for lions</td>
+            </tr>
+            <tr>
+              <td>Mouth</td>
+              <td>• Can be used like <input type="text" id="q9" class="ainput" placeholder="9" data-q="9"> to get leaves</td>
+            </tr>
+            <tr>
+              <td>Neck</td>
+              <td>• About equal in length to the legs<br><br>• Length develops in childhood to provide an easier <input type="text" id="q10" class="ainput" placeholder="10" data-q="10"> for mothers</td>
+            </tr>
+            <tr>
+              <td>Cardiovascular system</td>
+              <td>• Extra strong <input type="text" id="q11" class="ainput" placeholder="11" data-q="11"> keep blood from spilling into other tissue</td>
+            </tr>
+            <tr>
+              <td><input type="text" id="q12" class="linput" placeholder="12" data-q="12"></td>
+              <td>• Normal size for such a large animal</td>
+            </tr>
+            <tr>
+              <td>Nerves</td>
+              <td>• Slower reaction time because <input type="text" id="q13" class="ainput" placeholder="13" data-q="13"> need to go farther to the brain</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div><!-- qp -->
+  </div><!-- panels -->
+</div><!-- main -->
+
+<!-- NAV ARROWS -->
+<div class="navarrows">
+  <button class="nava p" id="pbtn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button class="nava n" id="nbtn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <span class="nlbl">Q <span id="acnt">0</span>/13</span>
+  <button class="sq" data-q="1"  onclick="gotoQ(1)">1</button>
+  <button class="sq" data-q="2"  onclick="gotoQ(2)">2</button>
+  <button class="sq" data-q="3"  onclick="gotoQ(3)">3</button>
+  <button class="sq" data-q="4"  onclick="gotoQ(4)">4</button>
+  <button class="sq" data-q="5"  onclick="gotoQ(5)">5</button>
+  <button class="sq" data-q="6"  onclick="gotoQ(6)">6</button>
+  <button class="sq" data-q="7"  onclick="gotoQ(7)">7</button>
+  <button class="sq" data-q="8"  onclick="gotoQ(8)">8</button>
+  <button class="sq" data-q="9"  onclick="gotoQ(9)">9</button>
+  <button class="sq" data-q="10" onclick="gotoQ(10)">10</button>
+  <button class="sq" data-q="11" onclick="gotoQ(11)">11</button>
+  <button class="sq" data-q="12" onclick="gotoQ(12)">12</button>
+  <button class="sq" data-q="13" onclick="gotoQ(13)">13</button>
+  <button id="sbtn" class="submit-btn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg>
+    <span>Check Answers</span>
+  </button>
+</nav>
+
+<!-- CONTEXT MENU -->
+<div id="ctx" class="ctx">
+  <div class="ctx-item" id="ctx-hl" onclick="doHighlight()">✏️ Highlight</div>
+  <div class="ctx-item" id="ctx-nt" onclick="doNote()">📝 Note</div>
+  <div class="ctx-item" id="ctx-cl" onclick="doClear()">✕ Clear</div>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="moverlay hidden">
+  <div class="mcontent">
+    <button class="mclose" onclick="closeModal()">&times;</button>
+    <h2>Results</h2>
+    <div class="rsum">
+      <p>Score: <span id="rscore"></span> / 13</p>
+      <p>IELTS Band: <span id="rband"></span></p>
+    </div>
+    <div id="rdetails" class="rdetails"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* ── DATA ── */
+const ANSWERS = {
+  1:'TRUE', 2:'NOT GIVEN', 3:'FALSE', 4:'NOT GIVEN',
+  5:'TRUE', 6:'FALSE', 7:'TRUE',
+  8:'camouflage', 9:'hands', 10:'birth',
+  11:'veins', 12:'heart', 13:'signals'
+};
+
+/* text to highlight in passage for each question (paragraph id → search string) */
+const HIGHLIGHTS = {
+  1: { pid:'p1',  text:'a growing number of researchers seek to understand the biology and complex behavior' },
+  2: { pid:'p1',  text:'Despite being a favorite in zoos' },
+  3: { pid:'p2',  text:'the population has fallen some 40 percent' },
+  4: { pid:'p3',  text:'Female giraffes can live 20 years or more' },
+  5: { pid:'p4',  text:'kicking forward and backward' },
+  6: { pid:'p5',  text:'the younger males instantly try to make themselves look small and innocent' },
+  7: { pid:'p6',  text:"Clashes have been witnessed between adults when each bull repeatedly" },
+  8: { pid:'p7',  text:'serves as camouflage' },
+  9: { pid:'p8',  text:'almost as humans would grab with their hands' },
+  10:{ pid:'p9',  text:'giraffe mothers would have a difficult time giving birth' },
+  11:{ pid:'p10', text:"The outside of a giraffe's veins are extremely thick" },
+  12:{ pid:'p11', text:'a giraffe does not have an unusually large heart' },
+  13:{ pid:'p11', text:'signals from the nerves travel at about the same speed' }
+};
+
+let curQ = 1, timerSec = 1200, running = false, timerInt = null, submitted = false, selRange = null;
+
+/* ── DARK MODE ── */
+document.getElementById('dmbtn').addEventListener('click', ()=>{
+  document.body.setAttribute('data-theme',
+    document.body.getAttribute('data-theme')==='dark'?'light':'dark');
+});
+
+/* ── TIMER ── */
+const tnum = document.getElementById('tnum');
+const tbtn = document.getElementById('tbtn');
+const PAUSE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+const PLAY_SVG  = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/></svg>`;
+
+function fmt(s){ return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+function startTimer(){
+  if(running) return; running=true; tbtn.innerHTML=PAUSE_SVG;
+  timerInt=setInterval(()=>{
+    timerSec--;
+    tnum.textContent=fmt(timerSec);
+    if(timerSec<=60) tnum.classList.add('timer-warn');
+    if(timerSec<=0){ clearInterval(timerInt); running=false; tnum.textContent="Time's up!"; if(!submitted) checkAnswers(); }
+  },1000);
+}
+function pauseTimer(){ clearInterval(timerInt); running=false; tbtn.innerHTML=PLAY_SVG; }
+tbtn.addEventListener('click',()=> running?pauseTimer():startTimer());
+document.getElementById('trst').addEventListener('click',()=>{
+  pauseTimer(); timerSec=1200; tnum.textContent=fmt(timerSec);
+  tnum.classList.remove('timer-warn'); startTimer();
+});
+startTimer();
+
+/* ── RESIZER ── */
+const pp = document.getElementById('pp');
+document.getElementById('rzr').addEventListener('mousedown', e=>{
+  e.preventDefault();
+  const sx=e.clientX, sw=pp.offsetWidth;
+  const mv=ev=>{ const nw=sw+ev.clientX-sx; if(nw>200&&(document.body.clientWidth-nw-10)>200) pp.style.flex=`0 0 ${nw}px`; };
+  const up=()=>{ window.removeEventListener('mousemove',mv); window.removeEventListener('mouseup',up); };
+  window.addEventListener('mousemove',mv); window.addEventListener('mouseup',up);
+});
+
+/* ── NAVIGATION ── */
+function isAnswered(q){
+  const el=document.getElementById(`q${q}`);
+  if(el) return el.value.trim()!=='';
+  return !!document.querySelector(`input[name="q${q}"]:checked`);
+}
+function updateNav(){
+  let cnt=0;
+  document.querySelectorAll('.sq').forEach(b=>{
+    const n=+b.getAttribute('data-q');
+    b.classList.remove('active','answered');
+    if(n===curQ) b.classList.add('active');
+    else if(isAnswered(n)) b.classList.add('answered');
+    if(isAnswered(n)) cnt++;
+  });
+  document.getElementById('acnt').textContent=cnt;
+}
+
+window.gotoQ=function(n){
+  curQ=n; updateNav();
+  document.querySelectorAll('.ainput.active-i,.linput.active-i').forEach(e=>e.classList.remove('active-i'));
+  document.querySelectorAll('.tfq.active').forEach(e=>e.classList.remove('active'));
+  const el=document.getElementById(`q${n}`);
+  if(el){ el.classList.add('active-i'); el.scrollIntoView({behavior:'smooth',block:'center'}); }
+  else{
+    const tf=document.querySelector(`.tfq[data-q="${n}"]`);
+    if(tf){ tf.classList.add('active'); tf.scrollIntoView({behavior:'smooth',block:'center'}); }
+  }
+};
+
+document.getElementById('pbtn').addEventListener('click',()=>{ if(curQ>1) gotoQ(curQ-1); });
+document.getElementById('nbtn').addEventListener('click',()=>{ if(curQ<13) gotoQ(curQ+1); });
+
+for(let i=1;i<=13;i++){
+  const el=document.getElementById(`q${i}`);
+  if(el){
+    el.addEventListener('input',updateNav);
+    el.addEventListener('focus',()=>{ if(curQ!==i) gotoQ(i); });
+  }
+  document.querySelectorAll(`input[name="q${i}"]`).forEach(r=>{
+    r.addEventListener('change',updateNav);
+    r.addEventListener('click',()=>{ if(curQ!==i) gotoQ(i); });
+  });
+}
+
+/* ── PASSAGE HIGHLIGHTING ── */
+function escRx(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+
+function applyPassageHighlights(results){
+  // results: {q -> {correct:bool, userAns:string}}
+  Object.entries(HIGHLIGHTS).forEach(([q, info])=>{
+    const {correct} = results[q];
+    const col = correct ? '#28a745' : '#dc3545';
+    const el = document.getElementById(info.pid);
+    if(!el) return;
+    const re = new RegExp(`(${escRx(info.text)})`,'gi');
+    if(!el.innerHTML.match(re)) return;
+    el.innerHTML = el.innerHTML.replace(re,
+      `<span class="ans-hl" style="background:rgba(255,230,0,.55);border-bottom:2px solid ${col};border-radius:3px;padding:1px 3px;">$1<span class="ans-badge" style="background:${col};">${q}</span></span>`
+    );
+  });
+  // Scroll passage to first highlight
+  setTimeout(()=>{
+    const first = document.querySelector('.ans-hl');
+    if(first) first.scrollIntoView({behavior:'smooth', block:'center'});
+  }, 400);
+}
+
+/* ── CHECK ANSWERS ── */
+function band(n){
+  return ({13:'9.0',12:'8.5',11:'8.0',10:'7.5',9:'7.0',8:'6.5',7:'6.0',
+           6:'5.5',5:'5.0',4:'4.5',3:'4.0',2:'3.5',1:'3.0',0:'0.0'})[n]||'0.0';
+}
+function norm(s){ return (s||'').toLowerCase().replace(/[^a-z0-9]/g,'').trim(); }
+
+function checkAnswers(){
+  if(submitted) return;
+  submitted=true;
+  pauseTimer();
+  document.getElementById('sbtn').disabled=true;
+  document.querySelectorAll('input').forEach(e=>e.disabled=true);
+
+  let score=0;
+  const det=document.getElementById('rdetails');
+  det.innerHTML='';
+  const results={};
+
+  for(let i=1;i<=13;i++){
+    const correct=ANSWERS[String(i)];
+    let userAns='', isOK=false;
+
+    const textEl=document.getElementById(`q${i}`);
+    const radio=document.querySelector(`input[name="q${i}"]:checked`);
+
+    if(textEl){
+      userAns=textEl.value.trim();
+      isOK = norm(userAns)===norm(correct);
+      textEl.classList.add(isOK?'ok':'bad');
+      if(!isOK){
+        const s=document.createElement('span'); s.className='ca-hint'; s.textContent=`➜ ${correct}`;
+        textEl.parentNode.insertBefore(s, textEl.nextSibling);
+      }
+    } else if(radio){
+      userAns=radio.value;
+      isOK = userAns===correct;
+      const lbl=radio.closest('.opt');
+      if(lbl) lbl.classList.add(isOK?'ok':'bad');
+      if(!isOK){
+        const ci=document.querySelector(`input[name="q${i}"][value="${correct}"]`);
+        if(ci){ const cl=ci.closest('.opt'); if(cl) cl.classList.add('show-correct'); }
+      }
+    }
+
+    if(isOK) score++;
+    results[i]={correct:isOK, userAns};
+
+    const sq=document.querySelector(`.sq[data-q="${i}"]`);
+    if(sq){ sq.classList.remove('answered','active'); sq.classList.add(isOK?'correct':'incorrect'); }
+
+    det.innerHTML+=`
+    <div class="rrow ${isOK?'ok':'bad'}">
+      <span class="qn">${i}</span>
+      <span class="ua">${userAns||'<em>blank</em>'}</span>
+      <span class="ca">${correct}</span>
+      <span class="sbadge ${isOK?'ok':'bad'}">${isOK?'Correct':'Incorrect'}</span>
+    </div>`;
+  }
+
+  document.getElementById('rscore').textContent=score;
+  document.getElementById('rband').textContent=band(score);
+  document.getElementById('modal').classList.remove('hidden');
+
+  // Apply passage highlights
+  applyPassageHighlights(results);
+
+  // Update submit button
+  const sb=document.getElementById('sbtn');
+  sb.innerHTML=`<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg><span>My Result</span>`;
+  sb.style.cssText='background:#4CAF50;color:#fff;border-color:#4CAF50;cursor:pointer;';
+  sb.disabled=false;
+  sb.onclick=()=>document.getElementById('modal').classList.remove('hidden');
+}
+
+document.getElementById('sbtn').addEventListener('click', checkAnswers);
+window.closeModal=()=>document.getElementById('modal').classList.add('hidden');
+
+/* ── CONTEXT MENU ── */
+const ctx=document.getElementById('ctx');
+const panels=[pp, document.getElementById('qp')];
+
+document.addEventListener('selectionchange',()=>{
+  const s=window.getSelection();
+  if(s&&!s.isCollapsed&&s.toString().trim()){
+    const r=s.getRangeAt(0);
+    if(panels.some(p=>p.contains(r.commonAncestorContainer))) selRange=r;
+  }
+});
+
+panels.forEach(panel=>panel.addEventListener('contextmenu',e=>{
+  const onHL=e.target.closest('.highlight,.comment-highlight');
+  const hasSel=selRange&&selRange.toString().trim();
+  if(!onHL&&!hasSel) return;
+  e.preventDefault();
+  document.getElementById('ctx-hl').style.display=onHL?'none':'flex';
+  document.getElementById('ctx-nt').style.display=onHL?'none':'flex';
+  document.getElementById('ctx-cl').style.display=onHL?'flex':'none';
+  ctx.targetEl=onHL;
+  let left=e.pageX, top=e.pageY-90;
+  if(left+150>window.innerWidth) left=window.innerWidth-155;
+  if(top<0) top=e.pageY+8;
+  ctx.style.left=left+'px'; ctx.style.top=top+'px'; ctx.style.display='block';
+}));
+
+document.addEventListener('click',e=>{ if(!ctx.contains(e.target)) ctx.style.display='none'; });
+
+window.doHighlight=()=>{
+  if(selRange&&!selRange.collapsed){ const s=document.createElement('span'); s.className='highlight'; s.appendChild(selRange.extractContents()); selRange.insertNode(s); }
+  ctx.style.display='none'; window.getSelection().removeAllRanges(); selRange=null;
+};
+window.doNote=()=>{
+  const note=prompt('Enter your note:');
+  if(note&&selRange&&!selRange.collapsed){ const s=document.createElement('span'); s.className='comment-highlight'; s.title=note; s.appendChild(selRange.extractContents()); selRange.insertNode(s); }
+  ctx.style.display='none'; window.getSelection().removeAllRanges(); selRange=null;
+};
+window.doClear=()=>{
+  const el=ctx.targetEl;
+  if(el){ const p=el.parentNode; while(el.firstChild) p.insertBefore(el.firstChild,el); p.removeChild(el); p.normalize(); }
+  ctx.style.display='none';
+};
+
+/* ── INIT ── */
+updateNav();
+gotoQ(1);
+})();
+</script>
+</body>
+</html>

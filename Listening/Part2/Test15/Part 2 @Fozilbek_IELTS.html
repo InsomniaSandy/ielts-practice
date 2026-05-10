@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS CDI Listening Practice - Part 2: Fitchton Railway Station</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #1a1a1a;
+            --border-color: #d0d0d0;
+            --primary-color: #1e6de6;
+            --secondary-bg: #f5f6f8;
+            --correct-color: #2e7d32;
+            --incorrect-color: #c62828;
+            --highlight-color: #ffe066;
+            --highlight-text-color: #333333;
+            --telegram-color: #1e6de6;
+            --font-size: 16px;
+            --input-bg: #ffffff;
+            --input-text: #1a1a1a;
+            --card-bg: #ffffff;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --border-color: #444444;
+            --primary-color: #5b9cf5;
+            --secondary-bg: #1e1e1e;
+            --correct-color: #4caf50;
+            --incorrect-color: #f44336;
+            --highlight-color: #ffd700;
+            --highlight-text-color: #000000;
+            --telegram-color: #5b9cf5;
+            --input-bg: #2a2a2a;
+            --input-text: #ffffff;
+            --card-bg: #1e1e1e;
+        }
+
+        .font-small { --font-size: 14px; }
+        .font-medium { --font-size: 16px; }
+        .font-large { --font-size: 18px; }
+        .font-xlarge { --font-size: 20px; }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.5;
+            font-size: var(--font-size);
+            padding-bottom: 90px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body::after {
+            content: "@FOZILBEK_IELTS";
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-20deg);
+            font-size: 72px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-color);
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 0;
+            white-space: nowrap;
+            transition: color 0.3s;
+        }
+
+        .highlight {
+            background-color: var(--highlight-color);
+            color: var(--highlight-text-color) !important;
+            font-weight: 600;
+            padding: 1px 4px;
+            border-radius: 3px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        [data-theme="dark"] .highlight {
+            background-color: var(--highlight-color);
+            color: #000000 !important;
+            text-shadow: none;
+        }
+
+        .comment-highlight {
+            background-color: #a5d6a7;
+            position: relative;
+            cursor: help;
+            color: #000000 !important;
+        }
+        [data-theme="dark"] .comment-highlight {
+            background-color: #2e7d32;
+            color: #ffffff !important;
+        }
+        .comment-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            white-space: nowrap;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .comment-highlight:hover .comment-tooltip { opacity: 1; }
+
+        .header {
+            background-color: var(--bg-color);
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 60px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        .ielts-logo { height: 50px; width: auto; display: block; }
+        .telegram-link {
+            color: var(--telegram-color) !important;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: opacity 0.2s;
+        }
+        .telegram-link:hover { opacity: 0.8; }
+        .header-icons { display: flex; gap: 10px; align-items: center; }
+        .font-size-container { position: relative; }
+        .font-size-btn {
+            width: 34px; height: 34px; border-radius: 6px;
+            border: 1px solid var(--border-color); background: var(--card-bg);
+            color: var(--text-color); font-weight: bold; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+        .font-size-btn:hover { background-color: var(--secondary-bg); }
+        .font-size-options {
+            position: absolute; top: 100%; right: 0;
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 6px; padding: 6px 0; min-width: 130px;
+            display: none; z-index: 1000; box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        }
+        .font-size-options.show { display: block; }
+        .font-size-options div {
+            padding: 10px 18px; cursor: pointer; font-size: 15px;
+            transition: background-color 0.2s;
+        }
+        .font-size-options div:hover { background-color: var(--secondary-bg); }
+        .dark-mode-btn {
+            width: 34px; height: 34px; border-radius: 6px;
+            border: 1px solid var(--border-color); background: var(--card-bg);
+            color: var(--text-color); cursor: pointer; display: flex;
+            align-items: center; justify-content: center; position: relative;
+        }
+        .dark-mode-btn:hover { background-color: var(--secondary-bg); }
+        .sun-icon, .moon-icon { position: absolute; transition: opacity 0.3s, transform 0.3s; }
+        .sun-icon { opacity: 1; transform: scale(1); }
+        .moon-icon { opacity: 0; transform: scale(0.5); }
+        [data-theme="dark"] .sun-icon { opacity: 0; transform: scale(0.5); }
+        [data-theme="dark"] .moon-icon { opacity: 1; transform: scale(1); }
+
+        .main-container {
+            margin-top: 60px; display: flex; background: var(--bg-color);
+            padding-bottom: 100px; transition: background-color 0.3s;
+        }
+        .main-container.results-mode { flex-direction: row; }
+        .left-panel { width: 100%; padding: 24px; transition: width 0.4s; }
+        .main-container.results-mode .left-panel { width: 70%; overflow-y: auto; height: calc(100vh - 200px); }
+        .right-panel {
+            display: none; width: 30%; padding: 20px; border-left: 1px solid var(--border-color);
+            overflow-y: auto; height: calc(100vh - 200px);
+        }
+        .main-container.results-mode .right-panel { display: block; }
+
+        .part-header {
+            background: var(--secondary-bg); padding: 14px 18px; border-radius: 8px;
+            margin-bottom: 24px; border: 1px solid var(--border-color);
+        }
+        .questions-container { max-width: 800px; }
+
+        .map-image {
+            width: 100%; max-width: 600px; border: 2px solid var(--border-color);
+            border-radius: 12px; margin: 20px 0; display: block;
+        }
+
+        .label-dropdown {
+            background: var(--input-bg); color: var(--input-text);
+            border: 1px solid var(--border-color); border-radius: 6px;
+            padding: 6px 10px; font-size: 16px; font-weight: 500;
+            margin-left: 8px; width: 80px; cursor: pointer;
+            transition: border 0.2s;
+        }
+        .label-dropdown:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 2px rgba(30,109,230,0.2); }
+        .label-dropdown.correct { border-color: var(--correct-color); background: #e8f5e9; }
+        .label-dropdown.incorrect { border-color: var(--incorrect-color); background: #ffebee; }
+        [data-theme="dark"] .label-dropdown.correct { background: #1b3a1b; }
+        [data-theme="dark"] .label-dropdown.incorrect { background: #3e1a1a; }
+
+        .mcq-option {
+            display: flex; align-items: center; gap: 10px; margin: 8px 0;
+            padding: 8px 12px; border-radius: 6px; cursor: pointer;
+            border: 1px solid transparent; transition: background 0.2s;
+        }
+        .mcq-option:hover { background: var(--secondary-bg); }
+        .mcq-option input[type="radio"] { accent-color: var(--primary-color); transform: scale(1.2); }
+
+        .correct-answer-text {
+            color: var(--correct-color); font-weight: 600; margin-left: 8px;
+        }
+
+        .nav-row {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--bg-color); border-top: 1px solid var(--border-color);
+            padding: 0; display: flex; align-items: center; height: 80px;
+            z-index: 100; overflow-x: auto; white-space: nowrap;
+        }
+        .footer__questionWrapper__1tZ46 { display: flex; align-items: center; margin-right: 20px; }
+        .footer__questionNo__3WNct {
+            background: none; border: none; padding: 12px 18px; font-size: 17px;
+            font-weight: 600; color: var(--text-color); cursor: pointer;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .footer__questionNo__3WNct:hover { background: var(--secondary-bg); }
+        .attemptedCount { font-size: 14px; color: #888; margin-left: 4px; }
+        .footer__subquestionWrapper__9GgoP { display: flex; gap: 3px; margin-left: 10px; }
+        .subQuestion {
+            width: 34px; height: 34px; border: 1px solid var(--border-color);
+            background: var(--card-bg); color: var(--text-color); font-size: 15px;
+            font-weight: 500; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; border-radius: 4px; transition: 0.2s;
+        }
+        .subQuestion.answered { background: var(--secondary-bg); }
+        .subQuestion.correct { background: var(--correct-color); color: white; border-color: var(--correct-color); }
+        .subQuestion.incorrect { background: var(--incorrect-color); color: white; border-color: var(--incorrect-color); }
+        .subQuestion.active { background: var(--primary-color); color: white; }
+
+        .footer__deliverButton__3FM07 {
+            margin-left: auto; margin-right: 20px; background: var(--secondary-bg);
+            color: var(--text-color); border: 1px solid var(--border-color);
+            padding: 12px 22px; border-radius: 6px; font-size: 17px; font-weight: 600;
+            cursor: pointer; display: flex; align-items: center; gap: 8px;
+            min-width: 170px; justify-content: center;
+        }
+        .footer__deliverButton__3FM07.success { background: var(--correct-color); color: white; }
+
+        .context-menu {
+            position: absolute; background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 8px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); z-index: 2000;
+            display: none; min-width: 160px;
+        }
+        .context-menu-item {
+            padding: 12px 16px; cursor: pointer; display: flex; align-items: center; gap: 10px;
+            border-bottom: 1px solid var(--secondary-bg);
+        }
+        .context-menu-item:hover { background: var(--secondary-bg); }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); z-index: 3000; display: flex;
+            justify-content: center; align-items: center; padding: 20px;
+        }
+        .modal-content {
+            background: var(--bg-color); padding: 24px; border-radius: 12px;
+            max-width: 750px; width: 100%; max-height: 90vh; overflow-y: auto;
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-close-btn { background: none; border: none; font-size: 30px; cursor: pointer; color: #999; }
+
+        @keyframes flash { 0% { background: #e3f2fd; } 100% { background: transparent; } }
+        .question.flash { animation: flash 0.8s ease-out; }
+
+        @media (max-width: 800px) {
+            .main-container.results-mode .left-panel { width: 100%; }
+            .right-panel { display: none; }
+            .main-container.results-mode .right-panel { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <img src="https://i.pinimg.com/736x/88/93/a8/8893a81fed78f6989142a13e3605c45e.jpg" alt="IELTS Logo" class="ielts-logo">
+            <a href="https://t.me/FOZILBEK_IELTS" target="_blank" class="telegram-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-.38.24-1.07.7-.96.66-1.89 1.28-1.89 1.28s-.17.11-.49.03c-.32-.08-.72-.26-1.16-.47-.54-.26-1.17-.53-1.17-.53s-.87-.55.62-1.14c.32-.13 1.96-.84 2.99-1.2 1.05-.37 2.86-1.01 2.86-1.01s1.02-.4 1.02 0z"/></svg>
+                <span>@FOZILBEK_IELTS</span>
+            </a>
+        </div>
+        <div class="header-icons">
+            <div class="font-size-container">
+                <button class="font-size-btn" id="font-size-toggle">A</button>
+                <div id="font-size-options" class="font-size-options">
+                    <div data-size="small">Small</div><div data-size="medium">Medium</div>
+                    <div data-size="large">Large</div><div data-size="xlarge">Extra Large</div>
+                </div>
+            </div>
+            <button class="dark-mode-btn" id="dark-mode-toggle">
+                <svg class="sun-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                <svg class="moon-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="left-panel">
+            <div id="part-2" class="question-part">
+                <div class="part-header">
+                    <p><strong>Part 2</strong> &nbsp;|&nbsp; Questions 11-20</p>
+                </div>
+                <div class="questions-container">
+                    <!-- Map Labelling Q11-15 -->
+                    <div class="question">
+                        <p><strong>Questions 11-15</strong></p>
+                        <p>Label the map below. Write the correct letter, <strong>A-G</strong>, next to questions 11-15.</p>
+                        <img src="https://i.pinimg.com/736x/9d/40/32/9d4032ccf7fa160182aab07ce37dd6ac.jpg" alt="Map of Fitchton Railway Station" class="map-image">
+                        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
+                            <div><strong>11.</strong> bike racks 
+                                <select id="q11" class="label-dropdown"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select>
+                            </div>
+                            <div><strong>12.</strong> luggage lockers 
+                                <select id="q12" class="label-dropdown"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select>
+                            </div>
+                            <div><strong>13.</strong> chemist's 
+                                <select id="q13" class="label-dropdown"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select>
+                            </div>
+                            <div><strong>14.</strong> toilet 
+                                <select id="q14" class="label-dropdown"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select>
+                            </div>
+                            <div><strong>15.</strong> news agency 
+                                <select id="q15" class="label-dropdown"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Multiple Choice Q16-20 -->
+                    <div class="question" style="margin-top: 40px;">
+                        <p><strong>Questions 16-20</strong></p>
+                        <p>Choose the correct letter, <strong>A</strong>, <strong>B</strong> or <strong>C</strong>.</p>
+
+                        <div style="margin-top: 20px;">
+                            <p><strong>16.</strong> Where could the passengers see the exhibition?</p>
+                            <div class="mcq-option"><input type="radio" name="q16" value="A" id="q16a"><label for="q16a">A in the town library</label></div>
+                            <div class="mcq-option"><input type="radio" name="q16" value="B" id="q16b"><label for="q16b">B in Fitchton college</label></div>
+                            <div class="mcq-option"><input type="radio" name="q16" value="C" id="q16c"><label for="q16c">C in the station</label></div>
+                        </div>
+                        <div style="margin-top: 16px;">
+                            <p><strong>17.</strong> What is the best gift for passengers to buy and bring home?</p>
+                            <div class="mcq-option"><input type="radio" name="q17" value="A" id="q17a"><label for="q17a">A local food</label></div>
+                            <div class="mcq-option"><input type="radio" name="q17" value="B" id="q17b"><label for="q17b">B clothing</label></div>
+                            <div class="mcq-option"><input type="radio" name="q17" value="C" id="q17c"><label for="q17c">C jewelry</label></div>
+                        </div>
+                        <div style="margin-top: 16px;">
+                            <p><strong>18.</strong> Where can passengers buy souvenir postcards?</p>
+                            <div class="mcq-option"><input type="radio" name="q18" value="A" id="q18a"><label for="q18a">A in the museum</label></div>
+                            <div class="mcq-option"><input type="radio" name="q18" value="B" id="q18b"><label for="q18b">B in the shop</label></div>
+                            <div class="mcq-option"><input type="radio" name="q18" value="C" id="q18c"><label for="q18c">C in the college</label></div>
+                        </div>
+                        <div style="margin-top: 16px;">
+                            <p><strong>19.</strong> What will the old cinema be converted to?</p>
+                            <div class="mcq-option"><input type="radio" name="q19" value="A" id="q19a"><label for="q19a">A a housing area</label></div>
+                            <div class="mcq-option"><input type="radio" name="q19" value="B" id="q19b"><label for="q19b">B a new theatre</label></div>
+                            <div class="mcq-option"><input type="radio" name="q19" value="C" id="q19c"><label for="q19c">C a shop</label></div>
+                        </div>
+                        <div style="margin-top: 16px;">
+                            <p><strong>20.</strong> Who is the statue in the train station modeled after?</p>
+                            <div class="mcq-option"><input type="radio" name="q20" value="A" id="q20a"><label for="q20a">A a poet</label></div>
+                            <div class="mcq-option"><input type="radio" name="q20" value="B" id="q20b"><label for="q20b">B an engineer</label></div>
+                            <div class="mcq-option"><input type="radio" name="q20" value="C" id="q20c"><label for="q20c">C a politician</label></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right-panel">
+            <div id="transcription-container">
+                <h2>Transcript</h2>
+                <div id="transcription-text"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden transcript and answers -->
+    <div id="transcription-data" style="display:none;">
+        <div data-part="2">
+            <strong>SECTION 2</strong><br><br>
+            <strong>Staff member:</strong> Dear passengers, welcome to Fitchton Railway Station. I'm sorry to inform you that the train to London is delayed. It will take off two hours later at 11:45 AM. Please accept our apologies. In the meantime, allow me to introduce Fitchton Railway Station, so you can make the most of your time while waiting for the train.<br><br>
+            The main entrance of the station is on Fitchton Road. If you want to take a bike ride around here, walk down Fitchton Road and pass the taxi stop. You can find a <span class="highlight">bike rack</span> on the right. (<strong>G</strong>)<br><br>
+            But if you just want to stay in the station, it's okay. You can find <span class="highlight">luggage lockers</span> when you enter the station — it's on the left. (<strong>B</strong>)<br><br>
+            If you don't feel very well, or you need to buy some medicine, there's a <span class="highlight">chemist's</span> in the farthest corner of the station, opposite to the cafe. (<strong>C</strong>)<br><br>
+            If you want to use the <span class="highlight">toilet</span>, make a left when you enter the station, then turn right. Go straight until you walk past Platform 2 — it's right there at the end. (<strong>F</strong>)<br><br>
+            The <span class="highlight">news agency</span> is in the Southeast corner of the station. (<strong>D</strong>)<br><br>
+            ---<br>
+            <strong>Staff member:</strong> If you don't want to stay in the station, you can also have a look around the station. But make sure to get back in time for the train.<br><br>
+            The Fitchton College is within walking distance from the station. The town library is also just down the road if you want to read. Oh, there's also an art <span class="highlight">exhibition</span> at the moment — you can go and check it out. (<strong>A</strong>)<br><br>
+            ... our <span class="highlight">local food</span> is something I recommend. You can buy some at the foodies shop, which is right next to the station. (<strong>A</strong>)<br><br>
+            You can send some postcards with local pictures on them to your friends and family. You can buy them in the community <span class="highlight">college</span> which is near the museum. (<strong>C</strong>)<br><br>
+            The old cinema behind the museum ... plans to make it an <span class="highlight">accommodation block</span> instead. (<strong>A</strong>)<br><br>
+            In the back of the train station you can see a statue of Richard Travolt, a local government minister ... (<strong>C</strong>)<br><br>
+            Again, I'd like to remind you the train will leave at 11:45. Please get back in time, and I hope you enjoy your time at Fitchton.
+        </div>
+    </div>
+
+    <div id="answer-key" style="display:none;">
+        <p>11 G | 12 B | 13 C | 14 F | 15 D</p>
+        <p>16 A | 17 A | 18 C | 19 A | 20 C</p>
+    </div>
+
+    <div class="nav-arrows" style="position:fixed; bottom:110px; right:20px; display:flex; gap:4px; z-index:101;">
+        <button class="nav-arrow" onclick="prevQuestion()" id="prevBtn" style="width:46px;height:46px;background:var(--text-color);color:var(--bg-color);border:none;font-size:24px;">‹</button>
+        <button class="nav-arrow" onclick="nextQuestion()" id="nextBtn" style="width:46px;height:46px;background:var(--text-color);color:var(--bg-color);border:none;font-size:24px;">›</button>
+    </div>
+
+    <nav class="nav-row">
+        <div class="footer__questionWrapper__1tZ46 selected">
+            <button class="footer__questionNo__3WNct" onclick="switchToPart(2)"><span>Part 2</span> <span class="attemptedCount">0/10</span></button>
+            <div class="footer__subquestionWrapper__9GgoP">
+                <button class="subQuestion" onclick="goToQuestion(11)">11</button>
+                <button class="subQuestion" onclick="goToQuestion(12)">12</button>
+                <button class="subQuestion" onclick="goToQuestion(13)">13</button>
+                <button class="subQuestion" onclick="goToQuestion(14)">14</button>
+                <button class="subQuestion" onclick="goToQuestion(15)">15</button>
+                <button class="subQuestion" onclick="goToQuestion(16)">16</button>
+                <button class="subQuestion" onclick="goToQuestion(17)">17</button>
+                <button class="subQuestion" onclick="goToQuestion(18)">18</button>
+                <button class="subQuestion" onclick="goToQuestion(19)">19</button>
+                <button class="subQuestion" onclick="goToQuestion(20)">20</button>
+            </div>
+        </div>
+        <button id="deliver-button" class="footer__deliverButton__3FM07">✔ Check Answers</button>
+    </nav>
+
+    <div id="contextMenu" class="context-menu">
+        <div class="context-menu-item" onclick="highlightText()">🖍 Highlight</div>
+        <div class="context-menu-item" onclick="addComment()">💬 Comment</div>
+        <div class="context-menu-item" onclick="clearHighlight()" id="clear-item" style="display:none;">🗑 Clear</div>
+        <div class="context-menu-item" onclick="clearAllHighlights()">🧹 Clear All</div>
+    </div>
+    <div id="mobile-selection-menu" class="mobile-selection-menu hidden" style="position:absolute;z-index:1500;background:var(--card-bg);border:1px solid var(--border-color);border-radius:6px;padding:6px;display:none;gap:6px;">
+        <button onclick="highlightText()">Highlight</button>
+        <button onclick="addComment()">Comment</button>
+    </div>
+    <div id="result-modal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header"><h2>Your Results</h2><button id="modal-close-button" class="modal-close-btn">&times;</button></div>
+            <p id="score-summary"></p>
+            <div id="result-details"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 11;
+        let selectedRange = null, contextElement = null;
+
+        const answers = {
+            q11: 'G', q12: 'B', q13: 'C', q14: 'F', q15: 'D',
+            q16: 'A', q17: 'A', q18: 'C', q19: 'A', q20: 'C'
+        };
+
+        function initTheme() {
+            document.body.setAttribute('data-theme', localStorage.getItem('theme') || 'light');
+        }
+        document.getElementById('dark-mode-toggle').addEventListener('click', () => {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        });
+
+        function changeFontSize(size) {
+            document.body.classList.remove('font-small','font-medium','font-large','font-xlarge');
+            document.body.classList.add('font-'+size);
+            localStorage.setItem('fontSize', size);
+            document.getElementById('font-size-options').classList.remove('show');
+        }
+        document.getElementById('font-size-toggle').addEventListener('click', () => {
+            document.getElementById('font-size-options').classList.toggle('show');
+        });
+        document.querySelectorAll('.font-size-options div').forEach(d => d.addEventListener('click', e => changeFontSize(e.target.dataset.size)));
+        window.addEventListener('click', e => { if(!e.target.closest('.font-size-container')) document.getElementById('font-size-options').classList.remove('show'); });
+        (function(){ const s = localStorage.getItem('fontSize')||'medium'; document.body.classList.add('font-'+s); })();
+
+        function goToQuestion(q) {
+            currentQuestion = Math.min(20, Math.max(11, q));
+            document.querySelectorAll('.subQuestion').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.subQuestion[onclick="goToQuestion(${currentQuestion})"]`)?.classList.add('active');
+            const el = document.getElementById('q'+currentQuestion) || document.querySelector(`input[name="q${currentQuestion}"]`);
+            if(el) {
+                el.closest('.question')?.scrollIntoView({behavior:'smooth', block:'center'});
+                el.closest('.question')?.classList.add('flash');
+                setTimeout(() => el.closest('.question')?.classList.remove('flash'), 800);
+                el.focus();
+            }
+            updateNav();
+        }
+
+        function nextQuestion() { if(currentQuestion<20) goToQuestion(currentQuestion+1); }
+        function prevQuestion() { if(currentQuestion>11) goToQuestion(currentQuestion-1); }
+
+        function updateNav() {
+            document.getElementById('prevBtn').disabled = currentQuestion === 11;
+            document.getElementById('nextBtn').disabled = currentQuestion === 20;
+            let attempted = 0;
+            for(let i=11;i<=20;i++) {
+                if(i<=15) { if(document.getElementById('q'+i)?.value) attempted++; }
+                else { if(document.querySelector(`input[name="q${i}"]:checked`)) attempted++; }
+            }
+            document.querySelector('.attemptedCount').textContent = `${attempted}/10`;
+            document.querySelectorAll('.subQuestion').forEach(b => {
+                const q = parseInt(b.textContent);
+                if(b.classList.contains('correct')||b.classList.contains('incorrect')) return;
+                let filled = false;
+                if(q<=15) filled = document.getElementById('q'+q)?.value !== '';
+                else filled = !!document.querySelector(`input[name="q${q}"]:checked`);
+                b.classList.toggle('answered', filled);
+            });
+        }
+
+        function checkAnswers() {
+            let score = 0;
+            const details = [];
+            document.querySelectorAll('.correct,.incorrect,.correct-answer-text').forEach(e => {
+                if(e.classList.contains('correct-answer-text')) e.remove();
+                else e.classList.remove('correct','incorrect');
+            });
+
+            for(let i=11;i<=20;i++) {
+                let user = '', isCorrect = false;
+                if(i<=15) {
+                    const sel = document.getElementById('q'+i);
+                    user = sel.value;
+                    isCorrect = user === answers['q'+i];
+                    sel.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    if(!isCorrect) {
+                        const span = document.createElement('span');
+                        span.className = 'correct-answer-text';
+                        span.textContent = '→ '+answers['q'+i];
+                        sel.parentNode.appendChild(span);
+                    }
+                } else {
+                    const radio = document.querySelector(`input[name="q${i}"]:checked`);
+                    user = radio ? radio.value : '';
+                    isCorrect = user === answers['q'+i];
+                    document.querySelectorAll(`input[name="q${i}"]`).forEach(r => {
+                        const label = r.closest('.mcq-option');
+                        if(r.value === answers['q'+i]) label.style.background = '#e8f5e9';
+                        else if(r.checked) label.style.background = '#ffebee';
+                    });
+                }
+                if(isCorrect) score++;
+                const btn = document.querySelector(`.subQuestion[onclick="goToQuestion(${i})"]`);
+                if(btn) { btn.classList.remove('answered'); btn.classList.add(isCorrect ? 'correct' : 'incorrect'); }
+                details.push({q:i, user:user||'No answer', correct:answers['q'+i], ok:isCorrect});
+            }
+
+            const band = s => s>=9?9:s>=8?8.5:s>=7?7.5:s>=6?6.5:s>=5?5.5:s>=4?4.5:s>=3?3.5:s>=2?2.5:s===1?2:0;
+            document.querySelectorAll('select,input').forEach(i => i.disabled = true);
+            document.querySelector('.main-container').classList.add('results-mode');
+            document.getElementById('transcription-text').innerHTML = document.querySelector('#transcription-data [data-part="2"]').innerHTML;
+
+            const modal = document.getElementById('result-modal');
+            document.getElementById('score-summary').textContent = `Score: ${score}/10 (Band ${band(score)})`;
+            let html = '<table style="width:100%;border-collapse:collapse;"><tr><th>Q</th><th>Your</th><th>Correct</th><th></th></tr>';
+            details.forEach(d => html += `<tr><td>${d.q}</td><td>${d.user}</td><td>${d.correct}</td><td style="color:${d.ok?'green':'red'}">${d.ok?'✔':'✖'}</td></tr>`);
+            html += '</table>';
+            document.getElementById('result-details').innerHTML = html;
+            modal.style.display = 'flex';
+
+            const btn = document.getElementById('deliver-button');
+            btn.classList.add('success'); btn.innerHTML = '📊 My Results'; btn.disabled = false;
+            btn.onclick = () => modal.style.display = 'flex';
+        }
+
+        document.getElementById('deliver-button').addEventListener('click', checkAnswers);
+        document.getElementById('modal-close-button').addEventListener('click', () => document.getElementById('result-modal').style.display = 'none');
+
+        document.querySelectorAll('select, input[type="radio"]').forEach(el => el.addEventListener('change', updateNav));
+        document.body.addEventListener('contextmenu', e => {
+            const sel = window.getSelection().toString();
+            if(!sel) return;
+            e.preventDefault();
+            const menu = document.getElementById('contextMenu');
+            menu.style.left = e.pageX+'px'; menu.style.top = e.pageY+'px'; menu.style.display = 'block';
+            contextElement = e.target.closest('.highlight,.comment-highlight');
+            document.getElementById('clear-item').style.display = contextElement ? 'block' : 'none';
+        });
+        document.addEventListener('click', e => { if(!e.target.closest('.context-menu')) document.getElementById('contextMenu').style.display = 'none'; });
+
+        function highlightText() {
+            if(!selectedRange) return;
+            try {
+                const span = document.createElement('span'); span.className = 'highlight';
+                selectedRange.surroundContents(span);
+            } catch(e) {}
+            window.getSelection().removeAllRanges();
+            document.getElementById('contextMenu').style.display = 'none';
+        }
+        function addComment() {
+            const t = prompt('Comment:');
+            if(!t || !selectedRange) return;
+            try {
+                const span = document.createElement('span'); span.className = 'comment-highlight';
+                const tip = document.createElement('span'); tip.className = 'comment-tooltip'; tip.textContent = t;
+                span.appendChild(tip); selectedRange.surroundContents(span);
+            } catch(e) {}
+            window.getSelection().removeAllRanges();
+        }
+        document.addEventListener('selectionchange', () => {
+            const sel = window.getSelection();
+            if(sel && sel.rangeCount>0 && !sel.isCollapsed) selectedRange = sel.getRangeAt(0);
+        });
+
+        goToQuestion(11);
+        initTheme();
+    </script>
+</body>
+</html>

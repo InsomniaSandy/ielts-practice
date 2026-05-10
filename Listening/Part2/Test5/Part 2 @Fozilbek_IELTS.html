@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS CDI Listening Practice - Part 2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --border-color: #e0e0e0;
+            --primary-color: #1e6de6;
+            --secondary-bg: #f8f9fa;
+            --correct-color: #28a745;
+            --incorrect-color: #dc3545;
+            --highlight-color: #ffe066;
+            --highlight-text-color: #333333;
+            --telegram-color: #1e6de6;
+            --font-size: 16px;
+            --input-bg: #ffffff;
+            --input-text: #333333;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #f0f0f0;
+            --border-color: #444444;
+            --primary-color: #4a90e2;
+            --secondary-bg: #2d2d2d;
+            --correct-color: #2ecc71;
+            --incorrect-color: #e74c3c;
+            --highlight-color: #ffd700;
+            --highlight-text-color: #000000;
+            --telegram-color: #4a90e2;
+            --input-bg: #2d2d2d;
+            --input-text: #ffffff;
+        }
+
+        .font-small {
+            --font-size: 14px;
+        }
+        .font-medium {
+            --font-size: 16px;
+        }
+        .font-large {
+            --font-size: 18px;
+        }
+        .font-xlarge {
+            --font-size: 20px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.5;
+            font-size: var(--font-size);
+            padding-bottom: 90px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body::after {
+            content: "@FOZILBEK_IELTS";
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-20deg);
+            font-size: 72px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-color);
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 0;
+            white-space: nowrap;
+            transition: color 0.3s;
+        }
+
+        .highlight {
+            background-color: var(--highlight-color);
+            color: var(--highlight-text-color) !important;
+            font-weight: 600;
+            padding: 1px 3px;
+            border-radius: 2px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        [data-theme="dark"] .highlight {
+            background-color: var(--highlight-color);
+            color: #000000 !important;
+            text-shadow: none;
+        }
+
+        .comment-highlight {
+            background-color: #90EE90;
+            position: relative;
+            cursor: help;
+            color: #000000 !important;
+        }
+
+        [data-theme="dark"] .comment-highlight {
+            background-color: #006400;
+            color: #ffffff !important;
+        }
+
+        .comment-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            white-space: nowrap;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .comment-highlight:hover .comment-tooltip {
+            opacity: 1;
+        }
+
+        .header {
+            background-color: var(--bg-color);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 60px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .ielts-logo {
+            height: 55px;
+            width: auto;
+            display: block;
+        }
+
+        .telegram-link {
+            color: var(--telegram-color) !important;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 0;
+            background: none !important;
+            border: none !important;
+            line-height: 1;
+            transition: opacity 0.2s;
+        }
+
+        .telegram-link:hover {
+            opacity: 0.8;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .font-size-container {
+            position: relative;
+        }
+
+        .font-size-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .font-size-btn:hover {
+            background-color: var(--secondary-bg);
+        }
+
+        .font-size-options {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 8px 0;
+            min-width: 120px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .font-size-options.show {
+            display: block;
+        }
+
+        .font-size-options div {
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 14px;
+        }
+
+        .font-size-options div:hover {
+            background-color: var(--secondary-bg);
+        }
+
+        .dark-mode-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .dark-mode-btn:hover {
+            background-color: var(--secondary-bg);
+        }
+
+        .sun-icon,
+        .moon-icon {
+            position: absolute;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .sun-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .moon-icon {
+            opacity: 0;
+            transform: scale(0.5);
+        }
+
+        [data-theme="dark"] .sun-icon {
+            opacity: 0;
+            transform: scale(0.5);
+        }
+        [data-theme="dark"] .moon-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .main-container {
+            margin-top: 60px;
+            display: flex;
+            background: var(--bg-color);
+            padding-bottom: 100px;
+            transition: background-color 0.3s;
+        }
+
+        .main-container.results-mode {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .left-panel {
+            width: 100%;
+            padding: 20px;
+            transition: width 0.4s ease;
+        }
+
+        .main-container.results-mode .left-panel {
+            width: 60%;
+            overflow-y: auto;
+            height: calc(100vh - 195px);
+        }
+
+        .right-panel {
+            display: none;
+            width: 40%;
+            padding: 20px;
+            position: relative;
+            border-left: 1px solid var(--border-color);
+            overflow-y: auto;
+            height: calc(100vh - 195px);
+        }
+
+        #transcription-container h2 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #transcription-text {
+            white-space: pre-wrap;
+            font-family: inherit;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .main-container.results-mode .right-panel {
+            display: block;
+            width: 40%;
+            border-left: 1px solid var(--border-color);
+            border-top: none;
+            height: calc(100vh - 195px);
+            overflow-y: auto;
+        }
+
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .part-header {
+            background-color: var(--secondary-bg);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .part-header p {
+            margin: 0;
+        }
+
+        .questions-container {
+            width: 70%;
+        }
+
+        .main-container.results-mode .questions-container {
+            width: 85%;
+        }
+
+        .question {
+            margin-bottom: 40px;
+        }
+
+        .question-prompt {
+            margin-bottom: 20px;
+        }
+
+        .question-prompt p {
+            margin-bottom: 5px;
+        }
+
+        .centered-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .answer-input {
+            border: 1px solid #9aa3ad;
+            border-radius: 4px;
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            padding: 4px 8px;
+            font-size: 16px;
+            text-align: left;
+            margin-right: 4px;
+            width: 80px;
+            max-width: 100px;
+            min-width: 60px;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            height: 28px;
+            min-height: 28px;
+            line-height: 1.2;
+            vertical-align: middle;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        [data-theme="dark"] .answer-input {
+            background-color: var(--input-bg);
+            color: #ffffff;
+            border-color: #666;
+        }
+
+        .answer-input::placeholder {
+            color: #999;
+            font-weight: bold;
+            text-align: center;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .answer-input:focus {
+            outline: none;
+            border-color: #2c6bed;
+            border-width: 2px;
+        }
+
+        .answer-input.correct {
+            border-color: var(--correct-color);
+            background-color: #e9f7ef;
+        }
+
+        .answer-input.incorrect {
+            border-color: var(--incorrect-color);
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        [data-theme="dark"] .answer-input.correct {
+            background-color: #1a3c2a;
+            color: #2ecc71;
+        }
+        [data-theme="dark"] .answer-input.incorrect {
+            background-color: #3c1a1a;
+            color: #e74c3c;
+        }
+
+        .correct-inline {
+            color: var(--correct-color);
+            font-weight: 700;
+            margin-left: 10px;
+            display: inline-block;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .correct-inline::before {
+            content: "→ ";
+            font-weight: 700;
+        }
+
+        .matching-reference {
+            background-color: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+
+        .matching-reference p {
+            margin: 3px 0;
+            font-size: 16px;
+        }
+
+        .matching-reference strong {
+            font-size: 17px;
+        }
+
+        .feature-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .feature-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 16px;
+            vertical-align: middle;
+        }
+
+        .feature-table td:first-child {
+            font-weight: 600;
+            width: 50%;
+        }
+
+        .feature-table td:last-child {
+            text-align: left;
+        }
+
+        .map-image-container {
+            text-align: center;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px;
+            background-color: var(--secondary-bg);
+        }
+
+        .map-image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .map-questions-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .map-questions-list li {
+            margin-bottom: 12px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .map-questions-list li strong {
+            min-width: 100px;
+            display: inline-block;
+        }
+
+        .nav-row {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-color);
+            border-top: 1px solid var(--border-color);
+            padding: 0;
+            display: flex;
+            align-items: center;
+            height: 80px;
+            z-index: 100;
+            transition: background-color 0.3s, border-color 0.3s;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .footer__questionWrapper__1tZ46 {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .footer__questionNo__3WNct {
+            background: none;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .footer__questionNo__3WNct:hover {
+            background-color: var(--secondary-bg);
+        }
+
+        .section-prefix {
+            font-size: 16px;
+        }
+        .sectionNr {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .attemptedCount {
+            font-size: 14px;
+            color: #666;
+            margin-left: 5px;
+            font-weight: 400;
+        }
+
+        @media (max-width: 1024px) {
+            .attemptedCount {
+                display: none;
+            }
+        }
+
+        .footer__subquestionWrapper__9GgoP {
+            display: flex;
+            gap: 2px;
+            margin-left: 10px;
+        }
+
+        .subQuestion {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            border-radius: 2px;
+        }
+
+        .subQuestion.answered {
+            background-color: var(--secondary-bg);
+            border-color: var(--border-color);
+        }
+
+        .subQuestion.correct {
+            background-color: var(--correct-color);
+            color: white;
+            border-color: var(--correct-color);
+        }
+
+        .subQuestion.incorrect {
+            background-color: var(--incorrect-color);
+            color: white;
+            border-color: var(--incorrect-color);
+        }
+
+        .subQuestion:hover {
+            background-color: var(--secondary-bg);
+            border-color: #999;
+        }
+
+        .subQuestion.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .footer__deliverButton__3FM07 {
+            margin-left: auto;
+            margin-right: 20px;
+            background-color: var(--secondary-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s, border-color 0.2s;
+            min-width: 170px;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .footer__deliverButton__3FM07:hover {
+            background-color: #e0e0e0;
+            border-color: #bbb;
+        }
+
+        .footer__deliverButton__3FM07.success {
+            background-color: var(--correct-color);
+            color: #fff;
+            border-color: var(--correct-color);
+        }
+
+        .footer__deliverButton__3FM07.success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+        .footer__deliverButton__3FM07:disabled {
+            background: var(--secondary-bg);
+            color: #6c757d;
+            cursor: not-allowed;
+            border-color: var(--border-color);
+        }
+
+        .context-menu {
+            position: absolute;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            display: none;
+            min-width: 140px;
+        }
+
+        .context-menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            font-size: 16px;
+            border-bottom: 1px solid var(--secondary-bg);
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .context-menu-item:hover {
+            background-color: var(--secondary-bg);
+        }
+        .context-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--bg-color);
+            padding: 25px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        .modal-close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #888;
+            line-height: 1;
+        }
+
+        .modal-close-btn:hover {
+            color: var(--text-color);
+        }
+
+        #score-summary {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        #result-details table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        #result-details th,
+        #result-details td {
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        #result-details th {
+            background-color: var(--secondary-bg);
+            font-weight: 600;
+        }
+
+        #result-details td:nth-child(1) {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .result-correct {
+            color: var(--correct-color);
+            font-weight: bold;
+        }
+        .result-incorrect {
+            color: var(--incorrect-color);
+            font-weight: bold;
+        }
+
+        @keyframes flash {
+            0% {
+                background-color: #e6f4ff;
+            }
+            100% {
+                background-color: transparent;
+            }
+        }
+
+        .question.flash {
+            animation: flash 1s ease-out;
+        }
+
+        @media (max-width: 1024px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .right-panel,
+            .main-container.results-mode .right-panel {
+                display: none;
+            }
+            .left-panel,
+            .main-container.results-mode .left-panel {
+                width: 100%;
+                padding: 20px 10px;
+                height: auto;
+            }
+            .questions-container {
+                width: 100%;
+            }
+            .answer-input {
+                width: 60px;
+                max-width: 70px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .answer-input {
+                width: 50px;
+                max-width: 60px;
+                font-size: 13px;
+            }
+            .matching-reference {
+                padding: 10px 14px;
+                font-size: 14px;
+            }
+            .feature-table td {
+                padding: 8px 6px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <img src="https://i.pinimg.com/736x/88/93/a8/8893a81fed78f6989142a13e3605c45e.jpg" alt="IELTS Logo" class="ielts-logo">
+            <a href="https://t.me/FOZILBEK_IELTS" target="_blank" class="telegram-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-.38.24-1.07.7-.96.66-1.89 1.28-1.89 1.28s-.17.11-.49.03c-.32-.08-.72-.26-1.16-.47-.54-.26-1.17-.53-1.17-.53s-.87-.55.62-1.14c.32-.13 1.96-.84 2.99-1.2 1.05-.37 2.86-1.01 2.86-1.01s1.02-.4 1.02 0z" fill="currentColor"/>
+                </svg>
+                <span>@FOZILBEK_IELTS</span>
+            </a>
+        </div>
+        <div class="header-icons">
+            <div class="font-size-container" style="position: relative;">
+                <button class="font-size-btn" id="font-size-toggle" title="Adjust Font Size">A</button>
+                <div id="font-size-options" class="font-size-options">
+                    <div data-size="small">Small</div>
+                    <div data-size="medium">Medium</div>
+                    <div data-size="large">Large</div>
+                    <div data-size="xlarge">Extra Large</div>
+                </div>
+            </div>
+            <button class="dark-mode-btn" id="dark-mode-toggle" title="Toggle Dark Mode">
+                <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="left-panel">
+            <div id="part-2" class="question-part">
+                <div class="part-header">
+                    <p><strong>Part 2</strong></p>
+                    <p>Listen and answer questions 11-20.</p>
+                </div>
+                <div class="questions-container">
+
+                    <!-- Questions 11-14: Matching -->
+                    <div class="question" id="q11-container">
+                        <div class="question-prompt">
+                            <p><strong>Questions 11-14</strong></p>
+                            <p>Which type of accommodation includes the following features?</p>
+                            <p>Write the correct letter, <strong>A</strong>, <strong>B</strong> or <strong>C</strong>, next to questions 11-14.</p>
+                        </div>
+                        <div class="matching-reference">
+                            <p><strong>Types of accommodation</strong></p>
+                            <p><strong>A</strong> the flat &nbsp;&nbsp; <strong>B</strong> the house &nbsp;&nbsp; <strong>C</strong> the hostel</p>
+                        </div>
+                        <table class="feature-table">
+                            <tr>
+                                <td>11. a garden</td>
+                                <td><input type="text" id="q11" class="answer-input" placeholder="11" autocomplete="off" maxlength="1"></td>
+                            </tr>
+                            <tr>
+                                <td>12. a garage</td>
+                                <td><input type="text" id="q12" class="answer-input" placeholder="12" autocomplete="off" maxlength="1"></td>
+                            </tr>
+                            <tr>
+                                <td>13. an alarm system</td>
+                                <td><input type="text" id="q13" class="answer-input" placeholder="13" autocomplete="off" maxlength="1"></td>
+                            </tr>
+                            <tr>
+                                <td>14. new furniture</td>
+                                <td><input type="text" id="q14" class="answer-input" placeholder="14" autocomplete="off" maxlength="1"></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Questions 15-20: Map Labeling -->
+                    <div class="question" id="q15-container">
+                        <div class="question-prompt" style="margin-top: 30px;">
+                            <p><strong>Questions 15-20</strong></p>
+                            <p><em>Label the map below.</em></p>
+                            <p>Write the correct letter, <strong>A-J</strong>, next to questions 15-20.</p>
+                        </div>
+                        <div class="map-image-container">
+                            <img src="https://i.pinimg.com/736x/18/0a/d6/180ad6e57e40bab1d5440399a530ca05.jpg" alt="Map for questions 15-20" style="max-width:100%; height:auto;">
+                        </div>
+                        <ul class="map-questions-list" style="margin-top: 20px;">
+                            <li><strong>15.</strong> the bank <input type="text" id="q15" class="answer-input" placeholder="15" autocomplete="off" maxlength="1"></li>
+                            <li><strong>16.</strong> the house <input type="text" id="q16" class="answer-input" placeholder="16" autocomplete="off" maxlength="1"></li>
+                            <li><strong>17.</strong> the hostel <input type="text" id="q17" class="answer-input" placeholder="17" autocomplete="off" maxlength="1"></li>
+                            <li><strong>18.</strong> the flat <input type="text" id="q18" class="answer-input" placeholder="18" autocomplete="off" maxlength="1"></li>
+                            <li><strong>19.</strong> the post office <input type="text" id="q19" class="answer-input" placeholder="19" autocomplete="off" maxlength="1"></li>
+                            <li><strong>20.</strong> the bus stop <input type="text" id="q20" class="answer-input" placeholder="20" autocomplete="off" maxlength="1"></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Transcription -->
+        <div class="right-panel">
+            <div id="transcription-container">
+                <h2>Transcription</h2>
+                <div id="transcription-text"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Transcription Data -->
+    <div id="transcription-data" style="display:none;">
+        <div data-part="2">
+            <strong>SECTION 2</strong><br><br>
+            <strong>Questions 11-14</strong><br><br>
+            [Agent] Hello. Can I help?<br><br>
+            [Student] Yes. I'm looking for accommodation. I'm a student in my second year at the college, and I wanted to rent something from September for myself and a friend.<br><br>
+            [Agent] Well, we've got several choices at the moment. Near the college, we've got a flat, a house, or there's a student hostel, all at about the same rent. But of course they all have different features and different things included in the rent.<br><br>
+            The properties don't all have gardens, I'm afraid. The house is quite small, not much space around it. It has got a bit of space at the back, but I wouldn't call it a garden. The hostel is part of a city development, so there's no space for a garden. But <span class="highlight">the flat has a communal garden</span> that is shared by all the tenants. I would say that that's very good value for the price.<br><br>
+            Have you got a car?<br><br>
+            Yes.<br><br>
+            There are garages round the corner from the house. Ah, but you have to rent those separately, and they might not be available. But <span class="highlight">each flat is allotted a garage</span> in the grounds as part of the deal. The hostel doesn't have the space, I'm afraid.<br><br>
+            I guess you might also want to know about security as well. <span class="highlight">The house is the only one which is alarmed.</span> The flats and the hostel are accessed through a main door, which has an intercom for visitors, so they're quite safe.<br><br>
+            Now they're all furnished. The flat's quite modern looking, which most people like, and it's in quite good condition considering the use it's had. <span class="highlight">All the furniture and fittings in the house have just been replaced</span> after the last tenants left, so they'll be in excellent condition. And the furniture in the hostel is okay. It's about what you'd expect, really.<br><br>
+            <strong>Questions 15-20</strong><br><br>
+            [Student] Well, I think I'd better go and look at them all. Where are they?<br><br>
+            [Agent] Here. Let me show you on the map. Right. We're here in the accommodation agency on the High Street facing north. <span class="highlight">Directly opposite us is the bank.</span> If you stay on this side of the road and walk towards West Street, <span class="highlight">the house is not that far. It's next but one to the swimming pool just before West Street.</span> It's very convenient because it's near the shops.<br><br>
+            <span class="highlight">The hostel is on the corner of West Street and St Anne's Road, near the roundabout.</span> It's not a very wonderful building, but it's nice and close to the college.<br><br>
+            <span class="highlight">The flat is a bit of a walk, but it's in very nice surroundings. To get to the flat, you go down West Street towards the centre of the city, and the building is on the corner just before the first turning on the left.</span><br><br>
+            Although we're a bit outside the city centre, the facilities aren't bad. <span class="highlight">There's a post office just around the corner from here. You go down the High Street and turn right into West Street, and it's on your right.</span> Or if you want to go to the city centre, <span class="highlight">you could get the bus from here, just a few metres down the road from the agency going east.</span> You don't even need to cross the road.<br><br>
+            That is the end of Section 2.
+        </div>
+    </div>
+
+    <!-- Hidden Answer Key -->
+    <div id="answer-key" style="display:none;">
+        <p><strong>Part 2:</strong></p>
+        <p>11. A<br>12. A<br>13. B<br>14. B<br>15. D<br>16. I<br>17. J<br>18. B<br>19. C<br>20. G</p>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="nav-row" aria-label="Questions">
+        <div class="footer__questionWrapper__1tZ46 selected" role="tablist">
+            <button role="tab" class="footer__questionNo__3WNct">
+                <span>
+                    <span aria-hidden="true" class="section-prefix">Part </span>
+                    <span class="sectionNr" aria-hidden="true">2</span>
+                    <span class="attemptedCount" aria-hidden="true">0 of 10</span>
+                </span>
+            </button>
+            <div class="footer__subquestionWrapper__9GgoP">
+                <button class="subQuestion scorable-item" onclick="goToQuestion(11)"><span aria-hidden="true">11</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(12)"><span aria-hidden="true">12</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(13)"><span aria-hidden="true">13</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(14)"><span aria-hidden="true">14</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(15)"><span aria-hidden="true">15</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(16)"><span aria-hidden="true">16</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(17)"><span aria-hidden="true">17</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(18)"><span aria-hidden="true">18</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(19)"><span aria-hidden="true">19</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(20)"><span aria-hidden="true">20</span></button>
+            </div>
+        </div>
+        <button id="deliver-button" aria-label="Review your answers" class="footer__deliverButton__3FM07">
+            <span>Check Answers</span>
+        </button>
+    </nav>
+
+    <!-- Context Menu -->
+    <div id="contextMenu" class="context-menu">
+        <div class="context-menu-item" id="highlight-item" onclick="highlightText()">
+            <span style="display:inline-block;width:16px;height:16px;margin-right:8px;">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.24 12.32L12.28 9.36l-1.04 1.04-1.04-1.04-1.04 1.04-1.04-1.04-1.04 1.04-1.04-1.04-3.12 3.12c-.59.58-1.54.58-2.12 0l-1.04-1.04c-.58-.59-.58-1.54 0-2.12L7.88.88c.59-.58 1.54-.58 2.12 0l1.04 1.04 1.04-1.04 1.04 1.04 1.04-1.04 1.04 1.04 1.04-1.04 3.12 3.12c.58.59.58 1.54 0 2.12l-1.04 1.04c-.58.59-1.54.59-2.12 0zM12 15l-3 3-7-7 3-3 7 7zm-9-5l-2.29 2.29c-.39.39-.39 1.02 0 1.41l8.29 8.29c.39.39 1.02.39 1.41 0L22.7 8.41c.39-.39.39-1.02 0-1.41L14.42.29c-.39-.39-1.02-.39-1.41 0L3 10z"/></svg>
+            </span>
+            <span>Highlight</span>
+        </div>
+        <div class="context-menu-item" id="comment-item" onclick="addComment()">
+            <span style="display:inline-block;width:16px;height:16px;margin-right:8px;">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 12H5.17L4 15.17V4h16v10z"/></svg>
+            </span>
+            <span>Comment</span>
+        </div>
+        <div class="context-menu-item" id="clear-item" onclick="clearHighlight()" style="display:none;">
+            <span style="display:inline-block;width:16px;height:16px;margin-right:8px;">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+            </span>
+            <span>Clear</span>
+        </div>
+        <div class="context-menu-item" onclick="clearAllHighlights()">
+            <span style="display:inline-block;width:16px;height:16px;margin-right:8px;">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 9h-2.29l3-3-1.42-1.42-3 3V5h-2v2.29l-3-3-1.42 1.42 3 3H5v2h2.29l-3 3 1.42 1.42 3-3V17h2v-2.29l3 3 1.42-1.42-3-3H17V9h-2zm-4 4h-2v-2h2v2z"/></svg>
+            </span>
+            <span>Clear All</span>
+        </div>
+    </div>
+
+    <!-- Result Modal -->
+    <div id="result-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Your Results</h2>
+                <button id="modal-close-button" class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="score-summary"></p>
+                <div id="result-details"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 11;
+        let selectedRange = null;
+        let contextElement = null;
+
+        const body = document.body;
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const fontSizeToggle = document.getElementById('font-size-toggle');
+        const fontSizeOptions = document.getElementById('font-size-options');
+
+        // Answer Key
+        const correctAnswers = {
+            q11: 'A',
+            q12: 'A',
+            q13: 'B',
+            q14: 'B',
+            q15: 'D',
+            q16: 'I',
+            q17: 'J',
+            q18: 'B',
+            q19: 'C',
+            q20: 'G'
+        };
+
+        // Initialize dark mode
+        function initDarkMode() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            body.setAttribute('data-theme', savedTheme);
+        }
+
+        function toggleDarkMode() {
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                body.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Font size
+        function changeFontSize(size) {
+            body.classList.remove('font-small', 'font-medium', 'font-large', 'font-xlarge');
+            body.classList.add('font-' + size);
+            localStorage.setItem('fontSize', size);
+            fontSizeOptions.classList.remove('show');
+        }
+
+        function initFontSize() {
+            const savedSize = localStorage.getItem('fontSize') || 'medium';
+            changeFontSize(savedSize);
+        }
+
+        // Navigation
+        function goToQuestion(questionNumber) {
+            currentQuestion = questionNumber;
+            document.querySelectorAll('.subQuestion').forEach(btn => btn.classList.remove('active'));
+            const questionBtn = document.querySelector('.subQuestion[onclick="goToQuestion(' + questionNumber +
+                ')"]');
+            if (questionBtn) questionBtn.classList.add('active');
+
+            let questionElement;
+            if (questionNumber >= 11 && questionNumber <= 14) {
+                questionElement = document.getElementById('q' + questionNumber);
+            } else {
+                questionElement = document.getElementById('q' + questionNumber);
+            }
+
+            if (questionElement) {
+                const questionContainer = questionElement.closest('.question');
+                if (questionContainer) {
+                    questionContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    questionContainer.classList.add('flash');
+                    setTimeout(() => { questionContainer.classList.remove('flash'); }, 1000);
+                }
+            }
+            updateNavigation();
+        }
+
+        function updateNavigation() {
+            document.querySelectorAll('.subQuestion').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.querySelector('.subQuestion[onclick="goToQuestion(' + currentQuestion + ')"]
+                ');
+            if (activeBtn) activeBtn.classList.add('active');
+            updateAttemptedCount();
+        }
+
+        function updateAttemptedCount() {
+            let answeredCount = 0;
+            for (let qNum = 11; qNum <= 20; qNum++) {
+                const input = document.getElementById('q' + qNum);
+                if (input && input.value.trim() !== '') {
+                    answeredCount++;
+                }
+            }
+            const countDisplay = document.querySelector('.attemptedCount');
+            if (countDisplay) countDisplay.textContent = answeredCount + ' of 10';
+            updateAnsweredIndicators();
+        }
+
+        function updateAnsweredIndicators() {
+            for (let qNum = 11; qNum <= 20; qNum++) {
+                const btn = document.querySelector('.subQuestion[onclick="goToQuestion(' + qNum + ')"]');
+                if (!btn) continue;
+                if (btn.classList.contains('correct') || btn.classList.contains('incorrect')) continue;
+                const input = document.getElementById('q' + qNum);
+                const isAnswered = input && input.value.trim() !== '';
+                if (isAnswered) {
+                    btn.classList.add('answered');
+                } else {
+                    btn.classList.remove('answered');
+                }
+            }
+        }
+
+        // Highlighting
+        function highlightText() {
+            if (!selectedRange || selectedRange.collapsed) { closeContextMenu(); return; }
+            try {
+                const span = document.createElement('span');
+                span.className = 'highlight';
+                selectedRange.surroundContents(span);
+            } catch (err) {
+                console.warn('Highlighting failed:', err);
+            }
+            window.getSelection().removeAllRanges();
+            closeContextMenu();
+        }
+
+        function addComment() {
+            const commentText = prompt('Enter your comment:');
+            if (!commentText || !selectedRange || selectedRange.collapsed) { closeContextMenu(); return; }
+            try {
+                const span = document.createElement('span');
+                span.className = 'comment-highlight';
+                const tooltip = document.createElement('span');
+                tooltip.className = 'comment-tooltip';
+                tooltip.textContent = commentText;
+                span.appendChild(tooltip);
+                selectedRange.surroundContents(span);
+            } catch (err) {
+                console.warn('Comment failed:', err);
+            }
+            window.getSelection().removeAllRanges();
+            closeContextMenu();
+        }
+
+        function clearHighlight() {
+            const elementToClear = contextElement;
+            if (!elementToClear) { closeContextMenu(); return; }
+            const parent = elementToClear.parentNode;
+            while (elementToClear.firstChild) {
+                if (!elementToClear.firstChild.classList || !elementToClear.firstChild.classList.contains(
+                        'comment-tooltip')) {
+                    parent.insertBefore(elementToClear.firstChild, elementToClear);
+                } else {
+                    elementToClear.removeChild(elementToClear.firstChild);
+                }
+            }
+            parent.removeChild(elementToClear);
+            parent.normalize();
+            closeContextMenu();
+        }
+
+        function clearAllHighlights() {
+            document.querySelectorAll('.highlight, .comment-highlight').forEach(element => {
+                const parent = element.parentNode;
+                const fragment = document.createDocumentFragment();
+                while (element.firstChild) {
+                    if (element.firstChild.nodeType === 1 && element.firstChild.classList.contains(
+                            'comment-tooltip')) {
+                        element.removeChild(element.firstChild);
+                    } else {
+                        fragment.appendChild(element.firstChild);
+                    }
+                }
+                parent.replaceChild(fragment, element);
+            });
+            closeContextMenu();
+        }
+
+        function closeContextMenu() {
+            document.getElementById('contextMenu').style.display = 'none';
+            contextElement = null;
+        }
+
+        // Check Answers
+        function checkAnswers() {
+            let score = 0;
+            let resultsData = [];
+
+            document.querySelectorAll('.correct-inline').forEach(el => el.remove());
+            document.querySelectorAll('.answer-input').forEach(el => el.classList.remove('correct', 'incorrect'));
+
+            Object.keys(correctAnswers).forEach(key => {
+                const correctAnswer = correctAnswers[key];
+                const element = document.getElementById(key);
+                if (!element) return;
+                const userAnswer = element.value.trim();
+                const isCorrect = userAnswer.toUpperCase() === correctAnswer.toUpperCase();
+                const qNum = parseInt(key.replace('q', ''));
+
+                element.classList.add(isCorrect ? 'correct' : 'incorrect');
+                if (!isCorrect) {
+                    const correctAnswerSpan = document.createElement('span');
+                    correctAnswerSpan.className = 'correct-inline';
+                    correctAnswerSpan.textContent = correctAnswer;
+                    element.insertAdjacentElement('afterend', correctAnswerSpan);
+                }
+
+                const btn = document.querySelector('.subQuestion[onclick="goToQuestion(' + qNum + ')"]');
+                if (btn) {
+                    btn.classList.remove('answered');
+                    btn.classList.add(isCorrect ? 'correct' : 'incorrect');
+                }
+
+                resultsData.push({
+                    question: qNum,
+                    userAnswer: userAnswer || 'No Answer',
+                    correctAnswer: correctAnswer,
+                    isCorrect: isCorrect
+                });
+
+                if (isCorrect) score++;
+            });
+
+            // Disable inputs
+            document.querySelectorAll('.answer-input').forEach(input => { input.disabled = true; });
+
+            // Results mode
+            document.querySelector('.main-container').classList.add('results-mode');
+            const transcriptionSource = document.querySelector('#transcription-data [data-part="2"]');
+            const transcriptionTarget = document.getElementById('transcription-text');
+            if (transcriptionSource && transcriptionTarget) {
+                transcriptionTarget.innerHTML = transcriptionSource.innerHTML;
+            }
+
+            // Modal
+            const modal = document.getElementById('result-modal');
+            const scoreSummary = document.getElementById('score-summary');
+            const resultDetails = document.getElementById('result-details');
+            scoreSummary.textContent = 'You scored ' + score + ' out of 10.';
+
+            let tableHTML = '<table><thead><tr><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>Result</th></tr></thead><tbody>';
+            resultsData.sort((a, b) => a.question - b.question).forEach(res => {
+                tableHTML += '<tr><td>' + res.question + '</td><td>' + res.userAnswer +
+                    '</td><td>' + res.correctAnswer + '</td><td class="' + (res.isCorrect ?
+                        'result-correct' : 'result-incorrect') + '">' + (res.isCorrect ?
+                        '✔ Correct' : '✖ Incorrect') + '</td></tr>';
+            });
+            tableHTML += '</tbody></table>';
+            resultDetails.innerHTML = tableHTML;
+
+            const deliverButton = document.getElementById('deliver-button');
+            deliverButton.classList.add('success');
+            deliverButton.innerHTML = '<span>My Results</span>';
+            deliverButton.disabled = false;
+            const newDeliverBtn = deliverButton.cloneNode(true);
+            deliverButton.parentNode.replaceChild(newDeliverBtn, deliverButton);
+            newDeliverBtn.addEventListener('click', () => {
+                document.getElementById('result-modal').style.display = 'flex';
+            });
+
+            modal.style.display = 'flex';
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            initDarkMode();
+            initFontSize();
+            goToQuestion(11);
+            updateAttemptedCount();
+
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+            fontSizeToggle.addEventListener('click', () => { fontSizeOptions.classList.toggle('show'); });
+
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.font-size-container')) {
+                    fontSizeOptions.classList.remove('show');
+                }
+            });
+
+            document.querySelectorAll('.font-size-options div').forEach(option => {
+                option.addEventListener('click', () => {
+                    changeFontSize(option.getAttribute('data-size'));
+                });
+            });
+
+            document.getElementById('deliver-button').addEventListener('click', checkAnswers);
+            document.getElementById('modal-close-button').addEventListener('click', () => {
+                document.getElementById('result-modal').style.display = 'none';
+            });
+
+            document.querySelectorAll('.answer-input').forEach(input => {
+                input.addEventListener('input', updateAttemptedCount);
+                input.addEventListener('change', updateAttemptedCount);
+            });
+
+            // Context menu
+            document.body.addEventListener('contextmenu', function(e) {
+                const text = window.getSelection().toString();
+                if (!text) return;
+                e.preventDefault();
+                const menu = document.getElementById('contextMenu');
+                menu.style.left = e.pageX + 'px';
+                menu.style.top = e.pageY + 'px';
+                menu.style.display = 'block';
+                const target = e.target;
+                const clearItem = document.getElementById('clear-item');
+                contextElement = target.closest('.highlight, .comment-highlight');
+                if (contextElement) {
+                    clearItem.style.display = 'block';
+                } else {
+                    clearItem.style.display = 'none';
+                }
+            });
+
+            document.body.addEventListener('click', function(e) {
+                if (e.target.closest('.context-menu')) return;
+                document.getElementById('contextMenu').style.display = 'none';
+            });
+
+            document.addEventListener('selectionchange', () => {
+                const sel = window.getSelection();
+                if (sel && sel.rangeCount > 0 && !sel.isCollapsed) {
+                    selectedRange = sel.getRangeAt(0);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

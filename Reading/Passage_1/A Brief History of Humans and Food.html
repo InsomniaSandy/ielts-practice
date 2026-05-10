@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading Practice – A Brief History of Humans and Food</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --header-bg: #ffffff;
+            --border-color: #e0e0e0;
+            --panel-bg: #ffffff;
+            --question-bg: #ffffff;
+            --input-bg: #ffffff;
+            --input-border: #bfbfbf;
+            --input-focus: #3581d8;
+            --correct-color: #28a745;
+            --incorrect-color: #dc3545;
+            --highlight-bg: #ffff00;
+            --modal-bg: #ffffff;
+            --nav-bg: #ffffff;
+            --resizer-bg: #f0f0f0;
+            --part-header-bg: #f1f2ec;
+            --timer-bg: #f0f0f0;
+            --link-color: #1e88e5;
+            --shadow-color: rgba(0,0,0,0.1);
+            --logo-brightness: 1;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #e0e0e0;
+            --header-bg: #2d2d2d;
+            --border-color: #444444;
+            --panel-bg: #2d2d2d;
+            --question-bg: #333333;
+            --input-bg: #3a3a3a;
+            --input-border: #555555;
+            --input-focus: #4a90e2;
+            --correct-color: #2ecc71;
+            --incorrect-color: #e74c3c;
+            --highlight-bg: #ffeb3b;
+            --modal-bg: #2d2d2d;
+            --nav-bg: #2d2d2d;
+            --resizer-bg: #444444;
+            --part-header-bg: #3a3a3a;
+            --timer-bg: #444444;
+            --link-color: #64b5f6;
+            --shadow-color: rgba(0,0,0,0.3);
+            --logo-brightness: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.4;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .header {
+            background-color: var(--header-bg);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            height: 60px;
+            transition: all 0.3s;
+        }
+
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        .header-right { display: flex; align-items: center; gap: 20px; }
+
+        .ielts-logo {
+            height: 55px;
+            width: auto;
+            filter: brightness(var(--logo-brightness, 1));
+        }
+
+        .telegram-link {
+            display: flex; align-items: center; gap: 6px;
+            text-decoration: none; color: var(--link-color);
+            font-weight: bold; font-size: 14px; transition: color 0.3s;
+        }
+        .telegram-link:hover { text-decoration: underline; }
+
+        .timer-container { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 500; color: var(--text-color); }
+        .timer-display { font-weight: 600; min-width: 60px; }
+        .timer-controls { display: flex; gap: 8px; }
+
+        .timer-controls button, .dark-mode-btn {
+            background: var(--timer-bg); border: 1px solid var(--border-color);
+            border-radius: 50%; width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: background-color 0.2s, transform 0.2s;
+        }
+        .timer-controls button:hover, .dark-mode-btn:hover { background: var(--border-color); transform: scale(1.05); }
+        .timer-controls button svg, .dark-mode-btn svg { width: 20px; height: 20px; fill: var(--text-color); transition: fill 0.3s; }
+
+        .main-container { margin-top: 60px; display: flex; flex-direction: column; background: var(--bg-color); height: calc(100vh - 60px); position: relative; }
+
+        .panels-container { display: flex; flex: 1; overflow: hidden; }
+        .passage-panel, .questions-panel {
+            flex: 1; padding: 20px 20px 100px; overflow-y: auto;
+            min-width: 200px; background-color: var(--panel-bg); transition: background-color 0.3s;
+        }
+        .questions-panel { border-left: 1px solid var(--border-color); }
+
+        .resizer {
+            width: 10px; cursor: col-resize; background-color: var(--resizer-bg);
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23888"/></svg>');
+            background-repeat: no-repeat; background-position: center; flex-shrink: 0; flex-grow: 0; transition: background-color 0.3s;
+        }
+        [data-theme="dark"] .resizer {
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23aaa"/></svg>');
+        }
+
+        .text-center { text-align: center; }
+        .reading-passage h4 { font-size: 22px; font-weight: bold; margin-bottom: 20px; text-align: center; color: var(--text-color); }
+        .reading-passage p { margin-bottom: 1.2em; color: var(--text-color); }
+        .reading-passage strong { color: var(--text-color); }
+
+        .passage-image {
+            float: right; width: 280px; max-width: 45%; margin: 0 0 16px 20px;
+            border-radius: 8px; box-shadow: 0 2px 10px var(--shadow-color);
+        }
+        @media (max-width: 700px) {
+            .passage-image { float: none; display: block; width: 100%; max-width: 100%; margin: 0 auto 16px; }
+        }
+
+        .question { margin-bottom: 40px; }
+        .question-prompt { margin-bottom: 20px; }
+        .question-prompt p { margin-bottom: 10px; color: var(--text-color); }
+
+        .answer-input {
+            border: 1px solid var(--input-border); border-radius: 4px;
+            background-color: var(--input-bg); padding: 2px 8px;
+            font-size: 16px; text-align: left; font-weight: 700;
+            margin-right: 6px; margin-left: 6px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s, color 0.3s;
+            height: 28px; min-width: 150px; color: var(--text-color);
+        }
+        .answer-input.active-input, .answer-input:focus { border-color: var(--input-focus); border-width: 2px; outline: none; }
+        .answer-input::placeholder { color: var(--text-color); opacity: 0.7; font-weight: 700; text-align: center; }
+        .answer-input.correct { border-color: var(--correct-color); background-color: rgba(40, 167, 69, 0.1); }
+        .answer-input.incorrect { border-color: var(--incorrect-color); background-color: rgba(220, 53, 69, 0.1); color: var(--text-color); }
+
+        .part-header {
+            background-color: var(--part-header-bg); padding: 15px 20px;
+            border: 1px solid var(--border-color); text-align: left;
+            margin: 10px 20px; border-radius: 5px; transition: all 0.3s;
+        }
+        .part-header p { margin: 0; color: var(--text-color); }
+        .part-header p:first-child { margin-bottom: 5px; }
+
+        .tf-question { margin-bottom: 25px; padding: 5px 0px; border-radius: 4px; }
+        .tf-question-line { display: flex; align-items: flex-start; margin-bottom: 12px; padding: 5px 0px; }
+        .tf-question-number {
+            border: 2px solid var(--border-color); padding: 2px 8px; margin-right: 10px;
+            border-radius: 3px; font-weight: bold; display: inline-block;
+            background-color: var(--input-bg); color: var(--text-color);
+        }
+        .tf-question.active-question .tf-question-number { border-color: var(--input-focus); }
+        .tf-question-text { padding-top: 3px; color: var(--text-color); }
+        .tf-options { padding-left: 5px; }
+        .tf-option {
+            display: block; cursor: pointer; padding: 10px 12px;
+            background-color: var(--input-bg); border: 1px solid var(--border-color);
+            border-radius: 4px; margin-bottom: 5px; color: var(--text-color);
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+        .tf-option:hover { background-color: var(--part-header-bg); }
+        .tf-option:has(input[type="radio"]:checked) { background-color: rgba(74, 144, 226, 0.2); border-color: var(--input-focus); }
+        .tf-option.correct { background-color: rgba(40, 167, 69, 0.2) !important; border-color: var(--correct-color) !important; }
+        .tf-option.incorrect { background-color: rgba(220, 53, 69, 0.2) !important; border-color: var(--incorrect-color) !important; }
+        .tf-option input[type="radio"] { margin-right: 10px; transform: scale(1.2); accent-color: var(--input-focus); }
+
+        .nav-arrows { position: fixed; bottom: 100px; right: 20px; display: flex; gap: 6px; z-index: 101; }
+        .nav-arrow {
+            width: 48px; height: 48px; border: none; cursor: pointer; display: flex;
+            align-items: center; justify-content: center; font-size: 22px; font-weight: 700;
+            color: #fff; transition: transform 0.1s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 6px var(--shadow-color); outline: none; border-radius: 50%;
+        }
+        .nav-arrow.prev { background-color: #4b5563; }
+        .nav-arrow.next { background-color: #000000; }
+        [data-theme="dark"] .nav-arrow.prev { background-color: #6b7280; }
+        [data-theme="dark"] .nav-arrow.next { background-color: #333333; }
+        .nav-arrow:hover { transform: translateY(-1px); }
+        .nav-arrow:active { transform: translateY(0); }
+
+        .nav-row {
+            position: fixed; bottom: 0; left: 0; right: 0; background: var(--nav-bg);
+            padding: 0; display: flex; align-items: center; height: 80px; z-index: 100;
+            border-top: 1px solid var(--border-color); transition: all 0.3s;
+        }
+        .footer__questionWrapper___1tZ46 { display: flex; align-items: center; margin-right: 20px; }
+        .footer__questionNo___3WNct {
+            background: none; border: none; padding: 10px 15px; font-size: 16px;
+            font-weight: 600; color: var(--text-color); cursor: pointer; display: flex;
+            align-items: center; gap: 5px; transition: background-color 0.2s; border-radius: 4px;
+        }
+        .footer__questionNo___3WNct:hover { background-color: var(--part-header-bg); }
+        .section-prefix { font-size: 16px; color: var(--text-color); }
+        .sectionNr { font-size: 16px; font-weight: bold; color: var(--text-color); }
+        .attemptedCount { font-size: 14px; color: var(--text-color); opacity: 0.7; margin-left: 5px; font-weight: 400; }
+
+        .footer__subquestionWrapper___9GgoP { display: flex; gap: 2px; margin-left: 10px; }
+        .footer__questionWrapper___1tZ46.selected .footer__subquestionWrapper___9GgoP { display: flex; }
+
+        .subQuestion {
+            width: 32px; height: 32px; border: 1px solid var(--border-color);
+            background: var(--input-bg); color: var(--text-color); font-size: 14px;
+            font-weight: 500; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; transition: all 0.2s; border-radius: 2px;
+        }
+        .subQuestion:hover { background-color: var(--part-header-bg); border-color: var(--input-focus); }
+        .subQuestion.answered { background-color: var(--part-header-bg); border-color: var(--border-color); }
+        .subQuestion.correct { background-color: var(--correct-color); color: white; border-color: var(--correct-color); }
+        .subQuestion.incorrect { background-color: var(--incorrect-color); color: white; border-color: var(--incorrect-color); }
+        .subQuestion.active { background-color: var(--input-focus); color: white; border-color: var(--input-focus); }
+
+        .footer__deliverButton___3FM07 {
+            margin-left: auto; margin-right: 20px; background-color: var(--part-header-bg);
+            color: var(--text-color); border: 1px solid var(--border-color); padding: 10px 16px;
+            font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex;
+            align-items: center; gap: 10px; transition: transform 0.08s ease, background-color 0.2s ease;
+            min-width: 160px; justify-content: center; border-radius: 4px;
+        }
+        .footer__deliverButton___3FM07:hover { background-color: var(--border-color); }
+        .footer__deliverButton___3FM07:active { transform: translateY(1px); }
+        .footer__deliverButton___3FM07:disabled { background: var(--part-header-bg); opacity: 0.5; color: var(--text-color); cursor: not-allowed; }
+
+        .hidden { display: none !important; }
+
+        .context-menu {
+            position: absolute; background: var(--modal-bg); border: 1px solid var(--border-color);
+            border-radius: 6px; box-shadow: 0 4px 12px var(--shadow-color); z-index: 1000;
+            display: none; min-width: 140px;
+        }
+        .context-menu-item {
+            padding: 12px 16px; cursor: pointer; font-size: 16px;
+            border-bottom: 1px solid var(--border-color); transition: background-color 0.2s;
+            display: flex; align-items: center; gap: 8px; color: var(--text-color);
+        }
+        .context-menu-item:hover { background-color: var(--part-header-bg); }
+        .context-menu-item:last-child { border-bottom: none; }
+
+        .highlight { background-color: var(--highlight-bg); color: #000; }
+        .comment-highlight { background-color: #90EE90; position: relative; cursor: help; color: #000; }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(17, 24, 39, 0.6); backdrop-filter: blur(3px);
+            z-index: 2000; display: flex; justify-content: center; align-items: center;
+        }
+        .modal-overlay.hidden { display: none; }
+        .modal-content {
+            background: var(--modal-bg); padding: 24px; border-radius: 14px;
+            width: 92%; max-width: 780px; max-height: 86vh; display: flex;
+            flex-direction: column; position: relative; border: 1px solid var(--border-color);
+            box-shadow: 0 20px 60px var(--shadow-color); color: var(--text-color);
+        }
+        .modal-close-btn { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 28px; cursor: pointer; color: var(--text-color); }
+        .modal-content h2 { text-align: center; margin-bottom: 18px; color: var(--text-color); }
+        .results-summary { display: flex; gap: 12px; justify-content: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
+        .results-summary p { margin: 0; font-size: 14px; color: var(--text-color); }
+        .results-summary p span { display: inline-block; padding: 4px 10px; margin-left: 6px; border-radius: 999px; background: var(--part-header-bg); font-weight: 700; color: var(--text-color); }
+
+        .results-details-container { overflow-y: auto; padding-right: 10px; border-radius: 8px; }
+        .result-row { display: grid; grid-template-columns: 56px 1fr 1fr 120px; gap: 12px; padding: 10px 8px; border-bottom: 1px solid var(--border-color); font-size: 15px; align-items: center; }
+        .result-row.correct { background-color: rgba(40, 167, 69, 0.1); }
+        .result-row.incorrect { background-color: rgba(220, 53, 69, 0.1); }
+        .result-row .q-num { font-weight: 700; color: var(--text-color); background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; width: 42px; height: 30px; display: inline-flex; align-items: center; justify-content: center; }
+        .result-row .user-ans { color: var(--text-color); background: var(--part-header-bg); border: 1px solid var(--border-color); padding: 4px 8px; border-radius: 6px; }
+        .result-row .correct-ans { color: var(--correct-color); font-weight: 600; background: rgba(40, 167, 69, 0.1); border: 1px solid var(--correct-color); padding: 4px 8px; border-radius: 6px; }
+        .status-badge { justify-self: end; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; border: 1px solid transparent; }
+        .status-badge.ok { background: rgba(40, 167, 69, 0.2); color: var(--correct-color); border-color: var(--correct-color); }
+        .status-badge.bad { background: rgba(220, 53, 69, 0.2); color: var(--incorrect-color); border-color: var(--incorrect-color); }
+        .correct-answer-display { font-weight: bold; color: var(--correct-color); margin-left: 10px; font-size: 14px; }
+
+        .summary-text p { margin-bottom: 12px; color: var(--text-color); }
+        .summary-text select.answer-input { min-width: 120px; cursor: pointer; }
+
+        body::after {
+            content: "@FOZILBEK_IELTS"; position: fixed; left: 50%; top: 50%;
+            transform: translate(-50%, -50%) rotate(-20deg); font-size: 72px;
+            font-weight: 800; letter-spacing: 2px; color: var(--text-color);
+            opacity: 0.04; pointer-events: none; z-index: 0; white-space: nowrap;
+            transition: color 0.3s;
+        }
+
+        .dark-mode-btn { position: relative; }
+        .dark-mode-btn .sun-icon, .dark-mode-btn .moon-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); transition: opacity 0.3s, transform 0.3s; }
+        .dark-mode-btn .moon-icon { opacity: 0; transform: translate(-50%, -50%) rotate(90deg); }
+        [data-theme="dark"] .dark-mode-btn .sun-icon { opacity: 0; transform: translate(-50%, -50%) rotate(-90deg); }
+        [data-theme="dark"] .dark-mode-btn .moon-icon { opacity: 1; transform: translate(-50%, -50%) rotate(0deg); }
+
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--panel-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--input-focus); }
+
+        .correct-answer-highlight { background-color: rgba(40, 167, 69, 0.25) !important; border-color: var(--correct-color) !important; }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="header">
+        <div class="header-left">
+            <img src="https://i.pinimg.com/736x/88/93/a8/8893a81fed78f6989142a13e3605c45e.jpg" alt="IELTS Logo" class="ielts-logo">
+            <a href="https://t.me/FOZILBEK_IELTS" target="_blank" class="telegram-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-.38.24-1.07.7-.96.66-1.89 1.28-1.89 1.28s-.17.11-.49.03c-.32-.08-.72-.26-1.16-.47-.54-.26-1.17-.53-1.17-.53s-.87-.55.62-1.14c.32-.13 1.96-.84 2.99-1.2 1.05-.37 2.86-1.01 2.86-1.01s1.02-.4 1.02 0z" fill="currentColor"/>
+                </svg>
+                @FOZILBEK_IELTS
+            </a>
+        </div>
+        <div class="header-right">
+            <div class="timer-container">
+                <span class="timer-display">20:00</span>
+                <div class="timer-controls">
+                    <button id="timer-toggle-btn" title="Pause/Resume Timer">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px">
+                            <path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/>
+                        </svg>
+                    </button>
+                    <button id="timer-reset-btn" title="Reset Timer">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px">
+                            <path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+                        </svg>
+                    </button>
+                </div>
+                <button class="dark-mode-btn" id="dark-mode-toggle" title="Toggle Dark Mode">
+                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container" id="main-container">
+        <div id="passage-header-container">
+            <div id="part-header-1" class="part-header">
+                <p><strong>Part 1</strong></p>
+                <p>Read the text and answer questions 1-13.</p>
+            </div>
+        </div>
+
+        <div class="panels-container">
+            <div class="passage-panel" id="passage-panel">
+                <div id="passage-text-1" class="reading-passage">
+                    <h4 class="text-center">A Brief History of Humans and Food</h4>
+                    <img src="https://i.pinimg.com/736x/ec/ff/f5/ecfff51c292733ab6e63a426d024246a.jpg" alt="Historical food preservation" class="passage-image" onerror="this.style.display='none'">
+                    <p>During the journey from our hunter-gatherer ancestors to the present day, there have been three seismic changes that have had an impact on the food we eat: the discovery of cooking, the emergence of agriculture and the invention of methods of preserving food.</p>
+                    <p>The 19th-century scientist Charles Darwin thought that cooking, after language, was the greatest discovery made by man. All of us eat some raw food, for instance fruit and vegetables, but the great majority of food we eat is cooked. Cooking can turn plants that are inedible into edible food by destroying toxic chemicals that plants often manufacture to protect themselves against attack by insects or other herbivorous animals. These toxic chemicals are referred to as 'plant secondary compounds', because they are not directly involved in the plant's normal growth, development and reproduction, and are produced purely as chemical defences. They give many of the plants we consume, such as coffee or Brussels sprouts, their bitter taste.</p>
+                    <p>Cooked food is often more digestible because heat breaks down tough cellulose cell walls in plants or tough connective tissue in animals. Chewing raw turnip, a plate of uncooked rice, or a raw leg of lamb is much harder work than eating the cooked equivalent. The energy expended in chewing to break down the tough material is replaced by energy from the fuel that is used in cooking the food. So, the ratio of energy gained to energy expended by the body is greater when food is cooked.</p>
+                    <p>Until the development of agriculture, hunter-gatherers spent up to seven hours a day gathering food. This all began to change around 10,500 years ago with the advent of farming, which led to some dramatic changes in human societies. People began to create a variety of new tools to help with survival, and in turn, populations increased in size. These changes led to the possibility of specialization of different tasks within society. It was around this time that writing became more sophisticated and allowed people to maintain records of the harvest and taxes. Eventually, formalised structures of government were established as people settled in one area.</p>
+                    <p>The arrival of agriculture meant that, for the first time, our ancestors had more food than they could eat immediately. This, combined with the seasonality of production, led them to discover methods of preserving food: smoking, drying, adding acid by fermentation or adding salt. These four methods all share one feature in common: they make the food a more hostile environment for bacteria that can cause it to spoil. They also tend to slow down any natural chemical reactions in the food that would cause decay.</p>
+                    <p>Although foods today are still preserved in the ancient ways, two more recent methods of preserving food have become more common: canning and freezing. Canning was invented by a Frenchman, Nicholas Appert, in the early 19th century. He sealed food in bottles fabricated from glass and then heated them in boiling water to cook the contents.</p>
+                    <p>Appert's method had great advantages over older methods of food preservation: it could be applied to a wide range of foods, and the flavour of the food as well as the texture were similar to the freshly cooked product. His idea was soon copied by Englishman Peter Durand. Until this point, containers had weighed too much to be widely used, but he produced the first ones which were light and resistant to damage. Two years later, in 1812, two Englishmen, Bryan Donkin and John Hall, started the commercial canning of food, although the real take-off in popularity of canning had to wait until the can opener was invented in 1855. Up to this time, cans were opened with a chisel which was used to break open the top when hit with a hammer. Canning is an extremely effective way of preserving food: one can which contained meat dating from 1824 was opened in 1939 and the contents were still in good condition.</p>
+                    <p>In the 21st century, the dominance of canning as a method of food preservation has been overtaken by another technology: freezing. Chilling food to keep it fresh is an old idea. The earliest mentions of icehouses, thick-walled buildings, half underground, date back to 1,700 BC in northwest Iran. In early 16th-century Italy, water was mixed with chemicals to lower its freezing point to -18 degrees Celsius, and several centuries later, frozen fish and other goods were transported by ship from Australia to England. But the modern frozen food industry was started in the 1920s by an American, Clarence Birdseye. While Birdseye was on a fishing trip with the Inuit in the Canadian Arctic, he observed that very rapid freezing creates smaller ice crystals and therefore causes less damage to food. This was something he had not expected. Nevertheless, the big growth in demand for frozen food came about with the arrival of freezers in the homes of ordinary people. The advantages of frozen over canned food include the fact that the flavour and consistency are often identical to the equivalent fresh product, and that freezing can be used to preserve a huge variety of foods.</p>
+                </div>
+            </div>
+
+            <div class="resizer" id="resizer"></div>
+
+            <div class="questions-panel" id="questions-panel">
+                <div id="questions-1" class="question-set">
+                    <div class="questions-container">
+
+                        <!-- Questions 1-5 TRUE/FALSE/NOT GIVEN -->
+                        <div class="question" data-q-start="1" data-q-end="5">
+                            <div class="question-prompt">
+                                <p><strong>Questions 1-5</strong></p>
+                                <p>Do the following statements agree with the information given in Reading Passage 1?</p>
+                                <p>In boxes 1-5 on your answer sheet, write<br>
+                                <strong>TRUE</strong> if the statement agrees with the information<br>
+                                <strong>FALSE</strong> if the statement contradicts the information<br>
+                                <strong>NOT GIVEN</strong> if there is no information on this</p>
+                            </div>
+                            <div class="tf-question" data-q-start="1" data-q-end="1">
+                                <div class="tf-question-line"><span class="tf-question-number">1</span><span class="tf-question-text">According to Darwin, cooking was the most significant development in human history.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q1" value="TRUE"> TRUE</label>
+                                    <label class="tf-option"><input type="radio" name="q1" value="FALSE"> FALSE</label>
+                                    <label class="tf-option"><input type="radio" name="q1" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+                            <div class="tf-question" data-q-start="2" data-q-end="2">
+                                <div class="tf-question-line"><span class="tf-question-number">2</span><span class="tf-question-text">The process of cooking gets rid of some plant poisons.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q2" value="TRUE"> TRUE</label>
+                                    <label class="tf-option"><input type="radio" name="q2" value="FALSE"> FALSE</label>
+                                    <label class="tf-option"><input type="radio" name="q2" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+                            <div class="tf-question" data-q-start="3" data-q-end="3">
+                                <div class="tf-question-line"><span class="tf-question-number">3</span><span class="tf-question-text">Eating cooked food is more energy efficient than eating raw food.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q3" value="TRUE"> TRUE</label>
+                                    <label class="tf-option"><input type="radio" name="q3" value="FALSE"> FALSE</label>
+                                    <label class="tf-option"><input type="radio" name="q3" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+                            <div class="tf-question" data-q-start="4" data-q-end="4">
+                                <div class="tf-question-line"><span class="tf-question-number">4</span><span class="tf-question-text">Clarence Birdseye had previously worked in the Australian food industry.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q4" value="TRUE"> TRUE</label>
+                                    <label class="tf-option"><input type="radio" name="q4" value="FALSE"> FALSE</label>
+                                    <label class="tf-option"><input type="radio" name="q4" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+                            <div class="tf-question" data-q-start="5" data-q-end="5">
+                                <div class="tf-question-line"><span class="tf-question-number">5</span><span class="tf-question-text">Birdseye's trip with the Inuit confirmed what he already believed about rapid freezing.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q5" value="TRUE"> TRUE</label>
+                                    <label class="tf-option"><input type="radio" name="q5" value="FALSE"> FALSE</label>
+                                    <label class="tf-option"><input type="radio" name="q5" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Questions 6-13 Notes Completion -->
+                        <div class="question" data-q-start="6" data-q-end="13">
+                            <div class="question-prompt">
+                                <p><strong>Questions 6-13</strong></p>
+                                <p>Complete the notes below.</p>
+                                <p>Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+                            </div>
+                            <div class="summary-text">
+                                <p><strong>The development of agriculture and food preservation</strong></p>
+                                <p>The changes agriculture brought about were:</p>
+                                <p>the development of equipment and larger <input type="text" class="answer-input" id="q6" placeholder="6"></p>
+                                <p>the ability to keep <input type="text" class="answer-input" id="q7" placeholder="7"> as writing developed</p>
+                                <p>the setting up of organised government</p>
+                                <p><strong>Food preservation</strong></p>
+                                <p>early methods of food preservation included: smoking, drying and combining food with acid or <input type="text" class="answer-input" id="q8" placeholder="8"></p>
+                                <p><strong>canning</strong></p>
+                                <p>Nicholas Appert put food into containers made of <input type="text" class="answer-input" id="q9" placeholder="9">.</p>
+                                <p>Appert's method resulted in preserved food that had the same taste and <input type="text" class="answer-input" id="q10" placeholder="10"> as fresh food</p>
+                                <p>Peter Durand introduced cans which had the advantage of being <input type="text" class="answer-input" id="q11" placeholder="11"> and hard to break</p>
+                                <p>in 1855, the metal can opener replaced the <input type="text" class="answer-input" id="q12" placeholder="12"> which had been used with a hammer to open cans</p>
+                                <p>some food was still found to be edible after more than a hundred years, e.g. an old can of <input type="text" class="answer-input" id="q13" placeholder="13"></p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-arrows">
+        <button class="nav-arrow prev" onclick="previousQuestion()" id="prevBtn" aria-label="Previous question">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <button class="nav-arrow next" onclick="nextQuestion()" id="nextBtn" aria-label="Next question">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+    </div>
+
+    <nav class="nav-row perScorableItem" aria-label="Questions">
+        <div class="footer__questionWrapper___1tZ46 selected multiple" role="tablist">
+            <button role="tab" class="footer__questionNo___3WNct" onclick="switchToPart(1)">
+                <span>
+                    <span aria-hidden="true" class="section-prefix">Part </span>
+                    <span class="sectionNr" aria-hidden="true">1</span>
+                    <span class="attemptedCount" aria-hidden="true">0 of 13</span>
+                </span>
+            </button>
+            <div class="footer__subquestionWrapper___9GgoP">
+                <button class="subQuestion scorable-item" onclick="goToQuestion(1)"><span class="sr-only">Question 1</span><span aria-hidden="true">1</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(2)"><span class="sr-only">Question 2</span><span aria-hidden="true">2</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(3)"><span class="sr-only">Question 3</span><span aria-hidden="true">3</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(4)"><span class="sr-only">Question 4</span><span aria-hidden="true">4</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(5)"><span class="sr-only">Question 5</span><span aria-hidden="true">5</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(6)"><span class="sr-only">Question 6</span><span aria-hidden="true">6</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(7)"><span class="sr-only">Question 7</span><span aria-hidden="true">7</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(8)"><span class="sr-only">Question 8</span><span aria-hidden="true">8</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(9)"><span class="sr-only">Question 9</span><span aria-hidden="true">9</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(10)"><span class="sr-only">Question 10</span><span aria-hidden="true">10</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(11)"><span class="sr-only">Question 11</span><span aria-hidden="true">11</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(12)"><span class="sr-only">Question 12</span><span aria-hidden="true">12</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(13)"><span class="sr-only">Question 13</span><span aria-hidden="true">13</span></button>
+            </div>
+        </div>
+        <button id="deliver-button" aria-label="Review your answers" class="footer__deliverButton___3FM07">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/>
+            </svg>
+            <span>Check Answers</span>
+        </button>
+    </nav>
+
+    <div id="contextMenu" class="context-menu">
+        <div id="menu-highlight" class="context-menu-item" onclick="highlightText()">Highlight</div>
+        <div id="menu-note" class="context-menu-item" onclick="addNote()">Note</div>
+        <div id="menu-clear" class="context-menu-item" onclick="clearHighlight()">Clear</div>
+    </div>
+
+    <div id="results-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeResultsModal()">&times;</button>
+            <h2>Results</h2>
+            <div class="results-summary">
+                <p>Score: <span id="results-score"></span> / 13</p>
+                <p>IELTS Band: <span id="results-band"></span></p>
+            </div>
+            <div id="results-details" class="results-details-container"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentPassage = 1;
+            let currentQuestion = 1;
+            let selectedRange = null;
+            let timeInSeconds = 1200; // 20 minutes
+            let timerInterval;
+            let activeQuestionElement = null;
+
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const body = document.body;
+            body.setAttribute('data-theme', 'light');
+            localStorage.removeItem('theme');
+
+            function toggleDarkMode() {
+                const isDark = body.getAttribute('data-theme') === 'dark';
+                body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+                localStorage.setItem('theme', isDark ? 'light' : 'dark');
+            }
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+
+            const timerDisplay = document.querySelector('.timer-display');
+            const timerToggleButton = document.getElementById('timer-toggle-btn');
+            const timerResetButton = document.getElementById('timer-reset-btn');
+            const deliverButton = document.getElementById('deliver-button');
+            const resizer = document.getElementById('resizer');
+            const passagePanel = document.getElementById('passage-panel');
+            const questionsPanel = document.getElementById('questions-panel');
+            const contextMenu = document.getElementById('contextMenu');
+
+            const playIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/></svg>';
+            const pauseIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+
+            const correctAnswers = {
+                '1': 'FALSE',
+                '2': 'TRUE',
+                '3': 'TRUE',
+                '4': 'NOT GIVEN',
+                '5': 'FALSE',
+                '6': 'populations',
+                '7': 'records',
+                '8': 'salt',
+                '9': 'glass',
+                '10': 'texture',
+                '11': 'light',
+                '12': 'chisel',
+                '13': 'meat'
+            };
+
+            function initialize() {
+                startTimer();
+                switchToPart(1);
+                document.body.addEventListener('input', updateAllIndicators);
+                document.body.addEventListener('change', updateAllIndicators);
+                deliverButton.addEventListener('click', checkAnswers);
+                timerToggleButton.addEventListener('click', toggleTimer);
+                timerResetButton.addEventListener('click', resetTimer);
+
+                document.querySelectorAll('[data-q-start]').forEach(el => {
+                    el.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        const qNum = parseInt(el.dataset.qStart, 10);
+                        const qEnd = parseInt(el.dataset.qEnd, 10);
+                        if (isNaN(qNum)) return;
+                        if (qNum === qEnd || el.classList.contains('tf-question')) {
+                            if (currentQuestion !== qNum) goToQuestion(qNum);
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.answer-input[id^="q"]').forEach(input => {
+                    input.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        const qNum = parseInt(input.id.replace('q', ''), 10);
+                        if (currentQuestion !== qNum) goToQuestion(qNum);
+                    });
+                });
+
+                document.querySelectorAll('.summary-text p').forEach(p => {
+                    p.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        const strongElement = p.querySelector('strong');
+                        if (strongElement) {
+                            const qNum = parseInt(strongElement.textContent, 10);
+                            if (!isNaN(qNum) && currentQuestion !== qNum) goToQuestion(qNum);
+                        }
+                    });
+                });
+
+                resizer.addEventListener('mousedown', initResize, false);
+                initializeContextMenu();
+                updateAllIndicators();
+
+                document.querySelectorAll('.answer-input').forEach(inputEl => {
+                    const attach = (evtName) => inputEl.addEventListener(evtName, () => {
+                        const id = inputEl.id || '';
+                        if (id.startsWith('q')) {
+                            const qNum = parseInt(id.replace('q', ''), 10);
+                            if (!isNaN(qNum)) goToQuestion(qNum);
+                        }
+                    });
+                    attach('focus'); attach('click'); attach('input'); attach('change');
+                });
+
+                document.querySelectorAll('input[type="radio"]').forEach(radioEl => {
+                    const update = () => {
+                        const name = radioEl.name || '';
+                        if (name.startsWith('q')) {
+                            const qNum = parseInt(name.replace('q', ''), 10);
+                            if (!isNaN(qNum)) goToQuestion(qNum);
+                        }
+                    };
+                    radioEl.addEventListener('focus', update);
+                    radioEl.addEventListener('change', update);
+                    radioEl.addEventListener('click', update);
+                });
+            }
+
+            function checkAnswers() {
+                document.querySelectorAll('input, select, textarea').forEach(input => { input.disabled = true; });
+                deliverButton.disabled = true;
+                deliverButton.style.cursor = 'not-allowed';
+                clearInterval(timerInterval);
+
+                let score = 0;
+                const resultsContainer = document.getElementById('results-details');
+                resultsContainer.innerHTML = '';
+                document.querySelectorAll('.correct, .incorrect, .correct-answer-highlight').forEach(el => el.classList.remove('correct', 'incorrect', 'correct-answer-highlight'));
+                document.querySelectorAll('.correct-answer-display').forEach(el => el.remove());
+
+                for (let i = 1; i <= 13; i++) {
+                    const key = String(i);
+                    const correct = correctAnswers[key];
+                    let userAnswer = '';
+                    let isCorrect = false;
+                    let userDisplay = 'Not Answered';
+
+                    const textInput = document.getElementById(`q${i}`);
+                    const radioGroup = document.querySelectorAll(`input[name="q${i}"][type="radio"]`);
+
+                    if (textInput && (textInput.tagName === 'INPUT' || textInput.tagName === 'SELECT')) {
+                        userAnswer = textInput.value.trim();
+                        userDisplay = userAnswer || 'Not Answered';
+                        const norm = s => (s||'').toString().toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,' ').trim();
+                        isCorrect = norm(correct) === norm(userAnswer);
+                        if (isCorrect) { score++; textInput.classList.add('correct'); }
+                        else {
+                            textInput.classList.add('incorrect');
+                            const span = document.createElement('span');
+                            span.className = 'correct-answer-display';
+                            span.innerHTML = `&nbsp;➜&nbsp;<span class="correct-answer-highlight">${correct}</span>`;
+                            textInput.parentNode.insertBefore(span, textInput.nextSibling);
+                        }
+                    } else if (radioGroup.length > 0) {
+                        const checked = document.querySelector(`input[name="q${i}"]:checked`);
+                        if (checked) {
+                            userAnswer = checked.value;
+                            userDisplay = userAnswer;
+                            isCorrect = userAnswer === correct;
+                            const label = checked.closest('.tf-option');
+                            if (label) label.classList.add(isCorrect ? 'correct' : 'incorrect');
+                            if (isCorrect) score++;
+                            else {
+                                const correctRadio = document.querySelector(`input[name="q${i}"][value="${correct}"]`);
+                                if (correctRadio) {
+                                    const correctLabel = correctRadio.closest('.tf-option');
+                                    if (correctLabel) correctLabel.classList.add('correct-answer-highlight');
+                                }
+                            }
+                        }
+                    }
+
+                    const row = `<div class="result-row ${isCorrect ? 'correct' : 'incorrect'}">
+                        <span class="q-num">${i}</span>
+                        <span class="user-ans">${userDisplay}</span>
+                        <span class="correct-ans">${correct}</span>
+                        <span class="status-badge ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? 'Correct' : 'Incorrect'}</span>
+                    </div>`;
+                    resultsContainer.innerHTML += row;
+
+                    const navBtn = document.querySelector(`.subQuestion[onclick="goToQuestion(${i})"]`);
+                    if (navBtn) { navBtn.classList.remove('answered','active'); navBtn.classList.add(isCorrect ? 'correct' : 'incorrect'); }
+                }
+
+                document.getElementById('results-score').textContent = score;
+                document.getElementById('results-band').textContent = calculateBand(score);
+                document.body.classList.add('results-mode');
+                document.getElementById('results-modal').classList.remove('hidden');
+
+                deliverButton.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg><span>My Result</span>`;
+                deliverButton.style.backgroundColor = '#4CAF50'; deliverButton.style.color = 'white'; deliverButton.style.borderColor = '#4CAF50';
+                deliverButton.disabled = false; deliverButton.style.cursor = 'pointer';
+                deliverButton.removeEventListener('click', checkAnswers);
+                deliverButton.addEventListener('click', showResultsModal);
+                highlightPassageAnswers();
+            }
+
+            function calculateBand(score) {
+                const map = {13:9,12:8.5,11:8,10:7.5,9:7,8:6.5,7:6,6:5.5,5:5,4:4.5,3:4,2:3.5,1:3,0:2.5};
+                return map[score] || 0;
+            }
+
+            function highlightPassageAnswers() {
+                const passage = document.getElementById('passage-text-1');
+                if (!passage) return;
+                const highlights = [
+                    { q:1, t:'after language' },{ q:2, t:'destroying toxic chemicals' },{ q:3, t:'ratio of energy gained to energy expended' },
+                    { q:4, t:'Australian' },{ q:5, t:'he had not expected' },{ q:6, t:'populations increased' },
+                    { q:7, t:'maintain records' },{ q:8, t:'adding salt' },{ q:9, t:'fabricated from glass' },
+                    { q:10, t:'the texture' },{ q:11, t:'light' },{ q:12, t:'chisel' },{ q:13, t:'meat' }
+                ];
+                passage.querySelectorAll('.answer-highlight').forEach(el => {
+                    const parent = el.parentNode;
+                    parent.replaceChild(document.createTextNode(el.textContent), el);
+                    parent.normalize();
+                });
+                highlights.forEach(h => {
+                    const ps = passage.querySelectorAll('p');
+                    ps.forEach(p => {
+                        if (p.innerHTML.toLowerCase().includes(h.t.toLowerCase())) {
+                            const re = new RegExp(h.t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+                            p.innerHTML = p.innerHTML.replace(re, `<span class="answer-highlight" style="background:#ffeb3b;padding:2px 4px;border-radius:3px;font-weight:bold;color:#000;">${h.t}</span>`);
+                        }
+                    });
+                });
+            }
+
+            function showResultsModal() { document.getElementById('results-modal').classList.remove('hidden'); }
+            window.closeResultsModal = () => { document.getElementById('results-modal').classList.add('hidden'); document.body.classList.remove('results-mode'); };
+
+            function switchToPart(part) {
+                currentPassage = part;
+                document.querySelectorAll('.reading-passage, .question-set, .part-header').forEach(el => el.classList.add('hidden'));
+                document.getElementById(`passage-text-${part}`).classList.remove('hidden');
+                document.getElementById(`questions-${part}`).classList.remove('hidden');
+                document.getElementById(`part-header-${part}`).classList.remove('hidden');
+                document.querySelectorAll('.footer__questionWrapper___1tZ46').forEach((w,i) => w.classList.toggle('selected', i+1 === part));
+                goToQuestion(1);
+            }
+
+            function goToQuestion(num) {
+                currentQuestion = num;
+                if (activeQuestionElement) {
+                    activeQuestionElement.classList.remove('active-question','active-input');
+                    const block = activeQuestionElement.closest('[data-q-start]');
+                    if (block) block.classList.remove('active-question');
+                }
+                let target = document.getElementById(`q${num}`);
+                if (target) {
+                    activeQuestionElement = target;
+                    target.classList.add('active-input');
+                    scrollTo(target);
+                } else {
+                    target = document.querySelector(`[data-q-start="${num}"]`);
+                    if (target) {
+                        activeQuestionElement = target;
+                        target.classList.add('active-question');
+                        scrollTo(target);
+                    }
+                }
+                updateNavigation();
+            }
+
+            function updateNavigation() {
+                document.querySelectorAll('.subQuestion').forEach(b => b.classList.remove('active'));
+                const activeNav = document.querySelector(`.subQuestion[onclick="goToQuestion(${currentQuestion})"]`);
+                if (activeNav) activeNav.classList.add('active');
+                const activeInput = document.getElementById(`q${currentQuestion}`);
+                if (activeInput) { activeInput.classList.add('active-input'); activeInput.focus(); }
+                else {
+                    const block = document.querySelector(`[data-q-start="${currentQuestion}"]`);
+                    if (block) {
+                        block.classList.add('active-question');
+                        const first = block.querySelector('input, select');
+                        if (first) { first.classList.add('active-input'); first.focus(); }
+                    }
+                }
+            }
+
+            window.nextQuestion = () => currentQuestion < 13 && goToQuestion(currentQuestion + 1);
+            window.previousQuestion = () => currentQuestion > 1 && goToQuestion(currentQuestion - 1);
+
+            function updateAllIndicators() {
+                updateAttemptedCount(1, 1, 13);
+                updateAnsweredNav();
+            }
+
+            function updateAnsweredNav() {
+                document.querySelectorAll('.subQuestion').forEach(btn => {
+                    const match = (btn.getAttribute('onclick')||'').match(/goToQuestion\((\d+)\)/);
+                    const num = match ? parseInt(match[1]) : NaN;
+                    if (!isNaN(num)) btn.classList.toggle('answered', isAnswered(num));
+                });
+            }
+
+            function isAnswered(num) {
+                const input = document.getElementById(`q${num}`);
+                if (input && input.value.trim() !== '') return true;
+                return !!document.querySelector(`input[name="q${num}"]:checked`);
+            }
+
+            function scrollTo(el) {
+                const panel = el.closest('.questions-panel, .passage-panel');
+                const pRect = panel.getBoundingClientRect();
+                const eRect = el.getBoundingClientRect();
+                if (eRect.top < pRect.top || eRect.bottom > pRect.bottom) el.scrollIntoView({ behavior:'smooth', block:'center' });
+            }
+
+            function startTimer() {
+                clearInterval(timerInterval);
+                timerInterval = setInterval(() => {
+                    timeInSeconds--;
+                    const m = Math.floor(timeInSeconds/60), s = timeInSeconds%60;
+                    timerDisplay.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+                    if (timeInSeconds <= 0) { clearInterval(timerInterval); timerDisplay.textContent = "Time's up!"; }
+                }, 1000);
+                timerToggleButton.innerHTML = pauseIcon;
+            }
+            function pauseTimer() { clearInterval(timerInterval); timerToggleButton.innerHTML = playIcon; }
+            function toggleTimer() { timerToggleButton.innerHTML.includes('M6 19h4V5H6v14z') ? pauseTimer() : startTimer(); }
+            function resetTimer() { timeInSeconds = 1200; timerDisplay.textContent = '20:00'; startTimer(); }
+
+            function initResize(e) {
+                e.preventDefault();
+                const startX = e.clientX, startW = passagePanel.offsetWidth;
+                const drag = (e) => { const w = startW + e.clientX - startX; if (w>200 && document.body.clientWidth-w-resizer.offsetWidth>200) passagePanel.style.flex = `0 0 ${w}px`; };
+                const stop = () => { window.removeEventListener('mousemove', drag); window.removeEventListener('mouseup', stop); };
+                window.addEventListener('mousemove', drag); window.addEventListener('mouseup', stop);
+            }
+
+            function initializeContextMenu() {
+                const panels = [passagePanel, questionsPanel];
+                document.addEventListener('selectionchange', () => {
+                    const sel = window.getSelection();
+                    if (sel && !sel.isCollapsed && sel.toString().trim().length>0) {
+                        const range = sel.getRangeAt(0);
+                        if (panels.some(p => p.contains(range.commonAncestorContainer))) selectedRange = range;
+                    }
+                });
+                const show = (e) => {
+                    const target = e.target;
+                    const onHighlight = target.closest('.highlight,.comment-highlight');
+                    const hasSel = selectedRange && selectedRange.toString().trim().length>0;
+                    let showMenu = false;
+                    if (onHighlight) {
+                        document.getElementById('menu-highlight').style.display='none';
+                        document.getElementById('menu-note').style.display='none';
+                        document.getElementById('menu-clear').style.display='block';
+                        contextMenu.targetElementForClear = onHighlight;
+                        showMenu = true;
+                    } else if (hasSel && panels.some(p=>p.contains(selectedRange.commonAncestorContainer))) {
+                        document.getElementById('menu-highlight').style.display='flex';
+                        document.getElementById('menu-note').style.display='flex';
+                        document.getElementById('menu-clear').style.display='none';
+                        showMenu = true;
+                    }
+                    if (showMenu) {
+                        e.preventDefault();
+                        contextMenu.style.display='block';
+                        const mH = contextMenu.offsetHeight, mW = contextMenu.offsetWidth;
+                        let l = e.pageX, t = e.pageY;
+                        if (l+mW>window.innerWidth) l = window.innerWidth-mW-5;
+                        if (t+mH>window.innerHeight) t = e.pageY-mH-5; else t = e.pageY-mH-5;
+                        contextMenu.style.left = l+'px'; contextMenu.style.top = t+'px';
+                    }
+                };
+                panels.forEach(p => p.addEventListener('contextmenu', show));
+                document.addEventListener('click', (e) => { if (contextMenu.style.display==='block' && !contextMenu.contains(e.target)) closeContextMenu(); });
+            }
+
+            function closeContextMenu() { contextMenu.style.display='none'; selectedRange=null; }
+            function unwrap(el) { const p=el.parentNode; while(el.firstChild) p.insertBefore(el.firstChild,el); p.removeChild(el); p.normalize(); }
+
+            window.highlightText = () => {
+                if (selectedRange && !selectedRange.collapsed) {
+                    const span = document.createElement('span'); span.className='highlight'; span.appendChild(selectedRange.extractContents()); selectedRange.insertNode(span);
+                }
+                closeContextMenu(); window.getSelection().removeAllRanges();
+            };
+            window.addNote = () => {
+                const note = prompt('Enter your note:');
+                if (note && selectedRange && !selectedRange.collapsed) {
+                    const span = document.createElement('span'); span.className='comment-highlight'; span.appendChild(selectedRange.extractContents()); selectedRange.insertNode(span);
+                }
+                closeContextMenu(); window.getSelection().removeAllRanges();
+            };
+            window.clearHighlight = () => {
+                if (contextMenu.targetElementForClear) unwrap(contextMenu.targetElementForClear);
+                closeContextMenu(); window.getSelection().removeAllRanges();
+            };
+
+            function updateAttemptedCount(part, start, end) {
+                let count = 0;
+                for (let i=start; i<=end; i++) if (isAnswered(i)) count++;
+                const header = document.querySelector(`.footer__questionNo___3WNct[onclick="switchToPart(${part})"]`);
+                if (header) { const span = header.querySelector('.attemptedCount'); if (span) span.textContent = `${count} of ${end-start+1}`; }
+            }
+
+            window.nextQuestion = nextQuestion; window.previousQuestion = previousQuestion;
+            window.goToQuestion = goToQuestion; window.switchToPart = switchToPart;
+            window.closeResultsModal = closeResultsModal; window.highlightText = highlightText;
+            window.addNote = addNote; window.clearHighlight = clearHighlight;
+
+            initialize();
+        });
+    </script>
+</body>
+</html>

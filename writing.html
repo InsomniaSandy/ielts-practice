@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Writing</title>
+<link rel="stylesheet" href="/assets/exam.css">
+</head>
+
+<body>
+
+<h1>✍️ Writing</h1>
+
+<div class="section" id="list"></div>
+
+<script>
+fetch("/api/writing")
+.then(res => res.json())
+.then(data => {
+
+    const box = document.getElementById("list");
+
+    const colors = ["blue", "pink", "green", "purple", "orange"];
+
+    data.forEach((file, i) => {
+        const a = document.createElement("a");
+        a.className = "item";
+        a.href = "/" + file.path;
+        a.innerHTML = `<span class="num">${i + 1}</span> Test ${i + 1}`;
+        box.appendChild(a);
+    });
+
+});
+</script>
+
+</body>
+</html>

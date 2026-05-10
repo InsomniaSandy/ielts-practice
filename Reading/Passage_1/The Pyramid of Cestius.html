@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Full Reading Practice - Pyramid of Cestius</title>
+    <style>
+        /* CSS Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* LIGHT MODE COLORS (DEFAULT) */
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --header-bg: #ffffff;
+            --border-color: #e0e0e0;
+            --panel-bg: #ffffff;
+            --question-bg: #ffffff;
+            --input-bg: #ffffff;
+            --input-border: #bfbfbf;
+            --input-focus: #3581d8;
+            --correct-color: #28a745;
+            --incorrect-color: #dc3545;
+            --highlight-bg: #ffff00;
+            --modal-bg: #ffffff;
+            --nav-bg: #ffffff;
+            --resizer-bg: #f0f0f0;
+            --part-header-bg: #f1f2ec;
+            --timer-bg: #f0f0f0;
+            --link-color: #1e88e5;
+            --shadow-color: rgba(0,0,0,0.1);
+            --table-border: #ddd;
+            --table-header-bg: #007bff;
+            --table-cell-bg: #fafafa;
+            --drop-zone-bg: #f9f9f9;
+            --drag-item-bg: #ffffff;
+            --logo-brightness: 1;
+        }
+
+        [data-theme="dark"] {
+            /* DARK MODE COLORS (ONLY APPLIED WHEN TOGGLED) */
+            --bg-color: #1a1a1a;
+            --text-color: #e0e0e0;
+            --header-bg: #2d2d2d;
+            --border-color: #444444;
+            --panel-bg: #2d2d2d;
+            --question-bg: #333333;
+            --input-bg: #3a3a3a;
+            --input-border: #555555;
+            --input-focus: #4a90e2;
+            --correct-color: #2ecc71;
+            --incorrect-color: #e74c3c;
+            --highlight-bg: #ffeb3b;
+            --modal-bg: #2d2d2d;
+            --nav-bg: #2d2d2d;
+            --resizer-bg: #444444;
+            --part-header-bg: #3a3a3a;
+            --timer-bg: #444444;
+            --link-color: #64b5f6;
+            --shadow-color: rgba(0,0,0,0.3);
+            --table-border: #555;
+            --table-header-bg: #0056b3;
+            --table-cell-bg: #3a3a3a;
+            --drop-zone-bg: #3a3a3a;
+            --drag-item-bg: #444444;
+            --logo-brightness: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.4;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: var(--header-bg);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 60px;
+            transition: all 0.3s;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .ielts-logo {
+            height: 30px;
+            width: auto;
+            filter: brightness(var(--logo-brightness, 1));
+        }
+
+        .telegram-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: var(--link-color);
+            font-weight: bold;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .telegram-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Timer Container */
+        .timer-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .timer-display {
+            font-weight: 600;
+            min-width: 60px;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .timer-controls button,
+        .dark-mode-btn {
+            background: var(--timer-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .timer-controls button:hover,
+        .dark-mode-btn:hover {
+            background: var(--border-color);
+            transform: scale(1.05);
+        }
+
+        .timer-controls button svg,
+        .dark-mode-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--text-color);
+            transition: fill 0.3s;
+        }
+
+        /* Main Container */
+        .main-container {
+            margin-top: 60px;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-color);
+            height: calc(100vh - 60px);
+            position: relative;
+        }
+
+        .panels-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .passage-panel,
+        .questions-panel {
+            flex: 1;
+            padding: 20px 20px 100px;
+            overflow-y: auto;
+            min-width: 200px;
+            background-color: var(--panel-bg);
+            transition: background-color 0.3s;
+        }
+
+        .questions-panel {
+            border-left: 1px solid var(--border-color);
+        }
+
+        /* Resizer */
+        .resizer {
+            width: 10px;
+            cursor: col-resize;
+            background-color: var(--resizer-bg);
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23888"/></svg>');
+            background-repeat: no-repeat;
+            background-position: center;
+            flex-shrink: 0;
+            flex-grow: 0;
+            transition: background-color 0.3s;
+        }
+
+        [data-theme="dark"] .resizer {
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23aaa"/></svg>');
+        }
+
+        /* Passage Content */
+        .text-center {
+            text-align: center;
+        }
+
+        .reading-passage h4 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            color: var(--text-color);
+        }
+
+        .reading-passage p {
+            margin-bottom: 1.2em;
+            color: var(--text-color);
+        }
+
+        .reading-passage strong {
+            color: var(--text-color);
+        }
+
+        /* Question Styles */
+        .question {
+            margin-bottom: 40px;
+        }
+
+        .question-prompt {
+            margin-bottom: 20px;
+        }
+
+        .question-prompt p {
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .question ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .question ul li {
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
+        /* Answer Inputs */
+        .answer-input {
+            border: 1px solid var(--input-border);
+            border-radius: 4px;
+            background-color: var(--input-bg);
+            padding: 2px 8px;
+            font-size: 16px;
+            text-align: left;
+            font-weight: 700;
+            margin-right: 6px;
+            margin-left: 6px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s, color 0.3s;
+            height: 28px;
+            min-width: 150px;
+            color: var(--text-color);
+        }
+
+        .answer-input.active-input,
+        .answer-input:focus {
+            border-color: var(--input-focus);
+            border-width: 2px;
+            outline: none;
+        }
+
+        .answer-input::placeholder {
+            color: var(--text-color);
+            opacity: 0.7;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .answer-input.correct {
+            border-color: var(--correct-color);
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+
+        .answer-input.incorrect {
+            border-color: var(--incorrect-color);
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--text-color);
+        }
+
+        /* Part Header */
+        .part-header {
+            background-color: var(--part-header-bg);
+            padding: 15px 20px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+            margin: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .part-header p {
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        .part-header p:first-child {
+            margin-bottom: 5px;
+        }
+
+        /* TRUE/FALSE/NOT GIVEN Questions */
+        .tf-question {
+            margin-bottom: 25px;
+            padding: 10px 0px;
+            border-radius: 4px;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        .tf-question-line {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 5px 0px;
+            border-radius: 4px;
+        }
+
+        .tf-question-number {
+            border: 2px solid var(--border-color);
+            padding: 2px 8px;
+            margin-right: 10px;
+            border-radius: 3px;
+            font-weight: bold;
+            transition: border-color 0.3s;
+            display: inline-block;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        .tf-question.active-question .tf-question-number {
+            border-color: var(--input-focus);
+        }
+
+        .tf-question-text {
+            padding-top: 3px;
+            color: var(--text-color);
+        }
+
+        .tf-options {
+            padding-left: 5px;
+        }
+
+        .tf-option {
+            display: block;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
+        .tf-option:hover {
+            background-color: var(--part-header-bg);
+        }
+
+        .tf-option:has(input[type="radio"]:checked) {
+            background-color: rgba(74, 144, 226, 0.2);
+            border-color: var(--input-focus);
+        }
+
+        .tf-option.correct {
+            background-color: rgba(40, 167, 69, 0.2) !important;
+            border-color: var(--correct-color) !important;
+        }
+
+        .tf-option.incorrect {
+            background-color: rgba(220, 53, 69, 0.2) !important;
+            border-color: var(--incorrect-color) !important;
+        }
+
+        .tf-option input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+            accent-color: var(--input-focus);
+        }
+
+        /* Navigation Arrows */
+        .nav-arrows {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            display: flex;
+            gap: 6px;
+            z-index: 101;
+        }
+
+        .nav-arrow {
+            width: 48px;
+            height: 48px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            transition: transform 0.1s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 6px var(--shadow-color);
+            outline: none;
+            border-radius: 50%;
+        }
+
+        .nav-arrow.prev { background-color: #4b5563; }
+        .nav-arrow.next { background-color: #000000; }
+
+        [data-theme="dark"] .nav-arrow.prev { background-color: #6b7280; }
+        [data-theme="dark"] .nav-arrow.next { background-color: #333333; }
+
+        .nav-arrow:hover { transform: translateY(-1px); }
+        .nav-arrow:active { transform: translateY(0); }
+
+        /* Bottom Navigation */
+        .nav-row {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--nav-bg);
+            padding: 0;
+            display: flex;
+            align-items: center;
+            height: 80px;
+            z-index: 100;
+            border-top: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+
+        .footer__questionWrapper___1tZ46 {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .footer__questionNo___3WNct {
+            background: none;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.2s;
+            border-radius: 4px;
+        }
+
+        .footer__questionNo___3WNct:hover {
+            background-color: var(--part-header-bg);
+        }
+
+        .section-prefix {
+            font-size: 16px;
+            color: var(--text-color);
+        }
+
+        .sectionNr {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .attemptedCount {
+            font-size: 14px;
+            color: var(--text-color);
+            opacity: 0.7;
+            margin-left: 5px;
+            font-weight: 400;
+        }
+
+        .footer__subquestionWrapper___9GgoP {
+            display: none;
+            gap: 2px;
+            margin-left: 10px;
+        }
+
+        .footer__questionWrapper___1tZ46.selected .footer__subquestionWrapper___9GgoP {
+            display: flex;
+        }
+
+        .subQuestion {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            color: var(--text-color);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            border-radius: 2px;
+        }
+
+        .subQuestion:hover {
+            background-color: var(--part-header-bg);
+            border-color: var(--input-focus);
+        }
+
+        .subQuestion.answered {
+            background-color: var(--part-header-bg);
+            border-color: var(--border-color);
+        }
+
+        .subQuestion.correct {
+            background-color: var(--correct-color);
+            color: white;
+            border-color: var(--correct-color);
+        }
+
+        .subQuestion.incorrect {
+            background-color: var(--incorrect-color);
+            color: white;
+            border-color: var(--incorrect-color);
+        }
+
+        .subQuestion.active {
+            background-color: var(--input-focus);
+            color: white;
+            border-color: var(--input-focus);
+        }
+
+        /* Submit Button */
+        .footer__deliverButton___3FM07 {
+            margin-left: auto;
+            margin-right: 20px;
+            background-color: var(--part-header-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 10px 16px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.08s ease, background-color 0.2s ease, border-color 0.2s ease;
+            min-width: 160px;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .footer__deliverButton___3FM07:hover {
+            background-color: var(--border-color);
+        }
+
+        .footer__deliverButton___3FM07:active {
+            transform: translateY(1px);
+        }
+
+        .footer__deliverButton___3FM07:disabled {
+            background: var(--part-header-bg);
+            opacity: 0.5;
+            color: var(--text-color);
+            cursor: not-allowed;
+            border-color: var(--border-color);
+        }
+
+        /* Hidden Class */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Context Menu */
+        .context-menu {
+            position: absolute;
+            background: var(--modal-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            z-index: 1000;
+            display: none;
+            min-width: 140px;
+        }
+
+        .context-menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            font-size: 16px;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-color);
+        }
+
+        .context-menu-item:hover {
+            background-color: var(--part-header-bg);
+        }
+
+        .context-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Highlighting */
+        .highlight {
+            background-color: var(--highlight-bg);
+            color: #000;
+        }
+
+        .comment-highlight {
+            background-color: #90EE90;
+            position: relative;
+            cursor: help;
+            color: #000;
+        }
+
+        /* Results Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(17, 24, 39, 0.6);
+            backdrop-filter: blur(3px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.hidden {
+            display: none;
+        }
+
+        .modal-content {
+            background: var(--modal-bg);
+            padding: 24px;
+            border-radius: 14px;
+            width: 92%;
+            max-width: 780px;
+            max-height: 86vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 60px var(--shadow-color);
+            color: var(--text-color);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .modal-content h2 {
+            text-align: center;
+            margin-bottom: 18px;
+            color: var(--text-color);
+        }
+
+        .results-summary {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 16px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .results-summary p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .results-summary p span {
+            display: inline-block;
+            padding: 4px 10px;
+            margin-left: 6px;
+            border-radius: 999px;
+            background: var(--part-header-bg);
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .results-details-container {
+            overflow-y: auto;
+            padding-right: 10px;
+            border-radius: 8px;
+        }
+
+        .result-row {
+            display: grid;
+            grid-template-columns: 56px 1fr 1fr 120px;
+            gap: 12px;
+            padding: 10px 8px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 15px;
+            align-items: center;
+        }
+
+        .result-row.correct {
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+
+        .result-row.incorrect {
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+
+        .result-row .q-num {
+            font-weight: 700;
+            color: var(--text-color);
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            width: 42px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .result-row .user-ans {
+            color: var(--text-color);
+            background: var(--part-header-bg);
+            border: 1px solid var(--border-color);
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .result-row .correct-ans {
+            color: var(--correct-color);
+            font-weight: 600;
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid var(--correct-color);
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .status-badge {
+            justify-self: end;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            border: 1px solid transparent;
+        }
+
+        .status-badge.ok {
+            background: rgba(40, 167, 69, 0.2);
+            color: var(--correct-color);
+            border-color: var(--correct-color);
+        }
+
+        .status-badge.bad {
+            background: rgba(220, 53, 69, 0.2);
+            color: var(--incorrect-color);
+            border-color: var(--incorrect-color);
+        }
+
+        .correct-answer-display {
+            font-weight: bold;
+            color: var(--correct-color);
+            margin-left: 10px;
+            font-size: 14px;
+        }
+
+        /* Page watermark */
+        body::after {
+            content: "@FOZILBEK_IELTS";
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-20deg);
+            font-size: 72px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-color);
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 0;
+            white-space: nowrap;
+            transition: color 0.3s;
+        }
+
+        /* Dark mode icon specific styles */
+        .dark-mode-btn {
+            position: relative;
+        }
+
+        .dark-mode-btn .sun-icon,
+        .dark-mode-btn .moon-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .dark-mode-btn .moon-icon {
+            opacity: 0;
+            transform: translate(-50%, -50%) rotate(90deg);
+        }
+
+        [data-theme="dark"] .dark-mode-btn .sun-icon {
+            opacity: 0;
+            transform: translate(-50%, -50%) rotate(-90deg);
+        }
+
+        [data-theme="dark"] .dark-mode-btn .moon-icon {
+            opacity: 1;
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--panel-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--input-focus);
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <!-- Header with Dark Mode Button -->
+    <div class="header">
+        <div class="header-left">
+            <img src="https://d2snzxottmona5.cloudfront.net/releases/3.46.0/images/logo/ielts.svg" alt="IELTS Logo" class="ielts-logo">
+            <a href="https://t.me/FOZILBEK_IELTS" target="_blank" class="telegram-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-.38.24-1.07.7-.96.66-1.89 1.28-1.89 1.28s-.17.11-.49.03c-.32-.08-.72-.26-1.16-.47-.54-.26-1.17-.53-1.17-.53s-.87-.55.62-1.14c.32-.13 1.96-.84 2.99-1.2 1.05-.37 2.86-1.01 2.86-1.01s1.02-.4 1.02 0z" fill="currentColor"/>
+                </svg>
+                @FOZILBEK_IELTS
+            </a>
+        </div>
+        <div class="header-right">
+            <div class="timer-container">
+                <span class="timer-display">60:00</span>
+                <div class="timer-controls">
+                    <button id="timer-toggle-btn" title="Pause/Resume Timer">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px">
+                            <path d="M0 0h24v24H0V0z" fill="none"/>
+                            <path d="M8 5v14l11-7L8 5z"/>
+                        </svg>
+                    </button>
+                    <button id="timer-reset-btn" title="Reset Timer">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px">
+                            <path d="M0 0h24v24H0V0z" fill="none"/>
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Dark Mode Button -->
+                <button class="dark-mode-btn" id="dark-mode-toggle" title="Toggle Dark Mode">
+                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container" id="main-container">
+        <div id="passage-header-container">
+            <div id="part-header-1" class="part-header">
+                <p><strong>Part 1</strong></p>
+                <p>Read the text and answer questions 1-13.</p>
+            </div>
+        </div>
+        <div class="panels-container">
+            <div class="passage-panel" id="passage-panel">
+                <!-- PASSAGE 1: The Pyramid of Cestius -->
+                <div id="passage-text-1" class="reading-passage">
+                    <h4 class="text-center">The Pyramid of Cestius</h4>
+                    <p><strong>A</strong> Though Rome draws tourists from around the world to its many impressive sites, one notable monument there has never attracted nearly as much interest: The Pyramid of Cestius. But why would there be a pyramid in Italy? After the Roman conquest of Egypt in 30 B.C., Egyptian architectural style became the fashion in Rome. Though obelisks and other monuments inspired by Egypt's great pyramids sprung up around the city, only two actual pyramids are known to have been built. The only one left standing, the Pyramid of Cestius, was designed as the burial pyramid for a Roman politician named Caius Cestius, who ordered that the building work be completed within a period of 330 days.</p>
+                    <p><strong>B</strong> Construction took place at some point between 18 B.C. and 12 B.C. Cestius pyramid had a layer of white Carrara marble on the outside, and was constructed from brick held together by a basic kind of cement on the inside. One of the things that strikes you when you look at the pyramid is how steep it is, so that the shape of Cestius pyramid is quite unlike that of typical Egyptian ones. This is a difference that could have been the result of inaccurate information sent back to Rome by soldiers who saw the pyramids in person in Egypt. Alternatively, Roman builders could have drawn inspiration from the pyramids in Nubia, a region located in what is today northern Sudan and southern Egypt.</p>
+                    <p><strong>C</strong> At the time of its construction, since there was a strict Roman law prohibiting the placement of tombs within the city itself, the Pyramid of Cestius would have stood in countryside. Rome grew enormously during the next two centuries, and, by the 3rd century A.D., the pyramid would have been surrounded by buildings. We also know that in the 3rd century A.D., the Pyramid of Cestius was hidden behind a high wall on the orders of Emperor Aurelian; this probably helped it survive throughout the centuries to come, even as other ancient monuments disappeared.</p>
+                    <p><strong>D</strong> By the Middle Ages, the pyramid was covered in vegetation and thick dirt, and popular myth had developed that it might be a tomb for one of the twin brothers Romulus and Remus, who were regarded as the men who had established the city of Rome. Cestius actual tomb within the pyramid and the inscription identifying the pyramid as his, weren't rediscovered until the 1660s when the pyramid underwent restoration. During excavations, when trees and plants were cleared away, two marble bases were found in front of the pyramid, as well as fragments of bronze statues that had once stood on them on either side of the pyramid. The people employed to excavate the pyramid did not find the urn that would have contained Cestius’ remains, but they did come across a tunnel. It was quite possible, therefore, that robbers had at some earlier time removed the contents of the tomb. But while some of the features of Cestius' tomb no longer exist, at least the pyramid itself has survived.</p>
+                    <p><strong>E</strong> Today, the foundations of Cestius pyramid rest below street level near an intersection with heavy traffic, so that passing tourists and residents could easily fail to notice its full height of 119 feet. Across the intersection is the Piramide station, located on Line B of the Rome Metro. In 2011, the Japanese clothing company entrepreneur Yuzo Yagi, president of Yagi Tsusho Ltd, announced his intention to help the Italian government pay for an ambitious renovation of the Pyramid of Cestius. 'It's an act of gratitude,' he later told journalists. 'Our company has grown thanks to Italy.' Work began at the site shortly after Yagi signed an official agreement with the Special Superintendency for the Archaeological Heritage of Rome, and was completed ahead of schedule thanks to his 2-million-euro contribution.</p>
+                    <p><strong>F</strong> As archaeologist Leonardo Guarnieri explained to journalists, officials are now conducting tours of the newly renovated pyramid twice a month by reservation. Visitors who take advantage of the tour can make their way through a narrow corridor in order to enter the burial chamber itself. It is within these walls that they can admire the frescoes: watercolour paintings typical of the time. In the chamber, it is possible to make out four frescoes of the winged Roman goddess of war, Victoria a figure from Roman legend, as well as of a series of vases，the type that would have been used for special rituals and purification purposes. We know from the writings of earlier visitors that there used to be more here, but the majority have disappeared over time.</p>
+                    <p><strong>G</strong> Only one problem remains now that the restoration is complete. The white exterior of the Pyramid of Cestius will have to be cleaned every few months to remove the layer of urban pollution. A team of free-climbers will be employed to do the job, in order to avoid placing builder's scaffolding around the newly welcoming monument.</p>
+                </div>
+            </div>
+            <div class="resizer" id="resizer"></div>
+            <div class="questions-panel" id="questions-panel">
+                <!-- QUESTIONS FOR PASSAGE 1 -->
+                <div id="questions-1" class="question-set">
+                    <div class="questions-container">
+                        <!-- Questions 1-7: TRUE/FALSE/NOT GIVEN -->
+                        <div class="question" data-q-start="1" data-q-end="7">
+                            <div class="question-prompt">
+                                <p><strong>Questions 1-7</strong></p>
+                                <p>Choose <strong>TRUE</strong> if the statement agrees with the information given in the text, choose <strong>FALSE</strong> if the statement contradicts the information, or choose <strong>NOT GIVEN</strong> if there is no information on this.</p>
+                            </div>
+                            <div class="tf-question" data-q-start="1" data-q-end="1">
+                                <div class="tf-question-line"><span class="tf-question-number">1</span><span class="tf-question-text">The Pyramid of Cestius has always been one of Rome's most popular tourist attractions.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q1" value="TRUE"> TRUE</label>
+                                    <label class="tf-option"><input type="radio" name="q1" value="FALSE"> FALSE</label>
+                                    <label class="tf-option"><input type="radio" name="q1" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+                            <div class="tf-question" data-q-start="2" data-q-end="2">
+                                <div class="tf-question-line"><span class="tf-question-number">2</span><span class="tf-question-text">The construction of the Pyramid was completed before Cestius' death.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q2" value="TRUE"> TRUE</label>
+                                    <label class="tf-option"><input type="radio" name="q2" value="FALSE"> FALSE</label>
+                                    <label class="tf-option"><input type="radio" name="q2" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+                            <div class="tf-question" data-q-start="3" data-q-end="3">
+                                <div class="tf-question-line"><span class="tf-question-number">3</span><span class="tf-question-text">In the Middle Ages, people thought an original founder of Rome was buried in the Pyramid of Cestius.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q3" value="TRUE"> TRUE</label>
+                                    <label class="tf-option"><input type="radio" name="q3" value="FALSE"> FALSE</label>
+                                    <label class="tf-option"><input type="radio" name="q3" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+                            <div class="tf-question" data-q-start="4" data-q-end="4">
+                                <div class="tf-question-line"><span class="tf-question-number">4</span><span class="tf-question-text">Today the height of the Pyramid is something that tourists and residents immediately notice.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q4" value="TRUE"> TRUE</label>
+                                    <label class="tf-option"><input type="radio" name="q4" value="FALSE"> FALSE</label>
+                                    <label class="tf-option"><input type="radio" name="q4" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+                            <div class="tf-question" data-q-start="5" data-q-end="5">
+                                <div class="tf-question-line"><span class="tf-question-number">5</span><span class="tf-question-text">Japanese businessman Yuzo Yagi was an admirer of both Italian and Egyptian architecture.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q5" value="TRUE"> TRUE</label>
+                                    <label class="tf-option"><input type="radio" name="q5" value="FALSE"> FALSE</label>
+                                    <label class="tf-option"><input type="radio" name="q5" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+                            <div class="tf-question" data-q-start="6" data-q-end="6">
+                                <div class="tf-question-line"><span class="tf-question-number">6</span><span class="tf-question-text">The restoration of the Pyramid of Cestius, which was funded by Yuzo Yagi, finished earlier than expected.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q6" value="TRUE"> TRUE</label>
+                                    <label class="tf-option"><input type="radio" name="q6" value="FALSE"> FALSE</label>
+                                    <label class="tf-option"><input type="radio" name="q6" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+                            <div class="tf-question" data-q-start="7" data-q-end="7">
+                                <div class="tf-question-line"><span class="tf-question-number">7</span><span class="tf-question-text">Most of the original frescoes inside Cestius' tomb have survived to this day.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q7" value="TRUE"> TRUE</label>
+                                    <label class="tf-option"><input type="radio" name="q7" value="FALSE"> FALSE</label>
+                                    <label class="tf-option"><input type="radio" name="q7" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Questions 8-13: Notes Completion -->
+                        <div class="question" data-q-start="8" data-q-end="13">
+                            <div class="question-prompt">
+                                <p><strong>Questions 8-13</strong></p>
+                                <p>Complete the notes below.</p>
+                                <p>Write <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+                                <div class="summary-text">
+                                    <p><strong>History of the Pyramid of Cestius</strong></p>
+                                    <p><strong>Construction of Cestius' pyramid</strong></p>
+                                    <p>○ it was made from <input type="text" class="answer-input" id="q8" placeholder="8">, marble and cement</p>
+                                    <p>○ its <input type="text" class="answer-input" id="q9" placeholder="9"> is different to the pyramids found in Egypt</p>
+                                    <p>○ it was originally built in the <input type="text" class="answer-input" id="q10" placeholder="10"> as building tombs in the city was forbidden</p>
+                                    <p>○ Emperor Aurelian ordered that a wall had to be built around it</p>
+                                    <p><strong>Restoration of Cestius' pyramid in the 1660s</strong></p>
+                                    <p>○ in the 1660s, some broken <input type="text" class="answer-input" id="q11" placeholder="11"> were found next to it</p>
+                                    <p>○ the <input type="text" class="answer-input" id="q12" placeholder="12"> inside the tomb suggests that robbers had been there</p>
+                                    <p>○ the frescoes show mythological scenes, and images of vases</p>
+                                    <p><strong>Restoration of Cestius' pyramid today</strong></p>
+                                    <p>○ a Japanese businessman paid for its restoration</p>
+                                    <p>○ climbers are helping to get rid of signs of <input type="text" class="answer-input" id="q13" placeholder="13"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <div class="nav-arrows">
+        <button class="nav-arrow prev" onclick="previousQuestion()" id="prevBtn" aria-label="Previous question">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <button class="nav-arrow next" onclick="nextQuestion()" id="nextBtn" aria-label="Next question">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="nav-row perScorableItem" aria-label="Questions">
+        <div class="footer__questionWrapper___1tZ46 selected multiple" role="tablist">
+            <button role="tab" class="footer__questionNo___3WNct" onclick="switchToPart(1)">
+                <span>
+                    <span aria-hidden="true" class="section-prefix">Part </span>
+                    <span class="sectionNr" aria-hidden="true">1</span>
+                    <span class="attemptedCount" aria-hidden="true">0 of 13</span>
+                </span>
+            </button>
+            <div class="footer__subquestionWrapper___9GgoP">
+                <button class="subQuestion scorable-item" onclick="goToQuestion(1)"><span class="sr-only">Question 1</span><span aria-hidden="true">1</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(2)"><span class="sr-only">Question 2</span><span aria-hidden="true">2</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(3)"><span class="sr-only">Question 3</span><span aria-hidden="true">3</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(4)"><span class="sr-only">Question 4</span><span aria-hidden="true">4</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(5)"><span class="sr-only">Question 5</span><span aria-hidden="true">5</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(6)"><span class="sr-only">Question 6</span><span aria-hidden="true">6</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(7)"><span class="sr-only">Question 7</span><span aria-hidden="true">7</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(8)"><span class="sr-only">Question 8</span><span aria-hidden="true">8</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(9)"><span class="sr-only">Question 9</span><span aria-hidden="true">9</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(10)"><span class="sr-only">Question 10</span><span aria-hidden="true">10</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(11)"><span class="sr-only">Question 11</span><span aria-hidden="true">11</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(12)"><span class="sr-only">Question 12</span><span aria-hidden="true">12</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(13)"><span class="sr-only">Question 13</span><span aria-hidden="true">13</span></button>
+            </div>
+        </div>
+        <button id="deliver-button" aria-label="Review your answers" class="footer__deliverButton___3FM07">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/>
+            </svg>
+            <span>Check Answers</span>
+        </button>
+    </nav>
+
+    <!-- Context Menu -->
+    <div id="contextMenu" class="context-menu">
+        <div id="menu-highlight" class="context-menu-item" onclick="highlightText()">
+            Highlight
+        </div>
+        <div id="menu-note" class="context-menu-item" onclick="addNote()">
+            Note
+        </div>
+        <div id="menu-clear" class="context-menu-item" onclick="clearHighlight()">
+            Clear
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div id="results-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeResultsModal()">&times;</button>
+            <h2>Results</h2>
+            <div class="results-summary">
+                <p>Score: <span id="results-score"></span> / 13</p>
+                <p>IELTS Band: <span id="results-band"></span></p>
+            </div>
+            <div id="results-details" class="results-details-container">
+                <!-- Results for each question will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- STATE VARIABLES ---
+            let currentPassage = 1;
+            let currentQuestion = 1;
+            let selectedRange = null;
+            let timeInSeconds = 3600;
+            let timerInterval;
+            let activeQuestionElement = null;
+
+            // --- DARK MODE FUNCTIONALITY ---
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const body = document.body;
+
+            // FORCE LIGHT MODE BY DEFAULT - IGNORE ALL PREFERENCES
+            body.setAttribute('data-theme', 'light');
+            localStorage.removeItem('theme'); // Clear any saved preference
+
+            // Toggle dark mode
+            function toggleDarkMode() {
+                const isDark = body.getAttribute('data-theme') === 'dark';
+                if (isDark) {
+                    body.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    body.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+            }
+
+            // Add event listener
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+
+            // --- DOM ELEMENTS ---
+            const timerDisplay = document.querySelector('.timer-display');
+            const timerToggleButton = document.getElementById('timer-toggle-btn');
+            const timerResetButton = document.getElementById('timer-reset-btn');
+            const deliverButton = document.getElementById('deliver-button');
+            const resizer = document.getElementById('resizer');
+            const passagePanel = document.getElementById('passage-panel');
+            const questionsPanel = document.getElementById('questions-panel');
+            const contextMenu = document.getElementById('contextMenu');
+
+            // --- ICON SVGs ---
+            const playIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/></svg>';
+            const pauseIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+
+            // --- ANSWERS ---
+            const correctAnswers = {
+                // Part 1 (1-13)
+                '1': 'FALSE',
+                '2': 'NOT GIVEN',
+                '3': 'TRUE',
+                '4': 'FALSE',
+                '5': 'NOT GIVEN',
+                '6': 'TRUE',
+                '7': 'FALSE',
+                '8': 'brick',
+                '9': 'shape',
+                '10': 'countryside',
+                '11': 'statues',
+                '12': 'tunnel',
+                '13': 'pollution'
+            };
+
+            // --- INITIALIZATION ---
+            function initialize() {
+                console.log(`🚀 Initializing application...`);
+                startTimer();
+                updateAllIndicators();
+                console.log(`📋 Setting up initial state - switching to part 1`);
+                
+                // Remove unused parts
+                document.querySelectorAll('#part-header-2, #part-header-3, #questions-2, #questions-3, #passage-text-2, #passage-text-3').forEach(el => el.remove());
+                
+                document.body.addEventListener('input', updateAllIndicators);
+                document.body.addEventListener('change', updateAllIndicators);
+                deliverButton.addEventListener('click', checkAnswers);
+                timerToggleButton.addEventListener('click', toggleTimer);
+                timerResetButton.addEventListener('click', resetTimer);
+
+                // Add click listeners to question containers for navigation
+                document.querySelectorAll('[data-q-start]').forEach(el => {
+                    el.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        const qNum = parseInt(el.dataset.qStart, 10);
+                        const qEnd = parseInt(el.dataset.qEnd, 10);
+                        if (isNaN(qNum)) {
+                            console.log(`ℹ️ Container without valid question number, ignoring navigation`);
+                            return;
+                        }
+                        if (qNum === qEnd || el.classList.contains('tf-question')) {
+                            if (currentQuestion !== qNum) {
+                                console.log(`🚀 Navigating from question ${currentQuestion} to question ${qNum}`);
+                                goToQuestion(qNum);
+                            }
+                        }
+                    });
+                });
+
+                // Add specific click listeners for individual question elements
+                document.querySelectorAll('.tf-question, .summary-text').forEach(el => {
+                    el.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        const qNum = parseInt(el.dataset.qStart, 10);
+                        if (isNaN(qNum)) {
+                            console.log(`ℹ️ Container without specific question number, ignoring navigation`);
+                            return;
+                        }
+                        if (currentQuestion !== qNum) {
+                            console.log(`🚀 Navigating from question ${currentQuestion} to question ${qNum} (individual element)`);
+                            goToQuestion(qNum);
+                        }
+                    });
+                });
+
+                // Add specific click listeners for individual input elements
+                document.querySelectorAll('.answer-input[id^="q"]').forEach(input => {
+                    input.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        const qNum = parseInt(input.id.replace('q', ''), 10);
+                        if (currentQuestion !== qNum) {
+                            console.log(`🚀 Navigating from question ${currentQuestion} to question ${qNum} (input element)`);
+                            goToQuestion(qNum);
+                        }
+                    });
+                });
+
+                resizer.addEventListener('mousedown', initResize, false);
+                initializeContextMenu();
+
+                // Ensure indicators (answered states, counts) are correct on initial load
+                updateAllIndicators();
+
+                // Ensure the bottom menu reflects the currently focused input as active
+                document.querySelectorAll('.answer-input').forEach(inputEl => {
+                    const attach = (evtName) => inputEl.addEventListener(evtName, (e) => {
+                        const id = inputEl.id || '';
+                        if (id.startsWith('q')) {
+                            const qNum = parseInt(id.replace('q',''), 10);
+                            if (!isNaN(qNum)) {
+                                goToQuestion(qNum);
+                            }
+                        } else {
+                            const container = inputEl.closest('[data-q-start]');
+                            if (container) {
+                                const qNum = parseInt(container.dataset.qStart, 10);
+                                if (!isNaN(qNum)) goToQuestion(qNum);
+                            }
+                        }
+                    });
+                    attach('focus');
+                    attach('click');
+                    attach('input');
+                    attach('change');
+                });
+
+                // For radio buttons (TF/NG)
+                document.querySelectorAll('input[type="radio"]').forEach(radioEl => {
+                    const update = () => {
+                        const name = radioEl.name || '';
+                        if (name.startsWith('q')) {
+                            const qNum = parseInt(name.replace('q',''), 10);
+                            if (!isNaN(qNum)) {
+                                goToQuestion(qNum);
+                            }
+                        }
+                    };
+                    radioEl.addEventListener('focus', update);
+                    radioEl.addEventListener('change', update);
+                    radioEl.addEventListener('click', update);
+                });
+            }
+
+            // --- CORE TEST LOGIC ---
+            function checkAnswers() {
+                // Disable all inputs to prevent changes
+                const allInputs = document.querySelectorAll('input, select, textarea');
+                allInputs.forEach(input => {
+                    input.disabled = true;
+                });
+
+                // Disable submit button
+                deliverButton.disabled = true;
+                deliverButton.style.cursor = 'not-allowed';
+                clearInterval(timerInterval);
+
+                let score = 0;
+                const totalQuestions = 13;
+                const resultsDetailsContainer = document.getElementById('results-details');
+                resultsDetailsContainer.innerHTML = '';
+
+                document.querySelectorAll('.correct, .incorrect, .correct-answer-highlight').forEach(el => {
+                    el.classList.remove('correct', 'incorrect', 'correct-answer-highlight');
+                });
+
+                document.querySelectorAll('.correct-answer-display').forEach(el => el.remove());
+
+                for (let i = 1; i <= totalQuestions; i++) {
+                    const questionKey = String(i);
+                    const correctAnswer = correctAnswers[questionKey];
+                    let userAnswer = '';
+                    let isCorrect = false;
+                    let userAnswerDisplay = 'Not Answered';
+                    const correctAnswerText = Array.isArray(correctAnswer) ? correctAnswer.join(' / ') : correctAnswer;
+
+                    const textInput = document.getElementById(`q${i}`);
+                    const radioGroup = document.querySelectorAll(`input[name="q${i}"][type="radio"]`);
+
+                    // Handle Text Inputs (Questions 8-13)
+                    if (textInput && textInput.tagName === 'INPUT' && i >= 8) {
+                        userAnswer = textInput.value.trim();
+                        userAnswerDisplay = userAnswer || 'Not Answered';
+                        const normalize = (s) => (s || '')
+                            .toString()
+                            .toLowerCase()
+                            .replace(/[^a-z0-9\s]/g, '')
+                            .replace(/\s+/g, ' ')
+                            .trim();
+
+                        const normUser = normalize(userAnswer);
+                        if (Array.isArray(correctAnswer)) {
+                            isCorrect = correctAnswer.some(ans => normalize(ans) === normUser);
+                        } else {
+                            isCorrect = normalize(correctAnswer) === normUser;
+                        }
+
+                        if (isCorrect) {
+                            score++;
+                            textInput.classList.add('correct');
+                        } else {
+                            textInput.classList.add('incorrect');
+                            const correctAnswerSpan = document.createElement('span');
+                            correctAnswerSpan.className = 'correct-answer-display';
+                            correctAnswerSpan.innerHTML = `&nbsp;➜&nbsp;<span class="correct-answer-highlight">${correctAnswerText}</span>`;
+                            textInput.parentNode.insertBefore(correctAnswerSpan, textInput.nextSibling);
+                        }
+                    }
+                    // Handle Radio Button Inputs (T/F/NG Questions 1-7)
+                    else if (radioGroup.length > 0 && i <= 7) {
+                        const questionContainer = radioGroup[0]?.closest('.tf-question');
+                        const checkedRadio = document.querySelector(`input[name="q${i}"]:checked`);
+                        
+                        if (checkedRadio) {
+                            userAnswer = checkedRadio.value;
+                            userAnswerDisplay = userAnswer;
+                            isCorrect = userAnswer === correctAnswer;
+                            const userLabel = checkedRadio.closest('.tf-option');
+                            
+                            if (userLabel) {
+                                userLabel.classList.add(isCorrect ? 'correct' : 'incorrect');
+                            }
+                        }
+
+                        if (isCorrect) {
+                            score++;
+                        } else {
+                            if (questionContainer){
+                                const correctOptionEl = questionContainer.querySelector(`input[name="q${i}"][value="${correctAnswerText}"]`);
+                                if (correctOptionEl) {
+                                    const correctLabel = correctOptionEl.closest('.tf-option');
+                                    if (correctLabel) {
+                                        correctLabel.classList.add('correct-answer-highlight');
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // For showing results in the modal
+                    const resultRow = `
+                    <div class="result-row ${isCorrect ? 'correct' : 'incorrect'}">
+                        <span class="q-num">${i}</span>
+                        <span class="user-ans">${userAnswerDisplay}</span>
+                        <span class="correct-ans">${correctAnswerText}</span>
+                        <span class="status-badge ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? 'Correct' : 'Incorrect'}</span>
+                    </div>`;
+                    resultsDetailsContainer.innerHTML += resultRow;
+
+                    // Update nav button color
+                    const navButton = document.querySelector(`.subQuestion[onclick="goToQuestion(${i})"]`);
+                    if (navButton) {
+                        navButton.classList.remove('answered', 'active');
+                        navButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    }
+                }
+
+                document.getElementById('results-score').textContent = score;
+                document.getElementById('results-band').textContent = calculateBandScore(score);
+                document.body.classList.add('results-mode');
+                document.getElementById('results-modal').classList.remove('hidden');
+
+                // Change button to "My Result" with green styling
+                deliverButton.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg><span>My Result</span>`;
+                deliverButton.style.backgroundColor = '#4CAF50';
+                deliverButton.style.color = 'white';
+                deliverButton.style.borderColor = '#4CAF50';
+                deliverButton.disabled = false;
+                deliverButton.style.cursor = 'pointer';
+                deliverButton.removeEventListener('click', checkAnswers);
+                deliverButton.addEventListener('click', showResultsModal);
+
+                // Highlight correct answers in the passage
+                highlightCorrectAnswersInPassage();
+            }
+
+            function calculateBandScore(score) {
+                if (score >= 13) return '9.0';
+                if (score >= 12) return '8.5';
+                if (score >= 11) return '8.0';
+                if (score >= 10) return '7.5';
+                if (score >= 9) return '7.0';
+                if (score >= 8) return '6.5';
+                if (score >= 7) return '6.0';
+                if (score >= 6) return '5.5';
+                if (score >= 5) return '5.0';
+                if (score >= 4) return '4.5';
+                if (score >= 3) return '4.0';
+                if (score >= 2) return '3.5';
+                if (score >= 1) return '3.0';
+                return '0.0';
+            }
+
+            function highlightCorrectAnswersInPassage() {
+                const part1Highlights = [
+                    { question: 1, text: "has never attracted nearly as much interest".toLowerCase() },
+                    { question: 2, text: "construction of the Pyramid was completed before Cestius' death".toLowerCase() },
+                    { question: 3, text: "popular myth had developed that it might be a tomb for one of the twin brothers Romulus and Remus".toLowerCase() },
+                    { question: 4, text: "passing tourists and residents could easily fail to notice its full height".toLowerCase() },
+                    { question: 5, text: "Yuzo Yagi was an admirer of both Italian and Egyptian architecture".toLowerCase() },
+                    { question: 6, text: "was completed ahead of schedule".toLowerCase() },
+                    { question: 7, text: "the majority have disappeared over time".toLowerCase() },
+                    { question: 8, text: "constructed from brick".toLowerCase() },
+                    { question: 9, text: "the shape of Cestius pyramid is quite unlike that of typical Egyptian ones".toLowerCase() },
+                    { question: 10, text: "the Pyramid of Cestius would have stood in countryside".toLowerCase() },
+                    { question: 11, text: "fragments of bronze statues".toLowerCase() },
+                    { question: 12, text: "they did come across a tunnel".toLowerCase() },
+                    { question: 13, text: "remove the layer of urban pollution".toLowerCase() }
+                ];
+
+                function applyHighlights(passageElement, highlights) {
+                    if (!passageElement) return;
+
+                    // Clear any existing highlights
+                    passageElement.querySelectorAll('.answer-highlight').forEach(el => {
+                        const parent = el.parentNode;
+                        parent.replaceChild(document.createTextNode(el.textContent), el);
+                        parent.normalize();
+                    });
+
+                    // Add highlights for each answer
+                    highlights.forEach(item => {
+                        const paragraphs = passageElement.querySelectorAll('p');
+                        paragraphs.forEach(paragraph => {
+                            const html = paragraph.innerHTML;
+                            if (!html || typeof html !== 'string') return;
+                            if (html.toLowerCase().includes(item.text)) {
+                                const escapeRegExp = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                                const re = new RegExp(escapeRegExp(item.text), 'i');
+                                
+                                const badge = (item.question !== undefined && item.question !== null && item.question !== '')
+                                    ? `<span style="
+                                        position: absolute;
+                                        top: -8px;
+                                        right: -8px;
+                                        background-color: #2196f3;
+                                        color: white;
+                                        border-radius: 50%;
+                                        width: 20px;
+                                        height: 20px;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        font-size: 12px;
+                                        font-weight: bold;
+                                    ">${item.question}</span>`
+                                    : '';
+                                
+                                const replaced = html.replace(
+                                    re,
+                                    `<span class="answer-highlight" data-question="${item.question || ''}" style="
+                                        background-color: #ffeb3b;
+                                        padding: 2px 4px;
+                                        border-radius: 3px;
+                                        font-weight: bold;
+                                        position: relative;
+                                        color: #000;
+                                    ">${item.text}${badge}</span>`
+                                );
+                                paragraph.innerHTML = replaced;
+                            }
+                        });
+                    });
+                }
+
+                // Apply highlights to Part 1 (The Pyramid of Cestius)
+                const passageText1 = document.getElementById('passage-text-1');
+                applyHighlights(passageText1, part1Highlights);
+            }
+
+            function showResultsModal() {
+                document.getElementById('results-modal').classList.remove('hidden');
+            }
+
+            window.closeResultsModal = function() {
+                document.getElementById('results-modal').classList.add('hidden');
+                document.body.classList.remove('results-mode');
+            }
+
+            function switchToPart(partNumber) {
+                console.log(`🔀 switchToPart called with partNumber: ${partNumber}, currentPassage: ${currentPassage}`);
+                currentPassage = partNumber;
+                
+                // Update bottom navigation 'selected' state
+                document.querySelectorAll('.footer__questionWrapper___1tZ46').forEach((wrapper, index) => {
+                    wrapper.classList.toggle('selected', (index + 1) === partNumber);
+                });
+
+                console.log(`✅ switchToPart completed - switched to part ${partNumber}`);
+                // Go to first question of the part
+                goToQuestion(1);
+            }
+
+            function goToQuestion(questionNumber) {
+                console.log(`🎯 goToQuestion called with questionNumber: ${questionNumber}, currentQuestion: ${currentQuestion}, currentPassage: ${currentPassage}`);
+                
+                currentQuestion = questionNumber;
+
+                if (activeQuestionElement) {
+                    // Remove active style from previous block
+                    activeQuestionElement.classList.remove('active-question', 'active-input');
+                    // Also remove from the container block if we previously set it
+                    const prevBlock = activeQuestionElement.closest('[data-q-start]');
+                    if (prevBlock) prevBlock.classList.remove('active-question');
+                }
+
+                // First, try to find the specific input element
+                let targetEl = document.getElementById(`q${questionNumber}`);
+                if (targetEl) {
+                    activeQuestionElement = targetEl;
+                    console.log(`✅ Found specific input element:`, targetEl);
+                    targetEl.classList.add('active-input');
+                    scrollIntoViewIfNeeded(targetEl);
+                } else {
+                    // Fall back to looking for question containers
+                    targetEl = document.querySelector(`[data-q-start="${questionNumber}"]`);
+                    console.log(`🔍 Looking for target element with data-q-start="${questionNumber}":`, targetEl);
+                    
+                    if (targetEl) {
+                        activeQuestionElement = targetEl;
+                        console.log(`✅ Found target element:`, targetEl);
+                        if (targetEl.matches('input[type="text"]') || targetEl.matches('select')) {
+                            targetEl.classList.add('active-input');
+                            console.log(`📝 Added active-input class to input/select element`);
+                        } else {
+                            targetEl.classList.add('active-question');
+                            console.log(`📋 Added active-question class to question element`);
+                        }
+                        scrollIntoViewIfNeeded(targetEl);
+                    } else {
+                        console.log(`⚠️ Target element not found, looking for paragraph matching question`);
+                    }
+                }
+
+                updateNavigation();
+                console.log(`✅ goToQuestion completed for question ${questionNumber}`);
+            }
+
+            // --- UI & NAVIGATION ---
+            function updateNavigation() {
+                console.log(`🔄 updateNavigation called for currentQuestion: ${currentQuestion}`);
+                
+                const navButtons = document.querySelectorAll('.subQuestion');
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                
+                const activeNav = document.querySelector(`.subQuestion[onclick="goToQuestion(${currentQuestion})"]`);
+                if (activeNav) {
+                    activeNav.classList.add('active');
+                    console.log(`✅ Updated navigation - active nav button:`, activeNav);
+                } else {
+                    console.log(`⚠️ No active navigation button found for question ${currentQuestion}`);
+                }
+
+                const inputs = document.querySelectorAll('.answer-input');
+                inputs.forEach(input => input.classList.remove('active-input'));
+                
+                const activeInput = document.getElementById(`q${currentQuestion}`);
+                if (activeInput) {
+                    activeInput.classList.add('active-input');
+                    if (typeof activeInput.focus === 'function') {
+                        activeInput.focus();
+                    }
+                    console.log(`✅ Focused on input element:`, activeInput);
+                } else {
+                    console.log(`⚠️ No direct input found for question ${currentQuestion}, looking in question block`);
+                    
+                    // Prefer the specific question element for styling (TF), fallback to any data-q-start container
+                    let activeQuestionBlock = document.querySelector(`.tf-question[data-q-start="${currentQuestion}"]`) || document.querySelector(`[data-q-start="${currentQuestion}"]`);
+                    
+                    if (activeQuestionBlock) {
+                        // Add active-question class to style number badge
+                        activeQuestionBlock.classList.add('active-question');
+                        const firstInput = activeQuestionBlock.querySelector('input, select');
+                        
+                        if(firstInput) {
+                            firstInput.classList.add('active-input');
+                            if (typeof firstInput.focus === 'function') {
+                                firstInput.focus();
+                            }
+                            console.log(`✅ Focused on input in question block:`, firstInput);
+                        } else {
+                            console.log(`⚠️ No input found in question block for question ${currentQuestion}`);
+                        }
+                    } else {
+                        console.log(`❌ No question block found for question ${currentQuestion}`);
+                    }
+                }
+                console.log(`✅ updateNavigation completed`);
+            }
+
+            window.nextQuestion = () => currentQuestion < 13 && goToQuestion(currentQuestion + 1);
+            window.previousQuestion = () => currentQuestion > 1 && goToQuestion(currentQuestion - 1);
+
+            function updateAllIndicators() {
+                updateAttemptedCount(1, 1, 13);
+                updateAnsweredNav();
+            }
+
+            function updateAnsweredNav() {
+                const navButtons = document.querySelectorAll('.subQuestion');
+                navButtons.forEach(btn => {
+                    let qNum = NaN;
+                    // Prefer parsing from onclick attribute to avoid SR-only text interference
+                    const onclickAttr = btn.getAttribute('onclick');
+                    if (onclickAttr) {
+                        const match = onclickAttr.match(/goToQuestion\((\d+)\)/);
+                        if (match) {
+                            qNum = parseInt(match[1], 10);
+                        }
+                    }
+                    // Fallback: try the visible number span
+                    if (isNaN(qNum)) {
+                        const visibleSpan = btn.querySelector('span[aria-hidden="true"]');
+                        if (visibleSpan) {
+                            qNum = parseInt(visibleSpan.textContent.trim(), 10);
+                        }
+                    }
+                    
+                    if (!isNaN(qNum) && isQuestionAnswered(qNum)) {
+                        btn.classList.add('answered');
+                    } else {
+                        btn.classList.remove('answered');
+                    }
+                });
+            }
+
+            function isQuestionAnswered(qNum) {
+                const textInput = document.getElementById(`q${qNum}`);
+                if (textInput && textInput.value.trim() !== '') {
+                    return true;
+                }
+
+                const radio = document.querySelector(`input[name="q${qNum}"]:checked`);
+                if (radio) {
+                    return true;
+                }
+
+                return false;
+            }
+
+            function scrollIntoViewIfNeeded(element) {
+                const panel = element.closest('.questions-panel, .passage-panel');
+                const panelRect = panel.getBoundingClientRect();
+                const elementRect = element.getBoundingClientRect();
+                
+                if (elementRect.top < panelRect.top || elementRect.bottom > panelRect.bottom) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+
+            // --- TIMER FUNCTIONS ---
+            function startTimer() {
+                if (timerInterval) clearInterval(timerInterval);
+                timerInterval = setInterval(() => {
+                    timeInSeconds--;
+                    const minutes = Math.floor(timeInSeconds / 60);
+                    const seconds = timeInSeconds % 60;
+                    timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    
+                    if (timeInSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        timerDisplay.textContent = "Time's up!";
+                    }
+                }, 1000);
+                timerToggleButton.innerHTML = pauseIcon;
+            }
+
+            function pauseTimer() {
+                clearInterval(timerInterval);
+                timerToggleButton.innerHTML = playIcon;
+            }
+
+            function toggleTimer() {
+                // Check based on the icon currently displayed
+                if (timerToggleButton.innerHTML.includes('M6 19h4V5H6v14z')) { // Check for pause icon shape
+                    pauseTimer();
+                } else {
+                    startTimer();
+                }
+            }
+
+            function resetTimer() {
+                timeInSeconds = 3600;
+                const minutes = Math.floor(timeInSeconds / 60);
+                const seconds = timeInSeconds % 60;
+                timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                startTimer();
+                timerToggleButton.innerHTML = pauseIcon;
+            }
+
+            function initResize(e) {
+                e.preventDefault();
+                const startX = e.clientX;
+                const startWidth = passagePanel.offsetWidth;
+                
+                const doDrag = (e) => {
+                    const newWidth = startWidth + e.clientX - startX;
+                    if (newWidth > 200 && (document.body.clientWidth - newWidth - resizer.offsetWidth) > 200) {
+                        passagePanel.style.flex = `0 0 ${newWidth}px`;
+                    }
+                };
+                
+                const stopDrag = () => {
+                    window.removeEventListener('mousemove', doDrag, false);
+                    window.removeEventListener('mouseup', stopDrag, false);
+                };
+                
+                window.addEventListener('mousemove', doDrag, false);
+                window.addEventListener('mouseup', stopDrag, false);
+            }
+
+            // --- CONTEXT MENU (Highlighting) ---
+            function initializeContextMenu() {
+                const panels = [passagePanel, questionsPanel];
+                let targetElementForClear = null;
+
+                // This listener simply tracks the last valid text selection in either panel.
+                document.addEventListener('selectionchange', () => {
+                    const selection = window.getSelection();
+                    if (selection && !selection.isCollapsed && selection.toString().trim().length > 0) {
+                        const range = selection.getRangeAt(0);
+                        if (panels.some(panel => panel.contains(range.commonAncestorContainer))) {
+                            selectedRange = range;
+                            targetElementForClear = null; // New selection overrides clearing a specific element
+                        }
+                    }
+                });
+
+                const showContextMenu = (e) => {
+                    const target = e.target;
+                    const isClickOnHighlight = target.closest('.highlight, .comment-highlight');
+                    const isSelectionActive = selectedRange && selectedRange.toString().trim().length > 0;
+                    let showMenu = false;
+
+                    if (isClickOnHighlight) {
+                        document.getElementById('menu-highlight').style.display = 'none';
+                        document.getElementById('menu-note').style.display = 'none';
+                        document.getElementById('menu-clear').style.display = 'block';
+                        contextMenu.targetElementForClear = isClickOnHighlight;
+                        showMenu = true;
+                    } else if (isSelectionActive && panels.some(panel => panel.contains(selectedRange.commonAncestorContainer))) {
+                        document.getElementById('menu-highlight').style.display = 'flex';
+                        document.getElementById('menu-note').style.display = 'flex';
+                        document.getElementById('menu-clear').style.display = 'none';
+                        showMenu = true;
+                    }
+
+                    if (showMenu) {
+                        e.preventDefault();
+                        contextMenu.style.display = 'block';
+                        const menuHeight = contextMenu.offsetHeight;
+                        const menuWidth = contextMenu.offsetWidth;
+                        let left = e.pageX;
+                        let top = e.pageY;
+                        
+                        if (left + menuWidth > window.innerWidth) left = window.innerWidth - menuWidth - 5;
+                        if (top + menuHeight > window.innerHeight) top = e.pageY - menuHeight - 5;
+                        else top = e.pageY - menuHeight - 5;
+                        
+                        contextMenu.style.left = `${left}px`;
+                        contextMenu.style.top = `${top}px`;
+                    }
+                };
+
+                panels.forEach(panel => {
+                    panel.addEventListener('contextmenu', showContextMenu);
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (contextMenu.style.display === 'block' && !contextMenu.contains(e.target)) {
+                        closeContextMenu();
+                    }
+                });
+            }
+
+            function closeContextMenu() {
+                contextMenu.style.display = 'none';
+                selectedRange = null; // Clear range after menu closes
+            }
+
+            function unwrapElement(element) {
+                const parent = element.parentNode;
+                if (!parent) return;
+                while (element.firstChild) {
+                    parent.insertBefore(element.firstChild, element);
+                }
+                parent.removeChild(element);
+                parent.normalize();
+            }
+
+            window.highlightText = () => {
+                if (selectedRange && !selectedRange.collapsed) {
+                    const span = document.createElement('span');
+                    span.className = 'highlight';
+                    span.appendChild(selectedRange.extractContents());
+                    selectedRange.insertNode(span);
+                }
+                closeContextMenu();
+                window.getSelection().removeAllRanges();
+            };
+
+            window.addNote = () => {
+                const note = prompt('Enter your note:');
+                if (note && selectedRange && !selectedRange.collapsed) {
+                    const span = document.createElement('span');
+                    span.className = 'comment-highlight';
+                    const tooltip = document.createElement('span');
+                    tooltip.className = 'comment-tooltip';
+                    tooltip.textContent = note;
+                    span.appendChild(selectedRange.extractContents());
+                    span.appendChild(tooltip);
+                    selectedRange.insertNode(span);
+                }
+                closeContextMenu();
+                window.getSelection().removeAllRanges();
+            };
+
+            window.clearHighlight = () => {
+                const elementToClear = contextMenu.targetElementForClear;
+                if (elementToClear) {
+                    unwrapElement(elementToClear);
+                }
+                closeContextMenu();
+                window.getSelection().removeAllRanges();
+            };
+
+            function updateAttemptedCount(part, startQ, endQ) {
+                let answeredCount = 0;
+                for (let i = startQ; i <= endQ; i++) {
+                    if (isQuestionAnswered(i)) {
+                        answeredCount++;
+                    }
+                }
+                
+                const partHeader = document.querySelector(`.footer__questionNo___3WNct[onclick="switchToPart(${part})"]`);
+                if (partHeader) {
+                    const countSpan = partHeader.querySelector('.attemptedCount');
+                    if (countSpan) {
+                        countSpan.textContent = `${answeredCount} of ${endQ - startQ + 1}`;
+                    }
+                }
+            }
+
+            // --- GLOBAL FUNCTION EXPOSURE ---
+            window.nextQuestion = nextQuestion;
+            window.previousQuestion = previousQuestion;
+            window.goToQuestion = goToQuestion;
+            window.switchToPart = switchToPart;
+            window.closeResultsModal = closeResultsModal;
+            window.highlightText = highlightText;
+            window.addNote = addNote;
+            window.clearHighlight = clearHighlight;
+
+            // --- START THE APP ---
+            initialize();
+        });
+    </script>
+</body>
+</html>

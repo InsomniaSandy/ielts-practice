@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>IELTS Listening Practice - Elephant Research (Part 4)</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --border-color: #e0e0e0;
+    --primary-color: #1e6de6;
+    --secondary-bg: #f8f9fa;
+    --correct-color: #28a745;
+    --incorrect-color: #dc3545;
+    --highlight-color: #ffe066;
+    --highlight-text-color: #333333;
+    --telegram-color: #1e6de6;
+    --font-size: 16px;
+    --input-bg: #ffffff;
+    --input-text: #333333;
+}
+
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #f0f0f0;
+    --border-color: #444444;
+    --primary-color: #4a90e2;
+    --secondary-bg: #2d2d2d;
+    --correct-color: #2ecc71;
+    --incorrect-color: #e74c3c;
+    --highlight-color: #ffd700;
+    --highlight-text-color: #000000;
+    --telegram-color: #4a90e2;
+    --input-bg: #2d2d2d;
+    --input-text: #ffffff;
+}
+
+/* Font size classes */
+.font-small { --font-size: 14px; }
+.font-medium { --font-size: 16px; }
+.font-large { --font-size: 18px; }
+.font-xlarge { --font-size: 20px; }
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.4;
+    font-size: var(--font-size);
+    padding-bottom: 90px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body::after {
+    content: "@FOZILBEK_IELTS";
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-20deg);
+    font-size: 72px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--text-color);
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 0;
+    white-space: nowrap;
+}
+
+.highlight {
+    background-color: var(--highlight-color);
+    color: var(--highlight-text-color) !important;
+    font-weight: 600;
+    padding: 1px 3px;
+    border-radius: 2px;
+}
+
+.comment-highlight {
+    background-color: #90EE90;
+    position: relative;
+    cursor: help;
+    color: #000000 !important;
+}
+[data-theme="dark"] .comment-highlight {
+    background-color: #006400;
+    color: #ffffff !important;
+}
+.comment-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    white-space: nowrap;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+.comment-highlight:hover .comment-tooltip { opacity: 1; }
+
+.header {
+    background-color: var(--bg-color);
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: 60px;
+}
+
+.header-left { display: flex; align-items: center; gap: 20px; }
+.ielts-logo { height: 55px; width: auto; }
+.telegram-link {
+    color: var(--telegram-color) !important;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.header-icons { display: flex; gap: 10px; align-items: center; }
+.font-size-container { position: relative; }
+.font-size-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-weight: bold;
+    cursor: pointer;
+}
+.font-size-options {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 8px 0;
+    min-width: 120px;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.font-size-options.show { display: block; }
+.font-size-options div { padding: 8px 16px; cursor: pointer; }
+.font-size-options div:hover { background-color: var(--secondary-bg); }
+
+.dark-mode-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.sun-icon, .moon-icon { position: absolute; transition: opacity 0.3s; }
+.sun-icon { opacity: 1; }
+.moon-icon { opacity: 0; }
+[data-theme="dark"] .sun-icon { opacity: 0; }
+[data-theme="dark"] .moon-icon { opacity: 1; }
+
+.main-container {
+    margin-top: 60px;
+    background: var(--bg-color);
+    padding-bottom: 100px;
+}
+.main-container.results-mode { display: flex; flex-direction: row; }
+.left-panel { width: 100%; padding: 20px; }
+.main-container.results-mode .left-panel { width: 75%; overflow-y: auto; height: calc(100vh - 195px); }
+.right-panel {
+    display: none;
+    width: 25%;
+    padding: 20px;
+    border-left: 1px solid var(--border-color);
+    overflow-y: auto;
+    height: calc(100vh - 195px);
+}
+.main-container.results-mode .right-panel { display: block; }
+#transcription-text { white-space: pre-wrap; font-family: inherit; font-size: 15px; line-height: 1.7; }
+
+.part-header {
+    background-color: var(--secondary-bg);
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+}
+.centered-title { text-align: center; font-size: 20px; font-weight: bold; margin-bottom: 15px; }
+.part4-twocol { display: flex; gap: 30px; align-items: flex-start; }
+.part4-col { flex: 1; }
+.part4-image-wrap { text-align: center; margin-bottom: 18px; }
+.part4-image { max-width: 220px; width: 100%; height: auto; border-radius: 6px; }
+@media (max-width: 768px) { .part4-twocol { flex-direction: column; } }
+
+.answer-input {
+    border: 1px solid #9aa3ad;
+    border-radius: 4px;
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    padding: 4px 8px;
+    font-size: 16px;
+    width: 140px;
+    max-width: 160px;
+    min-width: 120px;
+    margin-left: 8px;
+}
+.answer-input.correct { border-color: var(--correct-color); background-color: #e9f7ef; }
+.answer-input.incorrect { border-color: var(--incorrect-color); background-color: #f8d7da; }
+.correct-inline { color: var(--correct-color); font-weight: 700; margin-left: 10px; }
+.correct-inline::before { content: "→ "; }
+
+.nav-arrows {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    display: flex;
+    gap: 5px;
+    z-index: 101;
+}
+.nav-arrow {
+    width: 50px;
+    height: 50px;
+    background: var(--text-color);
+    color: var(--bg-color);
+    border: none;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+.nav-arrow:disabled { background: #ccc; cursor: not-allowed; }
+
+.nav-row {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg-color);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    height: 80px;
+    z-index: 100;
+    overflow-x: auto;
+    gap: 16px;
+    padding: 0 20px;
+}
+.footer__questionWrapper__1tZ46 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--secondary-bg);
+    padding: 6px 12px;
+    border-radius: 40px;
+}
+.footer__questionNo__3WNct {
+    background: none;
+    border: none;
+    font-weight: bold;
+    font-size: 16px;
+    color: var(--text-color);
+    cursor: default;
+}
+.footer__subquestionWrapper__9GgoP { display: flex; gap: 6px; }
+.subQuestion {
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 6px;
+}
+.subQuestion.answered { background-color: var(--secondary-bg); }
+.subQuestion.correct { background-color: var(--correct-color); color: white; border-color: var(--correct-color); }
+.subQuestion.incorrect { background-color: var(--incorrect-color); color: white; border-color: var(--incorrect-color); }
+.subQuestion.active { background-color: var(--primary-color); color: white; }
+.footer__deliverButton__3FM07 {
+    margin-left: auto;
+    background-color: var(--secondary-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 12px 24px;
+    border-radius: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.footer__deliverButton__3FM07.success { background-color: var(--correct-color); color: white; }
+.hidden { display: none; }
+.context-menu {
+    position: absolute;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+    display: none;
+    min-width: 140px;
+}
+.context-menu-item { padding: 12px 16px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+.context-menu-item:hover { background-color: var(--secondary-bg); }
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal-content {
+    background: var(--bg-color);
+    padding: 25px;
+    border-radius: 8px;
+    max-width: 800px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+.modal-header { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); margin-bottom: 20px; }
+.modal-close-btn { background: none; border: none; font-size: 28px; cursor: pointer; }
+#result-details table { width: 100%; border-collapse: collapse; }
+#result-details th, #result-details td { border: 1px solid var(--border-color); padding: 8px; text-align: left; }
+.result-correct { color: var(--correct-color); font-weight: bold; }
+.result-incorrect { color: var(--incorrect-color); font-weight: bold; }
+.flash { animation: flash 1s ease-out; }
+@keyframes flash { 0% { background-color: #e6f4ff; } 100% { background-color: transparent; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <div class="header-left">
+        <img src="https://i.pinimg.com/736x/88/93/a8/8893a81fed78f6989142a13e3605c45e.jpg" alt="IELTS Logo" class="ielts-logo">
+        <a href="https://t.me/FOZILBEK_IELTS" target="_blank" class="telegram-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-.38.24-1.07.7-.96.66-1.89 1.28-1.89 1.28s-.17.11-.49.03c-.32-.08-.72-.26-1.16-.47-.54-.26-1.17-.53-1.17-.53s-.87-.55.62-1.14c.32-.13 1.96-.84 2.99-1.2 1.05-.37 2.86-1.01 2.86-1.01s1.02-.4 1.02 0z" fill="currentColor"/></svg>
+            <span>@FOZILBEK_IELTS</span>
+        </a>
+    </div>
+    <div class="header-icons">
+        <div class="font-size-container">
+            <button class="font-size-btn" id="font-size-toggle">A</button>
+            <div id="font-size-options" class="font-size-options">
+                <div data-size="small">Small</div>
+                <div data-size="medium">Medium</div>
+                <div data-size="large">Large</div>
+                <div data-size="xlarge">Extra Large</div>
+            </div>
+        </div>
+        <button class="dark-mode-btn" id="dark-mode-toggle">
+            <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2"/></svg>
+            <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2"/></svg>
+        </button>
+    </div>
+</div>
+
+<div class="main-container">
+    <div class="left-panel">
+        <div id="part-4">
+            <div class="part-header">
+                <p><strong>Part 4</strong> &nbsp;|&nbsp; Listen and answer questions 31-40.</p>
+                <p>Complete the notes below. Write <strong>ONE WORD</strong> only for each answer.</p>
+            </div>
+            <div class="questions-container">
+                <p class="centered-title"><strong>Elephant research in Amboseli</strong></p>
+                <div class="part4-twocol">
+                    <div class="part4-col">
+                        <div style="margin-bottom: 25px;">
+                            <p><strong>Methodology</strong></p>
+                            <ul style="list-style-type: disc; padding-left: 22px;">
+                                <li style="margin-bottom: 10px;">The elephant population has been studied for almost forty years.</li>
+                                <li>Records of many elephants’ dates of birth and also of their <strong>31.</strong> <input type="text" id="q31" class="answer-input" placeholder="31" autocomplete="off"></li>
+                                <li style="margin-top: 6px;">Play-back of elephant calls and DNA analysis were also used.</li>
+                            </ul>
+                        </div>
+                        <div style="margin-bottom: 25px;">
+                            <p><strong>Findings</strong></p>
+                            <ul><li>The social system of elephants has many <strong>32.</strong> <input type="text" id="q32" class="answer-input" placeholder="32" autocomplete="off"></li></ul>
+                        </div>
+                        <div style="margin-bottom: 25px;">
+                            <p><strong>Co-operation</strong></p>
+                            <ul><li>Two elephants worked together to get food using a <strong>33.</strong> <input type="text" id="q33" class="answer-input" placeholder="33" autocomplete="off"></li></ul>
+                        </div>
+                        <div style="margin-bottom: 25px;">
+                            <p><strong>Flexibility</strong></p>
+                            <ul><li>Some moved to a new area when there was a lack of <strong>34.</strong> <input type="text" id="q34" class="answer-input" placeholder="34" autocomplete="off"></li></ul>
+                        </div>
+                        <div style="margin-bottom: 25px;">
+                            <p><strong>Emotion</strong></p>
+                            <ul><li>They may move the <strong>35.</strong> <input type="text" id="q35" class="answer-input" placeholder="35" autocomplete="off"> of another elephant after death.</li></ul>
+                        </div>
+                    </div>
+                    <div class="part4-col">
+                        <div class="part4-image-wrap">
+                            <img src="https://i.pinimg.com/736x/be/c3/08/bec308df417a1b5109c560738ac1d3d5.jpg" alt="Elephant" class="part4-image">
+                        </div>
+                        <div style="margin-bottom: 25px;">
+                            <p><strong>Intelligence</strong></p>
+                            <ul><li>Their brain <strong>36.</strong> <input type="text" id="q36" class="answer-input" placeholder="36" autocomplete="off"> is quite high in comparison with that of their body.</li></ul>
+                        </div>
+                        <div style="margin-bottom: 25px;">
+                            <p><strong>Male elephants</strong></p>
+                            <ul><li>pass through periods of virility called ‘musth’</li>
+                            <li>The way they <strong>37.</strong> <input type="text" id="q37" class="answer-input" placeholder="37" autocomplete="off"> is one obvious change</li></ul>
+                        </div>
+                        <div style="margin-bottom: 25px;">
+                            <p><strong>Elephants need to live a long time.</strong></p>
+                            <ul><li>Older males make better mates: older females recognize <strong>38.</strong> <input type="text" id="q38" class="answer-input" placeholder="38" autocomplete="off"></li></ul>
+                        </div>
+                        <div style="margin-bottom: 25px;">
+                            <p><strong>What still needs to be discovered</strong></p>
+                            <ul><li>How elephants use smell – difficult to study this in the <strong>39.</strong> <input type="text" id="q39" class="answer-input" placeholder="39" autocomplete="off"></li>
+                            <li>How <strong>40.</strong> <input type="text" id="q40" class="answer-input" placeholder="40" autocomplete="off"> elephants are to one another</li></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="right-panel">
+        <div id="transcription-container">
+            <h2>Transcription</h2>
+            <div id="transcription-text"></div>
+        </div>
+    </div>
+</div>
+
+<!-- only Part 4 transcription data -->
+<div id="transcription-data" style="display:none;">
+    <div data-part="4">
+        <strong>SECTION 4</strong><br><br>
+        Good morning. My name is Caroline Stewart and I'd like to give you an overview of the research we've been carrying out to learn more about the elephants living in the Amboseli National Park in Kenya.<br>
+        Let me start by telling you a little about the methodology we use. We've been studying this population of elephants for nearly 40 years and we've collected a wealth of information about individual elephants. We now have a database of 2,500 elephants from the area and (31) we know the month and year of their birth as well as who was the <span class="highlight">mother</span> of each one. More recently, one of my colleagues has been examining the pattern of elephant relationships within and between the families in more detail. He's done this by using audio equipment to record and then play back the calls that are made by the elephants. And in addition to that, for some time we've been using DNA analysis to investigate these relationships. The findings were significant. For example, for a long time we'd suspected that elephants live in a very complex social system and one thing we found from our research is that (32) this social system is made up of a large number of different <span class="highlight">layers</span>, not just parent and child, but also brother and sister and so on.<br>
+        Another important discovery was that elephants can be very cooperative as much as chimpanzees, in fact. We conducted an experiment in which (33) two of the elephants brought food within reach by pulling simultaneously on the ends of a <span class="highlight">rope</span>. It was a surprise even to us that they managed to do it. Another finding was just how flexible elephants can be. They may live in smaller or larger groups depending on environmental conditions. So for example, an adult female and her calves might leave their larger groups for days or weeks. A good example of this was two years ago (34) when there was not enough <span class="highlight">rain</span>. Many left the herd and moved to new areas in order to survive. We also discovered that elephants can show emotion. For example, (35) when an elephant dies the others may stroke and rearrange the <span class="highlight">bones</span>, although why they do it is still a mystery.<br>
+        Elephants are very intelligent creatures. We've dedicated a whole chapter to this in our new book as the findings are so important. For example, (36) when we looked at the elephant's brain we found that its <span class="highlight">weight</span> was quite high compared with that of its body, which is significant.<br>
+        Early on in the research we discovered that bull elephants, i.e. males, go through periods of significant change, which is called musth. This serves to advertise the male's virility to other females, letting them know he's healthy and would be a good father, but it also warns other males to stay away. (37) One of the most obvious changes is in how they <span class="highlight">walk</span>, though there are others.<br>
+        However, one of our most important discoveries is that it is crucial for elephants to live for a long time. If you are a male you probably won't be a successful mate unless you do. (38) If you are a female, the older and more experienced you are the more likely it is that you'll be aware of <span class="highlight">danger</span> when it approaches. For example, an elephant may be able to cope with one lion, but may have problems if there are three of them. Age helps elephants know when it's best to walk away or to stand and fight.<br>
+        There's a huge amount that's still waiting to be discovered. For example, we know very little about the part that's played in the life of elephants by their sense of smell, although we suspect that it must be important because this sense is very well developed. (39) It's very hard to conduct research in this area in the <span class="highlight">wild</span> because there are so many variables involved.<br>
+        Another area we know little about is illustrated by a time I observed a young elephant reaching out towards an electric fence. His mother's whole body posture displayed alarm at the danger he was in. (40) This is an example of how one elephant can be <span class="highlight">sensitive</span> towards the feelings or situation of another, but we don't know how much it happens.
+    </div>
+</div>
+
+<!-- Bottom Navigation: only Part 4 questions -->
+<nav class="nav-row">
+    <div class="footer__questionWrapper__1tZ46 selected">
+        <button class="footer__questionNo__3WNct">Part 4</button>
+        <div class="footer__subquestionWrapper__9GgoP" id="subquestion-buttons">
+            <!-- generated with JS for 31..40 -->
+        </div>
+    </div>
+    <button id="deliver-button" class="footer__deliverButton__3FM07">Check Answers</button>
+</nav>
+
+<div class="nav-arrows">
+    <button class="nav-arrow" id="prevBtn">‹</button>
+    <button class="nav-arrow" id="nextBtn">›</button>
+</div>
+
+<div id="contextMenu" class="context-menu">
+    <div class="context-menu-item" id="highlight-item">✍️ Highlight</div>
+    <div class="context-menu-item" id="comment-item">💬 Comment</div>
+    <div class="context-menu-item" id="clear-item" style="display:none;">❌ Clear</div>
+    <div class="context-menu-item" id="clearAll-item">🗑️ Clear All</div>
+</div>
+
+<div id="result-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header"><h2>Your Results</h2><button id="modal-close-button" class="modal-close-btn">&times;</button></div>
+        <p id="score-summary"></p><div id="result-details"></div>
+    </div>
+</div>
+
+<script>
+// ======================== PART 4 ONLY ========================
+const correctAnswers = {
+    q31: 'mother', q32: 'layers', q33: 'rope', q34: 'rain', q35: 'bones',
+    q36: 'weight', q37: 'walk', q38: 'danger', q39: 'wild', q40: 'sensitive'
+};
+const questionTypes = { q31:'text',q32:'text',q33:'text',q34:'text',q35:'text',q36:'text',q37:'text',q38:'text',q39:'text',q40:'text' };
+let currentQuestion = 31;
+let selectedRange = null;
+let contextElement = null;
+
+// DOM elements
+const body = document.body;
+const darkModeToggle = document.getElementById('dark-mode-toggle');
+const fontSizeToggle = document.getElementById('font-size-toggle');
+const fontSizeOptions = document.getElementById('font-size-options');
+const deliverBtn = document.getElementById('deliver-button');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+// Helper: update subquestion buttons and navigation state
+function buildSubQuestionButtons() {
+    const container = document.getElementById('subquestion-buttons');
+    if (!container) return;
+    container.innerHTML = '';
+    for (let q = 31; q <= 40; q++) {
+        const btn = document.createElement('button');
+        btn.className = 'subQuestion scorable-item';
+        btn.textContent = q;
+        btn.setAttribute('data-q', q);
+        btn.onclick = () => goToQuestion(q);
+        container.appendChild(btn);
+    }
+}
+function updateAttemptedCount() {
+    let answered = 0;
+    for (let i = 31; i <= 40; i++) {
+        const inp = document.getElementById(`q${i}`);
+        if (inp && inp.value.trim() !== '') answered++;
+    }
+    // optional: show count in UI (not mandatory)
+}
+function updateAnsweredIndicators() {
+    for (let q = 31; q <= 40; q++) {
+        const btn = document.querySelector(`.subQuestion[data-q="${q}"]`);
+        if (!btn) continue;
+        const inp = document.getElementById(`q${q}`);
+        if (inp && inp.value.trim() !== '') btn.classList.add('answered');
+        else btn.classList.remove('answered');
+        if (btn.classList.contains('correct') || btn.classList.contains('incorrect')) return;
+    }
+}
+function updateNavButtons() {
+    prevBtn.disabled = (currentQuestion === 31);
+    nextBtn.disabled = (currentQuestion === 40);
+    document.querySelectorAll('.subQuestion').forEach(btn => btn.classList.remove('active'));
+    const activeBtn = document.querySelector(`.subQuestion[data-q="${currentQuestion}"]`);
+    if (activeBtn) activeBtn.classList.add('active');
+}
+function goToQuestion(qNum) {
+    if (qNum < 31 || qNum > 40) return;
+    currentQuestion = qNum;
+    updateNavButtons();
+    const inputEl = document.getElementById(`q${qNum}`);
+    if (inputEl) {
+        inputEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const questionDiv = inputEl.closest('li') || inputEl.closest('div');
+        if (questionDiv) {
+            questionDiv.classList.add('flash');
+            setTimeout(() => questionDiv.classList.remove('flash'), 800);
+        }
+        inputEl.focus();
+    }
+}
+function nextPart() { if (currentQuestion < 40) goToQuestion(currentQuestion + 1); }
+function previousPart() { if (currentQuestion > 31) goToQuestion(currentQuestion - 1); }
+
+// Check answers
+function checkAnswers() {
+    let score = 0;
+    let results = [];
+    // clear previous styling
+    document.querySelectorAll('.correct, .incorrect, .correct-inline').forEach(el => {
+        if (el.classList.contains('correct-inline')) el.remove();
+        else el.classList.remove('correct', 'incorrect');
+    });
+    for (let q = 31; q <= 40; q++) {
+        const key = `q${q}`;
+        const correct = correctAnswers[key];
+        const input = document.getElementById(key);
+        if (!input) continue;
+        const userVal = input.value.trim();
+        const isCorrect = userVal.toLowerCase() === correct.toLowerCase();
+        if (isCorrect) score++;
+        input.classList.add(isCorrect ? 'correct' : 'incorrect');
+        if (!isCorrect) {
+            const span = document.createElement('span');
+            span.className = 'correct-inline';
+            span.textContent = correct;
+            input.insertAdjacentElement('afterend', span);
+        }
+        const btn = document.querySelector(`.subQuestion[data-q="${q}"]`);
+        if (btn) {
+            btn.classList.remove('answered');
+            btn.classList.add(isCorrect ? 'correct' : 'incorrect');
+        }
+        results.push({ q, user: userVal || '(blank)', correct, ok: isCorrect });
+    }
+    const bandScore = (() => {
+        if (score >= 39) return 9; if (score >= 37) return 8.5; if (score >= 35) return 8;
+        if (score >= 32) return 7.5; if (score >= 30) return 7; if (score >= 26) return 6.5;
+        if (score >= 23) return 6; if (score >= 18) return 5.5; if (score >= 16) return 5;
+        if (score >= 13) return 4.5; if (score >= 10) return 4; if (score >= 8) return 3.5;
+        if (score >= 6) return 3; if (score >= 4) return 2.5; if (score >= 2) return 2;
+        if (score === 1) return 1.5; return 0;
+    })();
+    
+    // Disable all inputs after grading
+    document.querySelectorAll('.answer-input').forEach(inp => inp.disabled = true);
+    document.querySelector('.main-container').classList.add('results-mode');
+    // Show Part 4 transcription
+    const part4Trans = document.querySelector('#transcription-data [data-part="4"]');
+    const target = document.getElementById('transcription-text');
+    if (part4Trans && target) target.innerHTML = part4Trans.innerHTML;
+    
+    deliverBtn.classList.add('success');
+    deliverBtn.innerHTML = '<span>My Results</span>';
+    // rebind to open modal
+    const newBtn = deliverBtn.cloneNode(true);
+    deliverBtn.parentNode.replaceChild(newBtn, deliverBtn);
+    newBtn.addEventListener('click', () => document.getElementById('result-modal').style.display = 'flex');
+    
+    const modal = document.getElementById('result-modal');
+    document.getElementById('score-summary').innerText = `You scored ${score} out of 40 (Band ${bandScore}).`;
+    let tableHtml = `<table><thead><tr><th>Q#</th><th>Your Answer</th><th>Correct</th><th>Result</th></tr></thead><tbody>`;
+    results.forEach(r => {
+        tableHtml += `<tr><td>${r.q}</td><td>${r.user}</td><td>${r.correct}</td><td class="${r.ok ? 'result-correct' : 'result-incorrect'}">${r.ok ? '✔' : '✖'}</td></tr>`;
+    });
+    tableHtml += `</tbody></table>`;
+    document.getElementById('result-details').innerHTML = tableHtml;
+    modal.style.display = 'flex';
+}
+
+// ========== Highlighting & Comments (fully functional) ==========
+function highlightText() {
+    if (!selectedRange || selectedRange.collapsed) { closeContextMenu(); return; }
+    try {
+        const span = document.createElement('span');
+        span.className = 'highlight';
+        selectedRange.surroundContents(span);
+    } catch(e) { console.warn(e); }
+    window.getSelection().removeAllRanges();
+    closeContextMenu();
+}
+function addComment() {
+    const txt = prompt('Enter your comment:');
+    if (!txt || !selectedRange || selectedRange.collapsed) { closeContextMenu(); return; }
+    try {
+        const span = document.createElement('span');
+        span.className = 'comment-highlight';
+        const tooltip = document.createElement('span');
+        tooltip.className = 'comment-tooltip';
+        tooltip.textContent = txt;
+        span.appendChild(tooltip);
+        selectedRange.surroundContents(span);
+    } catch(e) { console.warn(e); }
+    window.getSelection().removeAllRanges();
+    closeContextMenu();
+}
+function clearHighlight() {
+    if (contextElement && contextElement.classList && (contextElement.classList.contains('highlight') || contextElement.classList.contains('comment-highlight'))) {
+        const parent = contextElement.parentNode;
+        while (contextElement.firstChild) {
+            if (contextElement.firstChild.nodeType === 1 && contextElement.firstChild.classList?.contains('comment-tooltip')) contextElement.removeChild(contextElement.firstChild);
+            else parent.insertBefore(contextElement.firstChild, contextElement);
+        }
+        parent.removeChild(contextElement);
+        parent.normalize();
+    }
+    closeContextMenu();
+}
+function clearAllHighlights() {
+    document.querySelectorAll('.highlight, .comment-highlight').forEach(el => {
+        const parent = el.parentNode;
+        const frag = document.createDocumentFragment();
+        while (el.firstChild) {
+            if (el.firstChild.nodeType === 1 && el.firstChild.classList?.contains('comment-tooltip')) el.removeChild(el.firstChild);
+            else frag.appendChild(el.firstChild);
+        }
+        parent.replaceChild(frag, el);
+    });
+    closeContextMenu();
+}
+function closeContextMenu() { document.getElementById('contextMenu').style.display = 'none'; contextElement = null; }
+
+// Event binding for context menu and toolbar
+document.addEventListener('DOMContentLoaded', () => {
+    buildSubQuestionButtons();
+    updateNavButtons();
+    goToQuestion(31);
+    updateAnsweredIndicators();
+    document.querySelectorAll('.answer-input').forEach(inp => {
+        inp.addEventListener('input', () => { updateAnsweredIndicators(); updateAttemptedCount(); });
+    });
+    deliverBtn.addEventListener('click', checkAnswers);
+    prevBtn.addEventListener('click', previousPart);
+    nextBtn.addEventListener('click', nextPart);
+    document.getElementById('modal-close-button').addEventListener('click', () => document.getElementById('result-modal').style.display = 'none');
+
+    // dark mode
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    body.setAttribute('data-theme', savedTheme);
+    darkModeToggle.addEventListener('click', () => {
+        const isDark = body.getAttribute('data-theme') === 'dark';
+        body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+        localStorage.setItem('theme', isDark ? 'light' : 'dark');
+    });
+    // font size
+    const savedSize = localStorage.getItem('fontSize') || 'medium';
+    body.classList.add(`font-${savedSize}`);
+    fontSizeToggle.addEventListener('click', (e) => { e.stopPropagation(); fontSizeOptions.classList.toggle('show'); });
+    document.querySelectorAll('.font-size-options div').forEach(opt => {
+        opt.addEventListener('click', () => {
+            const sz = opt.getAttribute('data-size');
+            body.classList.remove('font-small','font-medium','font-large','font-xlarge');
+            body.classList.add(`font-${sz}`);
+            localStorage.setItem('fontSize', sz);
+            fontSizeOptions.classList.remove('show');
+        });
+    });
+    document.addEventListener('click', (e) => { if (!e.target.closest('.font-size-container')) fontSizeOptions.classList.remove('show'); });
+
+    // Context menu
+    document.body.addEventListener('contextmenu', (e) => {
+        const sel = window.getSelection();
+        if (!sel.toString()) return;
+        e.preventDefault();
+        selectedRange = sel.getRangeAt(0);
+        const menu = document.getElementById('contextMenu');
+        menu.style.left = e.pageX + 'px';
+        menu.style.top = e.pageY + 'px';
+        menu.style.display = 'block';
+        const target = e.target;
+        contextElement = target.closest('.highlight, .comment-highlight');
+        const clearItem = document.getElementById('clear-item');
+        if (contextElement) clearItem.style.display = 'block';
+        else clearItem.style.display = 'none';
+    });
+    document.getElementById('highlight-item').onclick = highlightText;
+    document.getElementById('comment-item').onclick = addComment;
+    document.getElementById('clear-item').onclick = clearHighlight;
+    document.getElementById('clearAll-item').onclick = clearAllHighlights;
+    document.body.addEventListener('click', (e) => { if (!e.target.closest('.context-menu')) closeContextMenu(); });
+});
+</script>
+</body>
+</html>

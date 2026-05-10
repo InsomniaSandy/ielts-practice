@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Listening Practice – Part 4</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --border-color: #e0e0e0;
+            --primary-color: #1e6de6;
+            --secondary-bg: #f8f9fa;
+            --correct-color: #28a745;
+            --incorrect-color: #dc3545;
+            --highlight-color: #ffe066;
+            --highlight-text-color: #333333;
+            --telegram-color: #1e6de6;
+            --font-size: 16px;
+            --input-bg: #ffffff;
+            --input-text: #333333;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #f0f0f0;
+            --border-color: #444444;
+            --primary-color: #4a90e2;
+            --secondary-bg: #2d2d2d;
+            --correct-color: #2ecc71;
+            --incorrect-color: #e74c3c;
+            --highlight-color: #ffd700;
+            --highlight-text-color: #000000;
+            --telegram-color: #4a90e2;
+            --input-bg: #2d2d2d;
+            --input-text: #ffffff;
+        }
+
+        .font-small { --font-size: 14px; }
+        .font-medium { --font-size: 16px; }
+        .font-large { --font-size: 18px; }
+        .font-xlarge { --font-size: 20px; }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.5;
+            font-size: var(--font-size);
+            padding-bottom: 90px;
+            transition: background-color 0.3s, color 0.3s;
+            position: relative;
+        }
+
+        body::after {
+            content: "@FOZILBEK_IELTS";
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-20deg);
+            font-size: 72px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-color);
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 0;
+            white-space: nowrap;
+            transition: color 0.3s;
+        }
+
+        .highlight {
+            background-color: var(--highlight-color);
+            color: var(--highlight-text-color) !important;
+            font-weight: 600;
+            padding: 1px 3px;
+            border-radius: 2px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        [data-theme="dark"] .highlight {
+            background-color: var(--highlight-color);
+            color: #000000 !important;
+            text-shadow: none;
+        }
+
+        .header {
+            background-color: var(--bg-color);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 60px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .ielts-logo {
+            height: 55px;
+            width: auto;
+            display: block;
+        }
+
+        .telegram-link {
+            color: var(--telegram-color) !important;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none !important;
+            border: none !important;
+        }
+        .telegram-link:hover { opacity: 0.8; }
+
+        .header-icons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .font-size-container { position: relative; }
+        .font-size-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .font-size-btn:hover { background-color: var(--secondary-bg); }
+        .font-size-options {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 8px 0;
+            min-width: 120px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .font-size-options.show { display: block; }
+        .font-size-options div {
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .font-size-options div:hover { background-color: var(--secondary-bg); }
+
+        .dark-mode-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .dark-mode-btn:hover { background-color: var(--secondary-bg); }
+        .sun-icon, .moon-icon {
+            position: absolute;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .sun-icon { opacity: 1; transform: scale(1); }
+        .moon-icon { opacity: 0; transform: scale(0.5); }
+        [data-theme="dark"] .sun-icon { opacity: 0; transform: scale(0.5); }
+        [data-theme="dark"] .moon-icon { opacity: 1; transform: scale(1); }
+
+        .main-container {
+            margin-top: 60px;
+            display: flex;
+            background: var(--bg-color);
+            padding-bottom: 100px;
+            transition: background-color 0.3s;
+        }
+
+        .left-panel {
+            width: 100%;
+            padding: 20px;
+            transition: width 0.4s ease;
+        }
+
+        .main-container.results-mode .left-panel {
+            width: 75%;
+            overflow-y: auto;
+            height: calc(100vh - 195px);
+        }
+
+        .right-panel {
+            display: none;
+            width: 25%;
+            padding: 20px;
+            border-left: 1px solid var(--border-color);
+            overflow-y: auto;
+            height: calc(100vh - 195px);
+            background-color: var(--bg-color);
+        }
+
+        .main-container.results-mode .right-panel {
+            display: block;
+        }
+
+        .part-header {
+            background-color: var(--secondary-bg);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .centered-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .answer-input {
+            border: 1px solid #9aa3ad;
+            border-radius: 4px;
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            padding: 4px 8px;
+            font-size: 16px;
+            margin: 0 5px;
+            width: 140px;
+            max-width: 160px;
+            min-width: 120px;
+            height: 28px;
+            vertical-align: middle;
+            font-weight: 600;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        [data-theme="dark"] .answer-input {
+            background-color: var(--input-bg);
+            color: #ffffff;
+            border-color: #666;
+        }
+
+        .answer-input:focus {
+            outline: none;
+            border-color: #2c6bed;
+            border-width: 2px;
+        }
+        .answer-input.correct {
+            border-color: var(--correct-color);
+            background-color: #e9f7ef;
+        }
+        .answer-input.incorrect {
+            border-color: var(--incorrect-color);
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .correct-inline {
+            color: var(--correct-color);
+            font-weight: 700;
+            margin-left: 10px;
+            display: inline-block;
+        }
+        .correct-inline::before { content: "→ "; }
+
+        .nav-arrows {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            display: flex;
+            gap: 5px;
+            z-index: 101;
+        }
+        .nav-arrow {
+            width: 50px;
+            height: 50px;
+            background: var(--text-color);
+            color: var(--bg-color);
+            border: none;
+            cursor: pointer;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .nav-arrow:disabled { background: #ccc; cursor: not-allowed; }
+
+        .nav-row {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-color);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            height: 80px;
+            z-index: 100;
+            padding: 0 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .footer__questionWrapper__1tZ46 {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        .footer__questionNo__3WNct {
+            background: none;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+            cursor: pointer;
+        }
+        .footer__subquestionWrapper__9GgoP {
+            display: flex;
+            gap: 2px;
+            margin-left: 10px;
+        }
+        .subQuestion {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+        }
+        .subQuestion.answered { background-color: var(--secondary-bg); }
+        .subQuestion.correct { background-color: var(--correct-color); color: white; border-color: var(--correct-color); }
+        .subQuestion.incorrect { background-color: var(--incorrect-color); color: white; border-color: var(--incorrect-color); }
+        .subQuestion.active { background-color: var(--primary-color); color: white; }
+
+        .footer__deliverButton__3FM07 {
+            margin-left: auto;
+            background-color: var(--secondary-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 170px;
+            justify-content: center;
+        }
+        .footer__deliverButton__3FM07:hover { background-color: #e0e0e0; }
+        .footer__deliverButton__3FM07.success { background-color: var(--correct-color); color: #fff; border-color: var(--correct-color); }
+
+        .context-menu {
+            position: absolute;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: none;
+            min-width: 140px;
+        }
+        .context-menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--secondary-bg);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .context-menu-item:hover { background-color: var(--secondary-bg); }
+        .context-menu-item:last-child { border-bottom: none; }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        .modal-content {
+            background: var(--bg-color);
+            padding: 25px;
+            border-radius: 8px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .modal-close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #888;
+        }
+
+        @keyframes flash {
+            0% { background-color: #e6f4ff; }
+            100% { background-color: transparent; }
+        }
+        .question.flash { animation: flash 1s ease-out; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <img src="https://i.pinimg.com/736x/88/93/a8/8893a81fed78f6989142a13e3605c45e.jpg" alt="IELTS Logo" class="ielts-logo">
+            <a href="https://t.me/FOZILBEK_IELTS" target="_blank" class="telegram-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-.38.24-1.07.7-.96.66-1.89 1.28-1.89 1.28s-.17.11-.49.03c-.32-.08-.72-.26-1.16-.47-.54-.26-1.17-.53-1.17-.53s-.87-.55.62-1.14c.32-.13 1.96-.84 2.99-1.2 1.05-.37 2.86-1.01 2.86-1.01s1.02-.4 1.02 0z" fill="currentColor"/></svg>
+                <span>@FOZILBEK_IELTS</span>
+            </a>
+        </div>
+        <div class="header-icons">
+            <div class="font-size-container">
+                <button class="font-size-btn" id="font-size-toggle" title="Adjust Font Size">A</button>
+                <div id="font-size-options" class="font-size-options">
+                    <div data-size="small">Small</div>
+                    <div data-size="medium">Medium</div>
+                    <div data-size="large">Large</div>
+                    <div data-size="xlarge">Extra Large</div>
+                </div>
+            </div>
+            <button class="dark-mode-btn" id="dark-mode-toggle" title="Toggle Dark Mode">
+                <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="left-panel">
+            <div id="part-4" class="question-part">
+                <div class="part-header">
+                    <p><strong>Part 4</strong></p>
+                    <p>Listen and answer questions 31-40.</p>
+                </div>
+                <div class="questions-container">
+                    <div class="question">
+                        <div class="question-prompt">
+                            <p><strong>Questions 31–40</strong></p>
+                            <p>Complete the notes below.</p>
+                            <p>Write <strong>ONE WORD ONLY</strong> for each answer.</p>
+                        </div>
+                        <p class="centered-title"><strong>Providing IT support for University Teachers</strong></p>
+
+                        <p><strong>Problems</strong></p>
+                        <ul style="list-style-type: none; padding-left: 0;">
+                            <li>In the past, some people believed that the use of <strong>31</strong> <input type="text" id="q31" class="answer-input" placeholder="31" autocomplete="off"> failed to help students interact with teachers.</li>
+                        </ul>
+
+                        <p><strong>Qualities to look for in mentors</strong></p>
+                        <ul style="list-style-type: none; padding-left: 0;">
+                            <li>Students enjoy the <strong>32</strong> <input type="text" id="q32" class="answer-input" placeholder="32" autocomplete="off"> with teachers.</li>
+                        </ul>
+
+                        <p><strong>Advantages:</strong></p>
+                        <ul style="list-style-type: none; padding-left: 0;">
+                            <li>IT in education develops a tight <strong>33</strong> <input type="text" id="q33" class="answer-input" placeholder="33" autocomplete="off"> with the local economy.</li>
+                        </ul>
+
+                        <p><strong>For teachers:</strong></p>
+                        <ul style="list-style-type: none; padding-left: 0;">
+                            <li>Computers are commonly used to develop teaching <strong>34</strong> <input type="text" id="q34" class="answer-input" placeholder="34" autocomplete="off"></li>
+                            <li>New technology builds up greater <strong>35</strong> <input type="text" id="q35" class="answer-input" placeholder="35" autocomplete="off"> for students.</li>
+                            <li>Compared with traditional teaching, the new way is more <strong>36</strong> <input type="text" id="q36" class="answer-input" placeholder="36" autocomplete="off"></li>
+                            <li>It offers students quality <strong>37</strong> <input type="text" id="q37" class="answer-input" placeholder="37" autocomplete="off"></li>
+                        </ul>
+
+                        <p><strong>For students:</strong></p>
+                        <ul style="list-style-type: none; padding-left: 0;">
+                            <li>It is seen as a new solution to new <strong>38</strong> <input type="text" id="q38" class="answer-input" placeholder="38" autocomplete="off"></li>
+                            <li>It nurtures <strong>39</strong> <input type="text" id="q39" class="answer-input" placeholder="39" autocomplete="off"> management skills.</li>
+                            <li>It also provides students a source of <strong>40</strong> <input type="text" id="q40" class="answer-input" placeholder="40" autocomplete="off"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel" id="transcription-panel">
+            <h2>Transcription</h2>
+            <div id="transcription-text"></div>
+        </div>
+    </div>
+
+    <!-- Hidden transcription data -->
+    <div id="transcription-data" style="display:none;">
+        <div data-part="4">
+            <strong>SECTION 4</strong><br><br>
+            Questions 31-40<br><br>
+            Hello and welcome to today's seminar about education. Education is a lifelong process. There is no limit on when to start and stop, and we have been using technology so much these days in each and every sector of our lives, including education. Have we ever taken out a second to wonder if it's leaving a positive impact on our work, or it's just that we have been relying on it so much that we've become used to it. Yes, there used to be some problems here. Earlier, there was a lot of debate about technology and education amongst the faculty at our school. Everyone had their own views. At first, some believed that the use of <span class="highlight">email</span> made students and teachers interact with each other rather less, and this was not a good thing. In terms of characteristics to consider when seeking mentors, this practice involves a kind of software which allows students, as well as teachers, to talk and discuss with each other more easily, and they said they enjoy this way of <span class="highlight">communication</span>. But gradually, as technology was embraced by more educational institutes, they realised the importance of technology in education. The main benefit is that there is a strong <span class="highlight">relationship</span> with the local economy when it comes to the effectiveness of the use of IT in education. In the more developed areas, the schools and institutions have better access to more advanced technology, and the teachers are better trained to use the technology to improve the quality of their classes. In contrast, in some less developed regions and remote areas where technology is not so common, the effectiveness can't be guaranteed. However, wherever they are, the most common example for teachers using technology in education is the usage of computers in their <span class="highlight">methods</span> of incorporating computers into teaching. In most classrooms, the mode offers students a channel to post any work that they are proud of, whether it's a nice photograph that they take, a case study they do, a song they record, or even just a great idea they have, so it gives them a chance to showcase their strength and build up their <span class="highlight">confidence</span>. Many students use this feature to show the best of themselves. It also provides students an opportunity to choose what they learn on the Internet, so they no longer have to sit in the classroom listening to something they aren't bored with and they don't have to wait all night trying to register for their favorite elective courses. Compared with the traditional platform, it is more <span class="highlight">flexible</span>. The open source which the new mode provides is free for students to use when they are trying to look up online for their papers or researchers and the data will not easily be found on the Internet because only registered users have access to the database. By the way, all the materials are original works of teachers or scholars, so there is no need to worry about the quality of the <span class="highlight">content</span>, and with the overwhelming amount of unwanted information on the Internet, this mode gives students a new search engine they can use on campus, so information like advertisements and sceptical sources will be filtered easily. This is a perfect example that can offer some hope of reducing <span class="highlight">problems</span>. Apart from that, students can arrange their daily activities and improve their <span class="highlight">time</span> management skills by simply ticking the boxes in the timetable online. They can set up their own starting time and their deadline for each assignment. The system also gives them a reliable source of <span class="highlight">information</span>.
+        </div>
+    </div>
+
+    <div class="nav-arrows">
+        <button class="nav-arrow" onclick="previousQuestion()" id="prevBtn">‹</button>
+        <button class="nav-arrow" onclick="nextQuestion()" id="nextBtn">›</button>
+    </div>
+
+    <nav class="nav-row" aria-label="Questions">
+        <div class="footer__questionWrapper__1tZ46 multiple">
+            <button class="footer__questionNo__3WNct" onclick="goToQuestion(31)">
+                <span>Part 4 <span style="font-size:14px;" id="answered-count">0 of 10</span></span>
+            </button>
+            <div class="footer__subquestionWrapper__9GgoP">
+                <button class="subQuestion" onclick="goToQuestion(31)">31</button>
+                <button class="subQuestion" onclick="goToQuestion(32)">32</button>
+                <button class="subQuestion" onclick="goToQuestion(33)">33</button>
+                <button class="subQuestion" onclick="goToQuestion(34)">34</button>
+                <button class="subQuestion" onclick="goToQuestion(35)">35</button>
+                <button class="subQuestion" onclick="goToQuestion(36)">36</button>
+                <button class="subQuestion" onclick="goToQuestion(37)">37</button>
+                <button class="subQuestion" onclick="goToQuestion(38)">38</button>
+                <button class="subQuestion" onclick="goToQuestion(39)">39</button>
+                <button class="subQuestion" onclick="goToQuestion(40)">40</button>
+            </div>
+        </div>
+        <button id="deliver-button" class="footer__deliverButton__3FM07">Check Answers</button>
+    </nav>
+
+    <div id="contextMenu" class="context-menu">
+        <div class="context-menu-item" onclick="highlightText()">Highlight</div>
+        <div class="context-menu-item" onclick="clearAllHighlights()">Clear All</div>
+    </div>
+
+    <div id="result-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Your Results</h2>
+                <button id="modal-close-button" class="modal-close-btn">&times;</button>
+            </div>
+            <p id="score-summary"></p>
+            <div id="result-details"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 31;
+        let selectedRange = null;
+
+        const body = document.body;
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const fontSizeToggle = document.getElementById('font-size-toggle');
+        const fontSizeOptions = document.getElementById('font-size-options');
+
+        // Answer key for Part 4
+        const correctAnswers = {
+            q31: 'email',
+            q32: 'communication',
+            q33: 'relationship',
+            q34: 'methods',
+            q35: 'confidence',
+            q36: 'flexible',
+            q37: 'content',
+            q38: 'problems',
+            q39: 'time',
+            q40: 'information'
+        };
+
+        function initDarkMode() {
+            const saved = localStorage.getItem('theme') || 'light';
+            body.setAttribute('data-theme', saved);
+        }
+        function toggleDarkMode() {
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        }
+        function changeFontSize(size) {
+            body.classList.remove('font-small', 'font-medium', 'font-large', 'font-xlarge');
+            body.classList.add(`font-${size}`);
+            localStorage.setItem('fontSize', size);
+            fontSizeOptions.classList.remove('show');
+        }
+        function initFontSize() {
+            const saved = localStorage.getItem('fontSize') || 'medium';
+            changeFontSize(saved);
+        }
+
+        function goToQuestion(qNum) {
+            if (qNum < 31 || qNum > 40) return;
+            currentQuestion = qNum;
+            document.querySelectorAll('.subQuestion').forEach(b => b.classList.remove('active'));
+            const btn = document.querySelector(`.subQuestion[onclick="goToQuestion(${qNum})"]`);
+            if (btn) btn.classList.add('active');
+            document.getElementById('prevBtn').disabled = currentQuestion === 31;
+            document.getElementById('nextBtn').disabled = currentQuestion === 40;
+
+            const inputEl = document.getElementById(`q${qNum}`);
+            if (inputEl) {
+                const container = inputEl.closest('.question') || inputEl.closest('ul');
+                if (container) {
+                    container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    container.classList.add('flash');
+                    setTimeout(() => container.classList.remove('flash'), 1000);
+                }
+            }
+        }
+
+        function nextQuestion() { if (currentQuestion < 40) goToQuestion(currentQuestion + 1); }
+        function previousQuestion() { if (currentQuestion > 31) goToQuestion(currentQuestion - 1); }
+
+        function updateAnsweredIndicators() {
+            for (let q = 31; q <= 40; q++) {
+                const btn = document.querySelector(`.subQuestion[onclick="goToQuestion(${q})"]`);
+                if (!btn) continue;
+                if (btn.classList.contains('correct') || btn.classList.contains('incorrect')) continue;
+                const input = document.getElementById(`q${q}`);
+                const answered = input && input.value.trim() !== '';
+                btn.classList.toggle('answered', answered);
+            }
+            const count = document.querySelectorAll('.subQuestion.answered, .subQuestion.correct, .subQuestion.incorrect').length;
+            document.getElementById('answered-count').textContent = `${count} of 10`;
+        }
+
+        function checkAnswers() {
+            let score = 0;
+            let resultsData = [];
+            document.querySelectorAll('.correct, .incorrect, .correct-inline').forEach(el => {
+                if (el.classList.contains('correct-inline')) el.remove();
+                else el.classList.remove('correct', 'incorrect');
+            });
+
+            for (let q = 31; q <= 40; q++) {
+                const key = `q${q}`;
+                const correct = correctAnswers[key].toLowerCase();
+                const input = document.getElementById(key);
+                let userAnswer = '';
+                let isCorrect = false;
+
+                if (input) {
+                    userAnswer = input.value.trim();
+                    isCorrect = userAnswer.toLowerCase() === correct;
+                    input.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    if (!isCorrect) {
+                        const span = document.createElement('span');
+                        span.className = 'correct-inline';
+                        span.textContent = correctAnswers[key];
+                        input.insertAdjacentElement('afterend', span);
+                    }
+                }
+
+                const btn = document.querySelector(`.subQuestion[onclick="goToQuestion(${q})"]`);
+                if (btn) {
+                    btn.classList.remove('answered');
+                    btn.classList.add(isCorrect ? 'correct' : 'incorrect');
+                }
+                resultsData.push({
+                    question: q,
+                    userAnswer: userAnswer || 'No Answer',
+                    correctAnswer: correctAnswers[key],
+                    isCorrect
+                });
+                if (isCorrect) score++;
+            }
+
+            document.querySelectorAll('.answer-input').forEach(input => input.disabled = true);
+
+            // Show transcription panel in results mode
+            document.querySelector('.main-container').classList.add('results-mode');
+            const transcriptionSource = document.querySelector('#transcription-data [data-part="4"]');
+            document.getElementById('transcription-text').innerHTML = transcriptionSource ? transcriptionSource.innerHTML : '';
+
+            const modal = document.getElementById('result-modal');
+            document.getElementById('score-summary').textContent = `You scored ${score} out of 10`;
+            let tableHTML = `<table style="width:100%; border-collapse:collapse;"><tr><th>Q</th><th>Your Answer</th><th>Correct</th><th>Result</th></tr>`;
+            resultsData.forEach(r => {
+                tableHTML += `<tr>
+                    <td>${r.question}</td>
+                    <td>${r.userAnswer}</td>
+                    <td>${r.correctAnswer}</td>
+                    <td style="color:${r.isCorrect ? 'green' : 'red'}">${r.isCorrect ? '✔' : '✖'}</td>
+                </tr>`;
+            });
+            tableHTML += '</table>';
+            document.getElementById('result-details').innerHTML = tableHTML;
+            modal.style.display = 'flex';
+
+            const deliverBtn = document.getElementById('deliver-button');
+            deliverBtn.classList.add('success');
+            deliverBtn.innerHTML = '<span>My Results</span>';
+            deliverBtn.disabled = false;
+            deliverBtn.onclick = () => { modal.style.display = 'flex'; };
+        }
+
+        // --- Highlighting functionality ---
+        function highlightText() {
+            if (!selectedRange || selectedRange.collapsed) { closeContextMenu(); return; }
+            try {
+                const span = document.createElement('span');
+                span.className = 'highlight';
+                selectedRange.surroundContents(span);
+            } catch(e) {
+                document.execCommand('backColor', false, 'yellow');
+            }
+            window.getSelection().removeAllRanges();
+            closeContextMenu();
+        }
+
+        function clearAllHighlights() {
+            document.querySelectorAll('.highlight').forEach(el => {
+                const parent = el.parentNode;
+                while (el.firstChild) parent.insertBefore(el.firstChild, el);
+                parent.removeChild(el);
+            });
+            closeContextMenu();
+        }
+
+        function closeContextMenu() { document.getElementById('contextMenu').style.display = 'none'; }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initDarkMode();
+            initFontSize();
+            goToQuestion(31);
+
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+            fontSizeToggle.addEventListener('click', () => fontSizeOptions.classList.toggle('show'));
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.font-size-container')) fontSizeOptions.classList.remove('show');
+            });
+            document.querySelectorAll('.font-size-options div').forEach(opt => {
+                opt.addEventListener('click', () => changeFontSize(opt.dataset.size));
+            });
+            document.getElementById('deliver-button').addEventListener('click', checkAnswers);
+            document.getElementById('modal-close-button').addEventListener('click', () => {
+                document.getElementById('result-modal').style.display = 'none';
+            });
+
+            document.querySelectorAll('.answer-input').forEach(input => {
+                input.addEventListener('input', updateAnsweredIndicators);
+            });
+
+            document.body.addEventListener('contextmenu', (e) => {
+                const selection = window.getSelection().toString();
+                if (!selection) return;
+                e.preventDefault();
+                const menu = document.getElementById('contextMenu');
+                menu.style.left = e.pageX + 'px';
+                menu.style.top = e.pageY + 'px';
+                menu.style.display = 'block';
+            });
+            document.body.addEventListener('click', (e) => {
+                if (!e.target.closest('.context-menu')) closeContextMenu();
+            });
+            document.addEventListener('selectionchange', () => {
+                const sel = window.getSelection();
+                if (sel && sel.rangeCount > 0 && !sel.isCollapsed) {
+                    selectedRange = sel.getRangeAt(0);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

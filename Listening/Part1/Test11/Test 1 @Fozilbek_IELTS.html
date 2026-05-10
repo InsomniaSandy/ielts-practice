@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IELTS Listening Practice – Part 1</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #333333;
+      --border-color: #e0e0e0;
+      --primary-color: #1e6de6;
+      --secondary-bg: #f8f9fa;
+      --correct-color: #28a745;
+      --incorrect-color: #dc3545;
+      --highlight-color: #ffe066;
+      --highlight-text-color: #333333;
+      --telegram-color: #1e6de6;
+      --font-size: 16px;
+      --input-bg: #ffffff;
+      --input-text: #333333;
+    }
+    [data-theme="dark"] {
+      --bg-color: #1a1a1a;
+      --text-color: #f0f0f0;
+      --border-color: #444444;
+      --primary-color: #4a90e2;
+      --secondary-bg: #2d2d2d;
+      --correct-color: #2ecc71;
+      --incorrect-color: #e74c3c;
+      --highlight-color: #ffd700;
+      --highlight-text-color: #000000;
+      --telegram-color: #4a90e2;
+      --input-bg: #2d2d2d;
+      --input-text: #ffffff;
+    }
+    .font-small { --font-size: 14px; }
+    .font-medium { --font-size: 16px; }
+    .font-large { --font-size: 18px; }
+    .font-xlarge { --font-size: 20px; }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.4;
+      font-size: var(--font-size);
+      padding-bottom: 90px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    body::after {
+      content: "@FOZILBEK_IELTS";
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) rotate(-20deg);
+      font-size: 72px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: var(--text-color);
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 0;
+      white-space: nowrap;
+      transition: color 0.3s;
+    }
+    .highlight {
+      background-color: var(--highlight-color);
+      color: var(--highlight-text-color) !important;
+      font-weight: 600;
+      padding: 1px 3px;
+      border-radius: 2px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    [data-theme="dark"] .highlight {
+      background-color: var(--highlight-color);
+      color: #000000 !important;
+      text-shadow: none;
+    }
+    .comment-highlight {
+      background-color: #90EE90;
+      position: relative;
+      cursor: help;
+      color: #000000 !important;
+    }
+    [data-theme="dark"] .comment-highlight {
+      background-color: #006400;
+      color: #ffffff !important;
+    }
+    .comment-tooltip {
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 14px;
+      white-space: nowrap;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .comment-highlight:hover .comment-tooltip { opacity: 1; }
+    .header {
+      background-color: var(--bg-color);
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      height: 60px;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .header-left { display: flex; align-items: center; gap: 20px; }
+    .ielts-logo { height: 55px; width: auto; display: block; }
+    .telegram-link {
+      color: var(--telegram-color) !important;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 0;
+      background: none !important;
+      border: none !important;
+      line-height: 1;
+      transition: opacity 0.2s;
+    }
+    .telegram-link:hover { opacity: 0.8; }
+    .header-icons { display: flex; gap: 10px; align-items: center; }
+    .font-size-container { position: relative; }
+    .font-size-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .font-size-btn:hover { background-color: var(--secondary-bg); }
+    .font-size-options {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 8px 0;
+      min-width: 120px;
+      display: none;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .font-size-options.show { display: block; }
+    .font-size-options div {
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      font-size: 14px;
+    }
+    .font-size-options div:hover { background-color: var(--secondary-bg); }
+    .dark-mode-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-color);
+      color: var(--text-color);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .dark-mode-btn:hover { background-color: var(--secondary-bg); }
+    .sun-icon, .moon-icon {
+      position: absolute;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .sun-icon { opacity: 1; transform: scale(1); }
+    .moon-icon { opacity: 0; transform: scale(0.5); }
+    [data-theme="dark"] .sun-icon { opacity: 0; transform: scale(0.5); }
+    [data-theme="dark"] .moon-icon { opacity: 1; transform: scale(1); }
+    .main-container {
+      margin-top: 60px;
+      display: flex;
+      background: var(--bg-color);
+      padding-bottom: 100px;
+      transition: background-color 0.3s;
+    }
+    .main-container.results-mode {
+      display: flex;
+      flex-direction: row;
+    }
+    .left-panel {
+      width: 100%;
+      padding: 20px;
+      transition: width 0.4s ease;
+    }
+    .main-container.results-mode .left-panel {
+      width: 75%;
+      overflow-y: auto;
+      height: calc(100vh - 195px);
+    }
+    .right-panel {
+      display: none;
+      width: 50%;
+      padding: 20px;
+      position: relative;
+      border-left: 1px solid var(--border-color);
+      overflow-y: auto;
+      height: calc(100vh - 195px);
+    }
+    .main-container.results-mode .right-panel {
+      display: block;
+      width: 25%;
+      border-left: 1px solid var(--border-color);
+      border-top: none;
+      height: calc(100vh - 195px);
+      overflow-y: auto;
+    }
+    .part-header {
+      background-color: var(--secondary-bg);
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border-color);
+    }
+    .questions-container { width: 50%; }
+    .main-container.results-mode .questions-container { width: 80%; }
+    .question { margin-bottom: 40px; }
+    .centered-title { text-align: center; font-size: 20px; font-weight: bold; margin-bottom: 15px; }
+    .answer-input {
+      border: 1px solid #9aa3ad;
+      border-radius: 4px;
+      background-color: var(--input-bg);
+      color: var(--input-text);
+      padding: 4px 8px;
+      font-size: 16px;
+      text-align: left;
+      margin-right: 4px;
+      width: 140px;
+      max-width: 160px;
+      min-width: 120px;
+      height: 28px;
+      line-height: 1.2;
+      vertical-align: middle;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      font-weight: 600;
+    }
+    [data-theme="dark"] .answer-input {
+      background-color: var(--input-bg);
+      color: #ffffff;
+      border-color: #666;
+    }
+    .answer-input:focus { outline: none; border-color: #2c6bed; border-width: 2px; }
+    .answer-input.correct { border-color: var(--correct-color); background-color: #e9f7ef; }
+    .answer-input.incorrect { border-color: var(--incorrect-color); background-color: #f8d7da; color: #721c24; }
+    .correct-inline {
+      color: var(--correct-color);
+      font-weight: 700;
+      margin-left: 10px;
+      display: inline-block;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    .correct-inline::before { content: "→ "; font-weight: 700; }
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--bg-color);
+      border-top: 1px solid var(--border-color);
+      padding: 0;
+      display: flex;
+      align-items: center;
+      height: 80px;
+      z-index: 100;
+      transition: background-color 0.3s, border-color 0.3s;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .footer__questionWrapper {
+      display: flex;
+      align-items: center;
+      margin-right: 20px;
+      flex-shrink: 0;
+    }
+    .footer__questionNo {
+      background: none;
+      border: none;
+      padding: 10px 15px;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-color);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: background-color 0.2s;
+    }
+    .footer__questionNo:hover { background-color: var(--secondary-bg); }
+    .attemptedCount { font-size: 14px; color: #666; margin-left: 5px; font-weight: 400; }
+    .footer__subquestionWrapper { display: flex; gap: 2px; margin-left: 10px; }
+    .subQuestion {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      border-radius: 2px;
+    }
+    .subQuestion.answered { background-color: var(--secondary-bg); border-color: var(--border-color); }
+    .subQuestion.correct { background-color: var(--correct-color); color: white; border-color: var(--correct-color); }
+    .subQuestion.incorrect { background-color: var(--incorrect-color); color: white; border-color: var(--incorrect-color); }
+    .subQuestion:hover { background-color: var(--secondary-bg); border-color: #999; }
+    .subQuestion.active { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
+    .nav-arrows {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      display: flex;
+      gap: 5px;
+      z-index: 101;
+    }
+    .nav-arrow {
+      width: 50px;
+      height: 50px;
+      background: var(--text-color);
+      color: var(--bg-color);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+    .nav-arrow:hover { background: #555; }
+    .nav-arrow:disabled { background: #ccc; cursor: not-allowed; }
+    .deliverButton {
+      margin-left: auto;
+      margin-right: 20px;
+      background-color: var(--secondary-bg);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+      padding: 12px 20px;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.2s, border-color 0.2s;
+      min-width: 170px;
+      justify-content: center;
+    }
+    .deliverButton:hover { background-color: #e0e0e0; border-color: #bbb; }
+    .deliverButton.success { background-color: var(--correct-color); color: #fff; border-color: var(--correct-color); }
+    .deliverButton:disabled { background: var(--secondary-bg); color: #6c757d; cursor: not-allowed; border-color: var(--border-color); }
+    .hidden { display: none; }
+    .context-menu {
+      position: absolute;
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 1000;
+      display: none;
+      min-width: 140px;
+    }
+    .context-menu-item {
+      padding: 12px 16px;
+      cursor: pointer;
+      font-size: 16px;
+      border-bottom: 1px solid var(--secondary-bg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .context-menu-item:hover { background-color: var(--secondary-bg); }
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      z-index: 2000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .modal-content {
+      background: var(--bg-color);
+      padding: 25px;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 20px; }
+    .modal-close-btn { background: none; border: none; font-size: 28px; cursor: pointer; color: #888; line-height: 1; }
+    .result-correct { color: var(--correct-color); font-weight: bold; }
+    .result-incorrect { color: var(--incorrect-color); font-weight: bold; }
+    #transcription-container h2 { font-size: 18px; font-weight: bold; margin-bottom: 10px; }
+    #transcription-text { white-space: pre-wrap; font-family: inherit; font-size: 15px; line-height: 1.7; }
+    @media (max-width: 1024px) {
+      .right-panel, .main-container.results-mode .right-panel { display: none; }
+      .left-panel, .main-container.results-mode .left-panel { width: 100%; height: auto; }
+      .questions-container { width: 100%; }
+      .answer-input { width: 90px; max-width: 110px; font-size: 15px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-left">
+      <img src="https://i.pinimg.com/736x/88/93/a8/8893a81fed78f6989142a13e3605c45e.jpg" alt="IELTS Logo" class="ielts-logo">
+      <a href="https://t.me/FOZILBEK_IELTS" target="_blank" class="telegram-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-.38.24-1.07.7-.96.66-1.89 1.28-1.89 1.28s-.17.11-.49.03c-.32-.08-.72-.26-1.16-.47-.54-.26-1.17-.53-1.17-.53s-.87-.55.62-1.14c.32-.13 1.96-.84 2.99-1.2 1.05-.37 2.86-1.01 2.86-1.01s1.02-.4 1.02 0z" fill="currentColor"/></svg>
+        <span>@FOZILBEK_IELTS</span>
+      </a>
+    </div>
+    <div class="header-icons">
+      <div class="font-size-container">
+        <button class="font-size-btn" id="font-size-toggle" title="Adjust Font Size">A</button>
+        <div id="font-size-options" class="font-size-options">
+          <div data-size="small">Small</div>
+          <div data-size="medium">Medium</div>
+          <div data-size="large">Large</div>
+          <div data-size="xlarge">Extra Large</div>
+        </div>
+      </div>
+      <button class="dark-mode-btn" id="dark-mode-toggle" title="Toggle Dark Mode">
+        <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <div class="left-panel">
+      <div id="part-1" class="question-part">
+        <div class="part-header">
+          <p><strong>Part 1</strong></p>
+          <p>Listen and answer questions 1-10.</p>
+        </div>
+        <div class="questions-container">
+          <div class="question">
+            <div class="question-prompt">
+              <p><strong>Questions 1-10</strong></p>
+              <p>Complete the notes below.</p>
+              <p>Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.</p>
+            </div>
+            <div style="margin-top:20px;">
+              <p class="centered-title"><strong>Car Club Scheme</strong></p>
+              <p><strong>How the scheme works:</strong> Every member has access to a fleet of cars</p>
+              <p><strong>Nearest location:</strong></p>
+              <ul style="list-style-type:none; padding-left:0;">
+                <li style="margin-bottom:10px;">1. <input type="text" id="q1" class="answer-input" placeholder="1" autocomplete="off"> Street, near the 2. <input type="text" id="q2" class="answer-input" placeholder="2" autocomplete="off"></li>
+              </ul>
+              <p><strong>Using the car:</strong></p>
+              <ul style="list-style-type:none; padding-left:0;">
+                <li style="margin-bottom:10px;">Use membership card to unlock the car</li>
+                <li style="margin-bottom:10px;">Enter number on the 3. <input type="text" id="q3" class="answer-input" placeholder="3" autocomplete="off"> in the car</li>
+              </ul>
+              <p><strong>Booking:</strong></p>
+              <ul style="list-style-type:none; padding-left:0;">
+                <li style="margin-bottom:10px;">Small charge for using the 4. <input type="text" id="q4" class="answer-input" placeholder="4" autocomplete="off"> to book</li>
+              </ul>
+              <p><strong>Cost:</strong></p>
+              <ul style="list-style-type:none; padding-left:0;">
+                <li style="margin-bottom:10px;">Maximum cost: 5 £ <input type="text" id="q5" class="answer-input" placeholder="5" autocomplete="off"> an hour</li>
+                <li style="margin-bottom:10px;">Cost of 6. <input type="text" id="q6" class="answer-input" placeholder="6" autocomplete="off"> is included</li>
+                <li style="margin-bottom:10px;">There is a 7. <input type="text" id="q7" class="answer-input" placeholder="7" autocomplete="off"> for family members</li>
+                <li style="margin-bottom:10px;">£10 per month supplement to cover the higher price of 8. <input type="text" id="q8" class="answer-input" placeholder="8" autocomplete="off"> for younger drivers</li>
+                <li style="margin-bottom:10px;">Members can have a ‘frequent users card’ for an extra 9 £ <input type="text" id="q9" class="answer-input" placeholder="9" autocomplete="off"> a month</li>
+              </ul>
+              <p><strong>Other information:</strong></p>
+              <ul style="list-style-type:none; padding-left:0;">
+                <li style="margin-bottom:10px;">Pets are not allowed in the cars</li>
+                <li style="margin-bottom:10px;">Scheme is good for the 10. <input type="text" id="q10" class="answer-input" placeholder="10" autocomplete="off"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="right-panel">
+      <div id="transcription-container">
+        <h2>Transcription</h2>
+        <div id="transcription-text"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="transcription-data" style="display:none;">
+    <div data-part="1">
+      <strong>SECTION 1</strong><br><br>
+      Questions 1–4<br><br>
+      Good morning. CityWise Car Club. Lorna speaking. How can I help you?<br>
+      Good morning. I was wondering if I could get some more information about joining your car club. How does the scheme work exactly?<br>
+      Of course. Well, the main thing is that each member of the car club has access to our fleet of cars whenever they need one. So once you’ve joined, you just go along and pick one up at a convenient location and drop it off when you’re done. This means you no longer need to own your own car. I’ve had a look at your website, and it says you have cars in locations all over the UK. But I’d like to know which would be the closest to me.<br>
+      Certainly. If I can have your postcode, I can tell you that.<br>
+      I’m in London. So that’s NW52JX.<br>
+      Okay. So the closest location would be three streets away on <span class="highlight">Islip</span> Street.<br>
+      Sorry. Could you spell that, please?<br>
+      Certainly. That’s I S L I P, Islip Street. It’s not far from where you live. It’s less than a mile away.<br>
+      Okay. I know what you mean. It’s not far from the <span class="highlight">school</span> where I work.<br><br>
+      Questions 5–10<br><br>
+      And how easy is it to pick up a car?<br>
+      Well, once you have your membership card, you just go along to the nearest location and find a car there. Then you simply place your membership card over the card reader on the windscreen in order to unlock the car. So then you can just get in.<br>
+      Then isn’t there a <span class="highlight">computer</span> inside the car or something?<br>
+      Yes. You enter a number on that, and it releases the immobilization, which means the engine will start.<br>
+      Right. So how do I book a car?<br>
+      The easiest way is online on our website.<br>
+      What about by <span class="highlight">phone</span>?<br>
+      You can do it that way, but you will need to pay a small surcharge to use this facility.<br>
+      Okay. Now what about the cost? How much can I expect to pay per hour? I’ve seen various prices advertised, and I’m a little confused.<br>
+      Well, it depends on the size of the car among other things, which I’ll come to in a minute. But prices start at £3.96 an hour.<br>
+      Really? As little as that, no matter what vehicle I choose?<br>
+      No, sir. The larger cars cost up to <span class="highlight">£5.96</span>.<br>
+      Right. So how does using this scheme mean I save thousands of pounds a year, like you say on your website?<br>
+      Well, it means you don’t need to own your own car. So we take into account all the things car owners have to pay. But, of course, the amount you save depends on the kind of car you drive.<br>
+      But I suppose I still have to pay for the <span class="highlight">fuel</span>, don’t I?<br>
+      Actually, you don’t. That’s all covered in the cost.<br>
+      Wow. That is good. So if I decide to join, do my wife and son also need their own membership cards?<br>
+      Yes, they will. However, they will get a <span class="highlight">discount</span> on the standard rate. I should add, though, that there is an additional membership fee of £10 a month for drivers under the age of 20.<br>
+      Oh, why is that? It seems a bit unfair.<br>
+      I know. But I’m afraid we don’t have any choice. It’s because for younger drivers, we have to pay a lot more for <span class="highlight">insurance</span> costs.<br>
+      Is there any other way of saving money?<br>
+      Well, we have a frequent user’s card, which costs an additional <span class="highlight">£12.50</span> per month, but it entitles you to 20% off the hourly rates. This means you save more money the more you use the car.<br>
+      Okay. Now what else do I need to know? What about pets? Can we take them in the car?<br>
+      I’m afraid not. There’s all sorts of problems with allergies and things.<br>
+      Okay. That’s good to know at least.<br>
+      And lastly, we have good green credentials. Taking public transport more and only using a car when you really need one is better for the <span class="highlight">environment</span>.<br>
+      And that’s always a good thing in my wife’s eyes.<br>
+      Okay. Well, I have all I need. Do call back if you have any more questions, and thanks for calling.
+    </div>
+  </div>
+
+  <div class="nav-arrows">
+    <button class="nav-arrow" onclick="previousQuestion()" id="prevBtn">‹</button>
+    <button class="nav-arrow" onclick="nextQuestion()" id="nextBtn">›</button>
+  </div>
+
+  <nav class="footer">
+    <div class="footer__questionWrapper selected multiple">
+      <button class="footer__questionNo" onclick="switchToPart(1)">
+        <span>
+          <span aria-hidden="true" class="section-prefix">Part </span>
+          <span class="sectionNr" aria-hidden="true">1</span>
+          <span class="attemptedCount" aria-hidden="true">0 of 10</span>
+        </span>
+      </button>
+      <div class="footer__subquestionWrapper">
+        <button class="subQuestion" onclick="goToQuestion(1)">1</button>
+        <button class="subQuestion" onclick="goToQuestion(2)">2</button>
+        <button class="subQuestion" onclick="goToQuestion(3)">3</button>
+        <button class="subQuestion" onclick="goToQuestion(4)">4</button>
+        <button class="subQuestion" onclick="goToQuestion(5)">5</button>
+        <button class="subQuestion" onclick="goToQuestion(6)">6</button>
+        <button class="subQuestion" onclick="goToQuestion(7)">7</button>
+        <button class="subQuestion" onclick="goToQuestion(8)">8</button>
+        <button class="subQuestion" onclick="goToQuestion(9)">9</button>
+        <button class="subQuestion" onclick="goToQuestion(10)">10</button>
+      </div>
+    </div>
+    <button id="deliver-button" class="deliverButton">Check Answers</button>
+  </nav>
+
+  <div id="contextMenu" class="context-menu">
+    <div class="context-menu-item" onclick="highlightText()">Highlight</div>
+    <div class="context-menu-item" onclick="addComment()">Comment</div>
+    <div class="context-menu-item" id="clear-item" onclick="clearHighlight()" style="display:none;">Clear</div>
+    <div class="context-menu-item" onclick="clearAllHighlights()">Clear All</div>
+  </div>
+
+  <div id="result-modal" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Your Results</h2>
+        <button id="modal-close-button" class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="score-summary"></p>
+        <div id="result-details"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const body = document.body;
+      const correctAnswers = {
+        q1: 'Islip', q2: 'school', q3: 'computer', q4: 'phone', q5: '5.96',
+        q6: 'fuel', q7: 'discount', q8: 'insurance', q9: '12.50', q10: 'environment'
+      };
+      const questionTypes = {
+        q1:'text', q2:'text', q3:'text', q4:'text', q5:'text',
+        q6:'text', q7:'text', q8:'text', q9:'text', q10:'text'
+      };
+
+      let currentPart = 1;
+      let currentQuestion = 1;
+      let selectedRange = null;
+      let contextElement = null;
+
+      function initTheme() {
+        const saved = localStorage.getItem('theme') || 'light';
+        body.setAttribute('data-theme', saved);
+      }
+      function toggleDarkMode() {
+        const isDark = body.getAttribute('data-theme') === 'dark';
+        body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+        localStorage.setItem('theme', isDark ? 'light' : 'dark');
+      }
+      function changeFontSize(size) {
+        body.classList.remove('font-small','font-medium','font-large','font-xlarge');
+        body.classList.add('font-'+size);
+        localStorage.setItem('fontSize', size);
+        document.getElementById('font-size-options').classList.remove('show');
+      }
+      function initFontSize() {
+        const saved = localStorage.getItem('fontSize') || 'medium';
+        changeFontSize(saved);
+      }
+
+      function switchToPart(part) {
+        currentPart = part;
+        updateNavigation();
+        const transcriptionSource = document.querySelector('#transcription-data [data-part="1"]');
+        const transcriptionTarget = document.getElementById('transcription-text');
+        if (transcriptionSource && transcriptionTarget) {
+          transcriptionTarget.innerHTML = transcriptionSource.innerHTML;
+        }
+        updateNavigation();
+      }
+
+      function goToQuestion(qNum) {
+        if (qNum < 1 || qNum > 10) return;
+        currentQuestion = qNum;
+        document.querySelectorAll('.subQuestion').forEach(b => b.classList.remove('active'));
+        const btn = document.querySelector(`.subQuestion[onclick="goToQuestion(${qNum})"]`);
+        if (btn) btn.classList.add('active');
+        const element = document.getElementById(`q${qNum}`);
+        if (element) {
+          const container = element.closest('.question');
+          if (container) {
+            container.scrollIntoView({ behavior:'smooth', block:'center' });
+            container.classList.add('flash');
+            setTimeout(() => container.classList.remove('flash'), 1000);
+          }
+        }
+        updateNavigation();
+      }
+
+      function previousQuestion() { if (currentQuestion > 1) goToQuestion(currentQuestion - 1); }
+      function nextQuestion() { if (currentQuestion < 10) goToQuestion(currentQuestion + 1); }
+
+      function updateNavigation() {
+        document.getElementById('prevBtn').disabled = currentQuestion === 1;
+        document.getElementById('nextBtn').disabled = currentQuestion === 10;
+        updateAttemptedCount();
+        updateAnsweredIndicators();
+      }
+
+      function updateAnsweredIndicators() {
+        for (let q = 1; q <= 10; q++) {
+          const btn = document.querySelector(`.subQuestion[onclick="goToQuestion(${q})"]`);
+          if (!btn) continue;
+          if (btn.classList.contains('correct') || btn.classList.contains('incorrect')) continue;
+          const input = document.getElementById(`q${q}`);
+          const answered = input && input.value.trim() !== '';
+          btn.classList.toggle('answered', answered);
+        }
+      }
+
+      function updateAttemptedCount() {
+        let count = 0;
+        for (let q = 1; q <= 10; q++) {
+          const input = document.getElementById(`q${q}`);
+          if (input && input.value.trim() !== '') count++;
+        }
+        const display = document.querySelector('.attemptedCount');
+        if (display) display.textContent = `${count} of 10`;
+      }
+
+      function checkAnswers() {
+        let score = 0;
+        const resultsData = [];
+        document.querySelectorAll('.correct, .incorrect, .correct-inline').forEach(el => {
+          if (el.classList.contains('correct-inline')) el.remove();
+          else el.classList.remove('correct','incorrect');
+        });
+
+        for (let q = 1; q <= 10; q++) {
+          const key = `q${q}`;
+          const correct = correctAnswers[key];
+          const input = document.getElementById(key);
+          const btn = document.querySelector(`.subQuestion[onclick="goToQuestion(${q})"]`);
+          const userAnswer = input.value.trim();
+          const isCorrect = userAnswer.toLowerCase() === correct.toLowerCase();
+          input.classList.add(isCorrect ? 'correct' : 'incorrect');
+          if (!isCorrect) {
+            const span = document.createElement('span');
+            span.className = 'correct-inline';
+            span.textContent = correct;
+            input.insertAdjacentElement('afterend', span);
+          }
+          if (btn) {
+            btn.classList.remove('answered');
+            btn.classList.add(isCorrect ? 'correct' : 'incorrect');
+          }
+          resultsData.push({
+            question: q,
+            userAnswer: userAnswer || 'No Answer',
+            correctAnswer: correct,
+            isCorrect
+          });
+          if (isCorrect) score++;
+        }
+
+        document.querySelectorAll('.answer-input').forEach(i => i.disabled = true);
+        document.querySelector('.main-container').classList.add('results-mode');
+        switchToPart(1);
+
+        const band = (raw => {
+          if (raw >= 10) return 9;
+          if (raw >= 9) return 8.5;
+          if (raw >= 8) return 8;
+          if (raw >= 7) return 7.5;
+          if (raw >= 6) return 7;
+          if (raw >= 5) return 6.5;
+          if (raw >= 4) return 6;
+          if (raw >= 3) return 5.5;
+          if (raw >= 2) return 5;
+          if (raw === 1) return 4;
+          return 0;
+        })(score);
+
+        const deliverBtn = document.getElementById('deliver-button');
+        deliverBtn.classList.add('success');
+        deliverBtn.innerHTML = '<span>My Results</span>';
+        deliverBtn.disabled = false;
+        deliverBtn.onclick = () => {
+          document.getElementById('result-modal').style.display = 'flex';
+        };
+
+        document.getElementById('score-summary').textContent = `You scored ${score} out of 10 (Band ${band}).`;
+        let tableHTML = `<table style="width:100%;border-collapse:collapse;"><thead><tr><th>Q</th><th>Your Answer</th><th>Correct</th><th>Result</th></tr></thead><tbody>`;
+        resultsData.forEach(r => {
+          tableHTML += `<tr><td>${r.question}</td><td>${r.userAnswer}</td><td>${r.correctAnswer}</td><td class="${r.isCorrect ? 'result-correct' : 'result-incorrect'}">${r.isCorrect ? '✔' : '✖'}</td></tr>`;
+        });
+        tableHTML += '</tbody></table>';
+        document.getElementById('result-details').innerHTML = tableHTML;
+        document.getElementById('result-modal').style.display = 'flex';
+      }
+
+      function highlightText() {
+        if (!selectedRange || selectedRange.collapsed) return closeContextMenu();
+        try {
+          const span = document.createElement('span');
+          span.className = 'highlight';
+          selectedRange.surroundContents(span);
+        } catch(e) {
+          document.execCommand('backColor', false, 'yellow');
+        }
+        window.getSelection().removeAllRanges();
+        closeContextMenu();
+      }
+      function addComment() {
+        const comment = prompt('Enter comment:');
+        if (!comment || !selectedRange || selectedRange.collapsed) return closeContextMenu();
+        const span = document.createElement('span');
+        span.className = 'comment-highlight';
+        const tooltip = document.createElement('span');
+        tooltip.className = 'comment-tooltip';
+        tooltip.textContent = comment;
+        span.appendChild(tooltip);
+        try { selectedRange.surroundContents(span); } catch(e) {}
+        window.getSelection().removeAllRanges();
+        closeContextMenu();
+      }
+      function clearHighlight() {
+        if (!contextElement) return closeContextMenu();
+        const parent = contextElement.parentNode;
+        while (contextElement.firstChild) {
+          if (!contextElement.firstChild.classList?.contains('comment-tooltip')) {
+            parent.insertBefore(contextElement.firstChild, contextElement);
+          } else {
+            contextElement.removeChild(contextElement.firstChild);
+          }
+        }
+        parent.removeChild(contextElement);
+        parent.normalize();
+        closeContextMenu();
+      }
+      function clearAllHighlights() {
+        document.querySelectorAll('.highlight, .comment-highlight').forEach(el => {
+          const parent = el.parentNode;
+          while (el.firstChild) {
+            if (el.firstChild.nodeType === 1 && el.firstChild.classList.contains('comment-tooltip')) {
+              el.removeChild(el.firstChild);
+            } else {
+              parent.insertBefore(el.firstChild, el);
+            }
+          }
+          parent.removeChild(el);
+        });
+        closeContextMenu();
+      }
+      function closeContextMenu() {
+        document.getElementById('contextMenu').style.display = 'none';
+        contextElement = null;
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        initTheme();
+        initFontSize();
+        switchToPart(1);
+        goToQuestion(1);
+
+        document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
+        document.getElementById('font-size-toggle').addEventListener('click', () => {
+          document.getElementById('font-size-options').classList.toggle('show');
+        });
+        document.querySelectorAll('.font-size-options div').forEach(opt => {
+          opt.addEventListener('click', () => changeFontSize(opt.dataset.size));
+        });
+        document.getElementById('deliver-button').addEventListener('click', checkAnswers);
+        document.getElementById('modal-close-button').addEventListener('click', () => {
+          document.getElementById('result-modal').style.display = 'none';
+        });
+
+        document.querySelectorAll('.answer-input').forEach(input => {
+          input.addEventListener('input', updateNavigation);
+        });
+
+        document.body.addEventListener('contextmenu', function(e) {
+          const text = window.getSelection().toString();
+          if (!text) return;
+          e.preventDefault();
+          const menu = document.getElementById('contextMenu');
+          menu.style.left = e.pageX + 'px';
+          menu.style.top = e.pageY + 'px';
+          menu.style.display = 'block';
+          const target = e.target;
+          contextElement = target.closest('.highlight, .comment-highlight');
+          document.getElementById('clear-item').style.display = contextElement ? 'block' : 'none';
+        });
+        document.body.addEventListener('click', function(e) {
+          if (!e.target.closest('.context-menu')) document.getElementById('contextMenu').style.display = 'none';
+        });
+        document.addEventListener('selectionchange', () => {
+          const sel = window.getSelection();
+          if (sel && sel.rangeCount > 0 && !sel.isCollapsed) {
+            selectedRange = sel.getRangeAt(0);
+          }
+        });
+        updateNavigation();
+      });
+    })();
+  </script>
+</body>
+</html>

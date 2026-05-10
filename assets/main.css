@@ -1,0 +1,79 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #f5f7fb;
+  color: #111827;
+}
+
+/* HEADER */
+.header {
+  text-align: center;
+  padding: 50px 20px 20px;
+}
+
+.header h1 {
+  font-size: 30px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.header p {
+  margin-top: 8px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* GRID */
+.grid {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 40px 20px;
+}
+
+/* MAIN CARDS */
+.card {
+  width: 260px;
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  text-decoration: none;
+  color: #111827;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+  display: block;
+}
+
+/* HOVER EFFECT */
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+/* ICON STYLE (big emoji) */
+.card {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* SUBTEXT */
+.card span {
+  display: block;
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: normal;
+  color: #6b7280;
+}
+
+/* OPTIONAL TOP BAR LOOK */
+.topbar {
+  text-align: center;
+  padding-top: 30px;
+}

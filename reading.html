@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Reading</title>
+<link rel="stylesheet" href="/assets/exam.css">
+</head>
+
+<body>
+
+<h1>📘 Reading</h1>
+
+<div class="section" id="list"></div>
+
+<script>
+fetch("/api/reading")
+.then(res => res.json())
+.then(data => {
+
+    const box = document.getElementById("list");
+
+    const groups = {};
+    data.forEach(file => {
+        const g = file.path.split("/")[1];
+        if (!groups[g]) groups[g] = [];
+        groups[g].push(file);
+    });
+
+    const colors = ["blue", "pink", "green", "purple", "orange"];
+    let i = 0;
+
+    for (let g in groups) {
+
+        const div = document.createElement("div");
+        div.className = "group";
+
+        const title = document.createElement("div");
+        title.className = "group-title " + colors[i % colors.length];
+        title.innerText = "📂 Passage " + (i + 1);
+
+        div.appendChild(title);
+
+        groups[g].forEach((file, idx) => {
+            const a = document.createElement("a");
+            a.className = "item";
+            a.href = "/" + file.path;
+            a.innerHTML = `<span class="num">${idx + 1}</span> Test ${idx + 1}`;
+            div.appendChild(a);
+        });
+
+        box.appendChild(div);
+        i++;
+    }
+
+});
+</script>
+
+</body>
+</html>

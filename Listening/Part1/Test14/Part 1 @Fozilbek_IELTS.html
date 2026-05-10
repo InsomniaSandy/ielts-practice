@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Listening Practice – Part 1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --border-color: #e0e0e0;
+            --primary-color: #1e6de6;
+            --secondary-bg: #f8f9fa;
+            --correct-color: #28a745;
+            --incorrect-color: #dc3545;
+            --highlight-color: #ffe066;
+            --highlight-text-color: #333333;
+            --telegram-color: #1e6de6;
+            --font-size: 16px;
+            --input-bg: #ffffff;
+            --input-text: #333333;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #f0f0f0;
+            --border-color: #444444;
+            --primary-color: #4a90e2;
+            --secondary-bg: #2d2d2d;
+            --correct-color: #2ecc71;
+            --incorrect-color: #e74c3c;
+            --highlight-color: #ffd700;
+            --highlight-text-color: #000000;
+            --telegram-color: #4a90e2;
+            --input-bg: #2d2d2d;
+            --input-text: #ffffff;
+        }
+
+        .font-small { --font-size: 14px; }
+        .font-medium { --font-size: 16px; }
+        .font-large { --font-size: 18px; }
+        .font-xlarge { --font-size: 20px; }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.5;
+            font-size: var(--font-size);
+            padding-bottom: 90px;
+            transition: background-color 0.3s, color 0.3s;
+            position: relative;
+        }
+
+        body::after {
+            content: "@FOZILBEK_IELTS";
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-20deg);
+            font-size: 72px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-color);
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 0;
+            white-space: nowrap;
+            transition: color 0.3s;
+        }
+
+        .highlight {
+            background-color: var(--highlight-color);
+            color: var(--highlight-text-color) !important;
+            font-weight: 600;
+            padding: 1px 3px;
+            border-radius: 2px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        [data-theme="dark"] .highlight {
+            background-color: var(--highlight-color);
+            color: #000000 !important;
+            text-shadow: none;
+        }
+
+        .header {
+            background-color: var(--bg-color);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 60px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .ielts-logo {
+            height: 55px;
+            width: auto;
+            display: block;
+        }
+
+        .telegram-link {
+            color: var(--telegram-color) !important;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none !important;
+            border: none !important;
+        }
+
+        .telegram-link:hover { opacity: 0.8; }
+
+        .header-icons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .font-size-container { position: relative; }
+        .font-size-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .font-size-btn:hover { background-color: var(--secondary-bg); }
+        .font-size-options {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 8px 0;
+            min-width: 120px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .font-size-options.show { display: block; }
+        .font-size-options div {
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .font-size-options div:hover { background-color: var(--secondary-bg); }
+
+        .dark-mode-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .dark-mode-btn:hover { background-color: var(--secondary-bg); }
+        .sun-icon, .moon-icon {
+            position: absolute;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .sun-icon { opacity: 1; transform: scale(1); }
+        .moon-icon { opacity: 0; transform: scale(0.5); }
+        [data-theme="dark"] .sun-icon { opacity: 0; transform: scale(0.5); }
+        [data-theme="dark"] .moon-icon { opacity: 1; transform: scale(1); }
+
+        .main-container {
+            margin-top: 60px;
+            display: flex;
+            background: var(--bg-color);
+            padding-bottom: 100px;
+            transition: background-color 0.3s;
+        }
+
+        .left-panel {
+            width: 100%;
+            padding: 20px;
+            transition: width 0.4s ease;
+        }
+
+        .main-container.results-mode .left-panel {
+            width: 75%;
+            overflow-y: auto;
+            height: calc(100vh - 195px);
+        }
+
+        .right-panel {
+            display: none;
+            width: 25%;
+            padding: 20px;
+            border-left: 1px solid var(--border-color);
+            overflow-y: auto;
+            height: calc(100vh - 195px);
+            background-color: var(--bg-color);
+        }
+
+        .main-container.results-mode .right-panel {
+            display: block;
+        }
+
+        .part-header {
+            background-color: var(--secondary-bg);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .centered-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .answer-input {
+            border: 1px solid #9aa3ad;
+            border-radius: 4px;
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            padding: 4px 8px;
+            font-size: 16px;
+            margin: 0 5px;
+            width: 140px;
+            max-width: 160px;
+            min-width: 120px;
+            height: 28px;
+            vertical-align: middle;
+            font-weight: 600;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        [data-theme="dark"] .answer-input {
+            background-color: var(--input-bg);
+            color: #ffffff;
+            border-color: #666;
+        }
+
+        .answer-input:focus {
+            outline: none;
+            border-color: #2c6bed;
+            border-width: 2px;
+        }
+        .answer-input.correct {
+            border-color: var(--correct-color);
+            background-color: #e9f7ef;
+        }
+        .answer-input.incorrect {
+            border-color: var(--incorrect-color);
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .correct-inline {
+            color: var(--correct-color);
+            font-weight: 700;
+            margin-left: 10px;
+            display: inline-block;
+        }
+        .correct-inline::before { content: "→ "; }
+
+        .nav-arrows {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            display: flex;
+            gap: 5px;
+            z-index: 101;
+        }
+        .nav-arrow {
+            width: 50px;
+            height: 50px;
+            background: var(--text-color);
+            color: var(--bg-color);
+            border: none;
+            cursor: pointer;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .nav-arrow:disabled { background: #ccc; cursor: not-allowed; }
+
+        .nav-row {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-color);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            height: 80px;
+            z-index: 100;
+            padding: 0 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .footer__questionWrapper__1tZ46 {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        .footer__questionNo__3WNct {
+            background: none;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+            cursor: pointer;
+        }
+        .footer__subquestionWrapper__9GgoP {
+            display: flex;
+            gap: 2px;
+            margin-left: 10px;
+        }
+        .subQuestion {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+        }
+        .subQuestion.answered { background-color: var(--secondary-bg); }
+        .subQuestion.correct { background-color: var(--correct-color); color: white; border-color: var(--correct-color); }
+        .subQuestion.incorrect { background-color: var(--incorrect-color); color: white; border-color: var(--incorrect-color); }
+        .subQuestion.active { background-color: var(--primary-color); color: white; }
+
+        .footer__deliverButton__3FM07 {
+            margin-left: auto;
+            background-color: var(--secondary-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 170px;
+            justify-content: center;
+        }
+        .footer__deliverButton__3FM07:hover { background-color: #e0e0e0; }
+        .footer__deliverButton__3FM07.success { background-color: var(--correct-color); color: #fff; border-color: var(--correct-color); }
+
+        .context-menu {
+            position: absolute;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: none;
+            min-width: 140px;
+        }
+        .context-menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--secondary-bg);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .context-menu-item:hover { background-color: var(--secondary-bg); }
+        .context-menu-item:last-child { border-bottom: none; }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        .modal-content {
+            background: var(--bg-color);
+            padding: 25px;
+            border-radius: 8px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .modal-close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #888;
+        }
+
+        @keyframes flash {
+            0% { background-color: #e6f4ff; }
+            100% { background-color: transparent; }
+        }
+        .question.flash { animation: flash 1s ease-out; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <img src="https://i.pinimg.com/736x/88/93/a8/8893a81fed78f6989142a13e3605c45e.jpg" alt="IELTS Logo" class="ielts-logo">
+            <a href="https://t.me/FOZILBEK_IELTS" target="_blank" class="telegram-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-.38.24-1.07.7-.96.66-1.89 1.28-1.89 1.28s-.17.11-.49.03c-.32-.08-.72-.26-1.16-.47-.54-.26-1.17-.53-1.17-.53s-.87-.55.62-1.14c.32-.13 1.96-.84 2.99-1.2 1.05-.37 2.86-1.01 2.86-1.01s1.02-.4 1.02 0z" fill="currentColor"/></svg>
+                <span>@FOZILBEK_IELTS</span>
+            </a>
+        </div>
+        <div class="header-icons">
+            <div class="font-size-container">
+                <button class="font-size-btn" id="font-size-toggle" title="Adjust Font Size">A</button>
+                <div id="font-size-options" class="font-size-options">
+                    <div data-size="small">Small</div>
+                    <div data-size="medium">Medium</div>
+                    <div data-size="large">Large</div>
+                    <div data-size="xlarge">Extra Large</div>
+                </div>
+            </div>
+            <button class="dark-mode-btn" id="dark-mode-toggle" title="Toggle Dark Mode">
+                <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="left-panel">
+            <div id="part-1" class="question-part">
+                <div class="part-header">
+                    <p><strong>Part 1</strong></p>
+                    <p>Listen and answer questions 1-10.</p>
+                </div>
+                <div class="questions-container">
+                    <div class="question">
+                        <div class="question-prompt">
+                            <p><strong>Questions 1–10</strong></p>
+                            <p>Complete the notes below.</p>
+                            <p>Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.</p>
+                        </div>
+                        <p class="centered-title"><strong>Lifeguard Application</strong></p>
+
+                        <p><strong>Personal information</strong></p>
+                        <ul style="list-style-type: none; padding-left: 0;">
+                            <li>Name: Peter Smith</li>
+                            <li>Address: 130 South Main Street, Lake <strong>1</strong> <input type="text" id="q1" class="answer-input" placeholder="1" autocomplete="off"></li>
+                            <li>Contact number: <strong>2</strong> <input type="text" id="q2" class="answer-input" placeholder="2" autocomplete="off"> (cellphone)</li>
+                        </ul>
+
+                        <p><strong>Work experience:</strong></p>
+                        <ul style="list-style-type: none; padding-left: 0;">
+                            <li>has a part-time job as a <strong>3</strong> <input type="text" id="q3" class="answer-input" placeholder="3" autocomplete="off"></li>
+                            <li>is studying PE now</li>
+                            <li>hopes to work in a high school as a <strong>4</strong> <input type="text" id="q4" class="answer-input" placeholder="4" autocomplete="off"> coach</li>
+                        </ul>
+
+                        <p><strong>Other relevant work experience:</strong></p>
+                        <ul style="list-style-type: none; padding-left: 0;">
+                            <li>worked at the <strong>5</strong> <input type="text" id="q5" class="answer-input" placeholder="5" autocomplete="off"> as a lifeguard</li>
+                        </ul>
+
+                        <p><strong>Qualification for water safety:</strong></p>
+                        <ul style="list-style-type: none; padding-left: 0;">
+                            <li>Good level of concentration</li>
+                            <li>Good vision</li>
+                            <li>Other relevant skills: <strong>6</strong> <input type="text" id="q6" class="answer-input" placeholder="6" autocomplete="off"></li>
+                            <li>need a certificate: it expires in <strong>7</strong> <input type="text" id="q7" class="answer-input" placeholder="7" autocomplete="off"></li>
+                        </ul>
+
+                        <p><strong>Other information</strong></p>
+                        <ul style="list-style-type: none; padding-left: 0;">
+                            <li>Preferred working time: <strong>8</strong> <input type="text" id="q8" class="answer-input" placeholder="8" autocomplete="off"> mornings</li>
+                            <li>He can start to work at <strong>9</strong> <input type="text" id="q9" class="answer-input" placeholder="9" autocomplete="off"> o'clock</li>
+                            <li>Source of information: <strong>10</strong> <input type="text" id="q10" class="answer-input" placeholder="10" autocomplete="off"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel" id="transcription-panel">
+            <h2>Transcription</h2>
+            <div id="transcription-text"></div>
+        </div>
+    </div>
+
+    <!-- Hidden transcription data -->
+    <div id="transcription-data" style="display:none;">
+        <div data-part="1">
+            <strong>SECTION 1</strong><br><br>
+            Questions 1-5<br><br>
+            [Jane] Hello. North Bay Aquatic Centre. Jane is speaking.<br>
+            [Peter] Oh, hello. I’m calling to apply for a part time lifeguard position. Am I speaking to the right person?<br>
+            [Jane] Yes, you are. We are currently recruiting lifeguards for two different positions. But first, I’ll have to jot down some of your personal information before we officially invite you for an interview. Is that alright?<br>
+            [Peter] Sure. No problem.<br>
+            [Jane] May I have your name, please?<br>
+            [Peter] It’s Peter. Peter Smith.<br>
+            [Jane] Okay. And what is your current address?<br>
+            [Peter] It’s 130 South Main Street, Lake <span class="highlight">Elsinore</span>.<br>
+            [Jane] I’m sorry. Elsinore?<br>
+            [Peter] Oh, it’s E L S I N O R E, Elsinore.<br>
+            [Jane] Right, got it. What is your phone number?<br>
+            [Peter] <span class="highlight">077896245</span><br>
+            [Jane] Okay. Now, tell me about your work experience.<br>
+            [Peter] I have a part-time job as a <span class="highlight">waiter</span> at a local restaurant. I’m studying PE now and I hope to work in a high school as a <span class="highlight">baseball</span> coach.<br>
+            [Jane] Good. Have you had any other relevant work experience?<br>
+            [Peter] I worked at the <span class="highlight">beach</span> as a lifeguard last summer.<br>
+            [Jane] Perfect. What qualifications do you have for water safety?<br>
+            [Peter] I have good level of concentration and good vision. Other relevant skills: <span class="highlight">diving</span>. I also have a certificate that expires in <span class="highlight">October</span>.<br>
+            [Jane] Okay. Preferred working time?<br>
+            [Peter] <span class="highlight">Saturday</span> mornings.<br>
+            [Jane] He can start to work at <span class="highlight">6</span> o’clock.<br>
+            [Jane] Source of information: <span class="highlight">radio</span>.
+        </div>
+    </div>
+
+    <div class="nav-arrows">
+        <button class="nav-arrow" onclick="previousQuestion()" id="prevBtn">‹</button>
+        <button class="nav-arrow" onclick="nextQuestion()" id="nextBtn">›</button>
+    </div>
+
+    <nav class="nav-row" aria-label="Questions">
+        <div class="footer__questionWrapper__1tZ46 multiple">
+            <button class="footer__questionNo__3WNct" onclick="goToQuestion(1)">
+                <span>Part 1 <span style="font-size:14px;" id="answered-count">0 of 10</span></span>
+            </button>
+            <div class="footer__subquestionWrapper__9GgoP">
+                <button class="subQuestion" onclick="goToQuestion(1)">1</button>
+                <button class="subQuestion" onclick="goToQuestion(2)">2</button>
+                <button class="subQuestion" onclick="goToQuestion(3)">3</button>
+                <button class="subQuestion" onclick="goToQuestion(4)">4</button>
+                <button class="subQuestion" onclick="goToQuestion(5)">5</button>
+                <button class="subQuestion" onclick="goToQuestion(6)">6</button>
+                <button class="subQuestion" onclick="goToQuestion(7)">7</button>
+                <button class="subQuestion" onclick="goToQuestion(8)">8</button>
+                <button class="subQuestion" onclick="goToQuestion(9)">9</button>
+                <button class="subQuestion" onclick="goToQuestion(10)">10</button>
+            </div>
+        </div>
+        <button id="deliver-button" class="footer__deliverButton__3FM07">Check Answers</button>
+    </nav>
+
+    <div id="contextMenu" class="context-menu">
+        <div class="context-menu-item" onclick="highlightText()">Highlight</div>
+        <div class="context-menu-item" onclick="clearAllHighlights()">Clear All</div>
+    </div>
+
+    <div id="result-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Your Results</h2>
+                <button id="modal-close-button" class="modal-close-btn">&times;</button>
+            </div>
+            <p id="score-summary"></p>
+            <div id="result-details"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 1;
+        let selectedRange = null;
+
+        const body = document.body;
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const fontSizeToggle = document.getElementById('font-size-toggle');
+        const fontSizeOptions = document.getElementById('font-size-options');
+
+        // Answer key (accept 'six' for q9)
+        const correctAnswers = {
+            q1: ['Elsinore'],
+            q2: ['077896245'],
+            q3: ['waiter'],
+            q4: ['baseball'],
+            q5: ['beach'],
+            q6: ['diving'],
+            q7: ['October'],
+            q8: ['Saturday'],
+            q9: ['6', 'six'],
+            q10: ['radio']
+        };
+
+        const questionTypes = {
+            q1: 'text', q2: 'text', q3: 'text', q4: 'text', q5: 'text',
+            q6: 'text', q7: 'text', q8: 'text', q9: 'text', q10: 'text'
+        };
+
+        function initDarkMode() {
+            const saved = localStorage.getItem('theme') || 'light';
+            body.setAttribute('data-theme', saved);
+        }
+        function toggleDarkMode() {
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        }
+        function changeFontSize(size) {
+            body.classList.remove('font-small', 'font-medium', 'font-large', 'font-xlarge');
+            body.classList.add(`font-${size}`);
+            localStorage.setItem('fontSize', size);
+            fontSizeOptions.classList.remove('show');
+        }
+        function initFontSize() {
+            const saved = localStorage.getItem('fontSize') || 'medium';
+            changeFontSize(saved);
+        }
+
+        function goToQuestion(qNum) {
+            if (qNum < 1 || qNum > 10) return;
+            currentQuestion = qNum;
+            document.querySelectorAll('.subQuestion').forEach(b => b.classList.remove('active'));
+            const btn = document.querySelector(`.subQuestion[onclick="goToQuestion(${qNum})"]`);
+            if (btn) btn.classList.add('active');
+            document.getElementById('prevBtn').disabled = currentQuestion === 1;
+            document.getElementById('nextBtn').disabled = currentQuestion === 10;
+
+            const inputEl = document.getElementById(`q${qNum}`);
+            if (inputEl) {
+                const container = inputEl.closest('.question') || inputEl.closest('ul');
+                if (container) {
+                    container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    container.classList.add('flash');
+                    setTimeout(() => container.classList.remove('flash'), 1000);
+                }
+            }
+        }
+
+        function nextQuestion() { if (currentQuestion < 10) goToQuestion(currentQuestion + 1); }
+        function previousQuestion() { if (currentQuestion > 1) goToQuestion(currentQuestion - 1); }
+
+        function updateAnsweredIndicators() {
+            for (let q = 1; q <= 10; q++) {
+                const btn = document.querySelector(`.subQuestion[onclick="goToQuestion(${q})"]`);
+                if (!btn) continue;
+                if (btn.classList.contains('correct') || btn.classList.contains('incorrect')) continue;
+                const input = document.getElementById(`q${q}`);
+                const answered = input && input.value.trim() !== '';
+                btn.classList.toggle('answered', answered);
+            }
+            const count = document.querySelectorAll('.subQuestion.answered, .subQuestion.correct, .subQuestion.incorrect').length;
+            document.getElementById('answered-count').textContent = `${count} of 10`;
+        }
+
+        function checkAnswers() {
+            let score = 0;
+            let resultsData = [];
+            document.querySelectorAll('.correct, .incorrect, .correct-inline').forEach(el => {
+                if (el.classList.contains('correct-inline')) el.remove();
+                else el.classList.remove('correct', 'incorrect');
+            });
+
+            for (let q = 1; q <= 10; q++) {
+                const key = `q${q}`;
+                const accepted = correctAnswers[key].map(a => a.toLowerCase());
+                const input = document.getElementById(key);
+                let userAnswer = '';
+                let isCorrect = false;
+
+                if (input) {
+                    userAnswer = input.value.trim();
+                    isCorrect = accepted.includes(userAnswer.toLowerCase());
+                    input.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    if (!isCorrect) {
+                        const span = document.createElement('span');
+                        span.className = 'correct-inline';
+                        span.textContent = correctAnswers[key][0];
+                        input.insertAdjacentElement('afterend', span);
+                    }
+                }
+
+                const btn = document.querySelector(`.subQuestion[onclick="goToQuestion(${q})"]`);
+                if (btn) {
+                    btn.classList.remove('answered');
+                    btn.classList.add(isCorrect ? 'correct' : 'incorrect');
+                }
+                resultsData.push({
+                    question: q,
+                    userAnswer: userAnswer || 'No Answer',
+                    correctAnswer: correctAnswers[key][0],
+                    isCorrect
+                });
+                if (isCorrect) score++;
+            }
+
+            document.querySelectorAll('.answer-input').forEach(input => input.disabled = true);
+
+            // Show transcription panel
+            document.querySelector('.main-container').classList.add('results-mode');
+            const transcriptionSource = document.querySelector('#transcription-data [data-part="1"]');
+            document.getElementById('transcription-text').innerHTML = transcriptionSource ? transcriptionSource.innerHTML : '';
+
+            const modal = document.getElementById('result-modal');
+            document.getElementById('score-summary').textContent = `You scored ${score} out of 10`;
+            let tableHTML = `<table style="width:100%; border-collapse:collapse;"><tr><th>Q</th><th>Your Answer</th><th>Correct</th><th>Result</th></tr>`;
+            resultsData.forEach(r => {
+                tableHTML += `<tr>
+                    <td>${r.question}</td>
+                    <td>${r.userAnswer}</td>
+                    <td>${r.correctAnswer}</td>
+                    <td style="color:${r.isCorrect ? 'green' : 'red'}">${r.isCorrect ? '✔' : '✖'}</td>
+                </tr>`;
+            });
+            tableHTML += '</table>';
+            document.getElementById('result-details').innerHTML = tableHTML;
+            modal.style.display = 'flex';
+
+            const deliverBtn = document.getElementById('deliver-button');
+            deliverBtn.classList.add('success');
+            deliverBtn.innerHTML = '<span>My Results</span>';
+            deliverBtn.disabled = false;
+            deliverBtn.onclick = () => { modal.style.display = 'flex'; };
+        }
+
+        // --- Highlighting functionality ---
+        function highlightText() {
+            if (!selectedRange || selectedRange.collapsed) { closeContextMenu(); return; }
+            try {
+                const span = document.createElement('span');
+                span.className = 'highlight';
+                selectedRange.surroundContents(span);
+            } catch(e) {
+                document.execCommand('backColor', false, 'yellow');
+            }
+            window.getSelection().removeAllRanges();
+            closeContextMenu();
+        }
+
+        function clearAllHighlights() {
+            document.querySelectorAll('.highlight').forEach(el => {
+                const parent = el.parentNode;
+                while (el.firstChild) parent.insertBefore(el.firstChild, el);
+                parent.removeChild(el);
+            });
+            closeContextMenu();
+        }
+
+        function closeContextMenu() { document.getElementById('contextMenu').style.display = 'none'; }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initDarkMode();
+            initFontSize();
+            goToQuestion(1);
+
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+            fontSizeToggle.addEventListener('click', () => fontSizeOptions.classList.toggle('show'));
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.font-size-container')) fontSizeOptions.classList.remove('show');
+            });
+            document.querySelectorAll('.font-size-options div').forEach(opt => {
+                opt.addEventListener('click', () => changeFontSize(opt.dataset.size));
+            });
+            document.getElementById('deliver-button').addEventListener('click', checkAnswers);
+            document.getElementById('modal-close-button').addEventListener('click', () => {
+                document.getElementById('result-modal').style.display = 'none';
+            });
+
+            document.querySelectorAll('.answer-input').forEach(input => {
+                input.addEventListener('input', updateAnsweredIndicators);
+            });
+
+            document.body.addEventListener('contextmenu', (e) => {
+                const selection = window.getSelection().toString();
+                if (!selection) return;
+                e.preventDefault();
+                const menu = document.getElementById('contextMenu');
+                menu.style.left = e.pageX + 'px';
+                menu.style.top = e.pageY + 'px';
+                menu.style.display = 'block';
+            });
+            document.body.addEventListener('click', (e) => {
+                if (!e.target.closest('.context-menu')) closeContextMenu();
+            });
+            document.addEventListener('selectionchange', () => {
+                const sel = window.getSelection();
+                if (sel && sel.rangeCount > 0 && !sel.isCollapsed) {
+                    selectedRange = sel.getRangeAt(0);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS CDI Listening Practice – Part 3: A Study on Volcanoes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --border-color: #e0e0e0;
+            --primary-color: #1e6de6;
+            --secondary-bg: #f8f9fa;
+            --correct-color: #28a745;
+            --incorrect-color: #dc3545;
+            --highlight-color: #ffe066;
+            --highlight-text-color: #333333;
+            --telegram-color: #1e6de6;
+            --font-size: 16px;
+            --input-bg: #ffffff;
+            --input-text: #333333;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #f0f0f0;
+            --border-color: #444444;
+            --primary-color: #4a90e2;
+            --secondary-bg: #2d2d2d;
+            --correct-color: #2ecc71;
+            --incorrect-color: #e74c3c;
+            --highlight-color: #ffd700;
+            --highlight-text-color: #000000;
+            --telegram-color: #4a90e2;
+            --input-bg: #2d2d2d;
+            --input-text: #ffffff;
+        }
+
+        .font-small { --font-size: 14px; }
+        .font-medium { --font-size: 16px; }
+        .font-large { --font-size: 18px; }
+        .font-xlarge { --font-size: 20px; }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.4;
+            font-size: var(--font-size);
+            padding-bottom: 90px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body::after {
+            content: "@FOZILBEK_IELTS";
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-20deg);
+            font-size: 72px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-color);
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 0;
+            white-space: nowrap;
+            transition: color 0.3s;
+        }
+
+        .highlight {
+            background-color: var(--highlight-color);
+            color: var(--highlight-text-color) !important;
+            font-weight: 600;
+            padding: 1px 3px;
+            border-radius: 2px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        [data-theme="dark"] .highlight {
+            background-color: var(--highlight-color);
+            color: #000000 !important;
+        }
+
+        .comment-highlight {
+            background-color: #90EE90;
+            position: relative;
+            cursor: help;
+            color: #000000 !important;
+        }
+
+        [data-theme="dark"] .comment-highlight {
+            background-color: #006400;
+            color: #ffffff !important;
+        }
+
+        .comment-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            white-space: nowrap;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .comment-highlight:hover .comment-tooltip {
+            opacity: 1;
+        }
+
+        .header {
+            background-color: var(--bg-color);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 60px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .ielts-logo {
+            height: 55px;
+            width: auto;
+            display: block;
+        }
+
+        .telegram-link {
+            color: var(--telegram-color) !important;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 0;
+            background: none !important;
+            border: none !important;
+            line-height: 1;
+            transition: opacity 0.2s;
+        }
+
+        .telegram-link:hover { opacity: 0.8; }
+
+        .header-icons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .font-size-container { position: relative; }
+
+        .font-size-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .font-size-btn:hover { background-color: var(--secondary-bg); }
+
+        .font-size-options {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 8px 0;
+            min-width: 120px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .font-size-options.show { display: block; }
+
+        .font-size-options div {
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 14px;
+        }
+
+        .font-size-options div:hover { background-color: var(--secondary-bg); }
+
+        .dark-mode-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .dark-mode-btn:hover { background-color: var(--secondary-bg); }
+
+        .sun-icon, .moon-icon {
+            position: absolute;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .sun-icon { opacity: 1; transform: scale(1); }
+        .moon-icon { opacity: 0; transform: scale(0.5); }
+        [data-theme="dark"] .sun-icon { opacity: 0; transform: scale(0.5); }
+        [data-theme="dark"] .moon-icon { opacity: 1; transform: scale(1); }
+
+        .main-container {
+            margin-top: 60px;
+            display: flex;
+            background: var(--bg-color);
+            padding-bottom: 100px;
+            transition: background-color 0.3s;
+        }
+
+        .main-container.results-mode { flex-direction: row; }
+
+        .left-panel {
+            width: 100%;
+            padding: 20px;
+            transition: width 0.4s ease;
+        }
+
+        .main-container.results-mode .left-panel {
+            width: 75%;
+            overflow-y: auto;
+            height: calc(100vh - 195px);
+        }
+
+        .right-panel {
+            display: none;
+            width: 50%;
+            padding: 20px;
+            border-left: 1px solid var(--border-color);
+            overflow-y: auto;
+            height: calc(100vh - 195px);
+        }
+
+        .main-container.results-mode .right-panel {
+            display: block;
+            width: 25%;
+            border-top: none;
+        }
+
+        #transcription-container h2 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #transcription-text {
+            white-space: pre-wrap;
+            font-family: inherit;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .part-header {
+            background-color: var(--secondary-bg);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .questions-container { width: 50%; }
+        .main-container.results-mode .questions-container { width: 80%; }
+
+        .question { margin-bottom: 40px; }
+        .question-prompt { margin-bottom: 20px; }
+        .centered-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .answer-input {
+            border: 1px solid #9aa3ad;
+            border-radius: 4px;
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            padding: 4px 8px;
+            font-size: 16px;
+            text-align: center;
+            margin-right: 4px;
+            width: 50px;
+            font-weight: 600;
+            height: 28px;
+            line-height: 1.2;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        [data-theme="dark"] .answer-input {
+            background-color: var(--input-bg);
+            color: #ffffff;
+            border-color: #666;
+        }
+
+        .answer-input.correct {
+            border-color: var(--correct-color);
+            background-color: #e9f7ef;
+        }
+
+        .answer-input.incorrect {
+            border-color: var(--incorrect-color);
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .correct-inline {
+            color: var(--correct-color);
+            font-weight: 700;
+            margin-left: 10px;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .correct-inline::before { content: "→ "; }
+
+        .multi-choice-option {
+            display: block;
+            padding: 10px 14px;
+            background-color: var(--bg-color);
+            border: 1px solid transparent;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .multi-choice-option:hover {
+            background-color: #f1f7ff;
+            border-color: #c6dcfb;
+        }
+
+        .multi-choice-option:has(input[type="radio"]:checked) {
+            background-color: #cfe3f9;
+        }
+
+        .multi-choice-option label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .multi-choice-option input[type="radio"] {
+            transform: scale(1.2);
+            margin-right: 8px;
+        }
+
+        .multi-choice-option.correct { background-color: #d4edda !important; }
+        .multi-choice-option.incorrect { background-color: #f8d7da !important; }
+
+        /* Purpose box */
+        .purpose-box {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        /* Navigation */
+        .nav-arrows {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            display: flex;
+            gap: 5px;
+            z-index: 101;
+        }
+
+        .nav-arrow {
+            width: 50px;
+            height: 50px;
+            background: var(--text-color);
+            color: var(--bg-color);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+
+        .nav-arrow:hover { background: #555; }
+        .nav-arrow:disabled { background: #ccc; cursor: not-allowed; }
+
+        .nav-row {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-color);
+            border-top: 1px solid var(--border-color);
+            padding: 0;
+            display: flex;
+            align-items: center;
+            height: 80px;
+            z-index: 100;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .footer__questionWrapper__1tZ46 {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .footer__questionNo__3WNct {
+            background: none;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .footer__questionNo__3WNct:hover { background-color: var(--secondary-bg); }
+        .section-prefix { font-size: 16px; }
+        .sectionNr { font-size: 16px; font-weight: bold; }
+
+        .attemptedCount {
+            font-size: 14px;
+            color: #666;
+            margin-left: 5px;
+            font-weight: 400;
+        }
+
+        @media (max-width: 1024px) { .attemptedCount { display: none; } }
+
+        .footer__questionWrapper__1tZ46.selected .attemptedCount { display: none; }
+
+        .footer__subquestionWrapper__9GgoP {
+            display: none;
+            gap: 2px;
+            margin-left: 10px;
+        }
+
+        .footer__questionWrapper__1tZ46.selected .footer__subquestionWrapper__9GgoP {
+            display: flex;
+        }
+
+        .subQuestion {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            border-radius: 2px;
+        }
+
+        .subQuestion.answered { background-color: var(--secondary-bg); border-color: var(--border-color); }
+        .subQuestion.correct { background-color: var(--correct-color); color: white; border-color: var(--correct-color); }
+        .subQuestion.incorrect { background-color: var(--incorrect-color); color: white; border-color: var(--incorrect-color); }
+        .subQuestion:hover { background-color: var(--secondary-bg); border-color: #999; }
+        .subQuestion.active { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
+
+        .footer__deliverButton__3FM07 {
+            margin-left: auto;
+            margin-right: 20px;
+            background-color: var(--secondary-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 170px;
+            justify-content: center;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .footer__deliverButton__3FM07:hover { background-color: #e0e0e0; border-color: #bbb; }
+        .footer__deliverButton__3FM07.success { background-color: var(--correct-color); color: #fff; border-color: var(--correct-color); }
+        .footer__deliverButton__3FM07:disabled { background: var(--secondary-bg); color: #6c757d; cursor: not-allowed; }
+
+        .hidden { display: none; }
+
+        .context-menu {
+            position: absolute;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: none;
+            min-width: 140px;
+        }
+
+        .context-menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            font-size: 16px;
+            border-bottom: 1px solid var(--secondary-bg);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .context-menu-item:hover { background-color: var(--secondary-bg); }
+        .context-menu-item:last-child { border-bottom: none; }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--bg-color);
+            padding: 25px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 { font-size: 24px; color: var(--text-color); }
+        .modal-close-btn { background: none; border: none; font-size: 28px; cursor: pointer; color: #888; }
+        .modal-close-btn:hover { color: var(--text-color); }
+
+        #score-summary { font-size: 18px; font-weight: bold; margin-bottom: 20px; }
+
+        #result-details table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        #result-details th, #result-details td { border: 1px solid var(--border-color); padding: 10px; text-align: left; }
+        #result-details th { background-color: var(--secondary-bg); font-weight: 600; }
+        #result-details td:nth-child(1) { font-weight: bold; text-align: center; }
+
+        .result-correct { color: var(--correct-color); font-weight: bold; }
+        .result-incorrect { color: var(--incorrect-color); font-weight: bold; }
+
+        @keyframes flash {
+            0% { background-color: #e6f4ff; }
+            100% { background-color: transparent; }
+        }
+        .question.flash { animation: flash 1s ease-out; }
+
+        @media (max-width: 1024px) {
+            .main-container { flex-direction: column; }
+            .right-panel, .main-container.results-mode .right-panel { display: none; }
+            .left-panel, .main-container.results-mode .left-panel { width: 100%; padding: 20px 10px; height: auto; }
+            .questions-container { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="header-left">
+        <img src="https://i.pinimg.com/736x/88/93/a8/8893a81fed78f6989142a13e3605c45e.jpg"
+             alt="IELTS Logo" class="ielts-logo">
+        <a href="https://t.me/FOZILBEK_IELTS" target="_blank" class="telegram-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-.38.24-1.07.7-.96.66-1.89 1.28-1.89 1.28s-.17.11-.49.03c-.32-.08-.72-.26-1.16-.47-.54-.26-1.17-.53-1.17-.53s-.87-.55.62-1.14c.32-.13 1.96-.84 2.99-1.2 1.05-.37 2.86-1.01 2.86-1.01s1.02-.4 1.02 0z" fill="currentColor"/></svg>
+            <span>@FOZILBEK_IELTS</span>
+        </a>
+    </div>
+    <div class="header-icons">
+        <div class="font-size-container">
+            <button class="font-size-btn" id="font-size-toggle" title="Adjust Font Size">A</button>
+            <div id="font-size-options" class="font-size-options">
+                <div data-size="small">Small</div>
+                <div data-size="medium">Medium</div>
+                <div data-size="large">Large</div>
+                <div data-size="xlarge">Extra Large</div>
+            </div>
+        </div>
+        <button class="dark-mode-btn" id="dark-mode-toggle" title="Toggle Dark Mode">
+            <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+    </div>
+</div>
+
+<div class="main-container">
+    <div class="left-panel">
+        <div id="part-3" class="question-part">
+            <div class="part-header">
+                <p><strong>Part 3</strong></p>
+                <p>Listen and answer questions 21-30.</p>
+            </div>
+
+            <div class="questions-container">
+                <!-- Questions 21-25 (MCQ) -->
+                <div class="question">
+                    <div class="question-prompt">
+                        <p><strong>Questions 21-25</strong></p>
+                        <p>Choose the correct letter, <strong>A, B or C</strong>.</p>
+                    </div>
+                    <p class="centered-title"><strong>A Study on Volcanoes</strong></p>
+
+                    <div class="mcq-item">
+                        <p><strong>21.</strong> Students may fail the exam if they</p>
+                        <div class="options">
+                            <div class="multi-choice-option"><label><input type="radio" name="q21" value="A"> A. do not collect primary statistics.</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q21" value="B"> B. copy other people's work.</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q21" value="C"> C. do not follow the instructions.</label></div>
+                        </div>
+                    </div>
+
+                    <div class="mcq-item">
+                        <p><strong>22.</strong> Why does the man think they should avoid including the pictures of the first volcano in the presentation?</p>
+                        <div class="options">
+                            <div class="multi-choice-option"><label><input type="radio" name="q22" value="A"> A. They are not attractive.</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q22" value="B"> B. The time is limited.</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q22" value="C"> C. People have never heard of it.</label></div>
+                        </div>
+                    </div>
+
+                    <div class="mcq-item">
+                        <p><strong>23.</strong> About Mount Fago, a volcano in Mexico or the USA, the man thinks</p>
+                        <div class="options">
+                            <div class="multi-choice-option"><label><input type="radio" name="q23" value="A"> A. they should not use inaccurate information in the presentation.</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q23" value="B"> B. they should use another example.</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q23" value="C"> C. it does not matter where the volcano is.</label></div>
+                        </div>
+                    </div>
+
+                    <div class="mcq-item">
+                        <p><strong>24.</strong> The woman thinks they should mention Mount Etna since</p>
+                        <div class="options">
+                            <div class="multi-choice-option"><label><input type="radio" name="q24" value="A"> A. it covers most of the important points.</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q24" value="B"> B. It was formed a long time ago.</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q24" value="C"> C. it has stunning views.</label></div>
+                        </div>
+                    </div>
+
+                    <div class="mcq-item">
+                        <p><strong>25.</strong> They agree to leave out Mount Horton as</p>
+                        <div class="options">
+                            <div class="multi-choice-option"><label><input type="radio" name="q25" value="A"> A. other students have used it before.</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q25" value="B"> B. it is irrelevant to their topic.</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q25" value="C"> C. there is nothing special about this volcano.</label></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Questions 26-30 (Matching) -->
+                <div class="question">
+                    <div class="question-prompt">
+                        <p><strong>Questions 26-30</strong></p>
+                        <p>Which statement applies to each of the following situations?</p>
+                        <p>Choose <strong>FIVE</strong> answers from the box and write the correct letter, <strong>A-G</strong>, next to questions 26-30.</p>
+                    </div>
+                    <div class="purpose-box">
+                        <p><strong>Purposes</strong></p>
+                        <p>A. make a short film<br>
+                        B. lacked his/her own points<br>
+                        C. neglect the positive aspect<br>
+                        D. watch some documentaries<br>
+                        E. did not prepare beforehand<br>
+                        F. identify the differences between them</p>
+                    </div>
+
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 15px;"><strong>26.</strong> The woman’s last presentation was criticized because it <input type="text" id="q26" class="answer-input" placeholder="e.g. A" autocomplete="off" maxlength="1"></li>
+                        <li style="margin-bottom: 15px;"><strong>27.</strong> The tutor suggests for the next presentation the woman should <input type="text" id="q27" class="answer-input" placeholder="e.g. B" autocomplete="off" maxlength="1"></li>
+                        <li style="margin-bottom: 15px;"><strong>28.</strong> People do not know enough about volcanoes and so they <input type="text" id="q28" class="answer-input" placeholder="e.g. C" autocomplete="off" maxlength="1"></li>
+                        <li style="margin-bottom: 15px;"><strong>29.</strong> The reason why the man felt very nervous is that he <input type="text" id="q29" class="answer-input" placeholder="e.g. D" autocomplete="off" maxlength="1"></li>
+                        <li style="margin-bottom: 15px;"><strong>30.</strong> They are researching active and extinct volcanoes to <input type="text" id="q30" class="answer-input" placeholder="e.g. E" autocomplete="off" maxlength="1"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Panel (Transcription) -->
+    <div class="right-panel">
+        <div id="transcription-container">
+            <h2>Transcription</h2>
+            <div id="transcription-text"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden Transcription Data -->
+<div id="transcription-data" style="display:none;">
+    <div data-part="3">
+        <strong>SECTION 3</strong><br><br>
+        <strong>Part three. You will hear two students, Erica and Ian, discussing their presentation on volcanoes.</strong><br><br>
+        <strong>Erica:</strong> Hey, Ian. How far along are you on preparing the presentation on volcanoes next week?<br>
+        <strong>Ian:</strong> Not much.<br>
+        <strong>Erica:</strong> Maybe we can straighten things out first?<br>
+        <strong>Ian:</strong> Sure. I decided to start with shield Volcano. The name derives from its similarity in shape to a warrior’s shield lying face up. The Hawaiian shield volcanoes are the most famous examples. Professor Joan mentioned that many scholars have already done quite a lot of research in this field. We could retell conclusions from published papers.<br>
+        <strong>Erica:</strong> I’m not sure. I mean, is that even allowed? I know we don’t have to use first hand data we collect but <span class="highlight">copy in others</span>?<br>
+        <strong>Ian:</strong> Come on. It’s not like we are using their findings as our own. The professor said it would be okay as long as we cited our sources. Oh, okay. Do you have any ideas about stratovolcanoes?<br>
+        <strong>Erica:</strong> Stratovolcanoes, also known as composite volcanoes, develop over many thousands of years through repeated eruptions and other volcanic activity. But the current information I have at hand is only very vague. Fuller descriptions are needed for this. I’m sure you can find them. Alright then. Leave that to me. Have you read anything about rhyolite caldera complexes?<br>
+        <strong>Ian:</strong> Yeah. They are the most explosive volcanoes on earth, and don’t even look like volcanoes. The origin of these volcanoes, like Yellowstone, is associated with a hot spot.<br>
+        <strong>Erica:</strong> You’ve got most of the information correct. Unfortunately, the last bit you mentioned is wrong. The origin of this type of volcano remains a mystery. The hotspot origin theory doesn’t work for most other rhyolite calderas.<br>
+        <strong>Ian:</strong> Right. I’ll change that part. What about the position on monogenetic fields?<br>
+        <strong>Erica:</strong> It’s shocking to see the photos of these immense volcanoes. There are numerous monogenetic fields in the American Southwest and Mexico, but I got all the information from a website without specifying its source. We’ll have to examine the content again later.<br>
+        <strong>Ian:</strong> Okay. I can help with that. Lastly, we have cinder cones. What do you have on that?<br>
+        <strong>Erica:</strong> Well, this type of volcano is usually tiny to the other volcanoes, and thus sounds <span class="highlight">less attractive</span>. Maybe we should leave it out. It seems pretty unimportant to me.<br>
+        <strong>Ian:</strong> I agree. It’s impossible to cover everything.<br><br>
+        <strong>Before you hear the rest of the conversation, you have some time to look at questions 26 to 30.</strong><br><br>
+        <strong>Ian:</strong> Erica, can you work on the delivery part? I don’t want to do it anymore.<br>
+        <strong>Erica:</strong> I’m okay with that, but why is that?<br>
+        <strong>Ian:</strong> I was marked so low for the last presentation and didn’t even have a clue why. Maybe it’s because I didn’t include enough data on it.<br>
+        <strong>Erica:</strong> Well, I’m not sure about that. I think maybe you <span class="highlight">did not prepare</span> the topic well enough. You tried to explain the contributing factor forming the ring of fire in the Pacific Ocean, but you just read everything out loud without fully comprehending it yourself.<br>
+        <strong>Ian:</strong> Right. That must have been it.<br>
+        <strong>Erica:</strong> We also have to look for supporting materials to illustrate the formation of different volcanoes.<br>
+        <strong>Ian:</strong> What about documentaries?<br>
+        <strong>Erica:</strong> They can be an excellent way to illustrate the volcanic eruption, but that might be too long for our presentation. We’ve only got twenty minutes.<br>
+        <strong>Ian:</strong> Have you considered adding photos to our handouts?<br>
+        <strong>Erica:</strong> That’s an option. But people may focus on these photos rather than paying attention to what we have to say. Maybe we can search online for <span class="highlight">part of a film</span> about volcanoes and add it to the end of our presentation.<br>
+        <strong>Ian:</strong> That would be better. So how should we start our presentation?<br>
+        <strong>Erica:</strong> Maybe we can first introduce some terms like extinct volcanoes and dormant volcanoes.<br>
+        <strong>Ian:</strong> Why is that?<br>
+        <strong>Erica:</strong> Even though they are widely accepted terms among ordinary people, academia wouldn’t accept them because there are no set definitions. For example, an extinct volcano would be one nobody expects to erupt again, but there have been several eruptions from widely acknowledged extinct volcanoes.<br>
+        <strong>Ian:</strong> That’s an excellent way to start our presentation. What did the professor say about your last presentation?<br>
+        <strong>Erica:</strong> There is still room for improvement. She said that I had an in-depth analysis and provided enough statistics, but I <span class="highlight">didn’t carry on and discuss my take</span> on it.<br>
+        <strong>Ian:</strong> Right. So maybe we could also discuss the impact volcanoes have on humans and our planet?<br>
+        <strong>Erica:</strong> Yeah. There’s little doubt that volcanoes have been instrumental in wiping out countless species during major extinction events. But volcanic activity also shapes new habitats, enriching the soil with nutrients that allow life to thrive. People haven’t realized that there are abundant mineral resources waiting to be exploited in volcanoes.<br>
+        <strong>Ian:</strong> I agree. So now we can…<br>
+        <strong>Speaker 1:</strong> That is the end of part three. You now have half a minute to check your answers to part three.
+    </div>
+</div>
+
+<!-- Hidden Answer Key -->
+<div id="answer-key" style="display:none;">
+    <h3>Correct Answers:</h3>
+    <p>21. B<br>22. A<br>23. C<br>24. C<br>25. B<br>26. B<br>27. A<br>28. C<br>29. E<br>30. F</p>
+</div>
+
+<!-- Navigation Arrows -->
+<div class="nav-arrows">
+    <button class="nav-arrow" onclick="previousPart()" id="prevBtn">‹</button>
+    <button class="nav-arrow" onclick="nextPart()" id="nextBtn">›</button>
+</div>
+
+<!-- Bottom Navigation -->
+<nav class="nav-row" aria-label="Questions">
+    <div class="footer__questionWrapper__1tZ46 multiple selected" role="tablist">
+        <button role="tab" class="footer__questionNo__3WNct" onclick="switchToPart(3)">
+            <span>
+                <span aria-hidden="true" class="section-prefix">Part </span>
+                <span class="sectionNr" aria-hidden="true">3</span>
+                <span class="attemptedCount" aria-hidden="true">0 of 10</span>
+            </span>
+        </button>
+        <div class="footer__subquestionWrapper__9GgoP">
+            <button class="subQuestion scorable-item" onclick="goToQuestion(21)"><span class="sr-only">Q21</span><span>21</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(22)"><span class="sr-only">Q22</span><span>22</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(23)"><span class="sr-only">Q23</span><span>23</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(24)"><span class="sr-only">Q24</span><span>24</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(25)"><span class="sr-only">Q25</span><span>25</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(26)"><span class="sr-only">Q26</span><span>26</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(27)"><span class="sr-only">Q27</span><span>27</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(28)"><span class="sr-only">Q28</span><span>28</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(29)"><span class="sr-only">Q29</span><span>29</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(30)"><span class="sr-only">Q30</span><span>30</span></button>
+        </div>
+    </div>
+    <button id="deliver-button" class="footer__deliverButton__3FM07">
+        <span>Check Answers</span>
+    </button>
+</nav>
+
+<!-- Context Menu -->
+<div id="contextMenu" class="context-menu">
+    <div class="context-menu-item" onclick="highlightText()">🖍 Highlight</div>
+    <div class="context-menu-item" onclick="addComment()">💬 Comment</div>
+    <div class="context-menu-item" id="clear-item" onclick="clearHighlight()" style="display:none;">🧹 Clear</div>
+    <div class="context-menu-item" onclick="clearAllHighlights()">🗑 Clear All</div>
+</div>
+
+<!-- Result Modal -->
+<div id="result-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Your Results</h2>
+            <button id="modal-close-button" class="modal-close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p id="score-summary"></p>
+            <div id="result-details"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ---------- State ----------
+        let currentQuestion = 21;
+        let selectedRange = null;
+        let contextElement = null;
+
+        // ---------- Answer Key ----------
+        const correctAnswers = {
+            q21: 'B', q22: 'A', q23: 'C', q24: 'C', q25: 'B',
+            q26: 'B', q27: 'A', q28: 'C', q29: 'E', q30: 'F'
+        };
+
+        // ---------- Helpers ----------
+        function normalizeAnswer(val) {
+            return val.trim().toUpperCase();
+        }
+
+        function getInputEl(qNum) {
+            return document.getElementById(`q${qNum}`);
+        }
+
+        function getSubBtn(qNum) {
+            return document.querySelector(`.subQuestion[onclick="goToQuestion(${qNum})"]`);
+        }
+
+        // ---------- Navigation ----------
+        window.switchToPart = function(part) { /* only part 3 */ };
+
+        window.goToQuestion = function(qNum) {
+            if (qNum < 21 || qNum > 30) return;
+            currentQuestion = qNum;
+            document.querySelectorAll('.subQuestion').forEach(b => b.classList.remove('active'));
+            const btn = getSubBtn(qNum);
+            if (btn) btn.classList.add('active');
+
+            let targetEl;
+            if (qNum <= 25) {
+                targetEl = document.querySelector(`input[name="q${qNum}"]`);
+            } else {
+                targetEl = getInputEl(qNum);
+            }
+            if (targetEl) {
+                const container = targetEl.closest('.question');
+                if (container) {
+                    container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    container.classList.add('flash');
+                    setTimeout(() => container.classList.remove('flash'), 1000);
+                }
+            }
+            updateNavigation();
+        };
+
+        window.previousPart = function() {
+            if (currentQuestion > 21) goToQuestion(currentQuestion - 1);
+        };
+
+        window.nextPart = function() {
+            if (currentQuestion < 30) goToQuestion(currentQuestion + 1);
+        };
+
+        function updateNavigation() {
+            document.getElementById('prevBtn').disabled = currentQuestion === 21;
+            document.getElementById('nextBtn').disabled = currentQuestion === 30;
+            updateAttemptedCount();
+        }
+
+        function updateAttemptedCount() {
+            let answered = 0;
+            for (let q = 21; q <= 30; q++) {
+                if (q <= 25) {
+                    const checked = document.querySelector(`input[name="q${q}"]:checked`);
+                    if (checked) answered++;
+                } else {
+                    const input = getInputEl(q);
+                    if (input && input.value.trim() !== '') answered++;
+                }
+            }
+            const countDisplay = document.querySelector('.attemptedCount');
+            if (countDisplay) countDisplay.textContent = `${answered} of 10`;
+
+            document.querySelectorAll('.subQuestion').forEach(btn => {
+                const qNum = parseInt(btn.textContent, 10);
+                let isAnswered = false;
+                if (qNum <= 25) {
+                    isAnswered = !!document.querySelector(`input[name="q${qNum}"]:checked`);
+                } else {
+                    const input = getInputEl(qNum);
+                    isAnswered = input && input.value.trim() !== '';
+                }
+                btn.classList.toggle('answered', isAnswered);
+            });
+        }
+
+        // ---------- Answer Checking ----------
+        function checkAnswers() {
+            let score = 0;
+            const resultsData = [];
+
+            // Clear previous styling
+            document.querySelectorAll('.multi-choice-option').forEach(opt => opt.classList.remove('correct', 'incorrect'));
+            document.querySelectorAll('.answer-input').forEach(input => input.classList.remove('correct', 'incorrect'));
+            document.querySelectorAll('.correct-inline').forEach(el => el.remove());
+
+            // Process MCQ (21-25)
+            for (let q = 21; q <= 25; q++) {
+                const key = `q${q}`;
+                const checked = document.querySelector(`input[name="${key}"]:checked`);
+                const userAnswer = checked ? checked.value : '';
+                const correct = correctAnswers[key];
+                const isCorrect = userAnswer === correct;
+
+                document.querySelectorAll(`input[name="${key}"]`).forEach(radio => {
+                    const option = radio.closest('.multi-choice-option');
+                    if (option) {
+                        if (radio.value === correct) option.classList.add('correct');
+                        else if (radio.checked) option.classList.add('incorrect');
+                    }
+                });
+
+                const btn = getSubBtn(q);
+                if (btn) {
+                    btn.classList.remove('answered', 'correct', 'incorrect');
+                    btn.classList.add(isCorrect ? 'correct' : 'incorrect');
+                }
+
+                if (isCorrect) score++;
+                resultsData.push({
+                    question: q,
+                    userAnswer: userAnswer || 'No Answer',
+                    correctAnswer: correct,
+                    isCorrect
+                });
+            }
+
+            // Process Matching text inputs (26-30)
+            for (let q = 26; q <= 30; q++) {
+                const key = `q${q}`;
+                const input = getInputEl(q);
+                if (!input) continue;
+                const userAnswer = input.value.trim();
+                const normalizedUser = normalizeAnswer(userAnswer);
+                const correct = correctAnswers[key];
+                const isCorrect = normalizedUser === correct;
+
+                input.classList.add(isCorrect ? 'correct' : 'incorrect');
+                if (!isCorrect) {
+                    const hint = document.createElement('span');
+                    hint.className = 'correct-inline';
+                    hint.textContent = correct;
+                    input.insertAdjacentElement('afterend', hint);
+                }
+
+                const btn = getSubBtn(q);
+                if (btn) {
+                    btn.classList.remove('answered', 'correct', 'incorrect');
+                    btn.classList.add(isCorrect ? 'correct' : 'incorrect');
+                }
+
+                if (isCorrect) score++;
+                resultsData.push({
+                    question: q,
+                    userAnswer: userAnswer || 'No Answer',
+                    correctAnswer: correct,
+                    isCorrect
+                });
+            }
+
+            // Disable inputs
+            document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
+            document.querySelectorAll('.answer-input').forEach(inp => inp.disabled = true);
+
+            // Show transcription
+            document.querySelector('.main-container').classList.add('results-mode');
+            const transSource = document.querySelector('#transcription-data [data-part="3"]');
+            const transTarget = document.getElementById('transcription-text');
+            if (transSource && transTarget) transTarget.innerHTML = transSource.innerHTML;
+
+            // Update button
+            const deliverBtn = document.getElementById('deliver-button');
+            deliverBtn.classList.add('success');
+            deliverBtn.innerHTML = '<span>My Results</span>';
+            deliverBtn.disabled = false;
+            const newBtn = deliverBtn.cloneNode(true);
+            deliverBtn.parentNode.replaceChild(newBtn, deliverBtn);
+            newBtn.addEventListener('click', () => {
+                document.getElementById('result-modal').style.display = 'flex';
+            });
+
+            // Populate result modal
+            const modal = document.getElementById('result-modal');
+            document.getElementById('score-summary').textContent = `You scored ${score} out of 10.`;
+
+            let tableHTML = `<table><thead><tr><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>Result</th></tr></thead><tbody>`;
+            resultsData.sort((a,b) => a.question - b.question).forEach(r => {
+                tableHTML += `<tr>
+                    <td>${r.question}</td>
+                    <td>${r.userAnswer}</td>
+                    <td>${r.correctAnswer}</td>
+                    <td class="${r.isCorrect ? 'result-correct' : 'result-incorrect'}">${r.isCorrect ? '✔ Correct' : '✖ Incorrect'}</td>
+                </tr>`;
+            });
+            tableHTML += '</tbody></table>';
+            document.getElementById('result-details').innerHTML = tableHTML;
+            modal.style.display = 'flex';
+        }
+
+        // ---------- Highlighting & Comments ----------
+        window.highlightText = function() {
+            if (!selectedRange || selectedRange.collapsed) return closeContextMenu();
+            try {
+                const span = document.createElement('span');
+                span.className = 'highlight';
+                selectedRange.surroundContents(span);
+            } catch(e) {
+                try { document.execCommand('backColor', false, 'yellow'); } catch(e2) {}
+            }
+            window.getSelection().removeAllRanges();
+            closeContextMenu();
+        };
+
+        window.addComment = function() {
+            const text = prompt('Enter your comment:');
+            if (!text || !selectedRange || selectedRange.collapsed) return closeContextMenu();
+            try {
+                const span = document.createElement('span');
+                span.className = 'comment-highlight';
+                const tooltip = document.createElement('span');
+                tooltip.className = 'comment-tooltip';
+                tooltip.textContent = text;
+                span.appendChild(tooltip);
+                selectedRange.surroundContents(span);
+            } catch(e) {}
+            window.getSelection().removeAllRanges();
+            closeContextMenu();
+        };
+
+        window.clearHighlight = function() {
+            const el = contextElement;
+            if (!el) return closeContextMenu();
+            const parent = el.parentNode;
+            while (el.firstChild) {
+                if (!el.firstChild.classList?.contains('comment-tooltip')) {
+                    parent.insertBefore(el.firstChild, el);
+                } else {
+                    el.removeChild(el.firstChild);
+                }
+            }
+            parent.removeChild(el);
+            parent.normalize();
+            closeContextMenu();
+        };
+
+        window.clearAllHighlights = function() {
+            document.querySelectorAll('.highlight, .comment-highlight').forEach(el => {
+                const parent = el.parentNode;
+                const frag = document.createDocumentFragment();
+                while (el.firstChild) {
+                    if (el.firstChild.nodeType === 1 && el.firstChild.classList.contains('comment-tooltip')) {
+                        el.removeChild(el.firstChild);
+                    } else {
+                        frag.appendChild(el.firstChild);
+                    }
+                }
+                parent.replaceChild(frag, el);
+            });
+            closeContextMenu();
+        };
+
+        function closeContextMenu() {
+            document.getElementById('contextMenu').style.display = 'none';
+            contextElement = null;
+        }
+
+        // ---------- Dark Mode & Font Size ----------
+        function initDarkMode() {
+            const saved = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', saved);
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        }
+
+        function changeFontSize(size) {
+            document.body.classList.remove('font-small', 'font-medium', 'font-large', 'font-xlarge');
+            document.body.classList.add(`font-${size}`);
+            localStorage.setItem('fontSize', size);
+            document.getElementById('font-size-options').classList.remove('show');
+        }
+
+        function initFontSize() {
+            const saved = localStorage.getItem('fontSize') || 'medium';
+            changeFontSize(saved);
+        }
+
+        // ---------- Event Binding ----------
+        document.addEventListener('DOMContentLoaded', () => {
+            initDarkMode();
+            initFontSize();
+
+            document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
+
+            document.getElementById('font-size-toggle').addEventListener('click', () => {
+                document.getElementById('font-size-options').classList.toggle('show');
+            });
+
+            document.querySelectorAll('.font-size-options div').forEach(opt => {
+                opt.addEventListener('click', () => changeFontSize(opt.dataset.size));
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.font-size-container')) {
+                    document.getElementById('font-size-options').classList.remove('show');
+                }
+            });
+
+            // Listen for changes to update attempted count
+            document.querySelectorAll('input[type="radio"], .answer-input').forEach(inp => {
+                inp.addEventListener('change', updateAttemptedCount);
+                inp.addEventListener('input', updateAttemptedCount);
+            });
+
+            document.getElementById('deliver-button').addEventListener('click', checkAnswers);
+
+            document.getElementById('modal-close-button').addEventListener('click', () => {
+                document.getElementById('result-modal').style.display = 'none';
+            });
+
+            // Context menu
+            document.body.addEventListener('contextmenu', function(e) {
+                const sel = window.getSelection();
+                if (!sel.toString().trim()) return;
+                e.preventDefault();
+                const menu = document.getElementById('contextMenu');
+                menu.style.left = e.pageX + 'px';
+                menu.style.top = e.pageY + 'px';
+                menu.style.display = 'block';
+                contextElement = e.target.closest('.highlight, .comment-highlight');
+                document.getElementById('clear-item').style.display = contextElement ? 'block' : 'none';
+            });
+
+            document.body.addEventListener('click', (e) => {
+                if (!e.target.closest('.context-menu')) {
+                    closeContextMenu();
+                }
+            });
+
+            document.addEventListener('selectionchange', () => {
+                const sel = window.getSelection();
+                if (sel && sel.rangeCount > 0 && !sel.isCollapsed) {
+                    selectedRange = sel.getRangeAt(0);
+                }
+            });
+
+            // Init
+            window.switchToPart(3);
+            window.goToQuestion(21);
+            updateAttemptedCount();
+        });
+    })();
+</script>
+</body>
+</html>

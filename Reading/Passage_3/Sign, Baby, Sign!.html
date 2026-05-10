@@ -1,0 +1,2254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Reading Practice - Part 3: Sign, Baby, Sign!</title>
+<style>
+/* CSS Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* LIGHT MODE COLORS (DEFAULT) */
+    --bg-color: #ffffff;
+    --text-color: #000000; /* Changed to black for day mode */
+    --header-bg: #ffffff;
+    --border-color: #e0e0e0;
+    --panel-bg: #ffffff;
+    --question-bg: #ffffff;
+    --input-bg: #ffffff;
+    --input-border: #bfbfbf;
+    --input-focus: #3581d8;
+    --correct-color: #28a745;
+    --incorrect-color: #dc3545;
+    --highlight-bg: #ffff00;
+    --modal-bg: #ffffff;
+    --nav-bg: #ffffff;
+    --resizer-bg: #f0f0f0;
+    --part-header-bg: #f1f2ec;
+    --timer-bg: #f0f0f0;
+    --link-color: #1e88e5;
+    --shadow-color: rgba(0,0,0,0.1);
+    --table-border: #ddd;
+    --table-header-bg: #007bff;
+    --table-cell-bg: #fafafa;
+    --drop-zone-bg: #f9f9f9;
+    --drag-item-bg: #ffffff;
+    --logo-brightness: 1;
+}
+
+[data-theme="dark"] {
+    /* DARK MODE COLORS (ONLY APPLIED WHEN TOGGLED) */
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --header-bg: #2d2d2d;
+    --border-color: #444444;
+    --panel-bg: #2d2d2d;
+    --question-bg: #333333;
+    --input-bg: #3a3a3a;
+    --input-border: #555555;
+    --input-focus: #4a90e2;
+    --correct-color: #2ecc71;
+    --incorrect-color: #e74c3c;
+    --highlight-bg: #ffeb3b;
+    --modal-bg: #2d2d2d;
+    --nav-bg: #2d2d2d;
+    --resizer-bg: #444444;
+    --part-header-bg: #3a3a3a;
+    --timer-bg: #444444;
+    --link-color: #64b5f6;
+    --shadow-color: rgba(0,0,0,0.3);
+    --table-border: #555;
+    --table-header-bg: #0056b3;
+    --table-cell-bg: #3a3a3a;
+    --drop-zone-bg: #3a3a3a;
+    --drag-item-bg: #444444;
+    --logo-brightness: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.4;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Header Styles */
+.header {
+    background-color: var(--header-bg);
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: 60px;
+    transition: all 0.3s;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.ielts-logo {
+    height: 55px;
+    width: auto;
+    filter: brightness(var(--logo-brightness, 1));
+}
+
+.telegram-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: var(--link-color);
+    font-weight: bold;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.telegram-link:hover {
+    text-decoration: underline;
+}
+
+/* Timer Container */
+.timer-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.timer-display {
+    font-weight: 600;
+    min-width: 60px;
+}
+
+.timer-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.timer-controls button,
+.dark-mode-btn {
+    background: var(--timer-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.timer-controls button:hover,
+.dark-mode-btn:hover {
+    background: var(--border-color);
+    transform: scale(1.05);
+}
+
+.timer-controls button svg,
+.dark-mode-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--text-color);
+    transition: fill 0.3s;
+}
+
+/* Main Container */
+.main-container {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-color);
+    height: calc(100vh - 60px);
+    position: relative;
+}
+
+.panels-container {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.passage-panel,
+.questions-panel {
+    flex: 1;
+    padding: 20px 20px 100px;
+    overflow-y: auto;
+    min-width: 200px;
+    background-color: var(--panel-bg);
+    transition: background-color 0.3s;
+}
+
+.questions-panel {
+    border-left: 1px solid var(--border-color);
+}
+
+/* Resizer */
+.resizer {
+    width: 10px;
+    cursor: col-resize;
+    background-color: var(--resizer-bg);
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23888"/></svg>');
+    background-repeat: no-repeat;
+    background-position: center;
+    flex-shrink: 0;
+    flex-grow: 0;
+    transition: background-color 0.3s;
+}
+
+[data-theme="dark"] .resizer {
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23aaa"/></svg>');
+}
+
+/* Passage Content */
+.text-center {
+    text-align: center;
+}
+
+.reading-passage h4 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+    color: var(--text-color);
+}
+
+.reading-passage p {
+    margin-bottom: 1.2em;
+    color: var(--text-color);
+}
+
+.reading-passage strong {
+    color: var(--text-color);
+}
+
+/* Question Styles */
+.question {
+    margin-bottom: 40px;
+}
+
+.question-prompt {
+    margin-bottom: 20px;
+}
+
+.question-prompt p {
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.question ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.question ul li {
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
+
+/* Answer Inputs */
+.answer-input {
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+    background-color: var(--input-bg);
+    padding: 2px 8px;
+    font-size: 16px;
+    text-align: left;
+    font-weight: 700;
+    margin-right: 6px;
+    margin-left: 6px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s, color 0.3s;
+    height: 28px;
+    min-width: 150px;
+    color: var(--text-color);
+}
+
+.answer-input.active-input,
+.answer-input:focus {
+    border-color: var(--input-focus);
+    border-width: 2px;
+    outline: none;
+}
+
+.answer-input::placeholder {
+    color: var(--text-color);
+    opacity: 0.7;
+    font-weight: 700;
+    text-align: center;
+}
+
+.answer-input.correct {
+    border-color: var(--correct-color);
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+.answer-input.incorrect {
+    border-color: var(--incorrect-color);
+    background-color: rgba(220, 53, 69, 0.1);
+    color: var(--text-color);
+}
+
+/* Part Header */
+.part-header {
+    background-color: var(--part-header-bg);
+    padding: 15px 20px;
+    border: 1px solid var(--border-color);
+    text-align: left;
+    margin: 10px 20px;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.part-header p {
+    margin: 0;
+    color: var(--text-color);
+}
+
+.part-header p:first-child {
+    margin-bottom: 5px;
+}
+
+/* TRUE/FALSE/NOT GIVEN Questions */
+.tf-question {
+    margin-bottom: 25px;
+    padding: 10px 0px;
+    border-radius: 4px;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+.tf-question-line {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    padding: 5px 0px;
+    border-radius: 4px;
+}
+
+.tf-question-number {
+    border: 2px solid var(--border-color);
+    padding: 2px 8px;
+    margin-right: 10px;
+    border-radius: 3px;
+    font-weight: bold;
+    transition: border-color 0.3s;
+    display: inline-block;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+}
+
+.tf-question.active-question .tf-question-number {
+    border-color: var(--input-focus);
+}
+
+.tf-question-text {
+    padding-top: 3px;
+    color: var(--text-color);
+}
+
+.tf-options {
+    padding-left: 5px;
+}
+
+.tf-option {
+    display: block;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
+
+.tf-option:hover {
+    background-color: var(--part-header-bg);
+}
+
+.tf-option:has(input[type="radio"]:checked) {
+    background-color: rgba(74, 144, 226, 0.2);
+    border-color: var(--input-focus);
+}
+
+.tf-option.correct {
+    background-color: rgba(40, 167, 69, 0.2) !important;
+    border-color: var(--correct-color) !important;
+}
+
+.tf-option.incorrect {
+    background-color: rgba(220, 53, 69, 0.2) !important;
+    border-color: var(--incorrect-color) !important;
+}
+
+.tf-option input[type="radio"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+    accent-color: var(--input-focus);
+}
+
+/* Matching Table */
+.matching-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+}
+
+.matching-table th {
+    background-color: var(--table-header-bg);
+    color: white;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid var(--table-border);
+}
+
+.matching-table td {
+    padding: 12px;
+    border: 1px solid var(--table-border);
+    vertical-align: top;
+    color: var(--text-color);
+}
+
+.matching-table .statement {
+    text-align: left;
+    width: 70%;
+    background-color: var(--panel-bg);
+}
+
+.matching-table td:not(.statement) {
+    text-align: center;
+    width: 4.29%; /* 100% / 7 paragraphs = ~14.29%, but we need 7 columns */
+    min-width: 40px;
+    background-color: var(--table-cell-bg);
+}
+
+.matching-table .clickable-cell {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 40px;
+    border: 2px solid var(--border-color);
+    position: relative;
+    background-color: var(--table-cell-bg);
+    min-width: 40px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 12px;
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.matching-table .clickable-cell:hover {
+    background-color: var(--part-header-bg);
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
+}
+
+.matching-table .clickable-cell.selected {
+    background-color: rgba(74, 144, 226, 0.2);
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.3);
+}
+
+.matching-table .clickable-cell.correct {
+    background-color: rgba(40, 167, 69, 0.2) !important;
+    border-color: var(--correct-color) !important;
+}
+
+.matching-table .clickable-cell.incorrect {
+    background-color: rgba(220, 53, 69, 0.2) !important;
+    border-color: var(--incorrect-color) !important;
+}
+
+/* Navigation Arrows */
+.nav-arrows {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    display: flex;
+    gap: 6px;
+    z-index: 101;
+}
+
+.nav-arrow {
+    width: 48px;
+    height: 48px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    transition: transform 0.1s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 6px var(--shadow-color);
+    outline: none;
+    border-radius: 50%;
+}
+
+.nav-arrow.prev { background-color: #4b5563; }
+.nav-arrow.next { background-color: #000000; }
+
+[data-theme="dark"] .nav-arrow.prev { background-color: #6b7280; }
+[data-theme="dark"] .nav-arrow.next { background-color: #333333; }
+
+.nav-arrow:hover { transform: translateY(-1px); }
+.nav-arrow:active { transform: translateY(0); }
+
+/* Bottom Navigation */
+.nav-row {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--nav-bg);
+    padding: 0;
+    display: flex;
+    align-items: center;
+    height: 80px;
+    z-index: 100;
+    border-top: 1px solid var(--border-color);
+    transition: all 0.3s;
+}
+
+.footer__questionWrapper___1tZ46 {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.footer__questionNo___3WNct {
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.2s;
+    border-radius: 4px;
+}
+
+.footer__questionNo___3WNct:hover {
+    background-color: var(--part-header-bg);
+}
+
+.section-prefix {
+    font-size: 16px;
+    color: var(--text-color);
+}
+
+.sectionNr {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.attemptedCount {
+    font-size: 14px;
+    color: var(--text-color);
+    opacity: 0.7;
+    margin-left: 5px;
+    font-weight: 400;
+}
+
+.footer__subquestionWrapper___9GgoP {
+    display: none;
+    gap: 2px;
+    margin-left: 10px;
+}
+
+.footer__questionWrapper___1tZ46.selected .footer__subquestionWrapper___9GgoP {
+    display: flex;
+}
+
+.subQuestion {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border-color);
+    background: var(--input-bg);
+    color: var(--text-color);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    border-radius: 2px;
+}
+
+.subQuestion:hover {
+    background-color: var(--part-header-bg);
+    border-color: var(--input-focus);
+}
+
+.subQuestion.answered {
+    background-color: var(--part-header-bg);
+    border-color: var(--border-color);
+}
+
+.subQuestion.correct {
+    background-color: var(--correct-color);
+    color: white;
+    border-color: var(--correct-color);
+}
+
+.subQuestion.incorrect {
+    background-color: var(--incorrect-color);
+    color: white;
+    border-color: var(--incorrect-color);
+}
+
+.subQuestion.active {
+    background-color: var(--input-focus);
+    color: white;
+    border-color: var(--input-focus);
+}
+
+/* Submit Button */
+.footer__deliverButton___3FM07 {
+    margin-left: auto;
+    margin-right: 20px;
+    background-color: var(--part-header-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 10px 16px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.08s ease, background-color 0.2s ease, border-color 0.2s ease;
+    min-width: 160px;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.footer__deliverButton___3FM07:hover {
+    background-color: var(--border-color);
+}
+
+.footer__deliverButton___3FM07:active {
+    transform: translateY(1px);
+}
+
+.footer__deliverButton___3FM07:disabled {
+    background: var(--part-header-bg);
+    opacity: 0.5;
+    color: var(--text-color);
+    cursor: not-allowed;
+    border-color: var(--border-color);
+}
+
+/* Hidden Class */
+.hidden {
+    display: none !important;
+}
+
+/* Context Menu */
+.context-menu {
+    position: absolute;
+    background: var(--modal-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    z-index: 1000;
+    display: none;
+    min-width: 140px;
+}
+
+.context-menu-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 16px;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-color);
+}
+
+.context-menu-item:hover {
+    background-color: var(--part-header-bg);
+}
+
+.context-menu-item:last-child {
+    border-bottom: none;
+}
+
+/* Highlighting */
+.highlight {
+    background-color: var(--highlight-bg);
+    color: #000;
+}
+
+.comment-highlight {
+    background-color: #90EE90;
+    position: relative;
+    cursor: help;
+    color: #000;
+}
+
+/* Results Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(17, 24, 39, 0.6);
+    backdrop-filter: blur(3px);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: var(--modal-bg);
+    padding: 24px;
+    border-radius: 14px;
+    width: 92%;
+    max-width: 780px;
+    max-height: 86vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 20px 60px var(--shadow-color);
+    color: var(--text-color);
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+.modal-content h2 {
+    text-align: center;
+    margin-bottom: 18px;
+    color: var(--text-color);
+}
+
+.results-summary {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 16px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+}
+
+.results-summary p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+.results-summary p span {
+    display: inline-block;
+    padding: 4px 10px;
+    margin-left: 6px;
+    border-radius: 999px;
+    background: var(--part-header-bg);
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.results-details-container {
+    overflow-y: auto;
+    padding-right: 10px;
+    border-radius: 8px;
+}
+
+.result-row {
+    display: grid;
+    grid-template-columns: 56px 1fr 1fr 120px;
+    gap: 12px;
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 15px;
+    align-items: center;
+}
+
+.result-row.correct {
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+.result-row.incorrect {
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+.result-row .q-num {
+    font-weight: 700;
+    color: var(--text-color);
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    width: 42px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.result-row .user-ans {
+    color: var(--text-color);
+    background: var(--part-header-bg);
+    border: 1px solid var(--border-color);
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.result-row .correct-ans {
+    color: var(--correct-color);
+    font-weight: 600;
+    background: rgba(40, 167, 69, 0.1);
+    border: 1px solid var(--correct-color);
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.status-badge {
+    justify-self: end;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid transparent;
+}
+
+.status-badge.ok {
+    background: rgba(40, 167, 69, 0.2);
+    color: var(--correct-color);
+    border-color: var(--correct-color);
+}
+
+.status-badge.bad {
+    background: rgba(220, 53, 69, 0.2);
+    color: var(--incorrect-color);
+    border-color: var(--incorrect-color);
+}
+
+.correct-answer-display {
+    font-weight: bold;
+    color: var(--correct-color);
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+/* Page watermark */
+body::after {
+    content: "@FOZILBEK_IELTS";
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-20deg);
+    font-size: 72px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--text-color);
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 0;
+    white-space: nowrap;
+    transition: color 0.3s;
+}
+
+/* Dark mode icon specific styles */
+.dark-mode-btn {
+    position: relative;
+}
+
+.dark-mode-btn .sun-icon,
+.dark-mode-btn .moon-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.dark-mode-btn .moon-icon {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+[data-theme="dark"] .dark-mode-btn .sun-icon {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(-90deg);
+}
+
+[data-theme="dark"] .dark-mode-btn .moon-icon {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg);
+}
+
+/* Accessibility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--panel-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--input-focus);
+}
+</style>
+</head>
+<body data-theme="light">
+
+<!-- Header with Dark Mode Button -->
+<div class="header">
+    <div class="header-left">
+        <img src="https://i.pinimg.com/736x/88/93/a8/8893a81fed78f6989142a13e3605c45e.jpg" alt="IELTS Logo" class="ielts-logo">
+        <a href="https://t.me/FOZILBEK_IELTS" target="_blank" class="telegram-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-.38.24-1.07.7-.96.66-1.89 1.28-1.89 1.28s-.17.11-.49.03c-.32-.08-.72-.26-1.16-.47-.54-.26-1.17-.53-1.17-.53s-.87-.55.62-1.14c.32-.13 1.96-.84 2.99-1.2 1.05-.37 2.86-1.01 2.86-1.01s1.02-.4 1.02 0z" fill="currentColor"/>
+            </svg>
+            @FOZILBEK_IELTS
+        </a>
+    </div>
+    <div class="header-right">
+        <div class="timer-container">
+            <span class="timer-display">20:00</span>
+            <div class="timer-controls">
+                <button id="timer-toggle-btn" title="Pause/Resume Timer">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px">
+                        <path d="M0 0h24v24H0V0z" fill="none"/>
+                        <path d="M8 5v14l11-7L8 5z"/>
+                    </svg>
+                </button>
+                <button id="timer-reset-btn" title="Reset Timer">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px">
+                        <path d="M0 0h24v24H0V0z" fill="none"/>
+                        <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+                    </svg>
+                </button>
+            </div>
+            <!-- Dark Mode Button -->
+            <button class="dark-mode-btn" id="dark-mode-toggle" title="Toggle Dark Mode">
+                <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-container" id="main-container">
+    <div id="passage-header-container">
+        <div id="part-header-3" class="part-header">
+            <p><strong>Part 3</strong></p>
+            <p>Read the text and answer questions 27-40.</p>
+        </div>
+    </div>
+    
+    <div class="panels-container">
+        <div class="passage-panel" id="passage-panel">
+            <!-- PASSAGE 3: Sign, Baby, Sign! -->
+            <div id="passage-text-3" class="reading-passage">
+                <h4 class="text-center">Sign, Baby, Sign!</h4>
+                
+                <p><strong>A</strong> Language is a powerful tool that humans use for a wide variety of purposes—from expressing emotions and sharing ideas to passing down cultural values and acquiring knowledge. It is not limited to spoken words; gestures, facial expressions, and even posture all contribute to how we communicate. Language, whether signed or spoken, plays a vital role in how we engage with the world around us.</p>
+
+                <p><strong>B</strong> In recent years, many American schools have begun to recognize American Sign Language (ASL) as a valid foreign language credit, just like Spanish or French. This change has opened the door for hearing students to choose ASL as an academic subject, which not only gives them a practical skill but also increases their awareness of and empathy toward the Deaf community. Some educators believe this early exposure may even influence students to pursue careers in special education, speech therapy, or interpreting.</p>
+
+                <p><strong>C</strong> One clear benefit of learning ASL for hearing children is the opportunity for broader social interaction. Children who understand ASL can communicate with deaf peers, making their social circles more inclusive. Additionally, they may find it easier to express complex ideas or emotions non-verbally, which is helpful in noisy environments or when verbal speech isn't possible.</p>
+
+                <p><strong>D</strong> Dr. Marilyn Daniels, a researcher and advocate for baby sign language, has spent over two decades studying the impact of signing on early communication. While she promotes the use of sign language with infants, she emphasizes that there is no need for parents to invent their own signs. Instead, she suggests that parents use ASL or another standardized system to ensure consistency and eventual recognition by others.</p>
+
+                <p><strong>E</strong> Very young children often develop motor skills before verbal skills. Dr. Daniels notes that even babies as young as six months can learn to use simple signs like "milk" or "more" with their hands, long before they can articulate those words. This early form of communication can reduce frustration—for both babies and their parents—and may even accelerate speech development.</p>
+
+                <p><strong>F</strong> Studies have shown that hearing children exposed to sign language from an early age tend to have stronger reading skills by the time they enter primary school. It is believed that learning sign language can strengthen understanding of symbolic representation and grammar, both of which are foundational to literacy. These cognitive advantages suggest that signing benefits not only communication but academic success as well.</p>
+
+                <p><strong>G</strong> There remains some debate about the best approach to language instruction for deaf children. Some educators argue that speech and lip reading should come first, while others advocate for immediate exposure to sign language. Dr. Daniels believes the latter is more effective and less frustrating for the child. She calls the idea that children must learn to lip-read before learning sign language "an outdated notion." She, along with other advocates, stresses that deaf children have a right to a full, accessible language from birth—and that language is often sign.</p>
+            </div>
+        </div>
+        
+        <div class="resizer" id="resizer"></div>
+        
+        <div class="questions-panel" id="questions-panel">
+            <!-- QUESTIONS FOR PASSAGE 3 -->
+            <div id="questions-3" class="question-set">
+                <div class="questions-container">
+                    
+                    <!-- Questions 27-33: Matching Information -->
+                    <div class="question" data-q-start="27" data-q-end="33">
+                        <div class="question-prompt">
+                            <p><strong>Questions 27-33</strong></p>
+                            <p>The text has seven paragraphs, <strong>A-G</strong>.</p>
+                            <p>Which paragraph contains the following information?</p>
+                            <p>Write the correct letter, <strong>A-G</strong>, in boxes 27-33 on your answer sheet.</p>
+                        </div>
+                        
+                        <div class="matching-table-container">
+                            <table class="matching-table">
+                                <thead>
+                                    <tr>
+                                        <th>Questions</th>
+                                        <th>A</th>
+                                        <th>B</th>
+                                        <th>C</th>
+                                        <th>D</th>
+                                        <th>E</th>
+                                        <th>F</th>
+                                        <th>G</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="statement"><strong>27.</strong> A statement about the different things people use language for</td>
+                                        <td class="clickable-cell" data-value="A" data-question="27"></td>
+                                        <td class="clickable-cell" data-value="B" data-question="27"></td>
+                                        <td class="clickable-cell" data-value="C" data-question="27"></td>
+                                        <td class="clickable-cell" data-value="D" data-question="27"></td>
+                                        <td class="clickable-cell" data-value="E" data-question="27"></td>
+                                        <td class="clickable-cell" data-value="F" data-question="27"></td>
+                                        <td class="clickable-cell" data-value="G" data-question="27"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="statement"><strong>28.</strong> How knowing ASL may benefit students in their future subject choices</td>
+                                        <td class="clickable-cell" data-value="A" data-question="28"></td>
+                                        <td class="clickable-cell" data-value="B" data-question="28"></td>
+                                        <td class="clickable-cell" data-value="C" data-question="28"></td>
+                                        <td class="clickable-cell" data-value="D" data-question="28"></td>
+                                        <td class="clickable-cell" data-value="E" data-question="28"></td>
+                                        <td class="clickable-cell" data-value="F" data-question="28"></td>
+                                        <td class="clickable-cell" data-value="G" data-question="28"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="statement"><strong>29.</strong> An assertion that deaf children have a right to be taught a sign language</td>
+                                        <td class="clickable-cell" data-value="A" data-question="29"></td>
+                                        <td class="clickable-cell" data-value="B" data-question="29"></td>
+                                        <td class="clickable-cell" data-value="C" data-question="29"></td>
+                                        <td class="clickable-cell" data-value="D" data-question="29"></td>
+                                        <td class="clickable-cell" data-value="E" data-question="29"></td>
+                                        <td class="clickable-cell" data-value="F" data-question="29"></td>
+                                        <td class="clickable-cell" data-value="G" data-question="29"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="statement"><strong>30.</strong> An observation regarding the ability of small children to use their hands</td>
+                                        <td class="clickable-cell" data-value="A" data-question="30"></td>
+                                        <td class="clickable-cell" data-value="B" data-question="30"></td>
+                                        <td class="clickable-cell" data-value="C" data-question="30"></td>
+                                        <td class="clickable-cell" data-value="D" data-question="30"></td>
+                                        <td class="clickable-cell" data-value="E" data-question="30"></td>
+                                        <td class="clickable-cell" data-value="F" data-question="30"></td>
+                                        <td class="clickable-cell" data-value="G" data-question="30"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="statement"><strong>31.</strong> The advantage for hearing children of knowing ASL for wider social interaction</td>
+                                        <td class="clickable-cell" data-value="A" data-question="31"></td>
+                                        <td class="clickable-cell" data-value="B" data-question="31"></td>
+                                        <td class="clickable-cell" data-value="C" data-question="31"></td>
+                                        <td class="clickable-cell" data-value="D" data-question="31"></td>
+                                        <td class="clickable-cell" data-value="E" data-question="31"></td>
+                                        <td class="clickable-cell" data-value="F" data-question="31"></td>
+                                        <td class="clickable-cell" data-value="G" data-question="31"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="statement"><strong>32.</strong> Different views on when deaf children should be taught to speak</td>
+                                        <td class="clickable-cell" data-value="A" data-question="32"></td>
+                                        <td class="clickable-cell" data-value="B" data-question="32"></td>
+                                        <td class="clickable-cell" data-value="C" data-question="32"></td>
+                                        <td class="clickable-cell" data-value="D" data-question="32"></td>
+                                        <td class="clickable-cell" data-value="E" data-question="32"></td>
+                                        <td class="clickable-cell" data-value="F" data-question="32"></td>
+                                        <td class="clickable-cell" data-value="G" data-question="32"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="statement"><strong>33.</strong> An observation about the reading ability of primary-school-age hearing children who have been taught ASL</td>
+                                        <td class="clickable-cell" data-value="A" data-question="33"></td>
+                                        <td class="clickable-cell" data-value="B" data-question="33"></td>
+                                        <td class="clickable-cell" data-value="C" data-question="33"></td>
+                                        <td class="clickable-cell" data-value="D" data-question="33"></td>
+                                        <td class="clickable-cell" data-value="E" data-question="33"></td>
+                                        <td class="clickable-cell" data-value="F" data-question="33"></td>
+                                        <td class="clickable-cell" data-value="G" data-question="33"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Questions 34-40: TRUE/FALSE/NOT GIVEN -->
+                    <div class="question" data-q-start="34" data-q-end="40">
+                        <div class="question-prompt">
+                            <p><strong>Questions 34-40</strong></p>
+                            <p>Do the following statements agree with the information given in the Reading Passage?</p>
+                            <p>In boxes 34-40 on your answer sheet, write:</p>
+                            <p><strong>TRUE</strong> if the statement agrees with the information</p>
+                            <p><strong>FALSE</strong> if the statement contradicts the information</p>
+                            <p><strong>NOT GIVEN</strong> if there is no information on this</p>
+                        </div>
+                        
+                        <div class="tf-question" data-q-start="34" data-q-end="34">
+                            <div class="tf-question-line">
+                                <span class="tf-question-number">34</span>
+                                <span class="tf-question-text">Dr. Daniels believes that parents should make up their own gestures to communicate with their babies.</span>
+                            </div>
+                            <div class="tf-options">
+                                <label class="tf-option"><input type="radio" name="q34" value="TRUE"> TRUE</label>
+                                <label class="tf-option"><input type="radio" name="q34" value="FALSE"> FALSE</label>
+                                <label class="tf-option"><input type="radio" name="q34" value="NOT GIVEN"> NOT GIVEN</label>
+                            </div>
+                        </div>
+                        
+                        <div class="tf-question" data-q-start="35" data-q-end="35">
+                            <div class="tf-question-line">
+                                <span class="tf-question-number">35</span>
+                                <span class="tf-question-text">American Sign Language is the most widely used sign language in the world.</span>
+                            </div>
+                            <div class="tf-options">
+                                <label class="tf-option"><input type="radio" name="q35" value="TRUE"> TRUE</label>
+                                <label class="tf-option"><input type="radio" name="q35" value="FALSE"> FALSE</label>
+                                <label class="tf-option"><input type="radio" name="q35" value="NOT GIVEN"> NOT GIVEN</label>
+                            </div>
+                        </div>
+                        
+                        <div class="tf-question" data-q-start="36" data-q-end="36">
+                            <div class="tf-question-line">
+                                <span class="tf-question-number">36</span>
+                                <span class="tf-question-text">For hearing children in America, learning American Sign Language is an equivalent option to learning a foreign language.</span>
+                            </div>
+                            <div class="tf-options">
+                                <label class="tf-option"><input type="radio" name="q36" value="TRUE"> TRUE</label>
+                                <label class="tf-option"><input type="radio" name="q36" value="FALSE"> FALSE</label>
+                                <label class="tf-option"><input type="radio" name="q36" value="NOT GIVEN"> NOT GIVEN</label>
+                            </div>
+                        </div>
+                        
+                        <div class="tf-question" data-q-start="37" data-q-end="37">
+                            <div class="tf-question-line">
+                                <span class="tf-question-number">37</span>
+                                <span class="tf-question-text">Brain research indicates that vocabulary is more easily learned than grammar.</span>
+                            </div>
+                            <div class="tf-options">
+                                <label class="tf-option"><input type="radio" name="q37" value="TRUE"> TRUE</label>
+                                <label class="tf-option"><input type="radio" name="q37" value="FALSE"> FALSE</label>
+                                <label class="tf-option"><input type="radio" name="q37" value="NOT GIVEN"> NOT GIVEN</label>
+                            </div>
+                        </div>
+                        
+                        <div class="tf-question" data-q-start="38" data-q-end="38">
+                            <div class="tf-question-line">
+                                <span class="tf-question-number">38</span>
+                                <span class="tf-question-text">First and second languages are stored on different sides of the brain.</span>
+                            </div>
+                            <div class="tf-options">
+                                <label class="tf-option"><input type="radio" name="q38" value="TRUE"> TRUE</label>
+                                <label class="tf-option"><input type="radio" name="q38" value="FALSE"> FALSE</label>
+                                <label class="tf-option"><input type="radio" name="q38" value="NOT GIVEN"> NOT GIVEN</label>
+                            </div>
+                        </div>
+                        
+                        <div class="tf-question" data-q-start="39" data-q-end="39">
+                            <div class="tf-question-line">
+                                <span class="tf-question-number">39</span>
+                                <span class="tf-question-text">Children have less difficulty learning to make signs than learning to make sounds.</span>
+                            </div>
+                            <div class="tf-options">
+                                <label class="tf-option"><input type="radio" name="q39" value="TRUE"> TRUE</label>
+                                <label class="tf-option"><input type="radio" name="q39" value="FALSE"> FALSE</label>
+                                <label class="tf-option"><input type="radio" name="q39" value="NOT GIVEN"> NOT GIVEN</label>
+                            </div>
+                        </div>
+                        
+                        <div class="tf-question" data-q-start="40" data-q-end="40">
+                            <div class="tf-question-line">
+                                <span class="tf-question-number">40</span>
+                                <span class="tf-question-text">According to Dr. Daniels, the view that deaf children must learn lip reading before sign language is old fashioned.</span>
+                            </div>
+                            <div class="tf-options">
+                                <label class="tf-option"><input type="radio" name="q40" value="TRUE"> TRUE</label>
+                                <label class="tf-option"><input type="radio" name="q40" value="FALSE"> FALSE</label>
+                                <label class="tf-option"><input type="radio" name="q40" value="NOT GIVEN"> NOT GIVEN</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Navigation Arrows -->
+<div class="nav-arrows">
+    <button class="nav-arrow prev" onclick="previousQuestion()" id="prevBtn" aria-label="Previous question">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+    <button class="nav-arrow next" onclick="nextQuestion()" id="nextBtn" aria-label="Next question">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+</div>
+
+<!-- Bottom Navigation -->
+<nav class="nav-row perScorableItem" aria-label="Questions">
+    <div class="footer__questionWrapper___1tZ46 selected multiple" role="tablist">
+        <button role="tab" class="footer__questionNo___3WNct" onclick="switchToPart(3)">
+            <span>
+                <span aria-hidden="true" class="section-prefix">Part </span>
+                <span class="sectionNr" aria-hidden="true">3</span>
+                <span class="attemptedCount" aria-hidden="true">0 of 14</span>
+            </span>
+        </button>
+        <div class="footer__subquestionWrapper___9GgoP">
+            <button class="subQuestion scorable-item" onclick="goToQuestion(27)"><span class="sr-only">Question 27</span><span aria-hidden="true">27</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(28)"><span class="sr-only">Question 28</span><span aria-hidden="true">28</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(29)"><span class="sr-only">Question 29</span><span aria-hidden="true">29</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(30)"><span class="sr-only">Question 30</span><span aria-hidden="true">30</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(31)"><span class="sr-only">Question 31</span><span aria-hidden="true">31</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(32)"><span class="sr-only">Question 32</span><span aria-hidden="true">32</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(33)"><span class="sr-only">Question 33</span><span aria-hidden="true">33</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(34)"><span class="sr-only">Question 34</span><span aria-hidden="true">34</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(35)"><span class="sr-only">Question 35</span><span aria-hidden="true">35</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(36)"><span class="sr-only">Question 36</span><span aria-hidden="true">36</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(37)"><span class="sr-only">Question 37</span><span aria-hidden="true">37</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(38)"><span class="sr-only">Question 38</span><span aria-hidden="true">38</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(39)"><span class="sr-only">Question 39</span><span aria-hidden="true">39</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(40)"><span class="sr-only">Question 40</span><span aria-hidden="true">40</span></button>
+        </div>
+    </div>
+    
+    <button id="deliver-button" aria-label="Review your answers" class="footer__deliverButton___3FM07">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/>
+        </svg>
+        <span>Check Answers</span>
+    </button>
+</nav>
+
+<!-- Context Menu -->
+<div id="contextMenu" class="context-menu">
+    <div id="menu-highlight" class="context-menu-item" onclick="highlightText()">
+        Highlight
+    </div>
+    <div id="menu-note" class="context-menu-item" onclick="addNote()">
+        Note
+    </div>
+    <div id="menu-clear" class="context-menu-item" onclick="clearHighlight()">
+        Clear
+    </div>
+</div>
+
+<!-- Results Modal -->
+<div id="results-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+        <button class="modal-close-btn" onclick="closeResultsModal()">&times;</button>
+        <h2>Results</h2>
+        <div class="results-summary">
+            <p>Score: <span id="results-score"></span> / 14</p>
+            <p>IELTS Band: <span id="results-band"></span></p>
+        </div>
+        <div id="results-details" class="results-details-container">
+            <!-- Results for each question will be injected here -->
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // --- STATE VARIABLES ---
+    let currentPassage = 3;
+    let currentQuestion = 27;
+    let selectedRange = null;
+    let timeInSeconds = 1200; // 20 minutes
+    let timerInterval;
+    let draggedItem = null;
+    let activeQuestionElement = null;
+    let selectedDragItem = null;
+
+    // --- DARK MODE FUNCTIONALITY ---
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const body = document.body;
+    
+    // FORCE LIGHT MODE BY DEFAULT - IGNORE ALL PREFERENCES
+    body.setAttribute('data-theme', 'light');
+    localStorage.removeItem('theme'); // Clear any saved preference
+    
+    // Toggle dark mode
+    function toggleDarkMode() {
+        const isDark = body.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+            body.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+        } else {
+            body.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        }
+    }
+    
+    // Add event listener
+    darkModeToggle.addEventListener('click', toggleDarkMode);
+
+    // --- GLOBAL FUNCTIONS ---
+    function getFirstQuestionOfPart(part) {
+        return 27; // Only part 3 exists
+    }
+
+    // --- DOM ELEMENTS ---
+    const timerDisplay = document.querySelector('.timer-display');
+    const timerToggleButton = document.getElementById('timer-toggle-btn');
+    const timerResetButton = document.getElementById('timer-reset-btn');
+    const deliverButton = document.getElementById('deliver-button');
+    const resizer = document.getElementById('resizer');
+    const passagePanel = document.getElementById('passage-panel');
+    const questionsPanel = document.getElementById('questions-panel');
+    const contextMenu = document.getElementById('contextMenu');
+
+    // --- ICON SVGs ---
+    const playIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/></svg>';
+    const pauseIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+
+    // --- ANSWERS ---
+    const correctAnswers = {
+        // Questions 27-33: Matching Information
+        '27': 'A',
+        '28': 'B',
+        '29': 'G',
+        '30': 'E',
+        '31': 'C',
+        '32': 'G',
+        '33': 'F',
+        
+        // Questions 34-40: TRUE/FALSE/NOT GIVEN
+        '34': 'FALSE',
+        '35': 'NOT GIVEN',
+        '36': 'TRUE',
+        '37': 'NOT GIVEN',
+        '38': 'NOT GIVEN',
+        '39': 'TRUE',
+        '40': 'TRUE'
+    };
+
+    // --- INITIALIZATION ---
+    function initialize() {
+        console.log(`🚀 Initializing application...`);
+        startTimer();
+        initializeDragAndDrop();
+        setupCheckboxLimits();
+        setupExampleHeading();
+        
+        console.log(`📋 Setting up initial state - switching to part 3`);
+        switchToPart(3);
+        
+        document.body.addEventListener('input', updateAllIndicators);
+        document.body.addEventListener('change', updateAllIndicators);
+        deliverButton.addEventListener('click', checkAnswers);
+        timerToggleButton.addEventListener('click', toggleTimer);
+        timerResetButton.addEventListener('click', resetTimer);
+
+        // Add click listeners to question containers for navigation
+        document.querySelectorAll('[data-q-start]').forEach(el => {
+            el.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const qNum = parseInt(el.dataset.qStart, 10);
+                const qEnd = parseInt(el.dataset.qEnd, 10);
+                
+                if (isNaN(qNum)) {
+                    console.log(`ℹ️ Container without valid question number, ignoring navigation`);
+                    return;
+                }
+                
+                if (qNum === qEnd || el.classList.contains('tf-question')) {
+                    if (currentQuestion !== qNum) {
+                        console.log(`🚀 Navigating from question ${currentQuestion} to question ${qNum}`);
+                        goToQuestion(qNum);
+                    }
+                }
+            });
+        });
+
+        // Add specific click listeners for individual question elements
+        document.querySelectorAll('.tf-question, .summary-text').forEach(el => {
+            el.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const qNum = parseInt(el.dataset.qStart, 10);
+                
+                if (isNaN(qNum)) {
+                    console.log(`ℹ️ Container without specific question number, ignoring navigation`);
+                    return;
+                }
+                
+                if (currentQuestion !== qNum) {
+                    console.log(`🚀 Navigating from question ${currentQuestion} to question ${qNum} (individual element)`);
+                    goToQuestion(qNum);
+                }
+            });
+        });
+
+        // Add specific click listeners for individual input elements
+        document.querySelectorAll('.answer-input[id^="q"]').forEach(input => {
+            input.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const qNum = parseInt(input.id.replace('q', ''), 10);
+                
+                if (currentQuestion !== qNum) {
+                    console.log(`🚀 Navigating from question ${currentQuestion} to question ${qNum} (input element)`);
+                    goToQuestion(qNum);
+                }
+            });
+        });
+
+        // Add click listeners for the paragraph elements
+        document.querySelectorAll('.summary-text p').forEach(p => {
+            p.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const strongElement = p.querySelector('strong');
+                if (strongElement) {
+                    const qNum = parseInt(strongElement.textContent, 10);
+                    if (!isNaN(qNum) && currentQuestion !== qNum) {
+                        console.log(`🚀 Navigating from question ${currentQuestion} to question ${qNum} (summary paragraph)`);
+                        goToQuestion(qNum);
+                    }
+                }
+            });
+        });
+
+        resizer.addEventListener('mousedown', initResize, false);
+        initializeContextMenu();
+        
+        // Ensure indicators (answered states, counts) are correct on initial load
+        updateAllIndicators();
+
+        // Ensure the bottom menu reflects the currently focused input as active
+        document.querySelectorAll('.answer-input').forEach(inputEl => {
+            const attach = (evtName) => inputEl.addEventListener(evtName, (e) => {
+                const id = inputEl.id || '';
+                if (id.startsWith('q')) {
+                    const qNum = parseInt(id.replace('q',''), 10);
+                    if (!isNaN(qNum)) {
+                        goToQuestion(qNum);
+                    }
+                } else {
+                    const container = inputEl.closest('[data-q-start]');
+                    if (container) {
+                        const qNum = parseInt(container.dataset.qStart, 10);
+                        if (!isNaN(qNum)) goToQuestion(qNum);
+                    }
+                }
+            });
+            attach('focus');
+            attach('click');
+            attach('input');
+            attach('change');
+        });
+
+        // For radio buttons (TF/NG)
+        document.querySelectorAll('input[type="radio"]').forEach(radioEl => {
+            const update = () => {
+                const name = radioEl.name || '';
+                if (name.startsWith('q')) {
+                    const qNum = parseInt(name.replace('q',''), 10);
+                    if (!isNaN(qNum)) {
+                        goToQuestion(qNum);
+                    }
+                }
+            };
+            radioEl.addEventListener('focus', update);
+            radioEl.addEventListener('change', update);
+            radioEl.addEventListener('click', update);
+        });
+
+        // For clickable cells in questions 27-33 (matching table)
+        const clickableCells = document.querySelectorAll('.clickable-cell');
+        console.log('Found clickable cells:', clickableCells.length);
+        
+        clickableCells.forEach((cell, index) => {
+            cell.addEventListener('click', function() {
+                console.log('Cell clicked:', this);
+                const questionNum = this.getAttribute('data-question');
+                const value = this.getAttribute('data-value');
+                if (questionNum && value) {
+                    selectCell(this, questionNum, value);
+                }
+            });
+        });
+    }
+
+    // --- CORE TEST LOGIC ---
+    function checkAnswers() {
+        // Disable all inputs to prevent changes
+        const allInputs = document.querySelectorAll('input, select, textarea');
+        allInputs.forEach(input => {
+            input.disabled = true;
+        });
+
+        // Disable all drag and drop functionality
+        document.querySelectorAll('.drag-item').forEach(item => {
+            item.setAttribute('draggable', 'false');
+            item.style.cursor = 'not-allowed';
+            item.style.pointerEvents = 'none';
+        });
+
+        document.querySelectorAll('.drop-zone, .passage-drag-zone').forEach(zone => {
+            zone.style.pointerEvents = 'none';
+            zone.classList.add('disabled');
+        });
+
+        // Disable submit button
+        deliverButton.disabled = true;
+        deliverButton.style.cursor = 'not-allowed';
+        
+        clearInterval(timerInterval);
+        
+        let score = 0;
+        const totalQuestions = 14;
+        const resultsDetailsContainer = document.getElementById('results-details');
+        resultsDetailsContainer.innerHTML = '';
+        
+        document.querySelectorAll('.correct, .incorrect, .correct-answer-highlight').forEach(el => {
+            el.classList.remove('correct', 'incorrect', 'correct-answer-highlight');
+        });
+        
+        document.querySelectorAll('.correct-answer-display').forEach(el => el.remove());
+        
+        for (let i = 27; i <= 40; i++) {
+            const questionKey = String(i);
+            const correctAnswer = correctAnswers[questionKey];
+            let userAnswer = '';
+            let isCorrect = false;
+            let userAnswerDisplay = 'Not Answered';
+            const correctAnswerText = Array.isArray(correctAnswer) ? correctAnswer.join(' / ') : correctAnswer;
+            
+            // Handle clickable-cell matrix questions (27-33)
+            if (i >= 27 && i <= 33) {
+                const selectedCell = document.querySelector(`.clickable-cell[data-question="${i}"][data-selected="true"]`);
+                
+                if (selectedCell) {
+                    userAnswer = selectedCell.dataset.value;
+                    userAnswerDisplay = userAnswer;
+                    isCorrect = userAnswer === correctAnswer;
+                    selectedCell.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    
+                    if (isCorrect) {
+                        score++;
+                    }
+                } else {
+                    userAnswerDisplay = 'Not Answered';
+                }
+                
+                // Handle highlighting correct answers for incorrect responses
+                if (!isCorrect) {
+                    const correctCell = document.querySelector(`.clickable-cell[data-question="${i}"][data-value="${correctAnswerText}"]`);
+                    if (correctCell) {
+                        correctCell.classList.add('correct-answer-highlight');
+                    }
+                }
+            }
+            // Handle TRUE/FALSE/NOT GIVEN questions (34-40)
+            else if (i >= 34 && i <= 40) {
+                const radioGroup = document.querySelectorAll(`input[name="q${i}"][type="radio"]`);
+                const questionContainer = radioGroup[0]?.closest('.tf-question');
+                const checkedRadio = document.querySelector(`input[name="q${i}"]:checked`);
+                
+                if (checkedRadio) {
+                    userAnswer = checkedRadio.value;
+                    userAnswerDisplay = userAnswer;
+                    isCorrect = userAnswer === correctAnswer;
+                    const userLabel = checkedRadio.closest('.tf-option');
+                    
+                    if (userLabel) {
+                        userLabel.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    }
+                }
+                
+                if (isCorrect) {
+                    score++;
+                } else {
+                    if (questionContainer) {
+                        const correctOptionEl = questionContainer.querySelector(`input[name="q${i}"][value="${correctAnswerText}"]`);
+                        if (correctOptionEl) {
+                            const correctLabel = correctOptionEl.closest('.tf-option');
+                            if (correctLabel) {
+                                correctLabel.classList.add('correct-answer-highlight');
+                            }
+                        }
+                    }
+                }
+            }
+
+            // For showing results in the modal
+            const resultRow = `
+            <div class="result-row ${isCorrect ? 'correct' : 'incorrect'}">
+                <span class="q-num">${i}</span>
+                <span class="user-ans">${userAnswerDisplay}</span>
+                <span class="correct-ans">${correctAnswerText}</span>
+                <span class="status-badge ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? 'Correct' : 'Incorrect'}</span>
+            </div>`;
+            resultsDetailsContainer.innerHTML += resultRow;
+
+            // Update nav button color
+            const navButton = document.querySelector(`.subQuestion[onclick="goToQuestion(${i})"]`);
+            if (navButton) {
+                navButton.classList.remove('answered', 'active');
+                navButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+            }
+        }
+        
+        document.getElementById('results-score').textContent = score;
+        document.getElementById('results-band').textContent = calculateBandScore(score);
+        
+        document.body.classList.add('results-mode');
+        document.getElementById('results-modal').classList.remove('hidden');
+        
+        // Change button to "My Result" with green styling
+        deliverButton.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg><span>My Result</span>`;
+        deliverButton.style.backgroundColor = '#4CAF50';
+        deliverButton.style.color = 'white';
+        deliverButton.style.borderColor = '#4CAF50';
+        deliverButton.disabled = false;
+        deliverButton.style.cursor = 'pointer';
+        deliverButton.removeEventListener('click', checkAnswers);
+        deliverButton.addEventListener('click', showResultsModal);
+        
+        // Highlight correct answers in the passage
+        highlightCorrectAnswersInPassage();
+    }
+
+    function calculateBandScore(score) {
+        // Convert 14-question score to IELTS band score (approximate)
+        if (score >= 13) return '9.0';
+        if (score >= 12) return '8.5';
+        if (score >= 11) return '8.0';
+        if (score >= 10) return '7.5';
+        if (score >= 9) return '7.0';
+        if (score >= 8) return '6.5';
+        if (score >= 7) return '6.0';
+        if (score >= 6) return '5.5';
+        if (score >= 5) return '5.0';
+        if (score >= 4) return '4.5';
+        if (score >= 3) return '4.0';
+        if (score >= 2) return '3.5';
+        if (score >= 1) return '3.0';
+        return '0.0';
+    }
+
+    function highlightCorrectAnswersInPassage() {
+        // Define highlights for Part 3 (Sign, Baby, Sign!)
+        const part3Highlights = [
+            { question: 27, text: "Language is a powerful tool that humans use for a wide variety of purposes—from expressing emotions and sharing ideas to passing down cultural values and acquiring knowledge".toLowerCase() },
+            { question: 28, text: "Some educators believe this early exposure may even influence students to pursue careers in special education, speech therapy, or interpreting".toLowerCase() },
+            { question: 29, text: "deaf children have a right to a full, accessible language from birth—and that language is often sign".toLowerCase() },
+            { question: 30, text: "even babies as young as six months can learn to use simple signs like \"milk\" or \"more\" with their hands".toLowerCase() },
+            { question: 31, text: "One clear benefit of learning ASL for hearing children is the opportunity for broader social interaction".toLowerCase() },
+            { question: 32, text: "Some educators argue that speech and lip reading should come first, while others advocate for immediate exposure to sign language".toLowerCase() },
+            { question: 33, text: "hearing children exposed to sign language from an early age tend to have stronger reading skills by the time they enter primary school".toLowerCase() },
+            { question: 34, text: "she emphasizes that there is no need for parents to invent their own signs".toLowerCase() },
+            { question: 35, text: "American Sign Language is the most widely used sign language in the world".toLowerCase() },
+            { question: 36, text: "many American schools have begun to recognize American Sign Language (ASL) as a valid foreign language credit, just like Spanish or French".toLowerCase() },
+            { question: 37, text: "Brain research indicates that vocabulary is more easily learned than grammar".toLowerCase() },
+            { question: 38, text: "First and second languages are stored on different sides of the brain".toLowerCase() },
+            { question: 39, text: "Very young children often develop motor skills before verbal skills".toLowerCase() },
+            { question: 40, text: "She calls the idea that children must learn to lip-read before learning sign language \"an outdated notion\"".toLowerCase() }
+        ];
+
+        // Function to apply highlights to a passage
+        function applyHighlights(passageElement, highlights) {
+            if (!passageElement) return;
+            
+            // Clear any existing highlights
+            passageElement.querySelectorAll('.answer-highlight').forEach(el => {
+                const parent = el.parentNode;
+                parent.replaceChild(document.createTextNode(el.textContent), el);
+                parent.normalize();
+            });
+            
+            // Add highlights for each answer
+            highlights.forEach(item => {
+                const paragraphs = passageElement.querySelectorAll('p');
+                paragraphs.forEach(paragraph => {
+                    const html = paragraph.innerHTML;
+                    if (!html || typeof html !== 'string') return;
+                    
+                    if (html.toLowerCase().includes(item.text)) {
+                        const escapeRegExp = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                        const re = new RegExp(escapeRegExp(item.text), 'i');
+                        
+                        const badge = (item.question !== undefined && item.question !== null && item.question !== '') 
+                            ? `<span style="
+                                position: absolute;
+                                top: -8px;
+                                right: -8px;
+                                background-color: #2196f3;
+                                color: white;
+                                border-radius: 50%;
+                                width: 20px;
+                                height: 20px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                font-size: 12px;
+                                font-weight: bold;
+                            ">${item.question}</span>`
+                            : '';
+                        
+                        const replaced = html.replace(
+                            re,
+                            `<span class="answer-highlight" data-question="${item.question || ''}" style="
+                                background-color: #ffeb3b;
+                                padding: 2px 4px;
+                                border-radius: 3px;
+                                font-weight: bold;
+                                position: relative;
+                                color: #000;
+                            ">${item.text}${badge}</span>`
+                        );
+                        
+                        paragraph.innerHTML = replaced;
+                    }
+                });
+            });
+        }
+        
+        // Apply highlights to Part 3 (Sign, Baby, Sign!)
+        const passageText3 = document.getElementById('passage-text-3');
+        applyHighlights(passageText3, part3Highlights);
+    }
+
+    function showResultsModal() {
+        document.getElementById('results-modal').classList.remove('hidden');
+    }
+
+    window.closeResultsModal = function() {
+        document.getElementById('results-modal').classList.add('hidden');
+        document.body.classList.remove('results-mode');
+    }
+
+    function switchToPart(partNumber) {
+        console.log(`🔀 switchToPart called with partNumber: ${partNumber}, currentPassage: ${currentPassage}`);
+        currentPassage = partNumber;
+        
+        // Hide all passages and questions
+        document.querySelectorAll('.reading-passage, .question-set, .part-header').forEach(el => {
+            el.classList.add('hidden');
+        });
+        
+        // Show the correct passage, questions, and header
+        document.getElementById(`passage-text-${partNumber}`).classList.remove('hidden');
+        document.getElementById(`questions-${partNumber}`).classList.remove('hidden');
+        document.getElementById(`part-header-${partNumber}`).classList.remove('hidden');
+        
+        // Update bottom navigation 'selected' state
+        document.querySelectorAll('.footer__questionWrapper___1tZ46').forEach((wrapper, index) => {
+            wrapper.classList.toggle('selected', (index + 1) === partNumber);
+        });
+        
+        console.log(`✅ switchToPart completed - switched to part ${partNumber}`);
+        
+        // Go to first question of the part
+        const firstQuestionOfPart = 27;
+        goToQuestion(firstQuestionOfPart);
+    }
+
+    function goToQuestion(questionNumber) {
+        console.log(`🎯 goToQuestion called with questionNumber: ${questionNumber}, currentQuestion: ${currentQuestion}, currentPassage: ${currentPassage}`);
+        
+        currentQuestion = questionNumber;
+        let passageNumber = 3;
+        
+        console.log(`📍 Calculated passageNumber: ${passageNumber} for question ${questionNumber}`);
+        
+        if (currentPassage !== passageNumber) {
+            console.log(`🔄 Switching from part ${currentPassage} to part ${passageNumber} for question ${questionNumber}`);
+            switchToPart(passageNumber);
+            return;
+        }
+        
+        console.log(`✅ Staying in same part (${currentPassage}) for question ${questionNumber}`);
+        
+        if (activeQuestionElement) {
+            // Remove active style from previous block
+            activeQuestionElement.classList.remove('active-question', 'active-input');
+            
+            // Also remove from the container block if we previously set it
+            const prevBlock = activeQuestionElement.closest('[data-q-start]');
+            if (prevBlock) prevBlock.classList.remove('active-question');
+        }
+        
+        // First, try to find the specific input element
+        let targetEl = document.getElementById(`q${questionNumber}`);
+        
+        if (targetEl) {
+            activeQuestionElement = targetEl;
+            console.log(`✅ Found specific input element:`, targetEl);
+            targetEl.classList.add('active-input');
+            scrollIntoViewIfNeeded(targetEl);
+        } else {
+            // Fall back to looking for question containers
+            targetEl = document.querySelector(`[data-q-start="${questionNumber}"]`);
+            console.log(`🔍 Looking for target element with data-q-start="${questionNumber}":`, targetEl);
+            
+            if (targetEl) {
+                activeQuestionElement = targetEl;
+                console.log(`✅ Found target element:`, targetEl);
+                
+                if (targetEl.matches('input[type="text"]') || targetEl.matches('select')) {
+                    targetEl.classList.add('active-input');
+                    console.log(`📝 Added active-input class to input/select element`);
+                } else {
+                    targetEl.classList.add('active-question');
+                    console.log(`📋 Added active-question class to question element`);
+                }
+                
+                scrollIntoViewIfNeeded(targetEl);
+            } else {
+                console.log(`⚠️ Target element not found, looking for paragraph matching question`);
+                const pMatch = document.querySelector(`.paragraph-matching-question select[id="q${questionNumber}"]`);
+                
+                if (pMatch) {
+                    activeQuestionElement = pMatch;
+                    pMatch.classList.add('active-input');
+                    scrollIntoViewIfNeeded(pMatch);
+                    console.log(`✅ Found paragraph matching question:`, pMatch);
+                } else {
+                    console.log(`❌ No target element found for question ${questionNumber}`);
+                }
+            }
+        }
+        
+        updateNavigation();
+        console.log(`✅ goToQuestion completed for question ${questionNumber}`);
+    }
+
+    // --- UI & NAVIGATION ---
+    function updateNavigation() {
+        console.log(`🔄 updateNavigation called for currentQuestion: ${currentQuestion}`);
+        
+        const navButtons = document.querySelectorAll('.subQuestion');
+        navButtons.forEach(btn => btn.classList.remove('active'));
+        
+        const activeNav = document.querySelector(`.subQuestion[onclick="goToQuestion(${currentQuestion})"]`);
+        if (activeNav) {
+            activeNav.classList.add('active');
+            console.log(`✅ Updated navigation - active nav button:`, activeNav);
+        } else {
+            console.log(`⚠️ No active navigation button found for question ${currentQuestion}`);
+        }
+        
+        const inputs = document.querySelectorAll('.answer-input, .drop-zone.filled, .summary-drop-zone.filled');
+        inputs.forEach(input => input.classList.remove('active-input'));
+        
+        const activeInput = document.getElementById(`q${currentQuestion}`);
+        if (activeInput) {
+            activeInput.classList.add('active-input');
+            if (typeof activeInput.focus === 'function') {
+                activeInput.focus();
+            }
+            console.log(`✅ Focused on input element:`, activeInput);
+        } else {
+            console.log(`⚠️ No direct input found for question ${currentQuestion}, looking in question block`);
+            
+            // Prefer the specific question element for styling (TF/MCQ), fallback to any data-q-start container
+            let activeQuestionBlock = document.querySelector(`.tf-question[data-q-start="${currentQuestion}"]`) ||
+                                     document.querySelector(`[data-q-start="${currentQuestion}"]`);
+            
+            if (activeQuestionBlock) {
+                // Add active-question class to style number badge
+                activeQuestionBlock.classList.add('active-question');
+                
+                const firstInput = activeQuestionBlock.querySelector('input, select');
+                if (firstInput) {
+                    firstInput.classList.add('active-input');
+                    if (typeof firstInput.focus === 'function') {
+                        firstInput.focus();
+                    }
+                    console.log(`✅ Focused on input in question block:`, firstInput);
+                } else {
+                    console.log(`⚠️ No input found in question block for question ${currentQuestion}`);
+                }
+            } else {
+                console.log(`❌ No question block found for question ${currentQuestion}`);
+            }
+        }
+        
+        console.log(`✅ updateNavigation completed`);
+    }
+
+    window.nextQuestion = () => currentQuestion < 40 && goToQuestion(currentQuestion + 1);
+    window.previousQuestion = () => currentQuestion > 27 && goToQuestion(currentQuestion - 1);
+
+    function updateAllIndicators() {
+        updateAttemptedCount(3, 27, 40);
+        updateAnsweredNav();
+    }
+
+    function updateAnsweredNav() {
+        const navButtons = document.querySelectorAll('.subQuestion');
+        navButtons.forEach(btn => {
+            let qNum = NaN;
+            
+            // Prefer parsing from onclick attribute to avoid SR-only text interference
+            const onclickAttr = btn.getAttribute('onclick');
+            if (onclickAttr) {
+                const match = onclickAttr.match(/goToQuestion\((\d+)\)/);
+                if (match) {
+                    qNum = parseInt(match[1], 10);
+                }
+            }
+            
+            // Fallback: try the visible number span
+            if (isNaN(qNum)) {
+                const visibleSpan = btn.querySelector('span[aria-hidden="true"]');
+                if (visibleSpan) {
+                    qNum = parseInt(visibleSpan.textContent.trim(), 10);
+                }
+            }
+            
+            if (!isNaN(qNum) && isQuestionAnswered(qNum)) {
+                btn.classList.add('answered');
+            } else {
+                btn.classList.remove('answered');
+            }
+        });
+    }
+
+    function isQuestionAnswered(qNum) {
+        // Handle clickable-cell matrix questions (27-33)
+        if (qNum >= 27 && qNum <= 33) {
+            const selectedCell = document.querySelector(`.clickable-cell[data-question="${qNum}"][data-selected="true"]`);
+            if (selectedCell) {
+                return true;
+            }
+        }
+        
+        // Handle TRUE/FALSE/NOT GIVEN questions (34-40)
+        if (qNum >= 34 && qNum <= 40) {
+            const radio = document.querySelector(`input[name="q${qNum}"]:checked`);
+            if (radio) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    function scrollIntoViewIfNeeded(element) {
+        const panel = element.closest('.questions-panel, .passage-panel');
+        const panelRect = panel.getBoundingClientRect();
+        const elementRect = element.getBoundingClientRect();
+        
+        if (elementRect.top < panelRect.top || elementRect.bottom > panelRect.bottom) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    // --- DRAG AND DROP ---
+    function initializeDragAndDrop() {
+        // No drag and drop in this passage
+    }
+
+    // --- TIMER FUNCTIONS ---
+    function startTimer() {
+        if (timerInterval) clearInterval(timerInterval);
+        
+        timerInterval = setInterval(() => {
+            timeInSeconds--;
+            const minutes = Math.floor(timeInSeconds / 60);
+            const seconds = timeInSeconds % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeInSeconds <= 0) {
+                clearInterval(timerInterval);
+                timerDisplay.textContent = "Time's up!";
+            }
+        }, 1000);
+        
+        timerToggleButton.innerHTML = pauseIcon;
+    }
+
+    function pauseTimer() {
+        clearInterval(timerInterval);
+        timerToggleButton.innerHTML = playIcon;
+    }
+
+    function toggleTimer() {
+        // Check based on the icon currently displayed
+        if (timerToggleButton.innerHTML.includes('M6 19h4V5H6v14z')) { // Check for pause icon shape
+            pauseTimer();
+        } else {
+            startTimer();
+        }
+    }
+
+    function resetTimer() {
+        timeInSeconds = 1200; // 20 minutes
+        const minutes = Math.floor(timeInSeconds / 60);
+        const seconds = timeInSeconds % 60;
+        timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        startTimer();
+        timerToggleButton.innerHTML = pauseIcon;
+    }
+
+    function setupCheckboxLimits() {
+        // No checkbox groups in this passage
+    }
+
+    function setupExampleHeading() {
+        // No example box in this passage
+    }
+
+    function initResize(e) {
+        e.preventDefault();
+        const startX = e.clientX;
+        const startWidth = passagePanel.offsetWidth;
+        
+        const doDrag = (e) => {
+            const newWidth = startWidth + e.clientX - startX;
+            if (newWidth > 200 && (document.body.clientWidth - newWidth - resizer.offsetWidth) > 200) {
+                passagePanel.style.flex = `0 0 ${newWidth}px`;
+            }
+        };
+        
+        const stopDrag = () => {
+            window.removeEventListener('mousemove', doDrag, false);
+            window.removeEventListener('mouseup', stopDrag, false);
+        };
+        
+        window.addEventListener('mousemove', doDrag, false);
+        window.addEventListener('mouseup', stopDrag, false);
+    }
+
+    // --- CONTEXT MENU (Highlighting) ---
+    function initializeContextMenu() {
+        const panels = [passagePanel, questionsPanel];
+        let targetElementForClear = null;
+        
+        // This listener simply tracks the last valid text selection in either panel.
+        document.addEventListener('selectionchange', () => {
+            const selection = window.getSelection();
+            if (selection && !selection.isCollapsed && selection.toString().trim().length > 0) {
+                const range = selection.getRangeAt(0);
+                if (panels.some(panel => panel.contains(range.commonAncestorContainer))) {
+                    selectedRange = range;
+                    targetElementForClear = null; // New selection overrides clearing a specific element
+                }
+            }
+        });
+        
+        const showContextMenu = (e) => {
+            const target = e.target;
+            const isClickOnHighlight = target.closest('.highlight, .comment-highlight');
+            const isSelectionActive = selectedRange && selectedRange.toString().trim().length > 0;
+            
+            let showMenu = false;
+            
+            if (isClickOnHighlight) {
+                document.getElementById('menu-highlight').style.display = 'none';
+                document.getElementById('menu-note').style.display = 'none';
+                document.getElementById('menu-clear').style.display = 'block';
+                contextMenu.targetElementForClear = isClickOnHighlight;
+                showMenu = true;
+            } else if (isSelectionActive && panels.some(panel => panel.contains(selectedRange.commonAncestorContainer))) {
+                document.getElementById('menu-highlight').style.display = 'flex';
+                document.getElementById('menu-note').style.display = 'flex';
+                document.getElementById('menu-clear').style.display = 'none';
+                showMenu = true;
+            }
+            
+            if (showMenu) {
+                e.preventDefault();
+                contextMenu.style.display = 'block';
+                const menuHeight = contextMenu.offsetHeight;
+                const menuWidth = contextMenu.offsetWidth;
+                
+                let left = e.pageX;
+                let top = e.pageY;
+                
+                if (left + menuWidth > window.innerWidth) left = window.innerWidth - menuWidth - 5;
+                if (top + menuHeight > window.innerHeight) top = e.pageY - menuHeight - 5;
+                else top = e.pageY - menuHeight - 5;
+                
+                contextMenu.style.left = `${left}px`;
+                contextMenu.style.top = `${top}px`;
+            }
+        };
+        
+        panels.forEach(panel => {
+            panel.addEventListener('contextmenu', showContextMenu);
+        });
+        
+        document.addEventListener('click', (e) => {
+            if (contextMenu.style.display === 'block' && !contextMenu.contains(e.target)) {
+                closeContextMenu();
+            }
+        });
+    }
+
+    function closeContextMenu() {
+        contextMenu.style.display = 'none';
+        selectedRange = null; // Clear range after menu closes
+    }
+
+    function unwrapElement(element) {
+        const parent = element.parentNode;
+        if (!parent) return;
+        while (element.firstChild) {
+            parent.insertBefore(element.firstChild, element);
+        }
+        parent.removeChild(element);
+        parent.normalize();
+    }
+
+    window.highlightText = () => {
+        if (selectedRange && !selectedRange.collapsed) {
+            const span = document.createElement('span');
+            span.className = 'highlight';
+            span.appendChild(selectedRange.extractContents());
+            selectedRange.insertNode(span);
+        }
+        closeContextMenu();
+        window.getSelection().removeAllRanges();
+    };
+
+    window.addNote = () => {
+        const note = prompt('Enter your note:');
+        if (note && selectedRange && !selectedRange.collapsed) {
+            const span = document.createElement('span');
+            span.className = 'comment-highlight';
+            const tooltip = document.createElement('span');
+            tooltip.className = 'comment-tooltip';
+            tooltip.textContent = note;
+            span.appendChild(selectedRange.extractContents());
+            span.appendChild(tooltip);
+            selectedRange.insertNode(span);
+        }
+        closeContextMenu();
+        window.getSelection().removeAllRanges();
+    };
+
+    window.clearHighlight = () => {
+        const elementToClear = contextMenu.targetElementForClear;
+        if (elementToClear) {
+            unwrapElement(elementToClear);
+        }
+        closeContextMenu();
+        window.getSelection().removeAllRanges();
+    };
+
+    function updateAttemptedCount(part, startQ, endQ) {
+        let answeredCount = 0;
+        for (let i = startQ; i <= endQ; i++) {
+            if (isQuestionAnswered(i)) {
+                answeredCount++;
+            }
+        }
+        
+        const partHeader = document.querySelector(`.footer__questionNo___3WNct[onclick="switchToPart(${part})"]`);
+        if (partHeader) {
+            const countSpan = partHeader.querySelector('.attemptedCount');
+            if (countSpan) {
+                countSpan.textContent = `${answeredCount} of ${endQ - startQ + 1}`;
+            }
+        }
+    }
+
+    // --- GLOBAL FUNCTION EXPOSURE ---
+    window.nextQuestion = nextQuestion;
+    window.previousQuestion = previousQuestion;
+    window.goToQuestion = goToQuestion;
+    window.switchToPart = switchToPart;
+    window.closeResultsModal = closeResultsModal;
+    window.highlightText = highlightText;
+    window.addNote = addNote;
+    window.clearHighlight = clearHighlight;
+
+    // Global function for selecting cells
+    window.selectCell = function(cell, questionNum, value) {
+        console.log('selectCell called:', questionNum, value);
+        
+        // Remove selected class from all cells in the same row
+        const row = cell.closest('tr');
+        const cellsInRow = row.querySelectorAll('.clickable-cell');
+        cellsInRow.forEach(c => {
+            c.classList.remove('selected');
+            c.removeAttribute('data-selected');
+            c.removeAttribute('data-answer');
+        });
+        
+        // Add selected class to clicked cell
+        cell.classList.add('selected');
+        cell.setAttribute('data-selected', 'true');
+        cell.setAttribute('data-answer', value);
+        
+        console.log('Cell selected:', questionNum, value);
+        updateAllIndicators();
+    };
+
+    // --- START THE APP ---
+    initialize();
+});
+</script>
+</body>
+</html>

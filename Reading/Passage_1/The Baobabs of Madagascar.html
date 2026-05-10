@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading – The Baobabs of Madagascar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --header-bg: #ffffff;
+            --border-color: #e0e0e0;
+            --panel-bg: #ffffff;
+            --input-bg: #ffffff;
+            --input-border: #bfbfbf;
+            --input-focus: #3581d8;
+            --correct-color: #28a745;
+            --incorrect-color: #dc3545;
+            --highlight-bg: #ffff00;
+            --modal-bg: #ffffff;
+            --nav-bg: #ffffff;
+            --resizer-bg: #f0f0f0;
+            --part-header-bg: #f1f2ec;
+            --timer-bg: #f0f0f0;
+            --link-color: #1e88e5;
+            --shadow-color: rgba(0,0,0,0.1);
+            --table-border: #ddd;
+            --table-header-bg: #007bff;
+            --table-cell-bg: #fafafa;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #e0e0e0;
+            --header-bg: #2d2d2d;
+            --border-color: #444444;
+            --panel-bg: #2d2d2d;
+            --input-bg: #3a3a3a;
+            --input-border: #555555;
+            --input-focus: #4a90e2;
+            --correct-color: #2ecc71;
+            --incorrect-color: #e74c3c;
+            --highlight-bg: #ffeb3b;
+            --modal-bg: #2d2d2d;
+            --nav-bg: #2d2d2d;
+            --resizer-bg: #444444;
+            --part-header-bg: #3a3a3a;
+            --timer-bg: #444444;
+            --link-color: #64b5f6;
+            --shadow-color: rgba(0,0,0,0.3);
+            --table-border: #555;
+            --table-header-bg: #0056b3;
+            --table-cell-bg: #3a3a3a;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.5;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* HEADER */
+        .header {
+            background-color: var(--header-bg);
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            height: 60px;
+        }
+        .header-left { display: flex; align-items: center; gap: 16px; }
+        .header-right { display: flex; align-items: center; gap: 16px; }
+        .ielts-logo { height: 50px; width: auto; }
+        .telegram-link {
+            display: flex; align-items: center; gap: 6px;
+            text-decoration: none; color: var(--link-color);
+            font-weight: bold; font-size: 14px;
+        }
+        .telegram-link:hover { text-decoration: underline; }
+
+        /* TIMER */
+        .timer-container { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 500; color: var(--text-color); }
+        .timer-display { font-weight: 700; min-width: 60px; font-size: 18px; color: var(--text-color); }
+        .timer-display.warning { color: #e53e3e !important; animation: pulse 1s infinite; }
+        @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+        .timer-controls { display: flex; gap: 6px; }
+        .timer-controls button, .dark-mode-btn {
+            background: var(--timer-bg); border: 1px solid var(--border-color);
+            border-radius: 50%; width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: background-color 0.2s;
+        }
+        .timer-controls button:hover, .dark-mode-btn:hover { background: var(--border-color); }
+        .timer-controls button svg, .dark-mode-btn svg { width: 18px; height: 18px; fill: var(--text-color); }
+        .dark-mode-btn { position: relative; }
+        .dark-mode-btn .sun-icon, .dark-mode-btn .moon-icon {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); transition: opacity 0.3s;
+            fill: none; stroke: var(--text-color); stroke-width: 2;
+        }
+        .dark-mode-btn .moon-icon { opacity: 0; }
+        [data-theme="dark"] .dark-mode-btn .sun-icon { opacity: 0; }
+        [data-theme="dark"] .dark-mode-btn .moon-icon { opacity: 1; }
+
+        /* MAIN */
+        .main-container { margin-top: 60px; display: flex; flex-direction: column; height: calc(100vh - 60px); }
+        .part-header {
+            background-color: var(--part-header-bg); padding: 12px 20px;
+            border: 1px solid var(--border-color); margin: 8px 20px;
+            border-radius: 5px; color: var(--text-color);
+        }
+        .part-header p { margin: 2px 0; color: var(--text-color); }
+
+        .panels-container { display: flex; flex: 1; overflow: hidden; }
+        .passage-panel, .questions-panel {
+            flex: 1; padding: 20px 24px 120px;
+            overflow-y: auto; min-width: 200px;
+            background-color: var(--panel-bg);
+        }
+        .questions-panel { border-left: 1px solid var(--border-color); }
+
+        /* RESIZER */
+        .resizer {
+            width: 10px; cursor: col-resize;
+            background-color: var(--resizer-bg);
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23888"/></svg>');
+            background-repeat: no-repeat; background-position: center;
+            flex-shrink: 0;
+        }
+
+        /* PASSAGE */
+        .reading-passage h4 {
+            font-size: 20px; font-weight: bold;
+            margin-bottom: 6px; text-align: center;
+            color: #000000;
+        }
+        .reading-passage .subtitle {
+            font-style: italic; text-align: center;
+            margin-bottom: 16px; color: #000000; font-size: 15px;
+        }
+        .reading-passage p { margin-bottom: 1.2em; color: #000000; }
+        [data-theme="dark"] .reading-passage h4,
+        [data-theme="dark"] .reading-passage .subtitle,
+        [data-theme="dark"] .reading-passage p { color: var(--text-color); }
+
+        .passage-intro { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 1.2em; }
+        .passage-intro-text { flex: 1; color: #000000; }
+        .passage-image {
+            float: right; margin: 0 0 12px 20px;
+            border-radius: 8px; border: 1px solid var(--border-color);
+            width: 200px; height: auto; object-fit: cover;
+        }
+        .footnote { font-size: 13px; color: #000000; border-top: 1px solid var(--border-color); padding-top: 8px; margin-top: 16px; }
+        [data-theme="dark"] .footnote { color: var(--text-color); }
+
+        /* QUESTIONS */
+        .question { margin-bottom: 32px; }
+        .question-prompt p { margin-bottom: 8px; color: #000000; font-size: 15px; }
+        [data-theme="dark"] .question-prompt p { color: var(--text-color); }
+        .question-prompt strong { color: #000000; }
+        [data-theme="dark"] .question-prompt strong { color: var(--text-color); }
+
+        /* T/F/NG */
+        .tf-question { margin-bottom: 18px; }
+        .tf-question-line {
+            display: flex; align-items: flex-start;
+            margin-bottom: 8px; gap: 10px;
+        }
+        .tf-question-number {
+            border: 2px solid var(--border-color); padding: 2px 8px;
+            border-radius: 3px; font-weight: bold;
+            background-color: var(--input-bg); color: #000000;
+            white-space: nowrap; flex-shrink: 0;
+        }
+        [data-theme="dark"] .tf-question-number { color: var(--text-color); }
+        .tf-question.active-question .tf-question-number { border-color: var(--input-focus); border-width: 2px; }
+        .tf-question-text { padding-top: 2px; color: #000000; line-height: 1.5; }
+        [data-theme="dark"] .tf-question-text { color: var(--text-color); }
+        .tf-options { padding-left: 4px; display: flex; flex-direction: column; gap: 4px; }
+        .tf-option {
+            display: flex; align-items: center;
+            padding: 8px 12px; cursor: pointer;
+            background-color: var(--input-bg); border: 1px solid var(--border-color);
+            border-radius: 4px; color: #000000; transition: background-color 0.2s;
+        }
+        [data-theme="dark"] .tf-option { color: var(--text-color); }
+        .tf-option:hover { background-color: var(--part-header-bg); }
+        .tf-option:has(input:checked) { background-color: rgba(74,144,226,0.15); border-color: var(--input-focus); }
+        .tf-option.correct { background-color: rgba(40,167,69,0.2) !important; border-color: var(--correct-color) !important; }
+        .tf-option.incorrect { background-color: rgba(220,53,69,0.15) !important; border-color: var(--incorrect-color) !important; }
+        .tf-option input[type="radio"] { margin-right: 10px; accent-color: var(--input-focus); transform: scale(1.1); }
+
+        /* NOTES COMPLETION */
+        .notes-section { background: var(--part-header-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 16px 20px; margin-top: 10px; }
+        .notes-section h5 { text-align: center; font-size: 16px; margin-bottom: 12px; color: #000000; }
+        [data-theme="dark"] .notes-section h5 { color: var(--text-color); }
+        .notes-section p { color: #000000; margin-bottom: 6px; line-height: 1.7; }
+        [data-theme="dark"] .notes-section p { color: var(--text-color); }
+        .notes-section ul { list-style: disc; padding-left: 20px; }
+        .notes-section ul li { color: #000000; margin-bottom: 4px; }
+        [data-theme="dark"] .notes-section ul li { color: var(--text-color); }
+        .notes-section ul ul { list-style: '– '; padding-left: 18px; margin-top: 4px; }
+
+        /* ANSWER INPUT */
+        .answer-input {
+            border: 1px solid var(--input-border); border-radius: 3px;
+            background-color: var(--input-bg); padding: 2px 8px;
+            font-size: 15px; font-weight: 700;
+            margin: 0 4px; height: 26px; min-width: 130px;
+            color: #000000; transition: border-color 0.2s, background-color 0.3s;
+            display: inline-block; vertical-align: middle;
+        }
+        [data-theme="dark"] .answer-input { color: var(--text-color); }
+        .answer-input:focus { border-color: var(--input-focus); border-width: 2px; outline: none; }
+        .answer-input.active-input { border-color: var(--input-focus); border-width: 2px; }
+        .answer-input.correct { border-color: var(--correct-color); background-color: rgba(40,167,69,0.1); }
+        .answer-input.incorrect { border-color: var(--incorrect-color); background-color: rgba(220,53,69,0.08); }
+        .answer-input::placeholder { color: #999; font-weight: 400; }
+
+        /* NAV ARROWS */
+        .nav-arrows { position: fixed; bottom: 90px; right: 20px; display: flex; gap: 6px; z-index: 101; }
+        .nav-arrow {
+            width: 44px; height: 44px; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; border-radius: 50%; font-size: 20px; font-weight: 700;
+            box-shadow: 0 2px 6px var(--shadow-color); transition: transform 0.1s;
+        }
+        .nav-arrow.prev { background: #4b5563; }
+        .nav-arrow.next { background: #111111; }
+        .nav-arrow:hover { transform: translateY(-1px); }
+
+        /* BOTTOM NAV */
+        .nav-row {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--nav-bg); height: 72px;
+            display: flex; align-items: center;
+            border-top: 1px solid var(--border-color); z-index: 100; padding: 0 16px;
+        }
+        .part-label { font-size: 15px; font-weight: 600; color: var(--text-color); margin-right: 14px; white-space: nowrap; }
+        .sub-questions-row { display: flex; gap: 4px; flex-wrap: wrap; }
+        .subQuestion {
+            width: 32px; height: 32px; border: 1px solid var(--border-color);
+            background: var(--input-bg); color: var(--text-color);
+            font-size: 13px; font-weight: 600; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 3px; transition: all 0.2s;
+        }
+        .subQuestion:hover { background: var(--part-header-bg); border-color: var(--input-focus); }
+        .subQuestion.answered { background: var(--part-header-bg); }
+        .subQuestion.active { background: var(--input-focus); color: white; border-color: var(--input-focus); }
+        .subQuestion.correct { background: var(--correct-color); color: white; border-color: var(--correct-color); }
+        .subQuestion.incorrect { background: var(--incorrect-color); color: white; border-color: var(--incorrect-color); }
+        .attempted-count { font-size: 13px; color: var(--text-color); opacity: 0.7; margin-left: 8px; white-space: nowrap; }
+
+        .deliver-btn {
+            margin-left: auto; background: var(--part-header-bg);
+            color: var(--text-color); border: 1px solid var(--border-color);
+            padding: 9px 18px; font-size: 15px; font-weight: 700;
+            cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 8px;
+            transition: background-color 0.2s;
+        }
+        .deliver-btn:hover { background: var(--border-color); }
+        .deliver-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* CORRECT ANSWER DISPLAY */
+        .correct-answer-display { font-weight: bold; color: var(--correct-color); margin-left: 8px; font-size: 13px; }
+
+        /* HIGHLIGHTS */
+        .highlight { background-color: var(--highlight-bg); color: #000; }
+        .answer-highlight { background-color: #ffeb3b; padding: 1px 3px; border-radius: 2px; font-weight: bold; color: #000; }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(17,24,39,0.6); backdrop-filter: blur(3px);
+            z-index: 2000; display: flex; justify-content: center; align-items: center;
+        }
+        .modal-overlay.hidden { display: none; }
+        .modal-content {
+            background: var(--modal-bg); padding: 24px; border-radius: 12px;
+            width: 90%; max-width: 700px; max-height: 85vh;
+            display: flex; flex-direction: column;
+            border: 1px solid var(--border-color); box-shadow: 0 20px 60px var(--shadow-color);
+            position: relative;
+        }
+        .modal-close-btn { position: absolute; top: 10px; right: 14px; background: none; border: none; font-size: 26px; cursor: pointer; color: var(--text-color); }
+        .modal-content h2 { text-align: center; margin-bottom: 14px; color: var(--text-color); }
+        .results-summary { display: flex; gap: 14px; justify-content: center; margin-bottom: 14px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
+        .results-summary p { font-size: 15px; color: var(--text-color); }
+        .results-summary p span { display: inline-block; padding: 3px 10px; margin-left: 6px; border-radius: 999px; background: var(--part-header-bg); font-weight: 700; color: var(--text-color); }
+        .results-details-container { overflow-y: auto; }
+        .result-row {
+            display: grid; grid-template-columns: 50px 1fr 1fr 110px;
+            gap: 10px; padding: 9px 6px; border-bottom: 1px solid var(--border-color);
+            font-size: 14px; align-items: center;
+        }
+        .result-row.correct { background: rgba(40,167,69,0.08); }
+        .result-row.incorrect { background: rgba(220,53,69,0.08); }
+        .result-row .q-num { font-weight: 700; color: var(--text-color); background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 6px; width: 38px; height: 28px; display: inline-flex; align-items: center; justify-content: center; }
+        .result-row .user-ans { color: var(--text-color); background: var(--part-header-bg); border: 1px solid var(--border-color); padding: 3px 8px; border-radius: 5px; }
+        .result-row .correct-ans { color: var(--correct-color); font-weight: 600; background: rgba(40,167,69,0.1); border: 1px solid var(--correct-color); padding: 3px 8px; border-radius: 5px; }
+        .status-badge { justify-self: end; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; border: 1px solid transparent; }
+        .status-badge.ok { background: rgba(40,167,69,0.2); color: var(--correct-color); border-color: var(--correct-color); }
+        .status-badge.bad { background: rgba(220,53,69,0.2); color: var(--incorrect-color); border-color: var(--incorrect-color); }
+
+        /* CONTEXT MENU */
+        .context-menu { position: absolute; background: var(--modal-bg); border: 1px solid var(--border-color); border-radius: 6px; box-shadow: 0 4px 12px var(--shadow-color); z-index: 1000; display: none; min-width: 130px; }
+        .context-menu-item { padding: 10px 14px; cursor: pointer; font-size: 14px; border-bottom: 1px solid var(--border-color); color: var(--text-color); }
+        .context-menu-item:hover { background: var(--part-header-bg); }
+        .context-menu-item:last-child { border-bottom: none; }
+
+        /* WATERMARK */
+        body::after { content: "@FOZILBEK_IELTS"; position: fixed; left: 50%; top: 50%; transform: translate(-50%,-50%) rotate(-20deg); font-size: 70px; font-weight: 800; color: var(--text-color); opacity: 0.04; pointer-events: none; z-index: 0; white-space: nowrap; }
+
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--panel-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--input-focus); }
+    </style>
+</head>
+<body data-theme="light">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-left">
+            <img src="https://i.pinimg.com/736x/88/93/a8/8893a81fed78f6989142a13e3605c45e.jpg" alt="IELTS" class="ielts-logo">
+            <a href="https://t.me/FOZILBEK_IELTS" target="_blank" class="telegram-link">
+                <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-.38.24-1.07.7-.96.66-1.89 1.28-1.89 1.28s-.17.11-.49.03c-.32-.08-.72-.26-1.16-.47-.54-.26-1.17-.53-1.17-.53s-.87-.55.62-1.14c.32-.13 1.96-.84 2.99-1.2 1.05-.37 2.86-1.01 2.86-1.01s1.02-.4 1.02 0z" fill="currentColor"/></svg>
+                @FOZILBEK_IELTS
+            </a>
+        </div>
+        <div class="header-right">
+            <div class="timer-container">
+                <span class="timer-display" id="timer-display">20:00</span>
+                <div class="timer-controls">
+                    <button id="timer-toggle-btn" title="Pause/Resume">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                    </button>
+                    <button id="timer-reset-btn" title="Reset Timer">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+                    </button>
+                </div>
+                <button class="dark-mode-btn" id="dark-mode-toggle" title="Toggle Dark Mode">
+                    <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main-container">
+        <div class="part-header">
+            <p><strong>Reading Passage 1</strong> &nbsp;·&nbsp; You should spend about 20 minutes on Questions 1–13.</p>
+        </div>
+        <div class="panels-container">
+            <!-- PASSAGE PANEL -->
+            <div class="passage-panel" id="passage-panel">
+                <div class="reading-passage">
+                    <h4>The Baobabs of Madagascar</h4>
+                    <p class="subtitle"><em>The ancient baobabs of Madagascar are some of the largest and most distinctive trees in the world, but they face an uncertain future</em></p>
+
+                    <img src="https://i.pinimg.com/736x/40/72/4d/40724deea0db007986996280d0388f56.jpg" alt="Baobab trees" class="passage-image" onerror="this.style.display='none'">
+
+                    <p>The island of Madagascar in the Indian Ocean is the best place in the world to see baobabs. These spectacular trees, with their massive trunks and distinctive horizontal root-like branches, can live over 800 years. Of the eight known species, six are found only there, while a seventh has made its way across the Mozambique Channel from mainland Africa with a certain amount of human help. Some of the most visited and photographed baobabs in Madagascar are at the Avenue des Baobabs in the western province of Menabe, close to the town of Morondava. There, a dozen trees straddle a narrow sandy road, soaring 30 metres into the sky. Known as renala – 'mother of the forest' - in the local Malagasy<sup>*</sup> language, these trees belong to the tallest baobab species in the world: <em>Adansonia grandidieri</em>, named after two great 19th-century French botanists, Michel Adanson and Alfred Grandidier.</p>
+
+                    <p>Baobabs have religious and spiritual significance for many Malagasy tribes, although the majority of the island's population will probably never see one – they only grow along the western margin of the island and not in the more populous central highlands. However, as the national tree and the national emblem, the trees are an ideal symbol for increasing awareness not only of the endangered forests, but also of the traditional beliefs of the people who live alongside them. But what does the future hold for the Malagasy baobabs?</p>
+
+                    <p>The Avenue des Baobabs is something of a contradiction; the 'natural' scene that tourists visit is actually man-made. While the trees themselves are natural enough, the surrounding landscape was created by humans. Back in the early 20th century, much of the Morondava plain was cleared for rice and sugar-cane fields. However, many baobabs were spared because they are valuable as a food source and renewable building material, or they simply survived the fires that were set to clear the dry deciduous forest around them. These days many stand alone in fields, a reminder of where the forest once was. But now it seems that even the mighty baobabs are falling down. 'Every year I see new trees that have fallen,' says Jim Bond, an ethnobotanist who has studied Madagascar's baobabs for more than a decade. The exact cause of the falling baobabs is uncertain, but some people think that the water used to irrigate the nearby fields is partly to blame. Baobabs are adapted to the annual wet season, but their roots can't cope with constantly waterlogged soils. Lone trees separated from the surrounding forest are also susceptible to cyclones, which reach speeds of over 200 kph in the area, and can easily uproot even a 30-metre baobab.</p>
+
+                    <p>Baobabs elsewhere on the island are also facing a host of threats, with three of the six native species now listed as endangered by the World Conservation Union. David Baum from the University of Wisconsin has spent years researching Malagasy baobabs. 'The main threat to their survival is land clearance for farming, which probably suppresses regeneration,' he says. Burning is the usual method of clearing land, and while baobabs have some resistance to this, they will eventually succumb to repeated burning. Human disturbance in the forest, such as logging, is also a problem. This practice may be promoting the rapid spread of shrubby undergrowth, which quickly fills in the bright forest gaps needed for baobab germination. Another problem the trees face is the dispersal of their seeds. Baum suggests that dispersal is being limited by the absence of two large, now extinct animals – a gorilla-sized lemur and the three-metre-tall elephant bird. Passage through the digestive tract of these giant fruit-eating animals probably once played a vital role in the distribution of the renala baobabs in particular.</p>
+
+                    <p>The Malagasy government is becoming increasingly concerned as the baobab is key to the local tourism industry, and thus to the economy of the island as a whole. But visiting and photographing the solitary trees in the dramatic open landscape at the Avenue des Baobabs isn't the only way to experience baobabs in Madagascar. Within a few hours' drive of Morondava, three species of baobab can be seen in largely intact, dry forest habitat. Jim Bond has led expeditions of Malagasy and foreign participants to the Mikea forest in the island's southwest, which is almost certainly one of the least studied and least damaged areas of baobab forest left in Madagascar. On his expeditions Bond works closely with local people to search for, and create maps of baobab distribution. He also plans to compile an illustrated children's book of the many local folk-tales about the tree, hoping that national and international versions will help to spread the word about how important baobabs are in Malagasy culture. But it's going to require some swift and coordinated action to ensure that the baobab becomes a symbol of conservation success, rather than a symbol of humanity's mistakes.</p>
+
+                    <p class="footnote"><sup>*</sup> Malagasy: of Madagascar</p>
+                </div>
+            </div>
+
+            <div class="resizer" id="resizer"></div>
+
+            <!-- QUESTIONS PANEL -->
+            <div class="questions-panel" id="questions-panel">
+
+                <!-- Q 1–6: TRUE / FALSE / NOT GIVEN -->
+                <div class="question" id="q-block-1-6">
+                    <div class="question-prompt">
+                        <p><strong>Questions 1–6</strong></p>
+                        <p>Do the following statements agree with the information given in Reading Passage 1?</p>
+                        <p>Choose <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if it contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.</p>
+                    </div>
+
+                    <div class="tf-question" id="tf-q1" data-q="1">
+                        <div class="tf-question-line">
+                            <span class="tf-question-number">1</span>
+                            <span class="tf-question-text">All of the baobab species found on Madagascar are unique to the island.</span>
+                        </div>
+                        <div class="tf-options">
+                            <label class="tf-option"><input type="radio" name="q1" value="TRUE"> TRUE</label>
+                            <label class="tf-option"><input type="radio" name="q1" value="FALSE"> FALSE</label>
+                            <label class="tf-option"><input type="radio" name="q1" value="NOT GIVEN"> NOT GIVEN</label>
+                        </div>
+                    </div>
+
+                    <div class="tf-question" id="tf-q2" data-q="2">
+                        <div class="tf-question-line">
+                            <span class="tf-question-number">2</span>
+                            <span class="tf-question-text">Adanson and Grandidier were the first foreign botanists to visit Madagascar.</span>
+                        </div>
+                        <div class="tf-options">
+                            <label class="tf-option"><input type="radio" name="q2" value="TRUE"> TRUE</label>
+                            <label class="tf-option"><input type="radio" name="q2" value="FALSE"> FALSE</label>
+                            <label class="tf-option"><input type="radio" name="q2" value="NOT GIVEN"> NOT GIVEN</label>
+                        </div>
+                    </div>
+
+                    <div class="tf-question" id="tf-q3" data-q="3">
+                        <div class="tf-question-line">
+                            <span class="tf-question-number">3</span>
+                            <span class="tf-question-text">The baobab can be found in most areas of Madagascar.</span>
+                        </div>
+                        <div class="tf-options">
+                            <label class="tf-option"><input type="radio" name="q3" value="TRUE"> TRUE</label>
+                            <label class="tf-option"><input type="radio" name="q3" value="FALSE"> FALSE</label>
+                            <label class="tf-option"><input type="radio" name="q3" value="NOT GIVEN"> NOT GIVEN</label>
+                        </div>
+                    </div>
+
+                    <div class="tf-question" id="tf-q4" data-q="4">
+                        <div class="tf-question-line">
+                            <span class="tf-question-number">4</span>
+                            <span class="tf-question-text">The landscape around the Avenue des Baobabs is the result of agricultural development.</span>
+                        </div>
+                        <div class="tf-options">
+                            <label class="tf-option"><input type="radio" name="q4" value="TRUE"> TRUE</label>
+                            <label class="tf-option"><input type="radio" name="q4" value="FALSE"> FALSE</label>
+                            <label class="tf-option"><input type="radio" name="q4" value="NOT GIVEN"> NOT GIVEN</label>
+                        </div>
+                    </div>
+
+                    <div class="tf-question" id="tf-q5" data-q="5">
+                        <div class="tf-question-line">
+                            <span class="tf-question-number">5</span>
+                            <span class="tf-question-text">The baobab provides useful products for the local people.</span>
+                        </div>
+                        <div class="tf-options">
+                            <label class="tf-option"><input type="radio" name="q5" value="TRUE"> TRUE</label>
+                            <label class="tf-option"><input type="radio" name="q5" value="FALSE"> FALSE</label>
+                            <label class="tf-option"><input type="radio" name="q5" value="NOT GIVEN"> NOT GIVEN</label>
+                        </div>
+                    </div>
+
+                    <div class="tf-question" id="tf-q6" data-q="6">
+                        <div class="tf-question-line">
+                            <span class="tf-question-number">6</span>
+                            <span class="tf-question-text">There is general agreement about the reasons for baobabs falling down.</span>
+                        </div>
+                        <div class="tf-options">
+                            <label class="tf-option"><input type="radio" name="q6" value="TRUE"> TRUE</label>
+                            <label class="tf-option"><input type="radio" name="q6" value="FALSE"> FALSE</label>
+                            <label class="tf-option"><input type="radio" name="q6" value="NOT GIVEN"> NOT GIVEN</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q 7–13: NOTES COMPLETION -->
+                <div class="question" id="q-block-7-13">
+                    <div class="question-prompt">
+                        <p><strong>Questions 7–13</strong></p>
+                        <p>Complete the notes below.</p>
+                        <p>Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+                    </div>
+
+                    <div class="notes-section">
+                        <h5>Baobabs under threat</h5>
+                        <p><strong>Reasons why Madagascar's baobabs are declining in number:</strong></p>
+                        <ul>
+                            <li><strong>Morondava area</strong>
+                                <ul>
+                                    <li>trees may be falling down because of <strong>7</strong> <input type="text" class="answer-input" id="q7" placeholder="7"> from nearby fields</li>
+                                    <li>lone trees are at risk from <strong>8</strong> <input type="text" class="answer-input" id="q8" placeholder="8"></li>
+                                </ul>
+                            </li>
+                            <li style="margin-top:10px;"><strong>Forest areas</strong>
+                                <ul>
+                                    <li>land clearance: mainly by burning<br>carried out to create space for <strong>9</strong> <input type="text" class="answer-input" id="q9" placeholder="9"> activity</li>
+                                    <li>practice of <strong>10</strong> <input type="text" class="answer-input" id="q10" placeholder="10"> makes seed germination difficult</li>
+                                    <li>disappearance of certain <strong>11</strong> <input type="text" class="answer-input" id="q11" placeholder="11"> which dispersed baobab seeds</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p style="margin-top:14px;"><strong>Jim Bond's efforts to record information about the baobab:</strong></p>
+                        <ul>
+                            <li>making <strong>12</strong> <input type="text" class="answer-input" id="q12" placeholder="12"> of areas of relatively undamaged baobab forest</li>
+                            <li>producing a <strong>13</strong> <input type="text" class="answer-input" id="q13" placeholder="13"> showing importance of baobab in local culture</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div><!-- end questions-panel -->
+        </div><!-- end panels-container -->
+    </div><!-- end main-container -->
+
+    <!-- NAVIGATION ARROWS -->
+    <div class="nav-arrows">
+        <button class="nav-arrow prev" id="prevBtn" aria-label="Previous question">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="nav-arrow next" id="nextBtn" aria-label="Next question">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <nav class="nav-row">
+        <span class="part-label">Questions:</span>
+        <div class="sub-questions-row" id="sub-questions-row">
+            <!-- Injected by JS -->
+        </div>
+        <span class="attempted-count" id="attempted-count">0 of 13</span>
+        <button class="deliver-btn" id="deliver-btn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg>
+            Check Answers
+        </button>
+    </nav>
+
+    <!-- CONTEXT MENU -->
+    <div id="contextMenu" class="context-menu">
+        <div class="context-menu-item" id="menu-highlight">✏️ Highlight</div>
+        <div class="context-menu-item" id="menu-clear">✖ Clear</div>
+    </div>
+
+    <!-- RESULTS MODAL -->
+    <div id="results-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="modal-close">×</button>
+            <h2>Your Results</h2>
+            <div class="results-summary">
+                <p>Score: <span id="results-score"></span> / 13</p>
+                <p>IELTS Band: <span id="results-band"></span></p>
+            </div>
+            <div id="results-details" class="results-details-container"></div>
+        </div>
+    </div>
+
+<script>
+(function() {
+    // ---- ANSWERS ----
+    const CORRECT = {
+        1:'FALSE', 2:'NOT GIVEN', 3:'FALSE', 4:'TRUE', 5:'TRUE', 6:'FALSE',
+        7:'irrigation', 8:'cyclones', 9:'farming', 10:'logging', 11:'animals',
+        12:'maps', 13:'book'
+    };
+    const TOTAL = 13;
+
+    // ---- STATE ----
+    let currentQ = 1;
+    let timeLeft = 1200; // 20 minutes
+    let timerRunning = true;
+    let timerInterval = null;
+    let submitted = false;
+    let selectedRange = null;
+
+    // ---- ELEMENTS ----
+    const timerDisplay = document.getElementById('timer-display');
+    const toggleBtn = document.getElementById('timer-toggle-btn');
+    const resetBtn = document.getElementById('timer-reset-btn');
+    const deliverBtn = document.getElementById('deliver-btn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const modal = document.getElementById('results-modal');
+    const modalClose = document.getElementById('modal-close');
+    const subQRow = document.getElementById('sub-questions-row');
+    const attemptedCount = document.getElementById('attempted-count');
+    const passagePanel = document.getElementById('passage-panel');
+    const questionsPanel = document.getElementById('questions-panel');
+    const contextMenu = document.getElementById('contextMenu');
+
+    const PAUSE_ICON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+    const PLAY_ICON  = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/></svg>`;
+
+    // ---- DARK MODE ----
+    document.body.setAttribute('data-theme','light');
+    document.getElementById('dark-mode-toggle').addEventListener('click', () => {
+        const isDark = document.body.getAttribute('data-theme') === 'dark';
+        document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    });
+
+    // ---- BUILD NAV BUTTONS ----
+    for (let i = 1; i <= TOTAL; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'subQuestion';
+        btn.textContent = i;
+        btn.setAttribute('aria-label', `Question ${i}`);
+        btn.dataset.q = i;
+        btn.addEventListener('click', () => goTo(i));
+        subQRow.appendChild(btn);
+    }
+
+    // ---- TIMER ----
+    function renderTimer() {
+        const m = Math.floor(timeLeft / 60);
+        const s = timeLeft % 60;
+        timerDisplay.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        timerDisplay.classList.toggle('warning', timeLeft <= 120);
+    }
+
+    function startTimer() {
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            if (!timerRunning) return;
+            timeLeft--;
+            renderTimer();
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                timerDisplay.textContent = "Time's up!";
+            }
+        }, 1000);
+        toggleBtn.innerHTML = PAUSE_ICON;
+    }
+
+    toggleBtn.addEventListener('click', () => {
+        timerRunning = !timerRunning;
+        toggleBtn.innerHTML = timerRunning ? PAUSE_ICON : PLAY_ICON;
+    });
+
+    resetBtn.addEventListener('click', () => {
+        timeLeft = 1200;
+        timerRunning = true;
+        renderTimer();
+        startTimer();
+    });
+
+    renderTimer();
+    startTimer();
+
+    // ---- NAVIGATION ----
+    function getQuestionEl(qNum) {
+        // text inputs
+        const inp = document.getElementById(`q${qNum}`);
+        if (inp) return inp;
+        // radio groups => tf-question block
+        const tf = document.querySelector(`.tf-question[data-q="${qNum}"]`);
+        if (tf) return tf;
+        return null;
+    }
+
+    function goTo(qNum) {
+        currentQ = qNum;
+        updateNavHighlight();
+
+        // scroll question into view
+        const el = getQuestionEl(qNum);
+        if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            const input = el.tagName === 'INPUT' ? el : el.querySelector('input');
+            if (input && !submitted) setTimeout(() => input.focus(), 200);
+        }
+    }
+
+    function updateNavHighlight() {
+        document.querySelectorAll('.subQuestion').forEach(btn => {
+            const n = parseInt(btn.dataset.q);
+            btn.classList.toggle('active', n === currentQ);
+        });
+    }
+
+    prevBtn.addEventListener('click', () => { if (currentQ > 1) goTo(currentQ - 1); });
+    nextBtn.addEventListener('click', () => { if (currentQ < TOTAL) goTo(currentQ + 1); });
+
+    // ---- ANSWERED TRACKING ----
+    function isAnswered(qNum) {
+        const inp = document.getElementById(`q${qNum}`);
+        if (inp) return inp.value.trim() !== '';
+        return !!document.querySelector(`input[name="q${qNum}"]:checked`);
+    }
+
+    function updateIndicators() {
+        let count = 0;
+        document.querySelectorAll('.subQuestion').forEach(btn => {
+            const n = parseInt(btn.dataset.q);
+            const ans = isAnswered(n);
+            if (ans) count++;
+            if (!submitted) {
+                btn.classList.toggle('answered', ans);
+            }
+        });
+        attemptedCount.textContent = `${count} of ${TOTAL}`;
+    }
+
+    document.body.addEventListener('input', updateIndicators);
+    document.body.addEventListener('change', updateIndicators);
+
+    // Click on radio → go to that question
+    document.querySelectorAll('.tf-option input[type="radio"]').forEach(radio => {
+        radio.addEventListener('click', () => {
+            const name = radio.name; // "q1" etc
+            const n = parseInt(name.replace('q',''));
+            if (!isNaN(n)) { currentQ = n; updateNavHighlight(); }
+        });
+    });
+
+    // Click on text input → go to that question
+    document.querySelectorAll('.answer-input[id^="q"]').forEach(inp => {
+        inp.addEventListener('focus', () => {
+            const n = parseInt(inp.id.replace('q',''));
+            if (!isNaN(n)) { currentQ = n; updateNavHighlight(); }
+        });
+    });
+
+    // ---- SUBMIT / CHECK ----
+    function normalize(s) {
+        return (s || '').toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,' ').trim();
+    }
+
+    function bandScore(score) {
+        // scale 13 → approximate IELTS band
+        const ratio = score / 13;
+        if (ratio >= 0.97) return '9.0';
+        if (ratio >= 0.90) return '8.5';
+        if (ratio >= 0.82) return '8.0';
+        if (ratio >= 0.74) return '7.5';
+        if (ratio >= 0.67) return '7.0';
+        if (ratio >= 0.60) return '6.5';
+        if (ratio >= 0.52) return '6.0';
+        if (ratio >= 0.44) return '5.5';
+        if (ratio >= 0.36) return '5.0';
+        if (ratio >= 0.28) return '4.5';
+        return '4.0';
+    }
+
+    deliverBtn.addEventListener('click', () => {
+        if (submitted) { modal.classList.remove('hidden'); return; }
+        submitted = true;
+        clearInterval(timerInterval);
+
+        // Disable inputs
+        document.querySelectorAll('input, select').forEach(el => el.disabled = true);
+
+        let score = 0;
+        const detailsContainer = document.getElementById('results-details');
+        detailsContainer.innerHTML = '';
+
+        for (let i = 1; i <= TOTAL; i++) {
+            const correct = CORRECT[i];
+            let userAns = '';
+
+            const inp = document.getElementById(`q${i}`);
+            if (inp) {
+                userAns = inp.value.trim();
+            } else {
+                const checked = document.querySelector(`input[name="q${i}"]:checked`);
+                if (checked) userAns = checked.value;
+            }
+
+            let isCorrect;
+            if (inp && !['select-one'].includes(inp.type)) {
+                // text
+                const accepts = Array.isArray(correct) ? correct : [correct];
+                isCorrect = accepts.some(a => normalize(a) === normalize(userAns));
+            } else {
+                isCorrect = userAns === correct;
+            }
+
+            if (isCorrect) score++;
+
+            // Style the inputs
+            if (inp) {
+                inp.classList.add(isCorrect ? 'correct' : 'incorrect');
+                if (!isCorrect) {
+                    const disp = document.createElement('span');
+                    disp.className = 'correct-answer-display';
+                    disp.textContent = ` → ${Array.isArray(correct) ? correct.join('/') : correct}`;
+                    inp.parentNode.insertBefore(disp, inp.nextSibling);
+                }
+            } else {
+                const checkedEl = document.querySelector(`input[name="q${i}"]:checked`);
+                if (checkedEl) {
+                    const lbl = checkedEl.closest('.tf-option');
+                    if (lbl) lbl.classList.add(isCorrect ? 'correct' : 'incorrect');
+                }
+                if (!isCorrect) {
+                    const correctEl = document.querySelector(`input[name="q${i}"][value="${correct}"]`);
+                    if (correctEl) {
+                        const lbl = correctEl.closest('.tf-option');
+                        if (lbl) lbl.classList.add('correct');
+                    }
+                }
+            }
+
+            // Update nav button
+            const navBtn = document.querySelector(`.subQuestion[data-q="${i}"]`);
+            if (navBtn) {
+                navBtn.classList.remove('answered','active');
+                navBtn.classList.add(isCorrect ? 'correct' : 'incorrect');
+            }
+
+            // Build result row
+            const correctText = Array.isArray(correct) ? correct.join(' / ') : correct;
+            detailsContainer.innerHTML += `
+                <div class="result-row ${isCorrect ? 'correct' : 'incorrect'}">
+                    <span class="q-num">${i}</span>
+                    <span class="user-ans">${userAns || 'Not answered'}</span>
+                    <span class="correct-ans">${correctText}</span>
+                    <span class="status-badge ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? 'Correct' : 'Incorrect'}</span>
+                </div>`;
+        }
+
+        document.getElementById('results-score').textContent = score;
+        document.getElementById('results-band').textContent = bandScore(score);
+
+        // Style button
+        deliverBtn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg> My Result`;
+        deliverBtn.style.backgroundColor = '#4CAF50';
+        deliverBtn.style.color = 'white';
+        deliverBtn.style.borderColor = '#4CAF50';
+
+        modal.classList.remove('hidden');
+    });
+
+    modalClose.addEventListener('click', () => modal.classList.add('hidden'));
+    modal.addEventListener('click', e => { if (e.target === modal) modal.classList.add('hidden'); });
+
+    // ---- RESIZER ----
+    const resizer = document.getElementById('resizer');
+    const passage = document.getElementById('passage-panel');
+    resizer.addEventListener('mousedown', e => {
+        e.preventDefault();
+        const startX = e.clientX;
+        const startW = passage.offsetWidth;
+        const onMove = e => {
+            const newW = startW + e.clientX - startX;
+            if (newW > 200 && (document.body.clientWidth - newW - 10) > 200) {
+                passage.style.flex = `0 0 ${newW}px`;
+            }
+        };
+        const onUp = () => { window.removeEventListener('mousemove', onMove); window.removeEventListener('mouseup', onUp); };
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mouseup', onUp);
+    });
+
+    // ---- CONTEXT MENU (highlight) ----
+    [passagePanel, questionsPanel].forEach(panel => {
+        panel.addEventListener('contextmenu', e => {
+            const sel = window.getSelection();
+            if (sel && !sel.isCollapsed && sel.toString().trim()) {
+                selectedRange = sel.getRangeAt(0);
+                e.preventDefault();
+                contextMenu.style.display = 'block';
+                contextMenu.style.left = `${Math.min(e.pageX, window.innerWidth - 150)}px`;
+                contextMenu.style.top = `${e.pageY - contextMenu.offsetHeight - 4}px`;
+            }
+        });
+    });
+
+    document.getElementById('menu-highlight').addEventListener('click', () => {
+        if (selectedRange && !selectedRange.collapsed) {
+            const span = document.createElement('span');
+            span.className = 'highlight';
+            span.appendChild(selectedRange.extractContents());
+            selectedRange.insertNode(span);
+        }
+        contextMenu.style.display = 'none';
+        window.getSelection().removeAllRanges();
+    });
+
+    document.getElementById('menu-clear').addEventListener('click', () => {
+        const target = document.querySelector('.highlight');
+        if (target) {
+            const parent = target.parentNode;
+            while (target.firstChild) parent.insertBefore(target.firstChild, target);
+            parent.removeChild(target);
+            parent.normalize();
+        }
+        contextMenu.style.display = 'none';
+    });
+
+    document.addEventListener('click', e => {
+        if (!contextMenu.contains(e.target)) contextMenu.style.display = 'none';
+    });
+
+    // ---- INIT ----
+    goTo(1);
+    updateIndicators();
+})();
+</script>
+</body>
+</html>

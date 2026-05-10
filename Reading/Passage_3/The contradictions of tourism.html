@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading Practice - Passage 3</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --header-bg: #ffffff;
+            --border-color: #e0e0e0;
+            --panel-bg: #ffffff;
+            --question-bg: #ffffff;
+            --input-bg: #ffffff;
+            --input-border: #bfbfbf;
+            --input-focus: #3581d8;
+            --correct-color: #28a745;
+            --incorrect-color: #dc3545;
+            --highlight-bg: #ffff00;
+            --modal-bg: #ffffff;
+            --nav-bg: #ffffff;
+            --resizer-bg: #f0f0f0;
+            --part-header-bg: #f1f2ec;
+            --timer-bg: #f0f0f0;
+            --link-color: #1e88e5;
+            --shadow-color: rgba(0,0,0,0.1);
+            --logo-brightness: 1;
+        }
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #e0e0e0;
+            --header-bg: #2d2d2d;
+            --border-color: #444444;
+            --panel-bg: #2d2d2d;
+            --question-bg: #333333;
+            --input-bg: #3a3a3a;
+            --input-border: #555555;
+            --input-focus: #4a90e2;
+            --correct-color: #2ecc71;
+            --incorrect-color: #e74c3c;
+            --highlight-bg: #ffeb3b;
+            --modal-bg: #2d2d2d;
+            --nav-bg: #2d2d2d;
+            --resizer-bg: #444444;
+            --part-header-bg: #3a3a3a;
+            --timer-bg: #444444;
+            --link-color: #64b5f6;
+            --shadow-color: rgba(0,0,0,0.3);
+            --logo-brightness: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.4;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .header {
+            background-color: var(--header-bg);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            height: 60px;
+            transition: all 0.3s;
+        }
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        .header-right { display: flex; align-items: center; gap: 20px; }
+        .ielts-logo { height: 55px; width: auto; filter: brightness(var(--logo-brightness, 1)); }
+        .telegram-link {
+            display: flex; align-items: center; gap: 6px;
+            text-decoration: none; color: var(--link-color);
+            font-weight: bold; font-size: 14px;
+            transition: color 0.3s;
+        }
+        .telegram-link:hover { text-decoration: underline; }
+        .timer-container {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 16px; font-weight: 500; color: var(--text-color);
+        }
+        .timer-display { font-weight: 600; min-width: 60px; }
+        .timer-controls { display: flex; gap: 8px; }
+        .timer-controls button, .dark-mode-btn {
+            background: var(--timer-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        .timer-controls button:hover, .dark-mode-btn:hover {
+            background: var(--border-color);
+            transform: scale(1.05);
+        }
+        .timer-controls button svg, .dark-mode-btn svg {
+            width: 20px; height: 20px;
+            fill: var(--text-color);
+            transition: fill 0.3s;
+        }
+        .main-container {
+            margin-top: 60px;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-color);
+            height: calc(100vh - 60px);
+            position: relative;
+        }
+        .panels-container { display: flex; flex: 1; overflow: hidden; }
+        .passage-panel, .questions-panel {
+            flex: 1;
+            padding: 20px 20px 100px;
+            overflow-y: auto;
+            min-width: 200px;
+            background-color: var(--panel-bg);
+            transition: background-color 0.3s;
+        }
+        .questions-panel { border-left: 1px solid var(--border-color); }
+        .resizer {
+            width: 10px;
+            cursor: col-resize;
+            background-color: var(--resizer-bg);
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23888"/></svg>');
+            background-repeat: no-repeat;
+            background-position: center;
+            flex-shrink: 0; flex-grow: 0;
+            transition: background-color 0.3s;
+        }
+        [data-theme="dark"] .resizer {
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23aaa"/></svg>');
+        }
+        .text-center { text-align: center; }
+        .reading-passage h4 {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-align: center;
+            color: var(--text-color);
+        }
+        .reading-passage .subtitle {
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 18px;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+        .reading-passage p {
+            margin-bottom: 1.2em;
+            color: var(--text-color);
+        }
+        .reading-passage strong { color: var(--text-color); }
+
+        .question { margin-bottom: 40px; }
+        .question-prompt { margin-bottom: 20px; }
+        .question-prompt p { margin-bottom: 10px; color: var(--text-color); }
+        .answer-input {
+            border: 1px solid var(--input-border);
+            border-radius: 4px;
+            background-color: var(--input-bg);
+            padding: 2px 8px;
+            font-size: 16px;
+            text-align: left;
+            font-weight: 700;
+            margin-right: 6px;
+            margin-left: 6px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s, color 0.3s;
+            height: 28px;
+            min-width: 140px;
+            color: var(--text-color);
+        }
+        .answer-input.active-input, .answer-input:focus {
+            border-color: var(--input-focus);
+            border-width: 2px;
+            outline: none;
+        }
+        .answer-input.correct {
+            border-color: var(--correct-color);
+            background-color: rgba(40, 167, 69, 0.15);
+        }
+        .answer-input.incorrect {
+            border-color: var(--incorrect-color);
+            background-color: rgba(220, 53, 69, 0.15);
+        }
+        .part-header {
+            background-color: var(--part-header-bg);
+            padding: 15px 20px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+            margin: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .part-header p { margin: 0; color: var(--text-color); }
+        .part-header p:first-child { margin-bottom: 5px; }
+
+        .summary-text {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            padding: 14px 16px;
+            border-radius: 6px;
+        }
+        .summary-text p { margin: 8px 0; color: var(--text-color); }
+        .summary-title { font-weight: bold; margin-bottom: 10px !important; font-size: 17px; }
+
+        /* TRUE/FALSE/NOT GIVEN */
+        .tf-question {
+            margin-bottom: 25px;
+            padding: 10px 0px;
+            border-radius: 4px;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+        .tf-question-line {
+            display: flex; align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 5px 0;
+            border-radius: 4px;
+        }
+        .tf-question-number {
+            border: 2px solid var(--border-color);
+            padding: 2px 8px;
+            margin-right: 10px;
+            border-radius: 3px;
+            font-weight: bold;
+            transition: border-color 0.3s;
+            display: inline-block;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            min-width: 36px;
+            text-align: center;
+        }
+        .tf-question.active-question .tf-question-number {
+            border-color: var(--input-focus);
+        }
+        .tf-question-text { padding-top: 3px; color: var(--text-color); }
+        .tf-options { padding-left: 5px; }
+        .tf-option {
+            display: flex; align-items: center;
+            cursor: pointer;
+            padding: 10px 12px;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+        .tf-option:hover { background-color: var(--part-header-bg); }
+        .tf-option:has(input[type="radio"]:checked) {
+            background-color: rgba(74, 144, 226, 0.2);
+            border-color: var(--input-focus);
+        }
+        .tf-option.correct {
+            background-color: rgba(40, 167, 69, 0.2) !important;
+            border-color: var(--correct-color) !important;
+        }
+        .tf-option.incorrect {
+            background-color: rgba(220, 53, 69, 0.2) !important;
+            border-color: var(--incorrect-color) !important;
+        }
+        .tf-option.correct-answer-highlight {
+            border: 2px dashed var(--correct-color) !important;
+        }
+        .tf-option input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+            accent-color: var(--input-focus);
+        }
+
+        /* Multi-choice (radio) */
+        .multi-choice-question {
+            margin-bottom: 25px;
+            padding: 10px;
+            border-radius: 4px;
+            border: 3px solid transparent;
+            transition: border-color 0.3s;
+        }
+        .multi-choice-question.active-question { border-color: var(--input-focus); }
+        .multi-choice-question .question-prompt p > strong:first-child {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 24px;
+            padding: 2px 6px;
+            margin-right: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--input-bg);
+            color: var(--text-color);
+        }
+        .multi-choice-option {
+            padding: 10px 12px;
+            background-color: var(--input-bg);
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+        .multi-choice-option:hover { background-color: var(--part-header-bg); }
+        .multi-choice-option:has(input:checked) {
+            background-color: rgba(74, 144, 226, 0.2);
+            border-color: var(--input-focus);
+        }
+        .multi-choice-option.correct {
+            background-color: rgba(40, 167, 69, 0.2) !important;
+            border-color: var(--correct-color) !important;
+        }
+        .multi-choice-option.incorrect {
+            background-color: rgba(220, 53, 69, 0.2) !important;
+            border-color: var(--incorrect-color) !important;
+        }
+        .multi-choice-option.correct-answer-highlight {
+            border: 2px dashed var(--correct-color) !important;
+        }
+        .multi-choice-option label {
+            display: flex; align-items: center;
+            cursor: pointer; font-size: 16px;
+            color: var(--text-color);
+        }
+        .multi-choice-option input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.3);
+            accent-color: var(--input-focus);
+        }
+
+        /* Bottom Navigation */
+        .nav-row {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: var(--nav-bg);
+            padding: 0;
+            display: flex;
+            align-items: center;
+            height: 80px;
+            z-index: 100;
+            border-top: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+        .footer__questionWrapper___1tZ46 {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        .footer__questionNo___3WNct {
+            background: none; border: none;
+            padding: 10px 15px;
+            font-size: 16px; font-weight: 600;
+            color: var(--text-color);
+            cursor: pointer;
+            display: flex; align-items: center; gap: 5px;
+            transition: background-color 0.2s;
+            border-radius: 4px;
+        }
+        .footer__questionNo___3WNct:hover { background-color: var(--part-header-bg); }
+        .section-prefix { font-size: 16px; color: var(--text-color); }
+        .sectionNr { font-size: 16px; font-weight: bold; color: var(--text-color); }
+        .attemptedCount {
+            font-size: 14px; color: var(--text-color);
+            opacity: 0.7; margin-left: 5px; font-weight: 400;
+        }
+        .footer__subquestionWrapper___9GgoP {
+            display: flex; gap: 2px; margin-left: 10px;
+            flex-wrap: wrap;
+        }
+        .subQuestion {
+            width: 32px; height: 32px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            color: var(--text-color);
+            font-size: 14px; font-weight: 500;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+            border-radius: 2px;
+        }
+        .subQuestion:hover {
+            background-color: var(--part-header-bg);
+            border-color: var(--input-focus);
+        }
+        .subQuestion.answered {
+            background-color: var(--part-header-bg);
+            border-color: var(--border-color);
+        }
+        .subQuestion.correct {
+            background-color: var(--correct-color);
+            color: white;
+            border-color: var(--correct-color);
+        }
+        .subQuestion.incorrect {
+            background-color: var(--incorrect-color);
+            color: white;
+            border-color: var(--incorrect-color);
+        }
+        .subQuestion.active {
+            background-color: var(--input-focus);
+            color: white;
+            border-color: var(--input-focus);
+        }
+        .footer__deliverButton___3FM07 {
+            margin-left: auto;
+            margin-right: 20px;
+            background-color: var(--part-header-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 10px 16px;
+            font-size: 15px; font-weight: 700;
+            cursor: pointer;
+            display: inline-flex; align-items: center; gap: 10px;
+            transition: transform 0.08s ease, background-color 0.2s ease, border-color 0.2s ease;
+            min-width: 160px;
+            justify-content: center;
+            border-radius: 4px;
+        }
+        .footer__deliverButton___3FM07:hover { background-color: var(--border-color); }
+        .footer__deliverButton___3FM07:active { transform: translateY(1px); }
+        .footer__deliverButton___3FM07:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .nav-arrows {
+            position: fixed;
+            bottom: 100px; right: 20px;
+            display: flex; gap: 6px;
+            z-index: 101;
+        }
+        .nav-arrow {
+            width: 48px; height: 48px;
+            border: none;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; font-weight: 700;
+            color: #fff;
+            transition: transform 0.1s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 6px var(--shadow-color);
+            outline: none;
+            border-radius: 50%;
+        }
+        .nav-arrow.prev { background-color: #4b5563; }
+        .nav-arrow.next { background-color: #000000; }
+        [data-theme="dark"] .nav-arrow.prev { background-color: #6b7280; }
+        [data-theme="dark"] .nav-arrow.next { background-color: #333333; }
+        .nav-arrow:hover { transform: translateY(-1px); }
+
+        /* Highlight context menu */
+        .context-menu {
+            position: absolute;
+            background: var(--modal-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            z-index: 1000;
+            display: none;
+            min-width: 140px;
+        }
+        .context-menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            font-size: 16px;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s;
+            display: flex; align-items: center; gap: 8px;
+            color: var(--text-color);
+        }
+        .context-menu-item:hover { background-color: var(--part-header-bg); }
+        .context-menu-item:last-child { border-bottom: none; }
+        .highlight {
+            background-color: var(--highlight-bg);
+            color: #000;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(17, 24, 39, 0.6);
+            backdrop-filter: blur(3px);
+            z-index: 2000;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .modal-overlay.hidden { display: none; }
+        .modal-content {
+            background: var(--modal-bg);
+            padding: 24px;
+            border-radius: 14px;
+            width: 92%;
+            max-width: 780px;
+            max-height: 86vh;
+            display: flex; flex-direction: column;
+            position: relative;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 60px var(--shadow-color);
+            color: var(--text-color);
+        }
+        .modal-close-btn {
+            position: absolute; top: 10px; right: 15px;
+            background: none; border: none;
+            font-size: 28px; cursor: pointer;
+            color: var(--text-color);
+        }
+        .modal-content h2 {
+            text-align: center;
+            margin-bottom: 18px;
+            color: var(--text-color);
+        }
+        .results-summary {
+            display: flex; gap: 12px;
+            justify-content: center;
+            margin-bottom: 16px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+        .results-summary p { margin: 0; font-size: 14px; color: var(--text-color); }
+        .results-summary p span {
+            display: inline-block;
+            padding: 4px 10px;
+            margin-left: 6px;
+            border-radius: 999px;
+            background: var(--part-header-bg);
+            font-weight: 700;
+            color: var(--text-color);
+        }
+        .results-details-container {
+            overflow-y: auto;
+            padding-right: 10px;
+            border-radius: 8px;
+        }
+        .result-row {
+            display: grid;
+            grid-template-columns: 56px 1fr 1fr 120px;
+            gap: 12px;
+            padding: 10px 8px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 15px;
+            align-items: center;
+        }
+        .result-row.correct { background-color: rgba(40, 167, 69, 0.1); }
+        .result-row.incorrect { background-color: rgba(220, 53, 69, 0.1); }
+        .result-row .q-num {
+            font-weight: 700;
+            color: var(--text-color);
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            width: 42px; height: 30px;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .result-row .user-ans {
+            color: var(--text-color);
+            background: var(--part-header-bg);
+            border: 1px solid var(--border-color);
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+        .result-row .correct-ans {
+            color: var(--correct-color);
+            font-weight: 600;
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid var(--correct-color);
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+        .status-badge {
+            justify-self: end;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px; font-weight: 700;
+            border: 1px solid transparent;
+        }
+        .status-badge.ok {
+            background: rgba(40, 167, 69, 0.2);
+            color: var(--correct-color);
+            border-color: var(--correct-color);
+        }
+        .status-badge.bad {
+            background: rgba(220, 53, 69, 0.2);
+            color: var(--incorrect-color);
+            border-color: var(--incorrect-color);
+        }
+
+        /* Watermark */
+        body::after {
+            content: "@FOZILBEK_IELTS";
+            position: fixed;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%) rotate(-20deg);
+            font-size: 72px; font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-color);
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 0;
+            white-space: nowrap;
+            transition: color 0.3s;
+        }
+
+        /* Dark mode icon */
+        .dark-mode-btn { position: relative; }
+        .dark-mode-btn .sun-icon, .dark-mode-btn .moon-icon {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .dark-mode-btn .moon-icon {
+            opacity: 0;
+            transform: translate(-50%, -50%) rotate(90deg);
+        }
+        [data-theme="dark"] .dark-mode-btn .sun-icon {
+            opacity: 0;
+            transform: translate(-50%, -50%) rotate(-90deg);
+        }
+        [data-theme="dark"] .dark-mode-btn .moon-icon {
+            opacity: 1;
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--panel-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--input-focus); }
+
+        /* Answer-location highlights (after Check Answers) */
+        .answer-highlight {
+            background-color: #ffeb3b;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: 600;
+            position: relative;
+            color: #000;
+        }
+        .answer-highlight .qbadge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #2196f3;
+            color: white;
+            border-radius: 50%;
+            min-width: 22px;
+            height: 22px;
+            padding: 0 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <img src="https://i.pinimg.com/736x/88/93/a8/8893a81fed78f6989142a13e3605c45e.jpg" alt="IELTS Logo" class="ielts-logo">
+            <a href="https://t.me/FOZILBEK_IELTS" target="_blank" class="telegram-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-.38.24-1.07.7-.96.66-1.89 1.28-1.89 1.28s-.17.11-.49.03c-.32-.08-.72-.26-1.16-.47-.54-.26-1.17-.53-1.17-.53s-.87-.55.62-1.14c.32-.13 1.96-.84 2.99-1.2 1.05-.37 2.86-1.01 2.86-1.01s1.02-.4 1.02 0z" fill="currentColor"/>
+                </svg>
+                @FOZILBEK_IELTS
+            </a>
+        </div>
+        <div class="header-right">
+            <div class="timer-container">
+                <span class="timer-display">20:00</span>
+                <div class="timer-controls">
+                    <button id="timer-toggle-btn" title="Pause/Resume Timer">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px">
+                            <path d="M0 0h24v24H0V0z" fill="none"/>
+                            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                        </svg>
+                    </button>
+                    <button id="timer-reset-btn" title="Reset Timer">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px">
+                            <path d="M0 0h24v24H0V0z" fill="none"/>
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+                        </svg>
+                    </button>
+                </div>
+                <button class="dark-mode-btn" id="dark-mode-toggle" title="Toggle Dark Mode">
+                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container" id="main-container">
+        <div id="passage-header-container">
+            <div id="part-header-3" class="part-header">
+                <p><strong>Reading Passage 3</strong></p>
+                <p>You should spend about 20 minutes on Questions 27&ndash;40, which are based on Reading Passage 3 below.</p>
+            </div>
+        </div>
+
+        <div class="panels-container">
+            <!-- PASSAGE PANEL -->
+            <div class="passage-panel" id="passage-panel">
+                <div id="passage-text-3" class="reading-passage">
+                    <h4 class="text-center">The contradictions of tourism</h4>
+                    <p class="subtitle">Tourism may bring benefits to a society but its effects are not always straightforward</p>
+
+                    <p>International tourism presents itself as straightforward, passive and benign, yet it is complex, interesting and important, full of contradictions and depths. It has enormous growth potential; almost every country desires an expansion in this sector. Yet whether and how to grow is not nearly as straightforward as one might hope.</p>
+
+                    <p>Tourism can provide the ideal export for developing countries, which can capitalize on their unique cultures and natural environments. However, to do this they need to have features such as airports, hotels, sanitation facilities, roads and medical facilities. A government can build these itself, using revenue from local taxes or getting finance from foreign lenders. Alternatively, the government may attract foreign investment, allowing others to pay for the building, thus relieving itself of providing capital but forgoing profits.</p>
+
+                    <p>Tourism is, however, a risky investment. As a consequence, investors tend to look for the familiar in foreign places. This affects tourism in two key ways: destinations may standardize their offerings to suit perceived tourist tastes, and they may become overly dependent on external capital and decision-making. This can diminish local control. Even when successful, tourism often concentrates wealth and benefits in specific, developed enclaves, failing to distribute them widely across the local population. It can also lead to social and environmental strain, creating tensions between hosts and guests.</p>
+
+                    <p>By definition, tourists travel to see and knowingly to encounter the different, the original, the authentic. In this increasingly global world, what they want is regional and unique. But only through artifice can the tourist demand for authenticity be met. An event such as a festival or ceremony needs to be brought to their attention and its importance and unique nature elaborated to them. Natural sites, too, need to be presented if they are to be regarded as noteworthy. Gates, permits, and notices are required to set them apart from the mundane. Complicated framing and staging allows tourists to recognize, by sight, 'the actual thing'.</p>
+
+                    <p>Tourism places a premium on the parts of a culture that are visible, such as handicrafts and costume, and disregards those that are not, like the rules governing seating on a bus, attitudes to the elderly, or appropriate ways of addressing family members; in this way, tourism favors what can be commodified. Yet commodities can be produced most efficiently using industrial machinery to take advantage of economies of scale, an option closed to village artisans. This alienates the producers from what is being produced, and means the product no longer has any personal meaning to them.</p>
+
+                    <p>In addition, cultural idiosyncrasies and natural spectacles change over time. Tourists can't be attracted, however, to an unstable and ambiguous culture, or to a natural site that is in the process of transformation itself. As a consequence, efforts are made to crystallize and standardize: folk dances, tortilla-making, peace pipes, bird habitats and the course of the Amazon have all been bound and defined. Had they not been fixed, however, they would not be accessible.</p>
+
+                    <p>Ultimately, tourism is a paradoxical force. It seeks authenticity but requires staging to deliver it. It offers economic opportunities but often at the cost of cultural complexity and local autonomy. It values tradition but freezes it into a marketable form. Understanding these contradictions is essential for managing tourism's impacts in a way that balances economic gain with the preservation of cultural and environmental integrity.</p>
+                </div>
+            </div>
+
+            <div class="resizer" id="resizer"></div>
+
+            <!-- QUESTIONS PANEL -->
+            <div class="questions-panel" id="questions-panel">
+                <div id="questions-3" class="question-set">
+                    <div class="questions-container">
+
+                        <!-- Questions 27-31: Notes Completion -->
+                        <div class="question" data-q-start="27" data-q-end="31">
+                            <div class="question-prompt">
+                                <p><strong>Questions 27&ndash;31</strong></p>
+                                <p>Complete the notes below.</p>
+                                <p>Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+                            </div>
+
+                            <div class="summary-text">
+                                <p class="summary-title">The Contradictions and Impacts of Tourism</p>
+                                <p><strong>27.</strong> Initial Investment: Developing countries need infrastructure like airports and roads. This can be financed through local taxes, foreign loans, or
+                                    <input type="text" class="answer-input" id="q27" placeholder="27">
+                                    investment.
+                                </p>
+                                <p><strong>28.</strong> Risks of Tourism: Investors seek familiarity, leading to the
+                                    <input type="text" class="answer-input" id="q28" placeholder="28">
+                                    of tourist offerings.
+                                </p>
+                                <p><strong>29.</strong> Benefits often fail to spread widely and remain in developed
+                                    <input type="text" class="answer-input" id="q29" placeholder="29">.
+                                </p>
+                                <p><strong>30.</strong> The 'Authenticity' Paradox: Tourists seek the authentic, but it must be presented through
+                                    <input type="text" class="answer-input" id="q30" placeholder="30">
+                                    (e.g., gates, signs, staging) to be recognized.
+                                </p>
+                                <p><strong>31.</strong> Commodification: Tourism values visible, marketable aspects of culture (e.g., handicrafts), often sidelining deeper social
+                                    <input type="text" class="answer-input" id="q31" placeholder="31">.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Questions 32-35: YES/NO/NOT GIVEN -->
+                        <div class="question" data-q-start="32" data-q-end="35">
+                            <div class="question-prompt">
+                                <p><strong>Questions 32&ndash;35</strong></p>
+                                <p>Do the following statements agree with the claims of the writer?</p>
+                                <p>Choose <strong>YES</strong> if the statement agrees with the claims of the writer, choose <strong>NO</strong> if the statement contradicts the claims of the writer, or choose <strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this.</p>
+                            </div>
+
+                            <div class="tf-question" data-q-start="32" data-q-end="32">
+                                <div class="tf-question-line">
+                                    <span class="tf-question-number">32</span>
+                                    <span class="tf-question-text">Every country is certain about the best way to expand its tourism sector.</span>
+                                </div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q32" value="YES"> YES</label>
+                                    <label class="tf-option"><input type="radio" name="q32" value="NO"> NO</label>
+                                    <label class="tf-option"><input type="radio" name="q32" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+
+                            <div class="tf-question" data-q-start="33" data-q-end="33">
+                                <div class="tf-question-line">
+                                    <span class="tf-question-number">33</span>
+                                    <span class="tf-question-text">Letting foreign investors build infrastructure allows a government to keep all the profits from tourism.</span>
+                                </div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q33" value="YES"> YES</label>
+                                    <label class="tf-option"><input type="radio" name="q33" value="NO"> NO</label>
+                                    <label class="tf-option"><input type="radio" name="q33" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+
+                            <div class="tf-question" data-q-start="34" data-q-end="34">
+                                <div class="tf-question-line">
+                                    <span class="tf-question-number">34</span>
+                                    <span class="tf-question-text">Mass production of cultural crafts can make the artisans feel disconnected from their work.</span>
+                                </div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q34" value="YES"> YES</label>
+                                    <label class="tf-option"><input type="radio" name="q34" value="NO"> NO</label>
+                                    <label class="tf-option"><input type="radio" name="q34" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+
+                            <div class="tf-question" data-q-start="35" data-q-end="35">
+                                <div class="tf-question-line">
+                                    <span class="tf-question-number">35</span>
+                                    <span class="tf-question-text">The passage states that tourism always improves the living standards of the entire local population.</span>
+                                </div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q35" value="YES"> YES</label>
+                                    <label class="tf-option"><input type="radio" name="q35" value="NO"> NO</label>
+                                    <label class="tf-option"><input type="radio" name="q35" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Questions 36-40: Multiple Choice -->
+                        <div class="question" data-q-start="36" data-q-end="40">
+                            <div class="question-prompt">
+                                <p><strong>Questions 36&ndash;40</strong></p>
+                                <p>Choose the correct letter, <strong>A</strong>, <strong>B</strong>, <strong>C</strong>, or <strong>D</strong>.</p>
+                            </div>
+
+                            <div class="multi-choice-question" data-q-start="36" data-q-end="36">
+                                <div class="question-prompt"><p><strong>36</strong> What is the writer's main purpose in the first paragraph?</p></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q36" value="A"> A &nbsp; To define international tourism</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q36" value="B"> B &nbsp; To praise the economic potential of tourism</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q36" value="C"> C &nbsp; To introduce the complex and contradictory nature of tourism</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q36" value="D"> D &nbsp; To criticize the growth of the tourism sector</label></div>
+                            </div>
+
+                            <div class="multi-choice-question" data-q-start="37" data-q-end="37">
+                                <div class="question-prompt"><p><strong>37</strong> According to the passage, why do tourist destinations often standardize their cultural presentations?</p></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q37" value="A"> A &nbsp; To preserve cultural traditions accurately</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q37" value="B"> B &nbsp; To meet the expectations of investors and tourists</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q37" value="C"> C &nbsp; To make them easier for locals to perform</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q37" value="D"> D &nbsp; To protect them from outside influence</label></div>
+                            </div>
+
+                            <div class="multi-choice-question" data-q-start="38" data-q-end="38">
+                                <div class="question-prompt"><p><strong>38</strong> The writer uses the example of "folk dances" and "the course of the Amazon" to illustrate:</p></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q38" value="A"> A &nbsp; How tourism helps preserve natural environments.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q38" value="B"> B &nbsp; The need for tourism to make cultural and natural phenomena static and defined.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q38" value="C"> C &nbsp; The diversity of attractions available to tourists.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q38" value="D"> D &nbsp; The negative environmental impact of tourism.</label></div>
+                            </div>
+
+                            <div class="multi-choice-question" data-q-start="39" data-q-end="39">
+                                <div class="question-prompt"><p><strong>39</strong> What does the writer imply about the relationship between tourism and culture?</p></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q39" value="A"> A &nbsp; Tourism helps cultures evolve in a healthy way.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q39" value="B"> B &nbsp; Tourism tends to simplify and commercialize culture.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q39" value="C"> C &nbsp; Tourism has no significant impact on deep cultural values.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q39" value="D"> D &nbsp; Tourism is the best way to fund cultural preservation.</label></div>
+                            </div>
+
+                            <div class="multi-choice-question" data-q-start="40" data-q-end="40">
+                                <div class="question-prompt"><p><strong>40</strong> What is the overall message of the passage?</p></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q40" value="A"> A &nbsp; Tourism's benefits far outweigh its costs.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q40" value="B"> B &nbsp; Tourism is a simple and positive force for development.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q40" value="C"> C &nbsp; The effects of tourism are straightforward and easy to manage.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q40" value="D"> D &nbsp; Tourism involves fundamental tensions that must be carefully managed.</label></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <div class="nav-arrows">
+        <button class="nav-arrow prev" onclick="previousQuestion()" id="prevBtn" aria-label="Previous question">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <button class="nav-arrow next" onclick="nextQuestion()" id="nextBtn" aria-label="Next question">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="nav-row" aria-label="Questions">
+        <div class="footer__questionWrapper___1tZ46 selected" role="tablist">
+            <button role="tab" class="footer__questionNo___3WNct">
+                <span>
+                    <span aria-hidden="true" class="section-prefix">Part </span>
+                    <span class="sectionNr" aria-hidden="true">3</span>
+                    <span class="attemptedCount" aria-hidden="true">0 of 14</span>
+                </span>
+            </button>
+            <div class="footer__subquestionWrapper___9GgoP">
+                <button class="subQuestion" onclick="goToQuestion(27)"><span aria-hidden="true">27</span></button>
+                <button class="subQuestion" onclick="goToQuestion(28)"><span aria-hidden="true">28</span></button>
+                <button class="subQuestion" onclick="goToQuestion(29)"><span aria-hidden="true">29</span></button>
+                <button class="subQuestion" onclick="goToQuestion(30)"><span aria-hidden="true">30</span></button>
+                <button class="subQuestion" onclick="goToQuestion(31)"><span aria-hidden="true">31</span></button>
+                <button class="subQuestion" onclick="goToQuestion(32)"><span aria-hidden="true">32</span></button>
+                <button class="subQuestion" onclick="goToQuestion(33)"><span aria-hidden="true">33</span></button>
+                <button class="subQuestion" onclick="goToQuestion(34)"><span aria-hidden="true">34</span></button>
+                <button class="subQuestion" onclick="goToQuestion(35)"><span aria-hidden="true">35</span></button>
+                <button class="subQuestion" onclick="goToQuestion(36)"><span aria-hidden="true">36</span></button>
+                <button class="subQuestion" onclick="goToQuestion(37)"><span aria-hidden="true">37</span></button>
+                <button class="subQuestion" onclick="goToQuestion(38)"><span aria-hidden="true">38</span></button>
+                <button class="subQuestion" onclick="goToQuestion(39)"><span aria-hidden="true">39</span></button>
+                <button class="subQuestion" onclick="goToQuestion(40)"><span aria-hidden="true">40</span></button>
+            </div>
+        </div>
+        <button id="deliver-button" aria-label="Review your answers" class="footer__deliverButton___3FM07">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/>
+            </svg>
+            <span>Check Answers</span>
+        </button>
+    </nav>
+
+    <!-- Context Menu -->
+    <div id="contextMenu" class="context-menu">
+        <div id="menu-highlight" class="context-menu-item" onclick="highlightText()">Highlight</div>
+        <div id="menu-clear" class="context-menu-item" onclick="clearHighlight()">Clear</div>
+    </div>
+
+    <!-- Results Modal -->
+    <div id="results-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeResultsModal()">&times;</button>
+            <h2>Results</h2>
+            <div class="results-summary">
+                <p>Score: <span id="results-score"></span> / 14</p>
+                <p>Section: <span>Passage 3</span></p>
+            </div>
+            <div id="results-details" class="results-details-container"></div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // ----- STATE -----
+        let currentQuestion = 27;
+        let selectedRange = null;
+        let timeInSeconds = 1200; // 20 minutes
+        let timerInterval;
+        let answersChecked = false;
+
+        // ----- DOM -----
+        const body = document.body;
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const timerDisplay = document.querySelector('.timer-display');
+        const timerToggleButton = document.getElementById('timer-toggle-btn');
+        const timerResetButton = document.getElementById('timer-reset-btn');
+        const deliverButton = document.getElementById('deliver-button');
+        const resizer = document.getElementById('resizer');
+        const passagePanel = document.getElementById('passage-panel');
+        const questionsPanel = document.getElementById('questions-panel');
+        const contextMenu = document.getElementById('contextMenu');
+
+        body.setAttribute('data-theme', 'light');
+
+        // ----- ICONS -----
+        const playIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/></svg>';
+        const pauseIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+
+        // ----- ANSWERS -----
+        const correctAnswers = {
+            '27': 'foreign',
+            '28': 'standardize',
+            '29': 'enclaves',
+            '30': 'artifice',
+            '31': 'rules',
+            '32': 'NO',
+            '33': 'NO',
+            '34': 'YES',
+            '35': 'NO',
+            '36': 'C',
+            '37': 'B',
+            '38': 'B',
+            '39': 'B',
+            '40': 'D'
+        };
+
+        // ----- DARK MODE -----
+        function toggleDarkMode() {
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+        }
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+
+        // ----- TIMER -----
+        function updateTimerDisplay() {
+            const m = Math.floor(timeInSeconds / 60);
+            const s = timeInSeconds % 60;
+            timerDisplay.textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeInSeconds--;
+                updateTimerDisplay();
+                if (timeInSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    timerDisplay.textContent = "Time's up!";
+                }
+            }, 1000);
+            timerToggleButton.innerHTML = pauseIcon;
+        }
+        function pauseTimer() {
+            clearInterval(timerInterval);
+            timerToggleButton.innerHTML = playIcon;
+        }
+        function toggleTimer() {
+            if (timerToggleButton.innerHTML.includes('M6 19h4V5H6v14z')) {
+                pauseTimer();
+            } else {
+                startTimer();
+            }
+        }
+        function resetTimer() {
+            timeInSeconds = 1200;
+            updateTimerDisplay();
+            startTimer();
+        }
+        timerToggleButton.addEventListener('click', toggleTimer);
+        timerResetButton.addEventListener('click', resetTimer);
+
+        // ----- NAVIGATION -----
+        function goToQuestion(qNum) {
+            currentQuestion = qNum;
+
+            document.querySelectorAll('.subQuestion').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.answer-input').forEach(i => i.classList.remove('active-input'));
+            document.querySelectorAll('.multi-choice-question').forEach(c => c.classList.remove('active-question'));
+            document.querySelectorAll('.tf-question').forEach(c => c.classList.remove('active-question'));
+
+            const navBtn = document.querySelector(`.subQuestion[onclick="goToQuestion(${qNum})"]`);
+            if (navBtn) navBtn.classList.add('active');
+
+            // Find the question container by data-q-start
+            let target = document.getElementById(`q${qNum}`);
+            if (target) {
+                target.classList.add('active-input');
+                if (typeof target.focus === 'function') target.focus();
+            } else {
+                // Try finding TF or MCQ container
+                const block = document.querySelector(`.tf-question[data-q-start="${qNum}"], .multi-choice-question[data-q-start="${qNum}"]`);
+                if (block) {
+                    block.classList.add('active-question');
+                    target = block;
+                }
+            }
+
+            if (target) {
+                const rect = target.getBoundingClientRect();
+                const panelRect = questionsPanel.getBoundingClientRect();
+                if (rect.top < panelRect.top || rect.bottom > panelRect.bottom) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+        window.goToQuestion = goToQuestion;
+        window.nextQuestion = () => currentQuestion < 40 && goToQuestion(currentQuestion + 1);
+        window.previousQuestion = () => currentQuestion > 27 && goToQuestion(currentQuestion - 1);
+
+        // ----- ANSWERED INDICATORS -----
+        function isQuestionAnswered(qNum) {
+            // text input?
+            const el = document.getElementById(`q${qNum}`);
+            if (el && (el.value || '').trim() !== '') return true;
+            // radio?
+            const radio = document.querySelector(`input[name="q${qNum}"]:checked`);
+            if (radio) return true;
+            return false;
+        }
+        function updateAttemptedCount() {
+            let cnt = 0;
+            for (let i = 27; i <= 40; i++) {
+                if (isQuestionAnswered(i)) cnt++;
+            }
+            const span = document.querySelector('.attemptedCount');
+            if (span) span.textContent = `${cnt} of 14`;
+        }
+        function updateAnsweredNav() {
+            document.querySelectorAll('.subQuestion').forEach(btn => {
+                const m = (btn.getAttribute('onclick') || '').match(/goToQuestion\((\d+)\)/);
+                if (m) {
+                    const qN = parseInt(m[1], 10);
+                    if (isQuestionAnswered(qN)) btn.classList.add('answered');
+                    else btn.classList.remove('answered');
+                }
+            });
+        }
+        function updateAllIndicators() {
+            updateAttemptedCount();
+            updateAnsweredNav();
+        }
+        document.body.addEventListener('input', updateAllIndicators);
+        document.body.addEventListener('change', updateAllIndicators);
+
+        // Click navigation when clicking radio buttons or inputs
+        document.querySelectorAll('input[type="radio"]').forEach(r => {
+            r.addEventListener('change', () => {
+                const name = r.name || '';
+                if (name.startsWith('q')) {
+                    const qN = parseInt(name.replace('q', ''), 10);
+                    if (!isNaN(qN)) goToQuestion(qN);
+                }
+            });
+        });
+        document.querySelectorAll('.answer-input').forEach(inp => {
+            inp.addEventListener('focus', () => {
+                const id = inp.id || '';
+                if (id.startsWith('q')) {
+                    const qN = parseInt(id.replace('q', ''), 10);
+                    if (!isNaN(qN)) goToQuestion(qN);
+                }
+            });
+        });
+
+        // ----- HIGHLIGHT ANSWER LOCATIONS IN PASSAGE -----
+        function highlightAnswersInPassage() {
+            const highlights = [
+                { q: 27, text: "the government may attract foreign investment" },
+                { q: 28, text: "destinations may standardize their offerings to suit perceived tourist tastes" },
+                { q: 29, text: "tourism often concentrates wealth and benefits in specific, developed enclaves" },
+                { q: 30, text: "only through artifice can the tourist demand for authenticity be met" },
+                { q: 31, text: "the rules governing seating on a bus, attitudes to the elderly" },
+                { q: 32, text: "Yet whether and how to grow is not nearly as straightforward as one might hope" },
+                { q: 33, text: "thus relieving itself of providing capital but forgoing profits" },
+                { q: 34, text: "This alienates the producers from what is being produced, and means the product no longer has any personal meaning to them" },
+                { q: 35, text: "failing to distribute them widely across the local population" },
+                { q: 36, text: "yet it is complex, interesting and important, full of contradictions and depths" },
+                { q: 37, text: "investors tend to look for the familiar in foreign places" },
+                { q: 38, text: "efforts are made to crystallize and standardize: folk dances, tortilla-making, peace pipes, bird habitats and the course of the Amazon have all been bound and defined" },
+                { q: 39, text: "tourism favors what can be commodified" },
+                { q: 40, text: "Understanding these contradictions is essential for managing tourism's impacts" }
+            ];
+
+            const passageEl = document.getElementById('passage-text-3');
+            if (!passageEl) return;
+
+            const escapeRegExp = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+            highlights.forEach(item => {
+                const paragraphs = passageEl.querySelectorAll('p');
+                for (let p of paragraphs) {
+                    const html = p.innerHTML;
+                    if (!html) continue;
+                    // Loose pattern: tolerate whitespace differences and common entities
+                    const pattern = item.text
+                        .split(/(\s+)/)
+                        .map(part => {
+                            if (/^\s+$/.test(part)) return '\\s+';
+                            return escapeRegExp(part)
+                                .replace(/'/g, "(?:'|&#39;|&apos;|&rsquo;|\u2019)")
+                                .replace(/–/g, '(?:–|&ndash;|-)');
+                        })
+                        .join('');
+                    const re = new RegExp(pattern, 'i');
+                    const m = html.match(re);
+                    if (m) {
+                        const matched = m[0];
+                        const replaced = html.replace(re,
+                            `<span class="answer-highlight">${matched}<span class="qbadge">${item.q}</span></span>`
+                        );
+                        p.innerHTML = replaced;
+                        break; // stop after first paragraph match
+                    }
+                }
+            });
+        }
+
+        // ----- CHECK ANSWERS -----
+        function normalize(s) {
+            return (s || '').toString().toLowerCase()
+                .replace(/[^a-z0-9\s]/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        function checkAnswers() {
+            if (answersChecked) return;
+            answersChecked = true;
+
+            document.querySelectorAll('input, select').forEach(i => i.disabled = true);
+            deliverButton.disabled = true;
+            clearInterval(timerInterval);
+
+            let score = 0;
+            const resultsContainer = document.getElementById('results-details');
+            resultsContainer.innerHTML = '';
+
+            for (let i = 27; i <= 40; i++) {
+                const correct = correctAnswers[String(i)];
+                let userAns = '';
+                let isCorrect = false;
+
+                // Text input?
+                const textEl = document.getElementById(`q${i}`);
+                if (textEl && textEl.tagName === 'INPUT') {
+                    userAns = (textEl.value || '').trim();
+                    isCorrect = normalize(userAns) === normalize(correct);
+                    if (isCorrect) {
+                        textEl.classList.add('correct');
+                    } else {
+                        textEl.classList.add('incorrect');
+                    }
+                }
+                // Radio (TF or MCQ)?
+                else {
+                    const checked = document.querySelector(`input[name="q${i}"]:checked`);
+                    const allRadios = document.querySelectorAll(`input[name="q${i}"]`);
+                    if (checked) {
+                        userAns = checked.value;
+                        isCorrect = userAns === correct;
+                        const userOpt = checked.closest('.tf-option, .multi-choice-option');
+                        if (userOpt) userOpt.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    }
+                    if (!isCorrect) {
+                        // Highlight the correct option
+                        const correctRadio = document.querySelector(`input[name="q${i}"][value="${correct}"]`);
+                        if (correctRadio) {
+                            const correctOpt = correctRadio.closest('.tf-option, .multi-choice-option');
+                            if (correctOpt) correctOpt.classList.add('correct-answer-highlight');
+                        }
+                    }
+                }
+
+                if (isCorrect) score++;
+                appendResultRow(i, userAns || 'Not Answered', correct, isCorrect);
+
+                const navBtn = document.querySelector(`.subQuestion[onclick="goToQuestion(${i})"]`);
+                if (navBtn) {
+                    navBtn.classList.remove('answered', 'active');
+                    navBtn.classList.add(isCorrect ? 'correct' : 'incorrect');
+                }
+            }
+
+            document.getElementById('results-score').textContent = score;
+            document.getElementById('results-modal').classList.remove('hidden');
+
+            // Highlight answer locations in passage
+            highlightAnswersInPassage();
+
+            deliverButton.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg><span>My Result</span>';
+            deliverButton.style.backgroundColor = '#4CAF50';
+            deliverButton.style.color = 'white';
+            deliverButton.style.borderColor = '#4CAF50';
+            deliverButton.disabled = false;
+            deliverButton.removeEventListener('click', checkAnswers);
+            deliverButton.addEventListener('click', showResultsModal);
+        }
+
+        function appendResultRow(num, userAns, correctAns, isCorrect) {
+            const row = document.createElement('div');
+            row.className = `result-row ${isCorrect ? 'correct' : 'incorrect'}`;
+            row.innerHTML = `
+                <span class="q-num">${num}</span>
+                <span class="user-ans">${userAns}</span>
+                <span class="correct-ans">${correctAns}</span>
+                <span class="status-badge ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? 'Correct' : 'Incorrect'}</span>
+            `;
+            document.getElementById('results-details').appendChild(row);
+        }
+
+        function showResultsModal() {
+            document.getElementById('results-modal').classList.remove('hidden');
+        }
+        window.closeResultsModal = function() {
+            document.getElementById('results-modal').classList.add('hidden');
+        };
+
+        deliverButton.addEventListener('click', checkAnswers);
+
+        // ----- RESIZER -----
+        resizer.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            const startX = e.clientX;
+            const startWidth = passagePanel.offsetWidth;
+            function doDrag(ev) {
+                const newWidth = startWidth + ev.clientX - startX;
+                if (newWidth > 200 && (document.body.clientWidth - newWidth - resizer.offsetWidth) > 200) {
+                    passagePanel.style.flex = `0 0 ${newWidth}px`;
+                }
+            }
+            function stopDrag() {
+                window.removeEventListener('mousemove', doDrag, false);
+                window.removeEventListener('mouseup', stopDrag, false);
+            }
+            window.addEventListener('mousemove', doDrag, false);
+            window.addEventListener('mouseup', stopDrag, false);
+        }, false);
+
+        // ----- HIGHLIGHTING (right-click) -----
+        document.addEventListener('selectionchange', () => {
+            const sel = window.getSelection();
+            if (sel && !sel.isCollapsed && sel.toString().trim().length > 0) {
+                const range = sel.getRangeAt(0);
+                if (passagePanel.contains(range.commonAncestorContainer) ||
+                    questionsPanel.contains(range.commonAncestorContainer)) {
+                    selectedRange = range;
+                }
+            }
+        });
+
+        function showContextMenu(e) {
+            const target = e.target;
+            const onHighlight = target.closest('.highlight');
+            const isSelectionActive = selectedRange && selectedRange.toString().trim().length > 0;
+            let show = false;
+
+            if (onHighlight) {
+                document.getElementById('menu-highlight').style.display = 'none';
+                document.getElementById('menu-clear').style.display = 'flex';
+                contextMenu.targetElementForClear = onHighlight;
+                show = true;
+            } else if (isSelectionActive) {
+                document.getElementById('menu-highlight').style.display = 'flex';
+                document.getElementById('menu-clear').style.display = 'none';
+                show = true;
+            }
+
+            if (show) {
+                e.preventDefault();
+                contextMenu.style.display = 'block';
+                contextMenu.style.left = e.pageX + 'px';
+                contextMenu.style.top = e.pageY + 'px';
+            }
+        }
+
+        passagePanel.addEventListener('contextmenu', showContextMenu);
+        questionsPanel.addEventListener('contextmenu', showContextMenu);
+        document.addEventListener('click', (e) => {
+            if (contextMenu.style.display === 'block' && !contextMenu.contains(e.target)) {
+                contextMenu.style.display = 'none';
+            }
+        });
+
+        window.highlightText = function() {
+            if (selectedRange && !selectedRange.collapsed) {
+                const span = document.createElement('span');
+                span.className = 'highlight';
+                span.appendChild(selectedRange.extractContents());
+                selectedRange.insertNode(span);
+            }
+            contextMenu.style.display = 'none';
+            selectedRange = null;
+            window.getSelection().removeAllRanges();
+        };
+        window.clearHighlight = function() {
+            const el = contextMenu.targetElementForClear;
+            if (el) {
+                const parent = el.parentNode;
+                while (el.firstChild) parent.insertBefore(el.firstChild, el);
+                parent.removeChild(el);
+                parent.normalize();
+            }
+            contextMenu.style.display = 'none';
+            selectedRange = null;
+            window.getSelection().removeAllRanges();
+        };
+
+        // ----- INIT -----
+        startTimer();
+        goToQuestion(27);
+        updateAllIndicators();
+    });
+    </script>
+</body>
+</html>

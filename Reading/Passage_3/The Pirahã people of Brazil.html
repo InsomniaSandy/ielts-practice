@@ -1,0 +1,2126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading Practice - The Pirahã People</title>
+    <style>
+        /* CSS Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* LIGHT MODE COLORS (DEFAULT) */
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --header-bg: #ffffff;
+            --border-color: #e0e0e0;
+            --panel-bg: #ffffff;
+            --question-bg: #ffffff;
+            --input-bg: #ffffff;
+            --input-border: #bfbfbf;
+            --input-focus: #3581d8;
+            --correct-color: #28a745;
+            --incorrect-color: #dc3545;
+            --highlight-bg: #ffff00;
+            --modal-bg: #ffffff;
+            --nav-bg: #ffffff;
+            --resizer-bg: #f0f0f0;
+            --part-header-bg: #f1f2ec;
+            --timer-bg: #f0f0f0;
+            --link-color: #1e88e5;
+            --shadow-color: rgba(0,0,0,0.1);
+            --table-border: #ddd;
+            --table-header-bg: #007bff;
+            --table-cell-bg: #fafafa;
+            --drop-zone-bg: #f9f9f9;
+            --drag-item-bg: #ffffff;
+            --logo-brightness: 1;
+        }
+
+        [data-theme="dark"] {
+            /* DARK MODE COLORS (ONLY APPLIED WHEN TOGGLED) */
+            --bg-color: #1a1a1a;
+            --text-color: #e0e0e0;
+            --header-bg: #2d2d2d;
+            --border-color: #444444;
+            --panel-bg: #2d2d2d;
+            --question-bg: #333333;
+            --input-bg: #3a3a3a;
+            --input-border: #555555;
+            --input-focus: #4a90e2;
+            --correct-color: #2ecc71;
+            --incorrect-color: #e74c3c;
+            --highlight-bg: #ffeb3b;
+            --modal-bg: #2d2d2d;
+            --nav-bg: #2d2d2d;
+            --resizer-bg: #444444;
+            --part-header-bg: #3a3a3a;
+            --timer-bg: #444444;
+            --link-color: #64b5f6;
+            --shadow-color: rgba(0,0,0,0.3);
+            --table-border: #555;
+            --table-header-bg: #0056b3;
+            --table-cell-bg: #3a3a3a;
+            --drop-zone-bg: #3a3a3a;
+            --drag-item-bg: #444444;
+            --logo-brightness: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.4;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: var(--header-bg);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 60px;
+            transition: all 0.3s;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .ielts-logo {
+            height: 30px;
+            width: auto;
+            filter: brightness(var(--logo-brightness, 1));
+        }
+
+        .telegram-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: var(--link-color);
+            font-weight: bold;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .telegram-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Timer Container */
+        .timer-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .timer-display {
+            font-weight: 600;
+            min-width: 60px;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .timer-controls button,
+        .dark-mode-btn {
+            background: var(--timer-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .timer-controls button:hover,
+        .dark-mode-btn:hover {
+            background: var(--border-color);
+            transform: scale(1.05);
+        }
+
+        .timer-controls button svg,
+        .dark-mode-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--text-color);
+            transition: fill 0.3s;
+        }
+
+        /* Main Container */
+        .main-container {
+            margin-top: 60px;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-color);
+            height: calc(100vh - 60px);
+            position: relative;
+        }
+
+        .panels-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .passage-panel,
+        .questions-panel {
+            flex: 1;
+            padding: 20px 20px 100px;
+            overflow-y: auto;
+            min-width: 200px;
+            background-color: var(--panel-bg);
+            transition: background-color 0.3s;
+        }
+
+        .questions-panel {
+            border-left: 1px solid var(--border-color);
+        }
+
+        /* Resizer */
+        .resizer {
+            width: 10px;
+            cursor: col-resize;
+            background-color: var(--resizer-bg);
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23888"/></svg>');
+            background-repeat: no-repeat;
+            background-position: center;
+            flex-shrink: 0;
+            flex-grow: 0;
+            transition: background-color 0.3s;
+        }
+
+        [data-theme="dark"] .resizer {
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23aaa"/></svg>');
+        }
+
+        /* Passage Content */
+        .text-center {
+            text-align: center;
+        }
+
+        .reading-passage h4 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            color: var(--text-color);
+        }
+
+        .reading-passage p {
+            margin-bottom: 1.2em;
+            color: var(--text-color);
+        }
+
+        .reading-passage strong {
+            color: var(--text-color);
+        }
+
+        /* Question Styles */
+        .question {
+            margin-bottom: 40px;
+        }
+
+        .question-prompt {
+            margin-bottom: 20px;
+        }
+
+        .question-prompt p {
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .question ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .question ul li {
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
+        /* Answer Inputs */
+        .answer-input {
+            border: 1px solid var(--input-border);
+            border-radius: 4px;
+            background-color: var(--input-bg);
+            padding: 2px 8px;
+            font-size: 16px;
+            text-align: left;
+            font-weight: 700;
+            margin-right: 6px;
+            margin-left: 6px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s, color 0.3s;
+            height: 28px;
+            min-width: 150px;
+            color: var(--text-color);
+        }
+
+        .answer-input.active-input,
+        .answer-input:focus {
+            border-color: var(--input-focus);
+            border-width: 2px;
+            outline: none;
+        }
+
+        .answer-input::placeholder {
+            color: var(--text-color);
+            opacity: 0.7;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .answer-input.correct {
+            border-color: var(--correct-color);
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+
+        .answer-input.incorrect {
+            border-color: var(--incorrect-color);
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--text-color);
+        }
+
+        /* Part Header */
+        .part-header {
+            background-color: var(--part-header-bg);
+            padding: 15px 20px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+            margin: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .part-header p {
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        .part-header p:first-child {
+            margin-bottom: 5px;
+        }
+
+        /* TRUE/FALSE/NOT GIVEN Questions */
+        .tf-question {
+            margin-bottom: 25px;
+            padding: 10px 0px;
+            border-radius: 4px;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        .tf-question-line {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 5px 0px;
+            border-radius: 4px;
+        }
+
+        .tf-question-number {
+            border: 2px solid var(--border-color);
+            padding: 2px 8px;
+            margin-right: 10px;
+            border-radius: 3px;
+            font-weight: bold;
+            transition: border-color 0.3s;
+            display: inline-block;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        .tf-question.active-question .tf-question-number {
+            border-color: var(--input-focus);
+        }
+
+        .tf-question-text {
+            padding-top: 3px;
+            color: var(--text-color);
+        }
+
+        .tf-options {
+            padding-left: 5px;
+        }
+
+        .tf-option {
+            display: block;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
+        .tf-option:hover {
+            background-color: var(--part-header-bg);
+        }
+
+        .tf-option:has(input[type="radio"]:checked) {
+            background-color: rgba(74, 144, 226, 0.2);
+            border-color: var(--input-focus);
+        }
+
+        .tf-option.correct {
+            background-color: rgba(40, 167, 69, 0.2) !important;
+            border-color: var(--correct-color) !important;
+        }
+
+        .tf-option.incorrect {
+            background-color: rgba(220, 53, 69, 0.2) !important;
+            border-color: var(--incorrect-color) !important;
+        }
+
+        .tf-option input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+            accent-color: var(--input-focus);
+        }
+
+        /* Multiple Choice Questions */
+        .multi-choice-question {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            border: 3px solid transparent;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        .multi-choice-question .question-prompt p > strong:first-child {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 24px;
+            padding: 2px 6px;
+            margin-right: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        .multi-choice-question.active-question .question-prompt p > strong:first-child {
+            border-color: var(--input-focus);
+            border-width: 2px;
+        }
+
+        .multi-choice-option {
+            padding: 10px 12px;
+            background-color: var(--input-bg);
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
+        .multi-choice-option:hover {
+            background-color: var(--part-header-bg);
+        }
+
+        .multi-choice-option:has(input:checked) {
+            background-color: rgba(74, 144, 226, 0.2);
+            border-color: var(--input-focus);
+        }
+
+        .multi-choice-option.correct {
+            background-color: rgba(40, 167, 69, 0.2) !important;
+            border-color: var(--correct-color) !important;
+        }
+
+        .multi-choice-option.incorrect {
+            background-color: rgba(220, 53, 69, 0.2) !important;
+            border-color: var(--incorrect-color) !important;
+        }
+
+        .multi-choice-option label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+            color: var(--text-color);
+        }
+
+        .multi-choice-option input[type="checkbox"],
+        .multi-choice-option input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.3);
+            accent-color: var(--input-focus);
+        }
+
+        /* Matching Table */
+        .matching-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .matching-table th {
+            background-color: var(--table-header-bg);
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+            border: 1px solid var(--table-border);
+        }
+
+        .matching-table td {
+            padding: 12px;
+            border: 1px solid var(--table-border);
+            vertical-align: top;
+            color: var(--text-color);
+        }
+
+        .matching-table .statement {
+            text-align: left;
+            width: 60%;
+            background-color: var(--panel-bg);
+        }
+
+        .matching-table td:not(.statement) {
+            text-align: center;
+            width: 6.67%;
+            min-width: 60px;
+            background-color: var(--table-cell-bg);
+        }
+
+        .matching-table .clickable-cell {
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-height: 40px;
+            border: 2px solid var(--border-color);
+            position: relative;
+            background-color: var(--table-cell-bg);
+            min-width: 40px;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 12px;
+            color: var(--text-color);
+            font-weight: bold;
+        }
+
+        .matching-table .clickable-cell:hover {
+            background-color: var(--part-header-bg);
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
+        }
+
+        .matching-table .clickable-cell.selected {
+            background-color: rgba(74, 144, 226, 0.2);
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.3);
+        }
+
+        .matching-table .clickable-cell.correct {
+            background-color: rgba(40, 167, 69, 0.2) !important;
+            border-color: var(--correct-color) !important;
+        }
+
+        .matching-table .clickable-cell.incorrect {
+            background-color: rgba(220, 53, 69, 0.2) !important;
+            border-color: var(--incorrect-color) !important;
+        }
+
+        /* Navigation Arrows */
+        .nav-arrows {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            display: flex;
+            gap: 6px;
+            z-index: 101;
+        }
+
+        .nav-arrow {
+            width: 48px;
+            height: 48px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            transition: transform 0.1s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 6px var(--shadow-color);
+            outline: none;
+            border-radius: 50%;
+        }
+
+        .nav-arrow.prev { background-color: #4b5563; }
+        .nav-arrow.next { background-color: #000000; }
+
+        [data-theme="dark"] .nav-arrow.prev { background-color: #6b7280; }
+        [data-theme="dark"] .nav-arrow.next { background-color: #333333; }
+
+        .nav-arrow:hover { transform: translateY(-1px); }
+        .nav-arrow:active { transform: translateY(0); }
+
+        /* Bottom Navigation */
+        .nav-row {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--nav-bg);
+            padding: 0;
+            display: flex;
+            align-items: center;
+            height: 80px;
+            z-index: 100;
+            border-top: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+
+        .footer__questionWrapper___1tZ46 {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .footer__questionNo___3WNct {
+            background: none;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.2s;
+            border-radius: 4px;
+        }
+
+        .footer__questionNo___3WNct:hover {
+            background-color: var(--part-header-bg);
+        }
+
+        .section-prefix {
+            font-size: 16px;
+            color: var(--text-color);
+        }
+
+        .sectionNr {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .attemptedCount {
+            font-size: 14px;
+            color: var(--text-color);
+            opacity: 0.7;
+            margin-left: 5px;
+            font-weight: 400;
+        }
+
+        .footer__subquestionWrapper___9GgoP {
+            display: none;
+            gap: 2px;
+            margin-left: 10px;
+        }
+
+        .footer__questionWrapper___1tZ46.selected .footer__subquestionWrapper___9GgoP {
+            display: flex;
+        }
+
+        .subQuestion {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            color: var(--text-color);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            border-radius: 2px;
+        }
+
+        .subQuestion:hover {
+            background-color: var(--part-header-bg);
+            border-color: var(--input-focus);
+        }
+
+        .subQuestion.answered {
+            background-color: var(--part-header-bg);
+            border-color: var(--border-color);
+        }
+
+        .subQuestion.correct {
+            background-color: var(--correct-color);
+            color: white;
+            border-color: var(--correct-color);
+        }
+
+        .subQuestion.incorrect {
+            background-color: var(--incorrect-color);
+            color: white;
+            border-color: var(--incorrect-color);
+        }
+
+        .subQuestion.active {
+            background-color: var(--input-focus);
+            color: white;
+            border-color: var(--input-focus);
+        }
+
+        /* Submit Button */
+        .footer__deliverButton___3FM07 {
+            margin-left: auto;
+            margin-right: 20px;
+            background-color: var(--part-header-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 10px 16px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.08s ease, background-color 0.2s ease, border-color 0.2s ease;
+            min-width: 160px;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .footer__deliverButton___3FM07:hover {
+            background-color: var(--border-color);
+        }
+
+        .footer__deliverButton___3FM07:active {
+            transform: translateY(1px);
+        }
+
+        .footer__deliverButton___3FM07:disabled {
+            background: var(--part-header-bg);
+            opacity: 0.5;
+            color: var(--text-color);
+            cursor: not-allowed;
+            border-color: var(--border-color);
+        }
+
+        /* Hidden Class */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Context Menu */
+        .context-menu {
+            position: absolute;
+            background: var(--modal-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            z-index: 1000;
+            display: none;
+            min-width: 140px;
+        }
+
+        .context-menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            font-size: 16px;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-color);
+        }
+
+        .context-menu-item:hover {
+            background-color: var(--part-header-bg);
+        }
+
+        .context-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Highlighting */
+        .highlight {
+            background-color: var(--highlight-bg);
+            color: #000;
+        }
+
+        .comment-highlight {
+            background-color: #90EE90;
+            position: relative;
+            cursor: help;
+            color: #000;
+        }
+
+        /* Results Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(17, 24, 39, 0.6);
+            backdrop-filter: blur(3px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.hidden {
+            display: none;
+        }
+
+        .modal-content {
+            background: var(--modal-bg);
+            padding: 24px;
+            border-radius: 14px;
+            width: 92%;
+            max-width: 780px;
+            max-height: 86vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 60px var(--shadow-color);
+            color: var(--text-color);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .modal-content h2 {
+            text-align: center;
+            margin-bottom: 18px;
+            color: var(--text-color);
+        }
+
+        .results-summary {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 16px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .results-summary p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .results-summary p span {
+            display: inline-block;
+            padding: 4px 10px;
+            margin-left: 6px;
+            border-radius: 999px;
+            background: var(--part-header-bg);
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .results-details-container {
+            overflow-y: auto;
+            padding-right: 10px;
+            border-radius: 8px;
+        }
+
+        .result-row {
+            display: grid;
+            grid-template-columns: 56px 1fr 1fr 120px;
+            gap: 12px;
+            padding: 10px 8px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 15px;
+            align-items: center;
+        }
+
+        .result-row.correct {
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+
+        .result-row.incorrect {
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+
+        .result-row .q-num {
+            font-weight: 700;
+            color: var(--text-color);
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            width: 42px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .result-row .user-ans {
+            color: var(--text-color);
+            background: var(--part-header-bg);
+            border: 1px solid var(--border-color);
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .result-row .correct-ans {
+            color: var(--correct-color);
+            font-weight: 600;
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid var(--correct-color);
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .status-badge {
+            justify-self: end;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            border: 1px solid transparent;
+        }
+
+        .status-badge.ok {
+            background: rgba(40, 167, 69, 0.2);
+            color: var(--correct-color);
+            border-color: var(--correct-color);
+        }
+
+        .status-badge.bad {
+            background: rgba(220, 53, 69, 0.2);
+            color: var(--incorrect-color);
+            border-color: var(--incorrect-color);
+        }
+
+        .correct-answer-display {
+            font-weight: bold;
+            color: var(--correct-color);
+            margin-left: 10px;
+            font-size: 14px;
+        }
+
+        /* Page watermark */
+        body::after {
+            content: "@FOZILBEK_IELTS";
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-20deg);
+            font-size: 72px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-color);
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 0;
+            white-space: nowrap;
+            transition: color 0.3s;
+        }
+
+        /* Dark mode icon specific styles */
+        .dark-mode-btn {
+            position: relative;
+        }
+
+        .dark-mode-btn .sun-icon,
+        .dark-mode-btn .moon-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .dark-mode-btn .moon-icon {
+            opacity: 0;
+            transform: translate(-50%, -50%) rotate(90deg);
+        }
+
+        [data-theme="dark"] .dark-mode-btn .sun-icon {
+            opacity: 0;
+            transform: translate(-50%, -50%) rotate(-90deg);
+        }
+
+        [data-theme="dark"] .dark-mode-btn .moon-icon {
+            opacity: 1;
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--panel-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--input-focus);
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <!-- Header with Dark Mode Button -->
+    <div class="header">
+        <div class="header-left">
+            <img src="https://d2snzxottmona5.cloudfront.net/releases/3.46.0/images/logo/ielts.svg" alt="IELTS Logo" class="ielts-logo">
+            <a href="https://t.me/FOZILBEK_IELTS" target="_blank" class="telegram-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-.38.24-1.07.7-.96.66-1.89 1.28-1.89 1.28s-.17.11-.49.03c-.32-.08-.72-.26-1.16-.47-.54-.26-1.17-.53-1.17-.53s-.87-.55.62-1.14c.32-.13 1.96-.84 2.99-1.2 1.05-.37 2.86-1.01 2.86-1.01s1.02-.4 1.02 0z" fill="currentColor"/>
+                </svg>
+                @FOZILBEK_IELTS
+            </a>
+        </div>
+        <div class="header-right">
+            <div class="timer-container">
+                <span class="timer-display">20:00</span>
+                <div class="timer-controls">
+                    <button id="timer-toggle-btn" title="Pause/Resume Timer">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px">
+                            <path d="M0 0h24v24H0V0z" fill="none"/>
+                            <path d="M8 5v14l11-7L8 5z"/>
+                        </svg>
+                    </button>
+                    <button id="timer-reset-btn" title="Reset Timer">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px">
+                            <path d="M0 0h24v24H0V0z" fill="none"/>
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Dark Mode Button -->
+                <button class="dark-mode-btn" id="dark-mode-toggle" title="Toggle Dark Mode">
+                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container" id="main-container">
+        <div id="passage-header-container">
+            <div id="part-header-1" class="part-header">
+                <p><strong>Part 3</strong></p>
+                <p>Read the text and answer questions 27–40.</p>
+            </div>
+        </div>
+        <div class="panels-container">
+            <div class="passage-panel" id="passage-panel">
+                <!-- PASSAGE 3: The Pirahã people of Brazil -->
+                <div id="passage-text-1" class="reading-passage">
+                    <h4 class="text-center">The Pirahã people of Brazil</h4>
+                    <p><strong>A</strong> The Pirahã language has stirred up debate among experts. The Pirahã tribe live deep in Brazil's Amazon forest, and their language is hotly debated by linguists. Since 1977, the ethnologist Daniel Everett has spent a total of seven years living with the Pirahã and has committed his career to studying their puzzling speech. Indeed, he was uncertain for so long about what he was actually hearing while living among the Pirahã that he waited nearly three decades before publishing his findings. The debate over the Pirahã language goes right to the core of the riddle regarding how Homo sapiens managed to develop vocal communication. Although bees dance, birds sing and whales even sing with syntax*, human language is unique, if only for the reason that it enables humans to piece together never-before-constructed thoughts, and be infinitely imaginative - think of Shakespeare's plays or Einstein's theory of relativity.</p>
+                    <p><strong>B</strong> Linguistics generally focuses on what features all human languages have in common, but the Pirahã language departs from what some academics have long maintained are essential and inalienable features of all human languages. Most of all, it may be unique for not employing subordinate clauses. Instead of saying, 'When I have finished eating, I will speak to you,' the Pirahã say, 'I finish eating, I speak with you.' Equally perplexing, the Pirahã appear not to use numbers. During the time he spent with them, Everett never heard words like 'all', 'every' and 'more'. There is one word, 'hoi', that comes close to the numeral 1, but it can also mean 'small'. And they were never observed to count without language, on their fingers for example, in order to determine important tasks in village life like how many pieces of meat to grill.</p>
+                    <p><strong>C</strong> Everett's findings among the Pirahã have brought new life to a controversial theory by the linguist Benjamin Whorf, who suggested that people are only capable of constructing thoughts for which they possess actual words. Or to put it another way, because they have no words for numbers, they cannot even begin to understand the concept of numbers or arithmetic. The Warlpiri language - spoken by a group of Australian Aborigines - like that of the Pirahã, features only the most rudimentary system of counting. However, the Warlpiri people had no difficulty counting farther than three in a foreign language, in this case English, but when Everett attempted to teach the Pirahã how to count in Portuguese like other Brazilians, not a single person could count to 10.</p>
+                    <p><strong>D</strong> Everett is at pains to point out that the Pirahã are not unintelligent, for their thinking is not any slower than that of the average university student. And although they reside in a remote part of the forest, they do not live in complete genetic isolation, but mix with people from the surrounding populations and share similar intellectual capacities with their neighbours whose languages do contain numbers.</p>
+                    <p><strong>E</strong> Eventually, after some 30 years of research, Everett has come up with a surprising explanation for the peculiarities of the Pirahã language. Language, he believes, is created by a people's way of life, their belief system and values. In this way, variety in human language is almost limitless, a function of the human capacity to live in different ways, such as in the forest. What Everett's research has revealed is that the central tenet of the Pirahã culture is to live in the here and now. The only thing of importance that is worth communicating to others is what is being experienced at that very moment, though this can often be described with great care and detail. In consequence, the language has no means to conjugate verbs in order to describe 'yesterday' or 'last week' or 'when I was a child'. Their very literal view of the world curtails abstract thought, and many features taken for granted among other peoples are absent among the Pirahã, such as a creation myth, story telling and painting. One manifestation of their beliefs is that by tradition the names they give their children are not particularly imaginative. Often they are named after other members of the tribe with whom they share similar character traits. Standing out or being different is not encouraged by the Pirahã, and this is reflected in their perhaps colourless choice of names.</p>
+                    <p><strong>F</strong> Everett anticipated that these findings would be controversial and the reaction came as expected. Until this point, many linguists had defended the theories of Noam Chomsky, according to which all human languages have a universal grammar. What exactly makes up this universal grammar is the subject of debate, but at its heart is the concept of 'recursion', which is defined as replication of a structure within its single parts. Without it, humans would not be able to view separate thoughts as subordinate parts of a complex whole. And, most pertinent to Everett's work, there would not be subordinate clauses, which are responsible for translating the concept of recursion into grammar. But if the Pirahã do not form subordinate clauses, then recursion cannot explain the uniqueness of human language, and this would negate Chomsky's theories.</p>
+                    <p><strong>G</strong> The logical way forward now would be to try to prove that the Pirahã can think in a recursive fashion. The only problem is, nobody can confirm or deny Everett's observations since no other researcher can speak Pirahã as well as he does. Despite this, several researchers - including two of Chomsky's colleagues - will soon travel to Brazil to check his claims. My concern is that soon the Pirahã will simply become one more scientific oddity with every aspect of their lives being exploited and analysed.</p>
+                </div>
+            </div>
+            <div class="resizer" id="resizer"></div>
+            <div class="questions-panel" id="questions-panel">
+                <!-- QUESTIONS FOR PASSAGE 3 -->
+                <div id="questions-1" class="question-set">
+                    <div class="questions-container">
+                        <!-- Questions 27-32: Multiple Choice -->
+                        <div class="question" data-q-start="27" data-q-end="32">
+                            <div class="question-prompt">
+                                <p><strong>Questions 27–32</strong></p>
+                                <p>Choose the correct answer.</p>
+                            </div>
+                            <div class="multi-choice-question" data-q-start="27" data-q-end="27">
+                                <div class="question-prompt"><p><strong>27</strong> What are we told about Daniel Everett in the first paragraph?</p></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q27" value="A"> A He has lived among the Pirahã since 1977.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q27" value="B"> B It took him seven years to learn the Pirahã language.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q27" value="C"> C No one would publish his research for three decades.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q27" value="D"> D Studying the Pirahã language is the focus of his work.</label></div>
+                            </div>
+                            <div class="multi-choice-question" data-q-start="28" data-q-end="28">
+                                <div class="question-prompt"><p><strong>28</strong> Which of the following is the best summary of the second paragraph?</p></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q28" value="A"> A Humans are the only species to be linguistically creative.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q28" value="B"> B Humans, bees, birds and whales share a characteristic.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q28" value="C"> C Human language is not fully understood by scientists.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q28" value="D"> D Humans are the only species to use syntax.</label></div>
+                            </div>
+                            <div class="multi-choice-question" data-q-start="29" data-q-end="29">
+                                <div class="question-prompt"><p><strong>29</strong> Why does the writer refer to subordinate clauses?</p></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q29" value="A"> A to criticise the general approach of linguistics</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q29" value="B"> B to compare two features of the Pirahã language</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q29" value="C"> C to explain why the Pirahã language is difficult to learn</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q29" value="D"> D to exemplify an unusual feature of the Pirahã language</label></div>
+                            </div>
+                            <div class="multi-choice-question" data-q-start="30" data-q-end="30">
+                                <div class="question-prompt"><p><strong>30</strong> What point does the writer make about the work of Whorf?</p></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q30" value="A"> A He thought that numbers were common to all human languages.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q30" value="B"> B His theory might be supported by Everett's research.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q30" value="C"> C His research enabled him to find a new life among the Pirahã.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q30" value="D"> D He predicted that people like the Pirahã would never be found.</label></div>
+                            </div>
+                            <div class="multi-choice-question" data-q-start="31" data-q-end="31">
+                                <div class="question-prompt"><p><strong>31</strong> The writer refers to the Warlpiri people in order to</p></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q31" value="A"> A suggest that the Pirahã be taught to count in English.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q31" value="B"> B show how tribal peoples learn a foreign language.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q31" value="C"> C compare counting in English and Portuguese.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q31" value="D"> D illustrate the uniqueness of the Pirahã.</label></div>
+                            </div>
+                            <div class="multi-choice-question" data-q-start="32" data-q-end="32">
+                                <div class="question-prompt"><p><strong>32</strong> What is Everett's point about the Pirahã's intellectual capacities?</p></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q32" value="A"> A Pirahã students have not graduated from universities.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q32" value="B"> B He does not want people to criticise their intelligence.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q32" value="C"> C Their isolation makes it difficult to evaluate their intelligence.</label></div>
+                                <div class="multi-choice-option"><label><input type="radio" name="q32" value="D"> D He believes their language is more complex than their neighbours'.</label></div>
+                            </div>
+                        </div>
+
+                        <!-- Questions 33-36: Summary Completion with dropdown -->
+                        <div class="question" data-q-start="33" data-q-end="36">
+                            <div class="question-prompt">
+                                <p><strong>Questions 33–36</strong></p>
+                                <p>Complete the summary below.</p>
+                                <p>Choose <strong>ONE WORD ONLY</strong> from the list of options for each answer.</p>
+                                <p><strong>List of Options</strong></p>
+                                <p>A present &nbsp;&nbsp; B past &nbsp;&nbsp; C time &nbsp;&nbsp; D future &nbsp;&nbsp; E culture &nbsp;&nbsp; F grammar &nbsp;&nbsp; G art &nbsp;&nbsp; H individuality &nbsp;&nbsp; I children</p>
+                            </div>
+                            <div class="summary-text">
+                                <p><strong>Everett's explanation</strong></p>
+                                <p>Everett believes that a group's language is a product of their <select name="q33" id="q33" class="answer-input">
+                                    <option value="">Select answer</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                    <option value="E">E</option>
+                                    <option value="F">F</option>
+                                    <option value="G">G</option>
+                                    <option value="H">H</option>
+                                    <option value="I">I</option>
+                                </select> and thus language is infinitely varied. During the time he spent living among them, he observed that the Pirahã only place value on the <select name="q34" id="q34" class="answer-input">
+                                    <option value="">Select answer</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                    <option value="E">E</option>
+                                    <option value="F">F</option>
+                                    <option value="G">G</option>
+                                    <option value="H">H</option>
+                                    <option value="I">I</option>
+                                </select> and have no <select name="q35" id="q35" class="answer-input">
+                                    <option value="">Select answer</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                    <option value="E">E</option>
+                                    <option value="F">F</option>
+                                    <option value="G">G</option>
+                                    <option value="H">H</option>
+                                    <option value="I">I</option>
+                                </select> to describe completed events. Similarly, the types of names they use reflect the fact that they do not celebrate <select name="q36" id="q36" class="answer-input">
+                                    <option value="">Select answer</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                    <option value="E">E</option>
+                                    <option value="F">F</option>
+                                    <option value="G">G</option>
+                                    <option value="H">H</option>
+                                    <option value="I">I</option>
+                                </select>.</p>
+                            </div>
+                        </div>
+
+                        <!-- Questions 37-40: YES/NO/NOT GIVEN -->
+                        <div class="question" data-q-start="37" data-q-end="40">
+                            <div class="question-prompt">
+                                <p><strong>Questions 37–40</strong></p>
+                                <p>Choose <strong>YES</strong> if the statement agrees with the claims of the writer, choose <strong>NO</strong> if the statement contradicts the claims of the writer, or <strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this.</p>
+                            </div>
+                            <div class="tf-question" data-q-start="37" data-q-end="37">
+                                <div class="tf-question-line"><span class="tf-question-number">37</span><span class="tf-question-text">Everett was surprised by the way his research was greeted.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q37" value="YES"> YES</label>
+                                    <label class="tf-option"><input type="radio" name="q37" value="NO"> NO</label>
+                                    <label class="tf-option"><input type="radio" name="q37" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+                            <div class="tf-question" data-q-start="38" data-q-end="38">
+                                <div class="tf-question-line"><span class="tf-question-number">38</span><span class="tf-question-text">Chomsky has been critical of Everett's research methodology.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q38" value="YES"> YES</label>
+                                    <label class="tf-option"><input type="radio" name="q38" value="NO"> NO</label>
+                                    <label class="tf-option"><input type="radio" name="q38" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+                            <div class="tf-question" data-q-start="39" data-q-end="39">
+                                <div class="tf-question-line"><span class="tf-question-number">39</span><span class="tf-question-text">If 'recursion' as a universal concept is disproved, Chomsky's ideas about language would be wrong.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q39" value="YES"> YES</label>
+                                    <label class="tf-option"><input type="radio" name="q39" value="NO"> NO</label>
+                                    <label class="tf-option"><input type="radio" name="q39" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+                            <div class="tf-question" data-q-start="40" data-q-end="40">
+                                <div class="tf-question-line"><span class="tf-question-number">40</span><span class="tf-question-text">The Pirahã will benefit from their new-found status among academics.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q40" value="YES"> YES</label>
+                                    <label class="tf-option"><input type="radio" name="q40" value="NO"> NO</label>
+                                    <label class="tf-option"><input type="radio" name="q40" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <div class="nav-arrows">
+        <button class="nav-arrow prev" onclick="previousQuestion()" id="prevBtn" aria-label="Previous question">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <button class="nav-arrow next" onclick="nextQuestion()" id="nextBtn" aria-label="Next question">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="nav-row perScorableItem" aria-label="Questions">
+        <div class="footer__questionWrapper___1tZ46 selected multiple" role="tablist">
+            <button role="tab" class="footer__questionNo___3WNct" onclick="switchToPart(1)">
+                <span>
+                    <span aria-hidden="true" class="section-prefix">Part </span>
+                    <span class="sectionNr" aria-hidden="true">3</span>
+                    <span class="attemptedCount" aria-hidden="true">0 of 14</span>
+                </span>
+            </button>
+            <div class="footer__subquestionWrapper___9GgoP">
+                <button class="subQuestion scorable-item" onclick="goToQuestion(27)"><span class="sr-only">Question 27</span><span aria-hidden="true">27</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(28)"><span class="sr-only">Question 28</span><span aria-hidden="true">28</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(29)"><span class="sr-only">Question 29</span><span aria-hidden="true">29</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(30)"><span class="sr-only">Question 30</span><span aria-hidden="true">30</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(31)"><span class="sr-only">Question 31</span><span aria-hidden="true">31</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(32)"><span class="sr-only">Question 32</span><span aria-hidden="true">32</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(33)"><span class="sr-only">Question 33</span><span aria-hidden="true">33</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(34)"><span class="sr-only">Question 34</span><span aria-hidden="true">34</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(35)"><span class="sr-only">Question 35</span><span aria-hidden="true">35</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(36)"><span class="sr-only">Question 36</span><span aria-hidden="true">36</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(37)"><span class="sr-only">Question 37</span><span aria-hidden="true">37</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(38)"><span class="sr-only">Question 38</span><span aria-hidden="true">38</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(39)"><span class="sr-only">Question 39</span><span aria-hidden="true">39</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(40)"><span class="sr-only">Question 40</span><span aria-hidden="true">40</span></button>
+            </div>
+        </div>
+        <button id="deliver-button" aria-label="Review your answers" class="footer__deliverButton___3FM07">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/>
+            </svg>
+            <span>Check Answers</span>
+        </button>
+    </nav>
+
+    <!-- Context Menu -->
+    <div id="contextMenu" class="context-menu">
+        <div id="menu-highlight" class="context-menu-item" onclick="highlightText()">
+            Highlight
+        </div>
+        <div id="menu-note" class="context-menu-item" onclick="addNote()">
+            Note
+        </div>
+        <div id="menu-clear" class="context-menu-item" onclick="clearHighlight()">
+            Clear
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div id="results-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeResultsModal()">&times;</button>
+            <h2>Results</h2>
+            <div class="results-summary">
+                <p>Score: <span id="results-score"></span> / 14</p>
+                <p>IELTS Band: <span id="results-band"></span></p>
+            </div>
+            <div id="results-details" class="results-details-container">
+                <!-- Results for each question will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- STATE VARIABLES ---
+            let currentPassage = 1;
+            let currentQuestion = 27;
+            let selectedRange = null;
+            let timeInSeconds = 1200; // 20 minutes
+            let timerInterval;
+            let draggedItem = null;
+            let activeQuestionElement = null;
+            let selectedDragItem = null;
+
+            // --- DARK MODE FUNCTIONALITY ---
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const body = document.body;
+
+            // FORCE LIGHT MODE BY DEFAULT - IGNORE ALL PREFERENCES
+            body.setAttribute('data-theme', 'light');
+            localStorage.removeItem('theme'); // Clear any saved preference
+
+            // Toggle dark mode
+            function toggleDarkMode() {
+                const isDark = body.getAttribute('data-theme') === 'dark';
+                if (isDark) {
+                    body.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    body.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+            }
+
+            // Add event listener
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+
+            // --- GLOBAL FUNCTIONS ---
+            function getFirstQuestionOfPart(part) {
+                return 27; // Only one part starting at question 27
+            }
+
+            // --- DOM ELEMENTS ---
+            const timerDisplay = document.querySelector('.timer-display');
+            const timerToggleButton = document.getElementById('timer-toggle-btn');
+            const timerResetButton = document.getElementById('timer-reset-btn');
+            const deliverButton = document.getElementById('deliver-button');
+            const resizer = document.getElementById('resizer');
+            const passagePanel = document.getElementById('passage-panel');
+            const questionsPanel = document.getElementById('questions-panel');
+            const contextMenu = document.getElementById('contextMenu');
+
+            // --- ICON SVGs ---
+            const playIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/></svg>';
+            const pauseIcon = '<svg xmlns="http://www.w3.org2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+
+            // --- ANSWERS ---
+            const correctAnswers = {
+                // Questions 27-32: Multiple Choice
+                '27': 'D',
+                '28': 'C',
+                '29': 'D',
+                '30': 'B',
+                '31': 'D',
+                '32': 'B',
+                
+                // Questions 33-36: Summary Completion
+                '33': 'E',
+                '34': 'A',
+                '35': 'F',
+                '36': 'G',
+                
+                // Questions 37-40: YES/NO/NOT GIVEN
+                '37': 'NO',
+                '38': 'NOT GIVEN',
+                '39': 'YES',
+                '40': 'NO'
+            };
+
+            // --- INITIALIZATION ---
+            function initialize() {
+                console.log(`🚀 Initializing application...`);
+                startTimer();
+                updateAllIndicators();
+                
+                document.body.addEventListener('input', updateAllIndicators);
+                document.body.addEventListener('change', updateAllIndicators);
+                deliverButton.addEventListener('click', checkAnswers);
+                timerToggleButton.addEventListener('click', toggleTimer);
+                timerResetButton.addEventListener('click', resetTimer);
+
+                // Auto-close dropdowns for Questions 33-36 on selection
+                ['q33','q34','q35','q36'].forEach(id => {
+                    const sel = document.getElementById(id);
+                    if (sel) {
+                        sel.addEventListener('change', () => sel.blur());
+                    }
+                });
+
+                // Add click listeners to question containers for navigation
+                document.querySelectorAll('[data-q-start]').forEach(el => {
+                    el.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        const qNum = parseInt(el.dataset.qStart, 10);
+                        const qEnd = parseInt(el.dataset.qEnd, 10);
+                        if (isNaN(qNum)) {
+                            console.log(`ℹ️ Container without valid question number, ignoring navigation`);
+                            return;
+                        }
+                        if (qNum === qEnd || el.classList.contains('tf-question') || el.classList.contains('multi-choice-question')) {
+                            if (currentQuestion !== qNum) {
+                                console.log(`🚀 Navigating from question ${currentQuestion} to question ${qNum}`);
+                                goToQuestion(qNum);
+                            }
+                        }
+                    });
+                });
+
+                // Add specific click listeners for individual question elements
+                document.querySelectorAll('.tf-question, .summary-text, .multi-choice-question').forEach(el => {
+                    el.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        const qNum = parseInt(el.dataset.qStart, 10);
+                        if (isNaN(qNum)) {
+                            console.log(`ℹ️ Container without specific question number, ignoring navigation`);
+                            return;
+                        }
+                        if (currentQuestion !== qNum) {
+                            console.log(`🚀 Navigating from question ${currentQuestion} to question ${qNum} (individual element)`);
+                            goToQuestion(qNum);
+                        }
+                    });
+                });
+
+                // Add specific click listeners for individual input elements
+                document.querySelectorAll('.answer-input[id^="q"]').forEach(input => {
+                    input.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        const qNum = parseInt(input.id.replace('q', ''), 10);
+                        if (currentQuestion !== qNum) {
+                            console.log(`🚀 Navigating from question ${currentQuestion} to question ${qNum} (input element)`);
+                            goToQuestion(qNum);
+                        }
+                    });
+                });
+
+                // Add click listeners for the paragraph elements
+                document.querySelectorAll('.summary-text p').forEach(p => {
+                    p.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        const strongElement = p.querySelector('strong');
+                        if (strongElement) {
+                            const qNum = parseInt(strongElement.textContent, 10);
+                            if (!isNaN(qNum) && currentQuestion !== qNum) {
+                                console.log(`🚀 Navigating from question ${currentQuestion} to question ${qNum} (summary paragraph)`);
+                                goToQuestion(qNum);
+                            }
+                        }
+                    });
+                });
+
+                resizer.addEventListener('mousedown', initResize, false);
+                initializeContextMenu();
+
+                // Ensure indicators (answered states, counts) are correct on initial load
+                updateAllIndicators();
+
+                // Ensure the bottom menu reflects the currently focused input as active
+                document.querySelectorAll('.answer-input').forEach(inputEl => {
+                    const attach = (evtName) => inputEl.addEventListener(evtName, (e) => {
+                        const id = inputEl.id || '';
+                        if (id.startsWith('q')) {
+                            const qNum = parseInt(id.replace('q',''), 10);
+                            if (!isNaN(qNum)) {
+                                goToQuestion(qNum);
+                            }
+                        } else {
+                            const container = inputEl.closest('[data-q-start]');
+                            if (container) {
+                                const qNum = parseInt(container.dataset.qStart, 10);
+                                if (!isNaN(qNum)) goToQuestion(qNum);
+                            }
+                        }
+                    });
+                    attach('focus');
+                    attach('click');
+                    attach('input');
+                    attach('change');
+                });
+
+                // For radio buttons (YES/NO/NG and MCQ)
+                document.querySelectorAll('input[type="radio"]').forEach(radioEl => {
+                    const update = () => {
+                        const name = radioEl.name || '';
+                        if (name.startsWith('q')) {
+                            const qNum = parseInt(name.replace('q',''), 10);
+                            if (!isNaN(qNum)) {
+                                goToQuestion(qNum);
+                            }
+                        }
+                    };
+                    radioEl.addEventListener('focus', update);
+                    radioEl.addEventListener('change', update);
+                    radioEl.addEventListener('click', update);
+                });
+
+                // Start at question 27
+                goToQuestion(27);
+            }
+
+            // --- CORE TEST LOGIC ---
+            function checkAnswers() {
+                // Disable all inputs to prevent changes
+                const allInputs = document.querySelectorAll('input, select, textarea');
+                allInputs.forEach(input => {
+                    input.disabled = true;
+                });
+
+                // Disable submit button
+                deliverButton.disabled = true;
+                deliverButton.style.cursor = 'not-allowed';
+                clearInterval(timerInterval);
+
+                let score = 0;
+                const totalQuestions = 14;
+                const resultsDetailsContainer = document.getElementById('results-details');
+                resultsDetailsContainer.innerHTML = '';
+
+                document.querySelectorAll('.correct, .incorrect, .correct-answer-highlight').forEach(el => {
+                    el.classList.remove('correct', 'incorrect', 'correct-answer-highlight');
+                });
+
+                document.querySelectorAll('.correct-answer-display').forEach(el => el.remove());
+
+                for (let i = 27; i <= 40; i++) {
+                    const questionKey = String(i);
+                    const correctAnswer = correctAnswers[questionKey];
+                    let userAnswer = '';
+                    let isCorrect = false;
+                    let userAnswerDisplay = 'Not Answered';
+                    const correctAnswerText = Array.isArray(correctAnswer) ? correctAnswer.join(' / ') : correctAnswer;
+
+                    const textInput = document.getElementById(`q${i}`);
+                    const radioGroup = document.querySelectorAll(`input[name="q${i}"][type="radio"]`);
+
+                    // Handle Select Inputs (Questions 33-36)
+                    if (textInput && textInput.tagName === 'SELECT') {
+                        userAnswer = textInput.value.trim();
+                        userAnswerDisplay = userAnswer || 'Not Answered';
+                        isCorrect = userAnswer === correctAnswer;
+
+                        if (isCorrect) {
+                            score++;
+                            textInput.classList.add('correct');
+                        } else {
+                            textInput.classList.add('incorrect');
+                            const correctAnswerSpan = document.createElement('span');
+                            correctAnswerSpan.className = 'correct-answer-display';
+                            correctAnswerSpan.innerHTML = `&nbsp;➜&nbsp;<span class="correct-answer-highlight">${correctAnswerText}</span>`;
+                            textInput.parentNode.insertBefore(correctAnswerSpan, textInput.nextSibling);
+                        }
+                    }
+                    // Handle Radio Button Inputs (MCQs and YES/NO/NG)
+                    else if (radioGroup.length > 0) {
+                        const questionContainer = radioGroup[0]?.closest('.tf-question') || radioGroup[0]?.closest('.multi-choice-question');
+                        const checkedRadio = document.querySelector(`input[name="q${i}"]:checked`);
+
+                        if (checkedRadio) {
+                            userAnswer = checkedRadio.value;
+                            userAnswerDisplay = userAnswer;
+                            isCorrect = userAnswer === correctAnswer;
+                            const userLabel = checkedRadio.closest('.tf-option, .multi-choice-option');
+                            if (userLabel) {
+                                userLabel.classList.add(isCorrect ? 'correct' : 'incorrect');
+                            }
+                        }
+
+                        if (isCorrect) {
+                            score++;
+                        } else {
+                            if (questionContainer) {
+                                const correctOptionEl = questionContainer.querySelector(`input[name="q${i}"][value="${correctAnswerText}"]`);
+                                if (correctOptionEl) {
+                                    const correctLabel = correctOptionEl.closest('.tf-option, .multi-choice-option');
+                                    if (correctLabel) {
+                                        correctLabel.classList.add('correct-answer-highlight');
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // For showing results in the modal
+                    const resultRow = `
+                    <div class="result-row ${isCorrect ? 'correct' : 'incorrect'}">
+                        <span class="q-num">${i}</span>
+                        <span class="user-ans">${userAnswerDisplay}</span>
+                        <span class="correct-ans">${correctAnswerText}</span>
+                        <span class="status-badge ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? 'Correct' : 'Incorrect'}</span>
+                    </div>`;
+                    resultsDetailsContainer.innerHTML += resultRow;
+
+                    // Update nav button color
+                    const navButton = document.querySelector(`.subQuestion[onclick="goToQuestion(${i})"]`);
+                    if (navButton) {
+                        navButton.classList.remove('answered', 'active');
+                        navButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    }
+                }
+
+                document.getElementById('results-score').textContent = score;
+                document.getElementById('results-band').textContent = calculateBandScore(score);
+                document.body.classList.add('results-mode');
+                document.getElementById('results-modal').classList.remove('hidden');
+
+                // Change button to "My Result" with green styling
+                deliverButton.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg><span>My Result</span>`;
+                deliverButton.style.backgroundColor = '#4CAF50';
+                deliverButton.style.color = 'white';
+                deliverButton.style.borderColor = '#4CAF50';
+                deliverButton.disabled = false;
+                deliverButton.style.cursor = 'pointer';
+                deliverButton.removeEventListener('click', checkAnswers);
+                deliverButton.addEventListener('click', showResultsModal);
+
+                // Highlight correct answers in the passage
+                highlightCorrectAnswersInPassage();
+            }
+
+            function calculateBandScore(score) {
+                // IELTS Reading band score conversion (Academic - 14 questions)
+                if (score >= 13) return '9.0';
+                if (score >= 12) return '8.5';
+                if (score >= 11) return '8.0';
+                if (score >= 10) return '7.5';
+                if (score >= 9) return '7.0';
+                if (score >= 8) return '6.5';
+                if (score >= 7) return '6.0';
+                if (score >= 6) return '5.5';
+                if (score >= 5) return '5.0';
+                if (score >= 4) return '4.5';
+                if (score >= 3) return '4.0';
+                if (score >= 2) return '3.5';
+                if (score >= 1) return '3.0';
+                return '2.5';
+            }
+
+            function highlightCorrectAnswersInPassage() {
+                // Define highlights for The Pirahã People passage
+                const passageHighlights = [
+                    { question: 27, text: "Daniel Everett has spent a total of seven years living with the Pirahã and has committed his career to studying their puzzling speech".toLowerCase() },
+                    { question: 28, text: "The debate over the Pirahã language goes right to the core of the riddle regarding how Homo sapiens managed to develop vocal communication".toLowerCase() },
+                    { question: 29, text: "Most of all, it may be unique for not employing subordinate clauses".toLowerCase() },
+                    { question: 30, text: "Everett's findings among the Pirahã have brought new life to a controversial theory by the linguist Benjamin Whorf".toLowerCase() },
+                    { question: 31, text: "the Warlpiri people had no difficulty counting farther than three in a foreign language... but when Everett attempted to teach the Pirahã how to count in Portuguese... not a single person could count to 10".toLowerCase() },
+                    { question: 32, text: "Everett is at pains to point out that the Pirahã are not unintelligent".toLowerCase() },
+                    { question: 33, text: "Language, he believes, is created by a people's way of life, their belief system and values".toLowerCase() },
+                    { question: 34, text: "the central tenet of the Pirahã culture is to live in the here and now".toLowerCase() },
+                    { question: 35, text: "the language has no means to conjugate verbs in order to describe 'yesterday' or 'last week'".toLowerCase() },
+                    { question: 36, text: "many features taken for granted among other peoples are absent among the Pirahã, such as a creation myth, story telling and painting".toLowerCase() },
+                    { question: 37, text: "Everett anticipated that these findings would be controversial and the reaction came as expected".toLowerCase() },
+                    { question: 38, text: "Chomsky has been critical of Everett's research methodology".toLowerCase() },
+                    { question: 39, text: "if the Pirahã do not form subordinate clauses, then recursion cannot explain the uniqueness of human language, and this would negate Chomsky's theories".toLowerCase() },
+                    { question: 40, text: "My concern is that soon the Pirahã will simply become one more scientific oddity with every aspect of their lives being exploited and analysed".toLowerCase() }
+                ];
+
+                // Function to apply highlights to a passage
+                function applyHighlights(passageElement, highlights) {
+                    if (!passageElement) return;
+
+                    // Clear any existing highlights
+                    passageElement.querySelectorAll('.answer-highlight').forEach(el => {
+                        const parent = el.parentNode;
+                        parent.replaceChild(document.createTextNode(el.textContent), el);
+                        parent.normalize();
+                    });
+
+                    // Add highlights for each answer
+                    highlights.forEach(item => {
+                        const paragraphs = passageElement.querySelectorAll('p');
+                        paragraphs.forEach(paragraph => {
+                            const html = paragraph.innerHTML;
+                            if (!html || typeof html !== 'string') return;
+                            if (html.toLowerCase().includes(item.text)) {
+                                const escapeRegExp = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                                const re = new RegExp(escapeRegExp(item.text), 'i');
+                                const badge = (item.question !== undefined && item.question !== null && item.question !== '')
+                                    ? `<span style="
+                                        position: absolute;
+                                        top: -8px;
+                                        right: -8px;
+                                        background-color: #2196f3;
+                                        color: white;
+                                        border-radius: 50%;
+                                        width: 20px;
+                                        height: 20px;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        font-size: 12px;
+                                        font-weight: bold;
+                                    ">${item.question}</span>`
+                                    : '';
+                                const replaced = html.replace(
+                                    re,
+                                    `<span class="answer-highlight" data-question="${item.question || ''}" style="
+                                        background-color: #ffeb3b;
+                                        padding: 2px 4px;
+                                        border-radius: 3px;
+                                        font-weight: bold;
+                                        position: relative;
+                                        color: #000;
+                                    ">${item.text}${badge}</span>`
+                                );
+                                paragraph.innerHTML = replaced;
+                            }
+                        });
+                    });
+                }
+
+                // Apply highlights to the passage
+                const passageText1 = document.getElementById('passage-text-1');
+                applyHighlights(passageText1, passageHighlights);
+            }
+
+            function showResultsModal() {
+                document.getElementById('results-modal').classList.remove('hidden');
+            }
+
+            window.closeResultsModal = function() {
+                document.getElementById('results-modal').classList.add('hidden');
+                document.body.classList.remove('results-mode');
+            }
+
+            function switchToPart(partNumber) {
+                // Only one part in this version
+                goToQuestion(27);
+            }
+
+            function goToQuestion(questionNumber) {
+                console.log(`🎯 goToQuestion called with questionNumber: ${questionNumber}, currentQuestion: ${currentQuestion}`);
+                currentQuestion = questionNumber;
+
+                if (activeQuestionElement) {
+                    // Remove active style from previous block
+                    activeQuestionElement.classList.remove('active-question', 'active-input');
+                    // Also remove from the container block if we previously set it
+                    const prevBlock = activeQuestionElement.closest('[data-q-start]');
+                    if (prevBlock) prevBlock.classList.remove('active-question');
+                }
+
+                // First, try to find the specific input element
+                let targetEl = document.getElementById(`q${questionNumber}`);
+                if (targetEl) {
+                    activeQuestionElement = targetEl;
+                    console.log(`✅ Found specific input element:`, targetEl);
+                    targetEl.classList.add('active-input');
+                    scrollIntoViewIfNeeded(targetEl);
+                } else {
+                    // Fall back to looking for question containers
+                    targetEl = document.querySelector(`[data-q-start="${questionNumber}"]`);
+                    console.log(`🔍 Looking for target element with data-q-start="${questionNumber}":`, targetEl);
+                    if (targetEl) {
+                        activeQuestionElement = targetEl;
+                        console.log(`✅ Found target element:`, targetEl);
+                        if (targetEl.matches('input[type="text"]') || targetEl.matches('select')) {
+                            targetEl.classList.add('active-input');
+                            console.log(`📝 Added active-input class to input/select element`);
+                        } else {
+                            targetEl.classList.add('active-question');
+                            console.log(`📋 Added active-question class to question element`);
+                        }
+                        scrollIntoViewIfNeeded(targetEl);
+                    } else {
+                        console.log(`⚠️ Target element not found, looking for paragraph matching question`);
+                        const pMatch = document.querySelector(`.paragraph-matching-question select[id="q${questionNumber}"]`);
+                        if(pMatch) {
+                            activeQuestionElement = pMatch;
+                            pMatch.classList.add('active-input');
+                            scrollIntoViewIfNeeded(pMatch);
+                            console.log(`✅ Found paragraph matching question:`, pMatch);
+                        } else {
+                            console.log(`❌ No target element found for question ${questionNumber}`);
+                        }
+                    }
+                }
+
+                updateNavigation();
+                console.log(`✅ goToQuestion completed for question ${questionNumber}`);
+            }
+
+            // --- UI & NAVIGATION ---
+            function updateNavigation() {
+                console.log(`🔄 updateNavigation called for currentQuestion: ${currentQuestion}`);
+                const navButtons = document.querySelectorAll('.subQuestion');
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                const activeNav = document.querySelector(`.subQuestion[onclick="goToQuestion(${currentQuestion})"]`);
+                if (activeNav) {
+                    activeNav.classList.add('active');
+                    console.log(`✅ Updated navigation - active nav button:`, activeNav);
+                } else {
+                    console.log(`⚠️ No active navigation button found for question ${currentQuestion}`);
+                }
+
+                const inputs = document.querySelectorAll('.answer-input');
+                inputs.forEach(input => input.classList.remove('active-input'));
+                const activeInput = document.getElementById(`q${currentQuestion}`);
+                if (activeInput) {
+                    activeInput.classList.add('active-input');
+                    if (typeof activeInput.focus === 'function') {
+                        activeInput.focus();
+                    }
+                    console.log(`✅ Focused on input element:`, activeInput);
+                } else {
+                    console.log(`⚠️ No direct input found for question ${currentQuestion}, looking in question block`);
+                    // Prefer the specific question element for styling (TF/MCQ), fallback to any data-q-start container
+                    let activeQuestionBlock = document.querySelector(`.tf-question[data-q-start="${currentQuestion}"]`)
+                        || document.querySelector(`.multi-choice-question[data-q-start="${currentQuestion}"]`)
+                        || document.querySelector(`[data-q-start="${currentQuestion}"]`);
+                    if (activeQuestionBlock) {
+                        // Add active-question class to style number badge
+                        activeQuestionBlock.classList.add('active-question');
+                        const firstInput = activeQuestionBlock.querySelector('input, select');
+                        if(firstInput) {
+                            firstInput.classList.add('active-input');
+                            if (typeof firstInput.focus === 'function') {
+                                firstInput.focus();
+                            }
+                            console.log(`✅ Focused on input in question block:`, firstInput);
+                        } else {
+                            console.log(`⚠️ No input found in question block for question ${currentQuestion}`);
+                        }
+                    } else {
+                        console.log(`❌ No question block found for question ${currentQuestion}`);
+                    }
+                }
+                console.log(`✅ updateNavigation completed`);
+            }
+
+            window.nextQuestion = () => currentQuestion < 40 && goToQuestion(currentQuestion + 1);
+            window.previousQuestion = () => currentQuestion > 27 && goToQuestion(currentQuestion - 1);
+
+            function updateAllIndicators() {
+                updateAttemptedCount(1, 27, 40);
+                updateAnsweredNav();
+            }
+
+            function updateAnsweredNav() {
+                const navButtons = document.querySelectorAll('.subQuestion');
+                navButtons.forEach(btn => {
+                    let qNum = NaN;
+                    // Prefer parsing from onclick attribute to avoid SR-only text interference
+                    const onclickAttr = btn.getAttribute('onclick');
+                    if (onclickAttr) {
+                        const match = onclickAttr.match(/goToQuestion\((\d+)\)/);
+                        if (match) {
+                            qNum = parseInt(match[1], 10);
+                        }
+                    }
+                    // Fallback: try the visible number span
+                    if (isNaN(qNum)) {
+                        const visibleSpan = btn.querySelector('span[aria-hidden="true"]');
+                        if (visibleSpan) {
+                            qNum = parseInt(visibleSpan.textContent.trim(), 10);
+                        }
+                    }
+                    if (!isNaN(qNum) && isQuestionAnswered(qNum)) {
+                        btn.classList.add('answered');
+                    } else {
+                        btn.classList.remove('answered');
+                    }
+                });
+            }
+
+            function isQuestionAnswered(qNum) {
+                const textInput = document.getElementById(`q${qNum}`);
+                if (textInput && textInput.tagName === 'SELECT' && textInput.value.trim() !== '') {
+                    return true;
+                }
+                const radio = document.querySelector(`input[name="q${qNum}"]:checked`);
+                if (radio) {
+                    return true;
+                }
+                return false;
+            }
+
+            function scrollIntoViewIfNeeded(element) {
+                const panel = element.closest('.questions-panel, .passage-panel');
+                const panelRect = panel.getBoundingClientRect();
+                const elementRect = element.getBoundingClientRect();
+                if (elementRect.top < panelRect.top || elementRect.bottom > panelRect.bottom) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+
+            // --- TIMER FUNCTIONS ---
+            function startTimer() {
+                if (timerInterval) clearInterval(timerInterval);
+                timerInterval = setInterval(() => {
+                    timeInSeconds--;
+                    const minutes = Math.floor(timeInSeconds / 60);
+                    const seconds = timeInSeconds % 60;
+                    timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    if (timeInSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        timerDisplay.textContent = "Time's up!";
+                    }
+                }, 1000);
+                timerToggleButton.innerHTML = pauseIcon;
+            }
+
+            function pauseTimer() {
+                clearInterval(timerInterval);
+                timerToggleButton.innerHTML = playIcon;
+            }
+
+            function toggleTimer() {
+                // Check based on the icon currently displayed
+                if (timerToggleButton.innerHTML.includes('M6 19h4V5H6v14z')) { // Check for pause icon shape
+                    pauseTimer();
+                } else {
+                    startTimer();
+                }
+            }
+
+            function resetTimer() {
+                timeInSeconds = 1200; // 20 minutes
+                const minutes = Math.floor(timeInSeconds / 60);
+                const seconds = timeInSeconds % 60;
+                timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                startTimer();
+                timerToggleButton.innerHTML = pauseIcon;
+            }
+
+            function initResize(e) {
+                e.preventDefault();
+                const startX = e.clientX;
+                const startWidth = passagePanel.offsetWidth;
+                const doDrag = (e) => {
+                    const newWidth = startWidth + e.clientX - startX;
+                    if (newWidth > 200 && (document.body.clientWidth - newWidth - resizer.offsetWidth) > 200) {
+                        passagePanel.style.flex = `0 0 ${newWidth}px`;
+                    }
+                };
+                const stopDrag = () => {
+                    window.removeEventListener('mousemove', doDrag, false);
+                    window.removeEventListener('mouseup', stopDrag, false);
+                };
+                window.addEventListener('mousemove', doDrag, false);
+                window.addEventListener('mouseup', stopDrag, false);
+            }
+
+            // --- CONTEXT MENU (Highlighting) ---
+            function initializeContextMenu() {
+                const panels = [passagePanel, questionsPanel];
+                let targetElementForClear = null;
+
+                // This listener simply tracks the last valid text selection in either panel.
+                document.addEventListener('selectionchange', () => {
+                    const selection = window.getSelection();
+                    if (selection && !selection.isCollapsed && selection.toString().trim().length > 0) {
+                        const range = selection.getRangeAt(0);
+                        if (panels.some(panel => panel.contains(range.commonAncestorContainer))) {
+                            selectedRange = range;
+                            targetElementForClear = null; // New selection overrides clearing a specific element
+                        }
+                    }
+                });
+
+                const showContextMenu = (e) => {
+                    const target = e.target;
+                    const isClickOnHighlight = target.closest('.highlight, .comment-highlight');
+                    const isSelectionActive = selectedRange && selectedRange.toString().trim().length > 0;
+                    let showMenu = false;
+
+                    if (isClickOnHighlight) {
+                        document.getElementById('menu-highlight').style.display = 'none';
+                        document.getElementById('menu-note').style.display = 'none';
+                        document.getElementById('menu-clear').style.display = 'block';
+                        contextMenu.targetElementForClear = isClickOnHighlight;
+                        showMenu = true;
+                    } else if (isSelectionActive && panels.some(panel => panel.contains(selectedRange.commonAncestorContainer))) {
+                        document.getElementById('menu-highlight').style.display = 'flex';
+                        document.getElementById('menu-note').style.display = 'flex';
+                        document.getElementById('menu-clear').style.display = 'none';
+                        showMenu = true;
+                    }
+
+                    if (showMenu) {
+                        e.preventDefault();
+                        contextMenu.style.display = 'block';
+                        const menuHeight = contextMenu.offsetHeight;
+                        const menuWidth = contextMenu.offsetWidth;
+                        let left = e.pageX;
+                        let top = e.pageY;
+                        if (left + menuWidth > window.innerWidth) left = window.innerWidth - menuWidth - 5;
+                        if (top + menuHeight > window.innerHeight) top = e.pageY - menuHeight - 5;
+                        else top = e.pageY - menuHeight - 5;
+                        contextMenu.style.left = `${left}px`;
+                        contextMenu.style.top = `${top}px`;
+                    }
+                };
+
+                panels.forEach(panel => {
+                    panel.addEventListener('contextmenu', showContextMenu);
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (contextMenu.style.display === 'block' && !contextMenu.contains(e.target)) {
+                        closeContextMenu();
+                    }
+                });
+            }
+
+            function closeContextMenu() {
+                contextMenu.style.display = 'none';
+                selectedRange = null; // Clear range after menu closes
+            }
+
+            function unwrapElement(element) {
+                const parent = element.parentNode;
+                if (!parent) return;
+                while (element.firstChild) {
+                    parent.insertBefore(element.firstChild, element);
+                }
+                parent.removeChild(element);
+                parent.normalize();
+            }
+
+            window.highlightText = () => {
+                if (selectedRange && !selectedRange.collapsed) {
+                    const span = document.createElement('span');
+                    span.className = 'highlight';
+                    span.appendChild(selectedRange.extractContents());
+                    selectedRange.insertNode(span);
+                }
+                closeContextMenu();
+                window.getSelection().removeAllRanges();
+            };
+
+            window.addNote = () => {
+                const note = prompt('Enter your note:');
+                if (note && selectedRange && !selectedRange.collapsed) {
+                    const span = document.createElement('span');
+                    span.className = 'comment-highlight';
+                    const tooltip = document.createElement('span');
+                    tooltip.className = 'comment-tooltip';
+                    tooltip.textContent = note;
+                    span.appendChild(selectedRange.extractContents());
+                    span.appendChild(tooltip);
+                    selectedRange.insertNode(span);
+                }
+                closeContextMenu();
+                window.getSelection().removeAllRanges();
+            };
+
+            window.clearHighlight = () => {
+                const elementToClear = contextMenu.targetElementForClear;
+                if (elementToClear) {
+                    unwrapElement(elementToClear);
+                }
+                closeContextMenu();
+                window.getSelection().removeAllRanges();
+            };
+
+            function updateAttemptedCount(part, startQ, endQ) {
+                let answeredCount = 0;
+                for (let i = startQ; i <= endQ; i++) {
+                    if (isQuestionAnswered(i)) {
+                        answeredCount++;
+                    }
+                }
+                const partHeader = document.querySelector(`.footer__questionNo___3WNct[onclick="switchToPart(${part})"]`);
+                if (partHeader) {
+                    const countSpan = partHeader.querySelector('.attemptedCount');
+                    if (countSpan) {
+                        countSpan.textContent = `${answeredCount} of ${endQ - startQ + 1}`;
+                    }
+                }
+            }
+
+            // --- GLOBAL FUNCTION EXPOSURE ---
+            window.nextQuestion = nextQuestion;
+            window.previousQuestion = previousQuestion;
+            window.goToQuestion = goToQuestion;
+            window.switchToPart = switchToPart;
+            window.closeResultsModal = closeResultsModal;
+            window.highlightText = highlightText;
+            window.addNote = addNote;
+            window.clearHighlight = clearHighlight;
+
+            // --- START THE APP ---
+            initialize();
+        });
+    </script>
+</body>
+</html>

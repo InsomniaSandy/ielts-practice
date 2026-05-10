@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading Practice – War of the Plants</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --header-bg: #ffffff;
+            --border-color: #e0e0e0;
+            --panel-bg: #ffffff;
+            --input-bg: #ffffff;
+            --input-border: #bfbfbf;
+            --input-focus: #3581d8;
+            --correct-color: #28a745;
+            --incorrect-color: #dc3545;
+            --highlight-bg: #ffff00;
+            --modal-bg: #ffffff;
+            --nav-bg: #ffffff;
+            --resizer-bg: #f0f0f0;
+            --part-header-bg: #f1f2ec;
+            --timer-bg: #f0f0f0;
+            --link-color: #1e88e5;
+            --shadow-color: rgba(0,0,0,0.1);
+            --table-border: #ddd;
+            --table-header-bg: #007bff;
+            --table-cell-bg: #fafafa;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #e0e0e0;
+            --header-bg: #2d2d2d;
+            --border-color: #444444;
+            --panel-bg: #2d2d2d;
+            --input-bg: #3a3a3a;
+            --input-border: #555555;
+            --input-focus: #4a90e2;
+            --correct-color: #2ecc71;
+            --incorrect-color: #e74c3c;
+            --highlight-bg: #ffeb3b;
+            --modal-bg: #2d2d2d;
+            --nav-bg: #2d2d2d;
+            --resizer-bg: #444444;
+            --part-header-bg: #3a3a3a;
+            --timer-bg: #444444;
+            --link-color: #64b5f6;
+            --shadow-color: rgba(0,0,0,0.3);
+            --table-border: #555;
+            --table-header-bg: #0056b3;
+            --table-cell-bg: #3a3a3a;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.5;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--header-bg);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            height: 60px;
+        }
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        .header-right { display: flex; align-items: center; gap: 20px; }
+        .ielts-logo { height: 50px; width: auto; }
+        .telegram-link {
+            display: flex; align-items: center; gap: 6px;
+            text-decoration: none; color: var(--link-color);
+            font-weight: bold; font-size: 14px;
+        }
+        .telegram-link:hover { text-decoration: underline; }
+
+        /* Timer */
+        .timer-container { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 500; color: var(--text-color); }
+        .timer-display { font-weight: 700; min-width: 60px; font-size: 18px; }
+        .timer-controls { display: flex; gap: 8px; }
+        .timer-controls button, .dark-mode-btn {
+            background: var(--timer-bg); border: 1px solid var(--border-color);
+            border-radius: 50%; width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: background-color 0.2s, transform 0.2s;
+        }
+        .timer-controls button:hover, .dark-mode-btn:hover { background: var(--border-color); transform: scale(1.05); }
+        .timer-controls button svg, .dark-mode-btn svg { width: 20px; height: 20px; fill: var(--text-color); }
+        .dark-mode-btn { position: relative; }
+        .dark-mode-btn .sun-icon, .dark-mode-btn .moon-icon {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .dark-mode-btn .moon-icon { opacity: 0; transform: translate(-50%, -50%) rotate(90deg); }
+        [data-theme="dark"] .dark-mode-btn .sun-icon { opacity: 0; transform: translate(-50%, -50%) rotate(-90deg); }
+        [data-theme="dark"] .dark-mode-btn .moon-icon { opacity: 1; transform: translate(-50%, -50%) rotate(0deg); }
+
+        /* Timer warning */
+        .timer-warning { color: #dc3545 !important; animation: blink 1s step-end infinite; }
+        @keyframes blink { 50% { opacity: 0.4; } }
+
+        /* Layout */
+        .main-container { margin-top: 60px; display: flex; flex-direction: column; background: var(--bg-color); height: calc(100vh - 60px); }
+        .part-header {
+            background-color: var(--part-header-bg); padding: 12px 20px;
+            border: 1px solid var(--border-color); margin: 10px 20px;
+            border-radius: 5px; color: var(--text-color);
+        }
+        .part-header p { margin: 0; color: var(--text-color); }
+        .part-header p:first-child { margin-bottom: 4px; }
+
+        .panels-container { display: flex; flex: 1; overflow: hidden; }
+        .passage-panel, .questions-panel {
+            flex: 1; padding: 20px 20px 110px;
+            overflow-y: auto; min-width: 200px;
+            background-color: var(--panel-bg);
+        }
+        .questions-panel { border-left: 1px solid var(--border-color); }
+
+        /* Resizer */
+        .resizer {
+            width: 10px; cursor: col-resize;
+            background-color: var(--resizer-bg);
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23888"/></svg>');
+            background-repeat: no-repeat; background-position: center;
+            flex-shrink: 0;
+        }
+        [data-theme="dark"] .resizer {
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23aaa"/></svg>');
+        }
+
+        /* Passage */
+        .reading-passage h4 { font-size: 20px; font-weight: bold; margin-bottom: 6px; text-align: center; color: var(--text-color); }
+        .reading-passage .subtitle { font-size: 15px; font-style: italic; text-align: center; margin-bottom: 16px; color: var(--text-color); }
+        .reading-passage p { margin-bottom: 1.1em; color: var(--text-color); }
+        .reading-passage strong { color: var(--text-color); }
+        .passage-image { float: right; margin: 0 0 16px 20px; max-width: 260px; width: 35%; }
+        .passage-image img { width: 100%; border-radius: 8px; display: block; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+
+        /* Questions */
+        .question { margin-bottom: 36px; }
+        .question-prompt { margin-bottom: 16px; }
+        .question-prompt p { margin-bottom: 8px; color: var(--text-color); }
+        .question-prompt p strong { color: var(--text-color); }
+
+        /* Paragraph matching rows */
+        .para-match-row {
+            display: flex; align-items: flex-start; gap: 10px;
+            margin-bottom: 12px; padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .para-match-num {
+            font-weight: bold; min-width: 30px; color: var(--text-color); padding-top: 4px;
+        }
+        .para-match-text { flex: 1; color: var(--text-color); padding-top: 4px; line-height: 1.5; }
+
+        /* Select dropdown */
+        .answer-select {
+            border: 1px solid var(--input-border); border-radius: 4px;
+            background-color: var(--input-bg); padding: 4px 8px;
+            font-size: 15px; font-weight: 700; color: var(--text-color);
+            min-width: 70px; cursor: pointer;
+            transition: border-color 0.2s, background-color 0.3s;
+        }
+        .answer-select:focus { border-color: var(--input-focus); border-width: 2px; outline: none; }
+        .answer-select.active-input { border-color: var(--input-focus); border-width: 2px; }
+        .answer-select.correct { border-color: var(--correct-color); background-color: rgba(40,167,69,0.1); }
+        .answer-select.incorrect { border-color: var(--incorrect-color); background-color: rgba(220,53,69,0.1); }
+
+        /* Text input */
+        .answer-input {
+            border: 1px solid var(--input-border); border-radius: 4px;
+            background-color: var(--input-bg); padding: 2px 8px;
+            font-size: 15px; font-weight: 700; color: var(--text-color);
+            height: 28px; min-width: 140px;
+            transition: border-color 0.2s, background-color 0.3s;
+        }
+        .answer-input:focus { border-color: var(--input-focus); border-width: 2px; outline: none; }
+        .answer-input.correct { border-color: var(--correct-color); background-color: rgba(40,167,69,0.1); }
+        .answer-input.incorrect { border-color: var(--incorrect-color); background-color: rgba(220,53,69,0.1); }
+
+        /* T/F/NG */
+        .tf-question { margin-bottom: 22px; padding: 8px 0; }
+        .tf-question-line { display: flex; align-items: flex-start; margin-bottom: 12px; }
+        .tf-question-number {
+            border: 2px solid var(--border-color); padding: 2px 8px; margin-right: 10px;
+            border-radius: 3px; font-weight: bold; background-color: var(--input-bg);
+            color: var(--text-color); white-space: nowrap;
+        }
+        .tf-question.active-question .tf-question-number { border-color: var(--input-focus); }
+        .tf-question-text { padding-top: 3px; color: var(--text-color); }
+        .tf-options { padding-left: 5px; }
+        .tf-option {
+            display: flex; align-items: center; padding: 9px 12px;
+            background-color: var(--input-bg); border: 1px solid var(--border-color);
+            border-radius: 4px; margin-bottom: 5px; cursor: pointer; color: var(--text-color);
+            transition: background-color 0.2s;
+        }
+        .tf-option:hover { background-color: var(--part-header-bg); }
+        .tf-option:has(input:checked) { background-color: rgba(74,144,226,0.2); border-color: var(--input-focus); }
+        .tf-option.correct { background-color: rgba(40,167,69,0.2) !important; border-color: var(--correct-color) !important; }
+        .tf-option.incorrect { background-color: rgba(220,53,69,0.2) !important; border-color: var(--incorrect-color) !important; }
+        .tf-option input[type="radio"] { margin-right: 10px; transform: scale(1.2); accent-color: var(--input-focus); }
+
+        /* MCQ */
+        .multi-choice-question { margin-bottom: 20px; }
+        .multi-choice-option {
+            padding: 9px 12px; background-color: var(--input-bg);
+            border: 1px solid var(--border-color); border-radius: 4px;
+            margin-bottom: 5px; cursor: pointer; color: var(--text-color);
+            transition: background-color 0.2s;
+        }
+        .multi-choice-option:hover { background-color: var(--part-header-bg); }
+        .multi-choice-option:has(input:checked) { background-color: rgba(74,144,226,0.2); border-color: var(--input-focus); }
+        .multi-choice-option.correct { background-color: rgba(40,167,69,0.2) !important; border-color: var(--correct-color) !important; }
+        .multi-choice-option.incorrect { background-color: rgba(220,53,69,0.2) !important; border-color: var(--incorrect-color) !important; }
+        .multi-choice-option label { display: flex; align-items: center; cursor: pointer; color: var(--text-color); font-size: 15px; }
+        .multi-choice-option input[type="radio"] { margin-right: 12px; transform: scale(1.2); accent-color: var(--input-focus); }
+
+        .correct-answer-display { font-weight: bold; color: var(--correct-color); margin-left: 8px; font-size: 13px; }
+
+        /* Nav arrows */
+        .nav-arrows { position: fixed; bottom: 100px; right: 20px; display: flex; gap: 6px; z-index: 101; }
+        .nav-arrow {
+            width: 48px; height: 48px; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; font-weight: 700; color: #fff;
+            transition: transform 0.1s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 6px var(--shadow-color); outline: none; border-radius: 50%;
+        }
+        .nav-arrow.prev { background-color: #4b5563; }
+        .nav-arrow.next { background-color: #000000; }
+        [data-theme="dark"] .nav-arrow.prev { background-color: #6b7280; }
+        [data-theme="dark"] .nav-arrow.next { background-color: #333333; }
+        .nav-arrow:hover { transform: translateY(-1px); }
+
+        /* Bottom nav */
+        .nav-row {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--nav-bg); height: 80px; z-index: 100;
+            border-top: 1px solid var(--border-color);
+            display: flex; align-items: center; padding: 0 10px;
+            gap: 4px; overflow-x: auto;
+        }
+        .nav-label {
+            font-size: 14px; font-weight: 600; color: var(--text-color);
+            white-space: nowrap; margin-right: 8px; padding: 0 8px;
+        }
+        .subQuestion {
+            width: 34px; height: 34px; border: 1px solid var(--border-color);
+            background: var(--input-bg); color: var(--text-color);
+            font-size: 13px; font-weight: 500; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; border-radius: 3px; flex-shrink: 0;
+        }
+        .subQuestion:hover { background-color: var(--part-header-bg); border-color: var(--input-focus); }
+        .subQuestion.answered { background-color: var(--part-header-bg); }
+        .subQuestion.correct { background-color: var(--correct-color); color: white; border-color: var(--correct-color); }
+        .subQuestion.incorrect { background-color: var(--incorrect-color); color: white; border-color: var(--incorrect-color); }
+        .subQuestion.active { background-color: var(--input-focus); color: white; border-color: var(--input-focus); }
+
+        .attempted-count { font-size: 12px; color: var(--text-color); opacity: 0.7; margin-left: 4px; }
+
+        /* Submit */
+        .footer__deliverButton {
+            margin-left: auto; margin-right: 8px;
+            background-color: var(--part-header-bg); color: var(--text-color);
+            border: 1px solid var(--border-color); padding: 10px 16px;
+            font-size: 14px; font-weight: 700; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px;
+            min-width: 150px; justify-content: center;
+            border-radius: 4px; flex-shrink: 0;
+            transition: background-color 0.2s;
+        }
+        .footer__deliverButton:hover { background-color: var(--border-color); }
+        .footer__deliverButton:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(17,24,39,0.6); backdrop-filter: blur(3px);
+            z-index: 2000; display: flex; justify-content: center; align-items: center;
+        }
+        .modal-overlay.hidden { display: none; }
+        .modal-content {
+            background: var(--modal-bg); padding: 24px; border-radius: 14px;
+            width: 92%; max-width: 720px; max-height: 86vh;
+            display: flex; flex-direction: column;
+            border: 1px solid var(--border-color); box-shadow: 0 20px 60px var(--shadow-color);
+            color: var(--text-color); position: relative;
+        }
+        .modal-close-btn { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 28px; cursor: pointer; color: var(--text-color); }
+        .modal-content h2 { text-align: center; margin-bottom: 16px; color: var(--text-color); }
+        .results-summary {
+            display: flex; gap: 16px; justify-content: center; margin-bottom: 14px;
+            border-bottom: 1px solid var(--border-color); padding-bottom: 12px;
+        }
+        .results-summary p { margin: 0; font-size: 15px; color: var(--text-color); }
+        .results-summary p span {
+            display: inline-block; padding: 3px 10px; margin-left: 6px;
+            border-radius: 999px; background: var(--part-header-bg);
+            font-weight: 700; color: var(--text-color);
+        }
+        .results-details-container { overflow-y: auto; padding-right: 8px; }
+        .result-row {
+            display: grid; grid-template-columns: 50px 1fr 1fr 110px;
+            gap: 10px; padding: 8px; border-bottom: 1px solid var(--border-color);
+            font-size: 14px; align-items: center;
+        }
+        .result-row.correct { background-color: rgba(40,167,69,0.07); }
+        .result-row.incorrect { background-color: rgba(220,53,69,0.07); }
+        .result-row .q-num {
+            font-weight: 700; background: var(--input-bg); border: 1px solid var(--border-color);
+            border-radius: 6px; width: 38px; height: 28px;
+            display: inline-flex; align-items: center; justify-content: center; color: var(--text-color);
+        }
+        .result-row .user-ans { background: var(--part-header-bg); border: 1px solid var(--border-color); padding: 3px 7px; border-radius: 5px; color: var(--text-color); font-size: 13px; }
+        .result-row .correct-ans { color: var(--correct-color); font-weight: 600; background: rgba(40,167,69,0.1); border: 1px solid var(--correct-color); padding: 3px 7px; border-radius: 5px; font-size: 13px; }
+        .status-badge { justify-self: end; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; border: 1px solid transparent; }
+        .status-badge.ok { background: rgba(40,167,69,0.2); color: var(--correct-color); border-color: var(--correct-color); }
+        .status-badge.bad { background: rgba(220,53,69,0.2); color: var(--incorrect-color); border-color: var(--incorrect-color); }
+
+        /* Context menu */
+        .context-menu {
+            position: absolute; background: var(--modal-bg); border: 1px solid var(--border-color);
+            border-radius: 6px; box-shadow: 0 4px 12px var(--shadow-color);
+            z-index: 1000; display: none; min-width: 130px;
+        }
+        .context-menu-item {
+            padding: 11px 15px; cursor: pointer; font-size: 15px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex; align-items: center; gap: 8px; color: var(--text-color);
+            transition: background-color 0.2s;
+        }
+        .context-menu-item:hover { background-color: var(--part-header-bg); }
+        .context-menu-item:last-child { border-bottom: none; }
+        .highlight { background-color: var(--highlight-bg); color: #000; }
+        .comment-highlight { background-color: #90EE90; position: relative; cursor: help; color: #000; }
+
+        .hidden { display: none !important; }
+        .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+        /* Watermark */
+        body::after {
+            content: "@FOZILBEK_IELTS";
+            position: fixed; left: 50%; top: 50%;
+            transform: translate(-50%, -50%) rotate(-20deg);
+            font-size: 72px; font-weight: 800; letter-spacing: 2px;
+            color: var(--text-color); opacity: 0.04;
+            pointer-events: none; z-index: 0; white-space: nowrap;
+        }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--panel-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--input-focus); }
+
+        /* Clearfix for float */
+        .passage-body::after { content: ""; display: table; clear: both; }
+    </style>
+</head>
+<body data-theme="light">
+
+<!-- Header -->
+<div class="header">
+    <div class="header-left">
+        <img src="https://i.pinimg.com/736x/88/93/a8/8893a81fed78f6989142a13e3605c45e.jpg" alt="IELTS Logo" class="ielts-logo">
+        <a href="https://t.me/FOZILBEK_IELTS" target="_blank" class="telegram-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-.38.24-1.07.7-.96.66-1.89 1.28-1.89 1.28s-.17.11-.49.03c-.32-.08-.72-.26-1.16-.47-.54-.26-1.17-.53-1.17-.53s-.87-.55.62-1.14c.32-.13 1.96-.84 2.99-1.2 1.05-.37 2.86-1.01 2.86-1.01s1.02-.4 1.02 0z" fill="currentColor"/></svg>
+            @FOZILBEK_IELTS
+        </a>
+    </div>
+    <div class="header-right">
+        <div class="timer-container">
+            <span class="timer-display" id="timer-display">20:00</span>
+            <div class="timer-controls">
+                <button id="timer-toggle-btn" title="Pause/Resume">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                </button>
+                <button id="timer-reset-btn" title="Reset">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+                </button>
+                <button class="dark-mode-btn" id="dark-mode-toggle" title="Toggle Dark Mode">
+                    <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main -->
+<div class="main-container">
+    <div class="part-header">
+        <p><strong>Reading Passage 2</strong></p>
+        <p>You should spend about 20 minutes on <strong>Questions 14–26</strong>, which are based on Reading Passage 2 below.</p>
+    </div>
+    <div class="panels-container">
+        <!-- Passage Panel -->
+        <div class="passage-panel" id="passage-panel">
+            <div class="reading-passage">
+                <h4>War of the Plants</h4>
+                <p class="subtitle">Professor John Lovett from New England University, Australia, describes some of the ways in which plants ensure their own survival</p>
+
+                <div class="passage-body">
+                    <div class="passage-image">
+                        <img src="https://i.pinimg.com/736x/48/88/5b/48885b2ccec3c5fbc982ced6123ffacd.jpg" alt="War of the Plants">
+                    </div>
+
+                    <p><strong>A</strong> The general perception of plants is that they are defenceless when faced with threat from animals (including man), insects and other plants. This, however, is not the case. Plants are able to defend themselves against attack from their environment in many ways. There are two major features of plants that ensure their continuation as species. One of these relates to their physical attributes. Spinifex grass, a plant native to Australia, provides a notable example. Adapted to life in the hot, desert inland, spinifex has developed tightly rolled leaves which reduce the effects of drought stress. The hairs, or trichomes, which are found on the inner surface of the rolled-up spinifex leaf are believed to assist in minimising water loss. Trichomes also have defensive roles against predators. Many plants, such as the sunflower, have hairy leaves which are rough to the touch. When the plant is bitten by a grazing animal, the sensation is unpleasant on the tongue and the animal normally moves on to find more palatable food.</p>
+
+                    <p><strong>B</strong> Some families of plants such as the Solanaceae, which includes the tomato, the potato and other food plants, feature glandular trichomes. In these structures a tiny sac is carried on the hair, which rises from the epidermis, or skin, of the plant. The sac contains chemicals which may perform a range of functions. For example, an insect landing on a tomato leaf and rupturing the sac is exposed to a toxic chemical which will deter it from feeding on that plant in future. In other plants of the same family, the sacs contain a natural adhesive and the unsuspecting insect landing on such a leaf and rupturing a trichome sac is held onto the plant, unable to depart. In the leaves of the nettle plant these trichomes resemble miniature hypodermic syringes. An irritant chemical is stored at the base of the 'syringe'. If an animal touches it, a shot of the chemical is discharged through the 'needle' and into the skin of the animal. The irritation the chemical causes is a deterrent against future threat.</p>
+
+                    <p><strong>C</strong> The poisons and glues of the <em>Solanaceae</em> and the irritant of the nettle indicate the other major method of plant survival: that some plants use chemicals to protect themselves, sometimes from each other. Chemical interactions that occur between plants are known as 'allelopathy', and in natural plant communities it is one of many factors which determine how plants grow in relation to one another. An example in Australia is the suppression of vegetation growth beneath eucalypt trees, an effect which decreases with increasing distance from the trunk of the tree.</p>
+
+                    <p><strong>D</strong> The most detailed studies of allelopathy have generally been carried out on agricultural plant communities. In agriculture, allelopathy has been identified particularly with weeds, which compete with desired crop or pasture species, such as wheat, oats and grass, for environmental resources. Competition can be physical, where the growth of one plant maximises the use of water, nutrients and light to the disadvantage of another. Allelopathy, on the other hand, involves plant-produced chemicals which may poison a neighbouring plant. On the whole, weeds are far more physically and chemically aggressive than crop and pasture species. As an example, recent research on the common thorn apple, <em>Datura stramonium</em>, a weed found throughout Australia, has found that two powerful chemicals are released from the seed during the early stages of germination. In fact, it is necessary for the chemicals to be released from the seed coat so that the seed can germinate. Once released, the chemicals then provide a barrier that inhibits the growth of any potential plant competitor near the thorn apple seedling.</p>
+
+                    <p><strong>E</strong> Allelopathic chemicals function in quite subtle ways. Generally they are active in small quantities, they are effective only with certain other plants, they act by disrupting the plant's natural processes and they have no known residual effects. It has also been found that the activity of these chemicals may be synergistic, that is, two or more such substances may combine to produce an effect that is greater than the effects of the substances acting in isolation. These are the very attributes which are being targeted in the current development of synthetic herbicides. Allelopathy is not restricted to weeds in agriculture, but allelopathic activity in crop and pasture plants appears to have diminished, possibly because plant breeders may have concentrated on improving aspects of crop quality and quantity rather than aspects of defence against natural enemies.</p>
+
+                    <p><strong>F</strong> Allelopathic chemicals may be harvested for development as 'natural herbicides', similar to the harvest of pyrethrins from the pyrethrum daisy for use as natural insecticides. Harnessing allelopathy is highly attractive to the farming industry, as at least half of the more than A$200-million annual cost of crop protection in Australia is spent on herbicides. Enhancing allelopathic activity in crop and pasture plants could reduce this enormous bill. Developing and harvesting natural herbicides might also offer real advantages in addressing environmental concerns about the over-use of synthetic chemicals currently used in crop protection. In many parts of the world, communities are showing an increased willingness to pay a premium for products grown with few or no synthetic chemicals, and natural products are becoming increasingly attractive.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Questions Panel -->
+        <div class="questions-panel" id="questions-panel">
+
+            <!-- Questions 14–21: Paragraph Matching -->
+            <div class="question" id="q-block-14-21" data-q-start="14" data-q-end="21">
+                <div class="question-prompt">
+                    <p><strong>Questions 14–21</strong></p>
+                    <p>Reading Passage 2 has six paragraphs, <strong>A–F</strong>.</p>
+                    <p><em>Which paragraph contains the following information?</em></p>
+                    <p>Write the correct letter, <strong>A–F</strong>, in boxes 14–21.</p>
+                    <p><strong>NB</strong> You may use any letter more than once.</p>
+                </div>
+
+                <div class="para-match-row" data-q-start="14">
+                    <span class="para-match-num">14</span>
+                    <select id="q14" class="answer-select" data-q="14">
+                        <option value="">–</option>
+                        <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                        <option value="D">D</option><option value="E">E</option><option value="F">F</option>
+                    </select>
+                    <span class="para-match-text">an example of a plant's use of chemicals in its reproductive process</span>
+                </div>
+                <div class="para-match-row" data-q-start="15">
+                    <span class="para-match-num">15</span>
+                    <select id="q15" class="answer-select" data-q="15">
+                        <option value="">–</option>
+                        <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                        <option value="D">D</option><option value="E">E</option><option value="F">F</option>
+                    </select>
+                    <span class="para-match-text">how some plants use a kind of glue to discourage attack</span>
+                </div>
+                <div class="para-match-row" data-q-start="16">
+                    <span class="para-match-num">16</span>
+                    <select id="q16" class="answer-select" data-q="16">
+                        <option value="">–</option>
+                        <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                        <option value="D">D</option><option value="E">E</option><option value="F">F</option>
+                    </select>
+                    <span class="para-match-text">two examples of non-chemical methods of defence in plants</span>
+                </div>
+                <div class="para-match-row" data-q-start="17">
+                    <span class="para-match-num">17</span>
+                    <select id="q17" class="answer-select" data-q="17">
+                        <option value="">–</option>
+                        <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                        <option value="D">D</option><option value="E">E</option><option value="F">F</option>
+                    </select>
+                    <span class="para-match-text">a definition of the term allelopathy</span>
+                </div>
+                <div class="para-match-row" data-q-start="18">
+                    <span class="para-match-num">18</span>
+                    <select id="q18" class="answer-select" data-q="18">
+                        <option value="">–</option>
+                        <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                        <option value="D">D</option><option value="E">E</option><option value="F">F</option>
+                    </select>
+                    <span class="para-match-text">descriptions of how plants use chemicals to discourage predators</span>
+                </div>
+                <div class="para-match-row" data-q-start="19">
+                    <span class="para-match-num">19</span>
+                    <select id="q19" class="answer-select" data-q="19">
+                        <option value="">–</option>
+                        <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                        <option value="D">D</option><option value="E">E</option><option value="F">F</option>
+                    </select>
+                    <span class="para-match-text">benefits of using plant-based chemicals to control weeds in agricultural areas</span>
+                </div>
+                <div class="para-match-row" data-q-start="20">
+                    <span class="para-match-num">20</span>
+                    <select id="q20" class="answer-select" data-q="20">
+                        <option value="">–</option>
+                        <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                        <option value="D">D</option><option value="E">E</option><option value="F">F</option>
+                    </select>
+                    <span class="para-match-text">a description of the characteristics of allelopathic chemicals</span>
+                </div>
+                <div class="para-match-row" data-q-start="21">
+                    <span class="para-match-num">21</span>
+                    <select id="q21" class="answer-select" data-q="21">
+                        <option value="">–</option>
+                        <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                        <option value="D">D</option><option value="E">E</option><option value="F">F</option>
+                    </select>
+                    <span class="para-match-text">an example of a physical characteristic that helps one plant conserve water</span>
+                </div>
+            </div>
+
+            <!-- Questions 22–25: TRUE / FALSE / NOT GIVEN -->
+            <div class="question" id="q-block-22-25" data-q-start="22" data-q-end="25">
+                <div class="question-prompt">
+                    <p><strong>Questions 22–25</strong></p>
+                    <p>Do the following statements agree with the information given in Reading Passage 2?</p>
+                    <p>In boxes 22–25, write</p>
+                    <p>&nbsp;&nbsp;<strong>TRUE</strong> &nbsp;&nbsp;if the statement agrees with the information</p>
+                    <p>&nbsp;&nbsp;<strong>FALSE</strong> &nbsp;&nbsp;if the statement contradicts the information</p>
+                    <p>&nbsp;&nbsp;<strong>NOT GIVEN</strong> &nbsp;&nbsp;if there is no information on this</p>
+                </div>
+
+                <div class="tf-question" data-q-start="22">
+                    <div class="tf-question-line"><span class="tf-question-number">22</span><span class="tf-question-text">The 'hypodermic syringes' of the nettle plant are an example of glandular trichomes.</span></div>
+                    <div class="tf-options">
+                        <label class="tf-option"><input type="radio" name="q22" value="TRUE"> TRUE</label>
+                        <label class="tf-option"><input type="radio" name="q22" value="FALSE"> FALSE</label>
+                        <label class="tf-option"><input type="radio" name="q22" value="NOT GIVEN"> NOT GIVEN</label>
+                    </div>
+                </div>
+                <div class="tf-question" data-q-start="23">
+                    <div class="tf-question-line"><span class="tf-question-number">23</span><span class="tf-question-text">Allelopathic plants grow more successfully than plants that rely only on physical features.</span></div>
+                    <div class="tf-options">
+                        <label class="tf-option"><input type="radio" name="q23" value="TRUE"> TRUE</label>
+                        <label class="tf-option"><input type="radio" name="q23" value="FALSE"> FALSE</label>
+                        <label class="tf-option"><input type="radio" name="q23" value="NOT GIVEN"> NOT GIVEN</label>
+                    </div>
+                </div>
+                <div class="tf-question" data-q-start="24">
+                    <div class="tf-question-line"><span class="tf-question-number">24</span><span class="tf-question-text">New research into synthetic herbicides is largely focused on individual allelopathic chemicals.</span></div>
+                    <div class="tf-options">
+                        <label class="tf-option"><input type="radio" name="q24" value="TRUE"> TRUE</label>
+                        <label class="tf-option"><input type="radio" name="q24" value="FALSE"> FALSE</label>
+                        <label class="tf-option"><input type="radio" name="q24" value="NOT GIVEN"> NOT GIVEN</label>
+                    </div>
+                </div>
+                <div class="tf-question" data-q-start="25">
+                    <div class="tf-question-line"><span class="tf-question-number">25</span><span class="tf-question-text">Herbicides cost Australian farmers over A$200 million a year.</span></div>
+                    <div class="tf-options">
+                        <label class="tf-option"><input type="radio" name="q25" value="TRUE"> TRUE</label>
+                        <label class="tf-option"><input type="radio" name="q25" value="FALSE"> FALSE</label>
+                        <label class="tf-option"><input type="radio" name="q25" value="NOT GIVEN"> NOT GIVEN</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 26: Multiple Choice -->
+            <div class="question" id="q-block-26" data-q-start="26" data-q-end="26">
+                <div class="question-prompt">
+                    <p><strong>Question 26</strong></p>
+                    <p>Choose the correct letter, <strong>A, B, C</strong> or <strong>D</strong>.</p>
+                </div>
+                <div class="multi-choice-question" data-q-start="26">
+                    <div class="question-prompt">
+                        <p><strong>26</strong> The two main points of this article are that plants can defend themselves in a number of ways, and that</p>
+                    </div>
+                    <div class="multi-choice-option"><label><input type="radio" name="q26" value="A"> A &nbsp;combating weeds is a major problem for Australian farmers.</label></div>
+                    <div class="multi-choice-option"><label><input type="radio" name="q26" value="B"> B &nbsp;considerable research has been carried out into the use of plant chemicals.</label></div>
+                    <div class="multi-choice-option"><label><input type="radio" name="q26" value="C"> C &nbsp;Australian plants have unique methods of self-protection.</label></div>
+                    <div class="multi-choice-option"><label><input type="radio" name="q26" value="D"> D &nbsp;chemicals found in weeds can have practical benefits for agriculture.</label></div>
+                </div>
+            </div>
+
+        </div><!-- end questions-panel -->
+    </div><!-- end panels-container -->
+</div><!-- end main-container -->
+
+<!-- Nav Arrows -->
+<div class="nav-arrows">
+    <button class="nav-arrow prev" id="prevBtn" aria-label="Previous question">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="nav-arrow next" id="nextBtn" aria-label="Next question">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+</div>
+
+<!-- Bottom Nav -->
+<nav class="nav-row">
+    <span class="nav-label">Q <span id="attempted-count">0</span>/13</span>
+    <!-- Questions 14-26 -->
+    <button class="subQuestion" data-qnum="14" onclick="goToQuestion(14)">14</button>
+    <button class="subQuestion" data-qnum="15" onclick="goToQuestion(15)">15</button>
+    <button class="subQuestion" data-qnum="16" onclick="goToQuestion(16)">16</button>
+    <button class="subQuestion" data-qnum="17" onclick="goToQuestion(17)">17</button>
+    <button class="subQuestion" data-qnum="18" onclick="goToQuestion(18)">18</button>
+    <button class="subQuestion" data-qnum="19" onclick="goToQuestion(19)">19</button>
+    <button class="subQuestion" data-qnum="20" onclick="goToQuestion(20)">20</button>
+    <button class="subQuestion" data-qnum="21" onclick="goToQuestion(21)">21</button>
+    <button class="subQuestion" data-qnum="22" onclick="goToQuestion(22)">22</button>
+    <button class="subQuestion" data-qnum="23" onclick="goToQuestion(23)">23</button>
+    <button class="subQuestion" data-qnum="24" onclick="goToQuestion(24)">24</button>
+    <button class="subQuestion" data-qnum="25" onclick="goToQuestion(25)">25</button>
+    <button class="subQuestion" data-qnum="26" onclick="goToQuestion(26)">26</button>
+
+    <button id="deliver-button" class="footer__deliverButton">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg>
+        <span>Check Answers</span>
+    </button>
+</nav>
+
+<!-- Context Menu -->
+<div id="contextMenu" class="context-menu">
+    <div class="context-menu-item" id="menu-highlight" onclick="highlightText()">✏️ Highlight</div>
+    <div class="context-menu-item" id="menu-note" onclick="addNote()">📝 Note</div>
+    <div class="context-menu-item" id="menu-clear" onclick="clearHighlight()">✕ Clear</div>
+</div>
+
+<!-- Results Modal -->
+<div id="results-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+        <button class="modal-close-btn" onclick="closeResultsModal()">&times;</button>
+        <h2>Results</h2>
+        <div class="results-summary">
+            <p>Score: <span id="results-score"></span> / 13</p>
+            <p>IELTS Band: <span id="results-band"></span></p>
+        </div>
+        <div id="results-details" class="results-details-container"></div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // ── STATE ──────────────────────────────────────────
+    let currentQuestion = 14;
+    let timerSeconds = 1200; // 20 minutes
+    let timerInterval = null;
+    let timerRunning = false;
+    let selectedRange = null;
+    let submitted = false;
+
+    // ── ANSWERS ────────────────────────────────────────
+    const correctAnswers = {
+        '14': 'D', '15': 'B', '16': 'A', '17': 'C',
+        '18': 'B', '19': 'F', '20': 'E', '21': 'A',
+        '22': 'TRUE', '23': 'NOT GIVEN', '24': 'FALSE',
+        '25': 'FALSE', '26': 'D'
+    };
+
+    // ── DARK MODE ──────────────────────────────────────
+    document.getElementById('dark-mode-toggle').addEventListener('click', () => {
+        const isDark = document.body.getAttribute('data-theme') === 'dark';
+        document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    });
+
+    // ── TIMER ──────────────────────────────────────────
+    const timerDisplay = document.getElementById('timer-display');
+    const toggleBtn = document.getElementById('timer-toggle-btn');
+    const pauseIcon = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+    const playIcon  = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/></svg>`;
+
+    function formatTime(s) {
+        const m = Math.floor(s / 60);
+        const sec = s % 60;
+        return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+    }
+
+    function startTimer() {
+        if (timerRunning) return;
+        timerRunning = true;
+        toggleBtn.innerHTML = pauseIcon;
+        timerInterval = setInterval(() => {
+            timerSeconds--;
+            timerDisplay.textContent = formatTime(timerSeconds);
+            if (timerSeconds <= 60) timerDisplay.classList.add('timer-warning');
+            if (timerSeconds <= 0) {
+                clearInterval(timerInterval);
+                timerRunning = false;
+                timerDisplay.textContent = "Time's up!";
+                if (!submitted) checkAnswers();
+            }
+        }, 1000);
+    }
+
+    function pauseTimer() {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        toggleBtn.innerHTML = playIcon;
+    }
+
+    toggleBtn.addEventListener('click', () => {
+        timerRunning ? pauseTimer() : startTimer();
+    });
+
+    document.getElementById('timer-reset-btn').addEventListener('click', () => {
+        pauseTimer();
+        timerSeconds = 1200;
+        timerDisplay.textContent = formatTime(timerSeconds);
+        timerDisplay.classList.remove('timer-warning');
+        startTimer();
+    });
+
+    startTimer();
+
+    // ── RESIZER ────────────────────────────────────────
+    const resizer = document.getElementById('resizer');
+    const passagePanel = document.getElementById('passage-panel');
+    resizer.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        const startX = e.clientX;
+        const startW = passagePanel.offsetWidth;
+        const onMove = (ev) => {
+            const nw = startW + ev.clientX - startX;
+            if (nw > 200 && (document.body.clientWidth - nw - 10) > 200)
+                passagePanel.style.flex = `0 0 ${nw}px`;
+        };
+        const onUp = () => { window.removeEventListener('mousemove', onMove); window.removeEventListener('mouseup', onUp); };
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mouseup', onUp);
+    });
+
+    // ── NAVIGATION ─────────────────────────────────────
+    function isAnswered(qNum) {
+        const sel = document.getElementById(`q${qNum}`);
+        if (sel) return sel.value !== '';
+        const radio = document.querySelector(`input[name="q${qNum}"]:checked`);
+        return !!radio;
+    }
+
+    function updateNavButtons() {
+        let count = 0;
+        document.querySelectorAll('.subQuestion').forEach(btn => {
+            const qNum = parseInt(btn.getAttribute('data-qnum'));
+            btn.classList.remove('active', 'answered');
+            if (qNum === currentQuestion) btn.classList.add('active');
+            else if (isAnswered(qNum)) { btn.classList.add('answered'); count++; }
+            if (isAnswered(qNum)) count;
+        });
+        // recount properly
+        count = 0;
+        for (let i = 14; i <= 26; i++) { if (isAnswered(i)) count++; }
+        document.getElementById('attempted-count').textContent = count;
+    }
+
+    window.goToQuestion = function(qNum) {
+        currentQuestion = qNum;
+        updateNavButtons();
+
+        const questionsPanel = document.getElementById('questions-panel');
+
+        // Remove previous active highlights
+        document.querySelectorAll('.tf-question.active-question').forEach(el => el.classList.remove('active-question'));
+        document.querySelectorAll('.answer-select.active-input').forEach(el => el.classList.remove('active-input'));
+
+        // Highlight the target question
+        const tfEl = document.querySelector(`.tf-question[data-q-start="${qNum}"]`);
+        if (tfEl) {
+            tfEl.classList.add('active-question');
+            tfEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        const selEl = document.getElementById(`q${qNum}`);
+        if (selEl) {
+            selEl.classList.add('active-input');
+            selEl.closest('.para-match-row')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    };
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+        if (currentQuestion > 14) goToQuestion(currentQuestion - 1);
+    });
+    document.getElementById('nextBtn').addEventListener('click', () => {
+        if (currentQuestion < 26) goToQuestion(currentQuestion + 1);
+    });
+
+    // Update nav on any input change
+    document.querySelectorAll('.answer-select, input[type="radio"]').forEach(el => {
+        el.addEventListener('change', updateNavButtons);
+        el.addEventListener('click', () => {
+            const qNum = parseInt(el.id?.replace('q','') || el.name?.replace('q',''));
+            if (!isNaN(qNum) && qNum !== currentQuestion) goToQuestion(qNum);
+        });
+    });
+    document.querySelectorAll('.answer-select').forEach(sel => {
+        sel.addEventListener('focus', () => {
+            const qNum = parseInt(sel.getAttribute('data-q'));
+            if (!isNaN(qNum) && qNum !== currentQuestion) goToQuestion(qNum);
+        });
+    });
+
+    // ── CHECK ANSWERS ───────────────────────────────────
+    function bandScore(score) {
+        // 13 questions, scale proportionally
+        if (score >= 13) return '9.0';
+        const map = {12:'8.5',11:'8.0',10:'7.5',9:'7.0',8:'6.5',7:'6.0',6:'5.5',5:'5.0',4:'4.5',3:'4.0',2:'3.5',1:'3.0',0:'0.0'};
+        return map[score] || '0.0';
+    }
+
+    function checkAnswers() {
+        if (submitted) return;
+        submitted = true;
+        pauseTimer();
+
+        document.getElementById('deliver-button').disabled = true;
+        document.querySelectorAll('input, select').forEach(el => el.disabled = true);
+
+        let score = 0;
+        const detailsContainer = document.getElementById('results-details');
+        detailsContainer.innerHTML = '';
+
+        for (let i = 14; i <= 26; i++) {
+            const key = String(i);
+            const correct = correctAnswers[key];
+            let userAns = '';
+            let isCorrect = false;
+
+            // Select (paragraph matching)
+            const selEl = document.getElementById(`q${i}`);
+            if (selEl && selEl.tagName === 'SELECT') {
+                userAns = selEl.value;
+                isCorrect = (userAns === correct);
+                selEl.classList.add(isCorrect ? 'correct' : 'incorrect');
+                if (!isCorrect && userAns !== '') {
+                    const span = document.createElement('span');
+                    span.className = 'correct-answer-display';
+                    span.textContent = ` ➜ ${correct}`;
+                    selEl.parentNode.insertBefore(span, selEl.nextSibling);
+                }
+                if (!isCorrect && userAns === '') {
+                    const span = document.createElement('span');
+                    span.className = 'correct-answer-display';
+                    span.textContent = ` ➜ ${correct}`;
+                    selEl.parentNode.insertBefore(span, selEl.nextSibling);
+                }
+            }
+            // Radio (TF/NG, MCQ)
+            else {
+                const checked = document.querySelector(`input[name="q${i}"]:checked`);
+                if (checked) {
+                    userAns = checked.value;
+                    isCorrect = (userAns === correct);
+                    const label = checked.closest('.tf-option, .multi-choice-option');
+                    if (label) label.classList.add(isCorrect ? 'correct' : 'incorrect');
+                }
+                // Highlight correct answer if wrong/unanswered
+                if (!isCorrect) {
+                    const correctInput = document.querySelector(`input[name="q${i}"][value="${correct}"]`);
+                    if (correctInput) {
+                        const correctLabel = correctInput.closest('.tf-option, .multi-choice-option');
+                        if (correctLabel) correctLabel.style.outline = '2px solid var(--correct-color)';
+                    }
+                }
+            }
+
+            if (isCorrect) score++;
+
+            // Update nav button
+            const navBtn = document.querySelector(`.subQuestion[data-qnum="${i}"]`);
+            if (navBtn) {
+                navBtn.classList.remove('answered', 'active');
+                navBtn.classList.add(isCorrect ? 'correct' : 'incorrect');
+            }
+
+            // Modal row
+            detailsContainer.innerHTML += `
+            <div class="result-row ${isCorrect ? 'correct' : 'incorrect'}">
+                <span class="q-num">${i}</span>
+                <span class="user-ans">${userAns || 'Not answered'}</span>
+                <span class="correct-ans">${correct}</span>
+                <span class="status-badge ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? 'Correct' : 'Incorrect'}</span>
+            </div>`;
+        }
+
+        document.getElementById('results-score').textContent = score;
+        document.getElementById('results-band').textContent = bandScore(score);
+        document.getElementById('results-modal').classList.remove('hidden');
+
+        // Update button to show result again
+        const btn = document.getElementById('deliver-button');
+        btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg><span>My Result</span>`;
+        btn.style.backgroundColor = '#4CAF50';
+        btn.style.color = 'white';
+        btn.style.borderColor = '#4CAF50';
+        btn.disabled = false;
+        btn.onclick = () => document.getElementById('results-modal').classList.remove('hidden');
+    }
+
+    document.getElementById('deliver-button').addEventListener('click', checkAnswers);
+
+    window.closeResultsModal = function() {
+        document.getElementById('results-modal').classList.add('hidden');
+    };
+
+    // ── CONTEXT MENU (Highlighting) ─────────────────────
+    const contextMenu = document.getElementById('contextMenu');
+    const panels = [passagePanel, document.getElementById('questions-panel')];
+
+    document.addEventListener('selectionchange', () => {
+        const sel = window.getSelection();
+        if (sel && !sel.isCollapsed && sel.toString().trim()) {
+            const range = sel.getRangeAt(0);
+            if (panels.some(p => p.contains(range.commonAncestorContainer))) {
+                selectedRange = range;
+            }
+        }
+    });
+
+    panels.forEach(panel => {
+        panel.addEventListener('contextmenu', (e) => {
+            const target = e.target;
+            const onHighlight = target.closest('.highlight, .comment-highlight');
+            const hasSel = selectedRange && selectedRange.toString().trim();
+
+            if (!onHighlight && !hasSel) return;
+            e.preventDefault();
+
+            document.getElementById('menu-highlight').style.display = onHighlight ? 'none' : 'flex';
+            document.getElementById('menu-note').style.display = onHighlight ? 'none' : 'flex';
+            document.getElementById('menu-clear').style.display = onHighlight ? 'flex' : 'none';
+            contextMenu.targetEl = onHighlight;
+
+            let left = e.pageX, top = e.pageY - contextMenu.offsetHeight - 8;
+            if (left + 150 > window.innerWidth) left = window.innerWidth - 155;
+            if (top < 0) top = e.pageY + 8;
+            contextMenu.style.left = left + 'px';
+            contextMenu.style.top = top + 'px';
+            contextMenu.style.display = 'block';
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!contextMenu.contains(e.target)) contextMenu.style.display = 'none';
+    });
+
+    window.highlightText = function() {
+        if (selectedRange && !selectedRange.collapsed) {
+            const span = document.createElement('span');
+            span.className = 'highlight';
+            span.appendChild(selectedRange.extractContents());
+            selectedRange.insertNode(span);
+        }
+        contextMenu.style.display = 'none';
+        window.getSelection().removeAllRanges();
+        selectedRange = null;
+    };
+    window.addNote = function() {
+        const note = prompt('Enter your note:');
+        if (note && selectedRange && !selectedRange.collapsed) {
+            const span = document.createElement('span');
+            span.className = 'comment-highlight';
+            span.title = note;
+            span.appendChild(selectedRange.extractContents());
+            selectedRange.insertNode(span);
+        }
+        contextMenu.style.display = 'none';
+        window.getSelection().removeAllRanges();
+        selectedRange = null;
+    };
+    window.clearHighlight = function() {
+        const el = contextMenu.targetEl;
+        if (el) {
+            const parent = el.parentNode;
+            while (el.firstChild) parent.insertBefore(el.firstChild, el);
+            parent.removeChild(el);
+            parent.normalize();
+        }
+        contextMenu.style.display = 'none';
+    };
+
+    // ── INIT ────────────────────────────────────────────
+    updateNavButtons();
+    goToQuestion(14);
+});
+</script>
+</body>
+</html>

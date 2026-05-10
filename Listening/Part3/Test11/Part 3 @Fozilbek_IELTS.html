@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Listening Practice – Part 3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --border-color: #e0e0e0;
+            --primary-color: #1e6de6;
+            --secondary-bg: #f8f9fa;
+            --correct-color: #28a745;
+            --incorrect-color: #dc3545;
+            --highlight-color: #ffe066;
+            --highlight-text-color: #333333;
+            --telegram-color: #1e6de6;
+            --font-size: 16px;
+            --input-bg: #ffffff;
+            --input-text: #333333;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #f0f0f0;
+            --border-color: #444444;
+            --primary-color: #4a90e2;
+            --secondary-bg: #2d2d2d;
+            --correct-color: #2ecc71;
+            --incorrect-color: #e74c3c;
+            --highlight-color: #ffd700;
+            --highlight-text-color: #000000;
+            --telegram-color: #4a90e2;
+            --input-bg: #2d2d2d;
+            --input-text: #ffffff;
+        }
+
+        .font-small { --font-size: 14px; }
+        .font-medium { --font-size: 16px; }
+        .font-large { --font-size: 18px; }
+        .font-xlarge { --font-size: 20px; }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.5;
+            font-size: var(--font-size);
+            padding-bottom: 90px;
+            transition: background-color 0.3s, color 0.3s;
+            position: relative;
+        }
+
+        body::after {
+            content: "@FOZILBEK_IELTS";
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-20deg);
+            font-size: 72px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-color);
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 0;
+            white-space: nowrap;
+            transition: color 0.3s;
+        }
+
+        .highlight {
+            background-color: var(--highlight-color);
+            color: var(--highlight-text-color) !important;
+            font-weight: 600;
+            padding: 1px 3px;
+            border-radius: 2px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        [data-theme="dark"] .highlight {
+            background-color: var(--highlight-color);
+            color: #000000 !important;
+            text-shadow: none;
+        }
+
+        .header {
+            background-color: var(--bg-color);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 60px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .ielts-logo {
+            height: 55px;
+            width: auto;
+            display: block;
+        }
+
+        .telegram-link {
+            color: var(--telegram-color) !important;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none !important;
+            border: none !important;
+        }
+        .telegram-link:hover { opacity: 0.8; }
+
+        .header-icons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .font-size-container { position: relative; }
+        .font-size-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .font-size-btn:hover { background-color: var(--secondary-bg); }
+        .font-size-options {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 8px 0;
+            min-width: 120px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .font-size-options.show { display: block; }
+        .font-size-options div {
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .font-size-options div:hover { background-color: var(--secondary-bg); }
+
+        .dark-mode-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .dark-mode-btn:hover { background-color: var(--secondary-bg); }
+        .sun-icon, .moon-icon {
+            position: absolute;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .sun-icon { opacity: 1; transform: scale(1); }
+        .moon-icon { opacity: 0; transform: scale(0.5); }
+        [data-theme="dark"] .sun-icon { opacity: 0; transform: scale(0.5); }
+        [data-theme="dark"] .moon-icon { opacity: 1; transform: scale(1); }
+
+        .main-container {
+            margin-top: 60px;
+            display: flex;
+            background: var(--bg-color);
+            padding-bottom: 100px;
+            transition: background-color 0.3s;
+        }
+
+        .left-panel {
+            width: 100%;
+            padding: 20px;
+            transition: width 0.4s ease;
+        }
+
+        .main-container.results-mode .left-panel {
+            width: 75%;
+            overflow-y: auto;
+            height: calc(100vh - 195px);
+        }
+
+        .right-panel {
+            display: none;
+            width: 25%;
+            padding: 20px;
+            border-left: 1px solid var(--border-color);
+            overflow-y: auto;
+            height: calc(100vh - 195px);
+            background-color: var(--bg-color);
+        }
+
+        .main-container.results-mode .right-panel {
+            display: block;
+        }
+
+        .part-header {
+            background-color: var(--secondary-bg);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .centered-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .question {
+            margin-bottom: 35px;
+        }
+
+        .multi-choice-option {
+            display: block;
+            width: 100%;
+            padding: 10px 14px;
+            background-color: var(--bg-color);
+            border: 1px solid transparent;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .multi-choice-option:hover {
+            background-color: #f1f7ff;
+            border-color: #c6dcfb;
+        }
+
+        .multi-choice-option:has(input[type="radio"]:checked),
+        .multi-choice-option:has(input[type="checkbox"]:checked) {
+            background-color: #cfe3f9;
+        }
+
+        .multi-choice-option label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .multi-choice-option input[type="radio"],
+        .multi-choice-option input[type="checkbox"] {
+            transform: scale(1.2);
+        }
+
+        .correct-inline {
+            color: var(--correct-color);
+            font-weight: 700;
+            margin-left: 10px;
+        }
+        .correct-inline::before { content: "→ "; }
+
+        .nav-arrows {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            display: flex;
+            gap: 5px;
+            z-index: 101;
+        }
+        .nav-arrow {
+            width: 50px;
+            height: 50px;
+            background: var(--text-color);
+            color: var(--bg-color);
+            border: none;
+            cursor: pointer;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .nav-arrow:disabled { background: #ccc; cursor: not-allowed; }
+
+        .nav-row {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-color);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            height: 80px;
+            z-index: 100;
+            padding: 0 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .footer__questionWrapper__1tZ46 {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        .footer__questionNo__3WNct {
+            background: none;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+            cursor: pointer;
+        }
+        .footer__subquestionWrapper__9GgoP {
+            display: flex;
+            gap: 2px;
+            margin-left: 10px;
+        }
+        .subQuestion {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+        }
+        .subQuestion.answered { background-color: var(--secondary-bg); }
+        .subQuestion.correct { background-color: var(--correct-color); color: white; border-color: var(--correct-color); }
+        .subQuestion.incorrect { background-color: var(--incorrect-color); color: white; border-color: var(--incorrect-color); }
+        .subQuestion.active { background-color: var(--primary-color); color: white; }
+
+        .footer__deliverButton__3FM07 {
+            margin-left: auto;
+            background-color: var(--secondary-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 170px;
+            justify-content: center;
+        }
+        .footer__deliverButton__3FM07:hover { background-color: #e0e0e0; }
+        .footer__deliverButton__3FM07.success { background-color: var(--correct-color); color: #fff; border-color: var(--correct-color); }
+
+        .context-menu {
+            position: absolute;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: none;
+            min-width: 140px;
+        }
+        .context-menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--secondary-bg);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .context-menu-item:hover { background-color: var(--secondary-bg); }
+        .context-menu-item:last-child { border-bottom: none; }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        .modal-content {
+            background: var(--bg-color);
+            padding: 25px;
+            border-radius: 8px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .modal-close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #888;
+        }
+
+        @keyframes flash {
+            0% { background-color: #e6f4ff; }
+            100% { background-color: transparent; }
+        }
+        .question.flash { animation: flash 1s ease-out; }
+        .hidden { display: none; }
+        label.correct { background-color: #d4edda !important; }
+        label.incorrect { background-color: #f8d7da !important; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <img src="https://i.pinimg.com/736x/88/93/a8/8893a81fed78f6989142a13e3605c45e.jpg" alt="IELTS Logo" class="ielts-logo">
+            <a href="https://t.me/FOZILBEK_IELTS" target="_blank" class="telegram-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-.38.24-1.07.7-.96.66-1.89 1.28-1.89 1.28s-.17.11-.49.03c-.32-.08-.72-.26-1.16-.47-.54-.26-1.17-.53-1.17-.53s-.87-.55.62-1.14c.32-.13 1.96-.84 2.99-1.2 1.05-.37 2.86-1.01 2.86-1.01s1.02-.4 1.02 0z" fill="currentColor"/></svg>
+                <span>@FOZILBEK_IELTS</span>
+            </a>
+        </div>
+        <div class="header-icons">
+            <div class="font-size-container">
+                <button class="font-size-btn" id="font-size-toggle" title="Adjust Font Size">A</button>
+                <div id="font-size-options" class="font-size-options">
+                    <div data-size="small">Small</div>
+                    <div data-size="medium">Medium</div>
+                    <div data-size="large">Large</div>
+                    <div data-size="xlarge">Extra Large</div>
+                </div>
+            </div>
+            <button class="dark-mode-btn" id="dark-mode-toggle" title="Toggle Dark Mode">
+                <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="left-panel">
+            <div id="part-3" class="question-part">
+                <div class="part-header">
+                    <p><strong>Part 3</strong></p>
+                    <p>Listen and answer questions 21-30.</p>
+                </div>
+                <div class="questions-container">
+                    <!-- Questions 21-22 checkboxes -->
+                    <div class="question">
+                        <p><strong>Questions 21 and 22</strong></p>
+                        <p>Choose <strong>TWO</strong> correct answers.</p>
+                        <p><strong>Which TWO points did students most frequently make about their musical background before starting a music degree?</strong></p>
+                        <div class="checkbox-group" data-max="2" data-name="q21-22">
+                            <div class="multi-choice-option"><label><input type="checkbox" name="q21-22" value="A"> A. They had already composed music</label></div>
+                            <div class="multi-choice-option"><label><input type="checkbox" name="q21-22" value="B"> B. They had several music qualifications</label></div>
+                            <div class="multi-choice-option"><label><input type="checkbox" name="q21-22" value="C"> C. They could play more than one instrument</label></div>
+                            <div class="multi-choice-option"><label><input type="checkbox" name="q21-22" value="D"> D. They had performed in public</label></div>
+                            <div class="multi-choice-option"><label><input type="checkbox" name="q21-22" value="E"> E. They had piano lessons</label></div>
+                        </div>
+                    </div>
+
+                    <!-- Questions 23-24 checkboxes -->
+                    <div class="question">
+                        <p><strong>Questions 23 and 24</strong></p>
+                        <p>Choose <strong>TWO</strong> correct answers.</p>
+                        <p><strong>Which TWO points did students most frequently make about music practice?</strong></p>
+                        <div class="checkbox-group" data-max="2" data-name="q23-24">
+                            <div class="multi-choice-option"><label><input type="checkbox" name="q23-24" value="A"> A. They prefer to practice alone</label></div>
+                            <div class="multi-choice-option"><label><input type="checkbox" name="q23-24" value="B"> B. They try to practice every day</label></div>
+                            <div class="multi-choice-option"><label><input type="checkbox" name="q23-24" value="C"> C. They are motivated to practice by fear</label></div>
+                            <div class="multi-choice-option"><label><input type="checkbox" name="q23-24" value="D"> D. They feel they don’t do enough practice</label></div>
+                            <div class="multi-choice-option"><label><input type="checkbox" name="q23-24" value="E"> E. They enjoyed the challenge of a difficult piece</label></div>
+                        </div>
+                    </div>
+
+                    <!-- Questions 25-26 checkboxes -->
+                    <div class="question">
+                        <p><strong>Questions 25 and 26</strong></p>
+                        <p>Choose <strong>TWO</strong> correct answers.</p>
+                        <p><strong>Which TWO points were most frequently made by students about the pieces they select for assessed performances?</strong></p>
+                        <div class="checkbox-group" data-max="2" data-name="q25-26">
+                            <div class="multi-choice-option"><label><input type="checkbox" name="q25-26" value="A"> A. They liked to hear others performing the same pieces</label></div>
+                            <div class="multi-choice-option"><label><input type="checkbox" name="q25-26" value="B"> B. They like to choose little-known pieces</label></div>
+                            <div class="multi-choice-option"><label><input type="checkbox" name="q25-26" value="C"> C. They like to play pieces from memory</label></div>
+                            <div class="multi-choice-option"><label><input type="checkbox" name="q25-26" value="D"> D. They like their tutor to choose their pieces</label></div>
+                            <div class="multi-choice-option"><label><input type="checkbox" name="q25-26" value="E"> E. They like to choose technically demanding pieces</label></div>
+                        </div>
+                    </div>
+
+                    <!-- Questions 27-30 matching (radio) -->
+                    <div class="question">
+                        <p><strong>Questions 27-30</strong></p>
+                        <p>What comment did the students make about the following things?</p>
+                        <p style="font-weight:bold;">Student comments</p>
+                        <p>A This is very beneficial<br>B This is difficult but enjoyable<br>C This can affect relationships<br>D This makes them very nervous<br>E This is time consuming<br>F This is easy<br>G This happens infrequently</p>
+                        <p><strong>27. Performing solo</strong></p>
+                        <div class="options" style="margin-left:0;">
+                            <div class="multi-choice-option"><label><input type="radio" name="q27" value="A"> A</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q27" value="B"> B</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q27" value="C"> C</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q27" value="D"> D</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q27" value="E"> E</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q27" value="F"> F</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q27" value="G"> G</label></div>
+                        </div>
+
+                        <p><strong>28. Deciding which pieces to perform</strong></p>
+                        <div class="options" style="margin-left:0;">
+                            <div class="multi-choice-option"><label><input type="radio" name="q28" value="A"> A</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q28" value="B"> B</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q28" value="C"> C</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q28" value="D"> D</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q28" value="E"> E</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q28" value="F"> F</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q28" value="G"> G</label></div>
+                        </div>
+
+                        <p><strong>29. Performing with musicians from a different genre</strong></p>
+                        <div class="options" style="margin-left:0;">
+                            <div class="multi-choice-option"><label><input type="radio" name="q29" value="A"> A</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q29" value="B"> B</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q29" value="C"> C</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q29" value="D"> D</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q29" value="E"> E</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q29" value="F"> F</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q29" value="G"> G</label></div>
+                        </div>
+
+                        <p><strong>30. Performing with musicians who play the same instrument</strong></p>
+                        <div class="options" style="margin-left:0;">
+                            <div class="multi-choice-option"><label><input type="radio" name="q30" value="A"> A</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q30" value="B"> B</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q30" value="C"> C</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q30" value="D"> D</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q30" value="E"> E</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q30" value="F"> F</label></div>
+                            <div class="multi-choice-option"><label><input type="radio" name="q30" value="G"> G</label></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel" id="transcription-panel">
+            <h2>Transcription</h2>
+            <div id="transcription-text"></div>
+        </div>
+    </div>
+
+    <!-- Hidden transcription data -->
+    <div id="transcription-data" style="display:none;">
+        <div data-part="3">
+            <strong>SECTION 3</strong><br><br>
+            Questions 21-26<br><br>
+            [Gareth] So, Gareth, we need to organize the findings from our survey on music students for the final presentation.<br>
+            [Lorna] Yes, Lorna. I think we’ve got some very interesting results. Obviously, we need to start by saying that we interviewed all the third year students doing a music degree and state the objective of our research project, that is, to find out about their attitudes to performing.<br>
+            [Gareth] And then we should talk about the students’ musical backgrounds before coming to university. The most important points to make are that although most people have actually composed music during the course, that wasn’t the case when they arrived. And the other thing they had in common was the piano.<br>
+            [Lorna] Well, they’d had access to a piano at some point, but not all had studied it formally. I thought the most interesting finding was that before coming here, <span class="highlight">almost everyone was involved in a chamber orchestra or band or singing in a choir and playing in front of live audiences</span>.<br>
+            [Gareth] But varying enormously in size. Some had only played in tiny venues. I think it’s worth saying that.<br>
+            [Lorna] And as you might expect from people wanting to study music, they <span class="highlight">all had a degree of proficiency in at least two instruments</span>. But in most cases, one of the instruments was dominant.<br>
+            [Gareth] We need to talk about attitudes to music practice. The most striking thing here is that even students who you’d expect to practice for hours every day until they get it perfect say it’s <span class="highlight">being terrified of failing that really makes them practice</span>. I know I’m the same.<br>
+            [Lorna] Me too. It’s interesting what was said about practicing alone. Some people preferred that because they could focus more on their weak points. But that wasn’t a majority view.<br>
+            [Gareth] What most of them agree on is that there’s nothing more rewarding than <span class="highlight">mastering something that’s really hard to learn</span>.<br>
+            [Lorna] That’s right.<br>
+            [Gareth] Okay. After that, we should talk a bit about the pieces that students select for assessed performances. There wasn’t quite so much consensus on this, was there? A few people prefer to do pieces which are relatively unknown, while others choose the ones they think will show off their technical ability, but they were in the minority.<br>
+            [Lorna] I think the first thing to say is that a high percentage said they would always try to <span class="highlight">learn their pieces by heart</span> because it’s too easy to get lost if you’re trying to read and play when you’re nervous.<br>
+            [Gareth] Okay. And quite a lot of them said <span class="highlight">it helps to listen to other people playing your chosen piece</span>, preferably recordings, but even just other students.<br><br>
+            Questions 27-30<br><br>
+            [Gareth] So finally, we need to look at the findings for students’ attitudes to performing. We should point out that this includes informal and formal public performances as well as assessed ones.<br>
+            [Lorna] Yes. That’s important.<br>
+            [Gareth] I expected to find that performing solo would make students very nervous, but in fact, that isn’t the case. They do find it <span class="highlight">hugely challenging to start with, but they appreciate the challenge and find it stimulating</span>.<br>
+            [Lorna] Right. I was surprised by what students said about deciding which pieces to perform. I thought they’d all say this was easy. For me, it’s always been quite straightforward. Which pieces do I like best, and which pieces can I play well? And my repertoire is quite limited anyway. But the most commonly cited answer was that <span class="highlight">it took them ages to make their minds up</span>. I suppose it’s because there are so many factors involved.<br>
+            [Gareth] You need to consider your audience, the venue, the time available to learn the piece, especially if it’s complicated. You need to think about all these things, and you can’t do that in a hurry. That’s true. Then there’s performing with musicians from a different genre, like a classical musician playing with a jazz group. That can really be fun. But <span class="highlight">most of the music students had never even considered it</span>.<br>
+            [Lorna] Right. For performing with musicians who play the same instrument, almost everyone put the same thing.<br>
+            [Gareth] Yes. They all said it was <span class="highlight">incredibly helpful</span> and not at all intimidating, which says a lot for the department’s ethos.<br>
+            [Lorna] Yes. That’s a good point.
+        </div>
+    </div>
+
+    <div class="nav-arrows">
+        <button class="nav-arrow" onclick="previousQuestion()" id="prevBtn">‹</button>
+        <button class="nav-arrow" onclick="nextQuestion()" id="nextBtn">›</button>
+    </div>
+
+    <nav class="nav-row" aria-label="Questions">
+        <div class="footer__questionWrapper__1tZ46 multiple">
+            <button class="footer__questionNo__3WNct" onclick="goToQuestion(21)">
+                <span>Part 3 <span style="font-size:14px;" id="answered-count">0 of 10</span></span>
+            </button>
+            <div class="footer__subquestionWrapper__9GgoP">
+                <button class="subQuestion" onclick="goToQuestion(21)">21</button>
+                <button class="subQuestion" onclick="goToQuestion(22)">22</button>
+                <button class="subQuestion" onclick="goToQuestion(23)">23</button>
+                <button class="subQuestion" onclick="goToQuestion(24)">24</button>
+                <button class="subQuestion" onclick="goToQuestion(25)">25</button>
+                <button class="subQuestion" onclick="goToQuestion(26)">26</button>
+                <button class="subQuestion" onclick="goToQuestion(27)">27</button>
+                <button class="subQuestion" onclick="goToQuestion(28)">28</button>
+                <button class="subQuestion" onclick="goToQuestion(29)">29</button>
+                <button class="subQuestion" onclick="goToQuestion(30)">30</button>
+            </div>
+        </div>
+        <button id="deliver-button" class="footer__deliverButton__3FM07">Check Answers</button>
+    </nav>
+
+    <div id="contextMenu" class="context-menu">
+        <div class="context-menu-item" onclick="highlightText()">Highlight</div>
+        <div class="context-menu-item" onclick="clearAllHighlights()">Clear All</div>
+    </div>
+
+    <div id="result-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Your Results</h2>
+                <button id="modal-close-button" class="modal-close-btn">&times;</button>
+            </div>
+            <p id="score-summary"></p>
+            <div id="result-details"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 21;
+        let selectedRange = null;
+
+        const body = document.body;
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const fontSizeToggle = document.getElementById('font-size-toggle');
+        const fontSizeOptions = document.getElementById('font-size-options');
+
+        const correctAnswers = {
+            'q21-22': ['C', 'D'],
+            'q23-24': ['C', 'E'],
+            'q25-26': ['A', 'C'],
+            q27: 'B',
+            q28: 'E',
+            q29: 'G',
+            q30: 'A'
+        };
+
+        const questionTypes = {
+            'q21-22': 'checkbox',
+            'q23-24': 'checkbox',
+            'q25-26': 'checkbox',
+            q27: 'mcq',
+            q28: 'mcq',
+            q29: 'mcq',
+            q30: 'mcq'
+        };
+
+        function initDarkMode() {
+            const saved = localStorage.getItem('theme') || 'light';
+            body.setAttribute('data-theme', saved);
+        }
+        function toggleDarkMode() {
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        }
+        function changeFontSize(size) {
+            body.classList.remove('font-small', 'font-medium', 'font-large', 'font-xlarge');
+            body.classList.add(`font-${size}`);
+            localStorage.setItem('fontSize', size);
+            fontSizeOptions.classList.remove('show');
+        }
+        function initFontSize() {
+            const saved = localStorage.getItem('fontSize') || 'medium';
+            changeFontSize(saved);
+        }
+
+        function goToQuestion(qNum) {
+            if (qNum < 21 || qNum > 30) return;
+            currentQuestion = qNum;
+            document.querySelectorAll('.subQuestion').forEach(b => b.classList.remove('active'));
+            const btn = document.querySelector(`.subQuestion[onclick="goToQuestion(${qNum})"]`);
+            if (btn) btn.classList.add('active');
+            document.getElementById('prevBtn').disabled = currentQuestion === 21;
+            document.getElementById('nextBtn').disabled = currentQuestion === 30;
+
+            const inputEl = document.getElementById(`q${qNum}`) || document.querySelector(`input[name="q${qNum}"]`);
+            if (inputEl) {
+                const container = inputEl.closest('.question');
+                if (container) {
+                    container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    container.classList.add('flash');
+                    setTimeout(() => container.classList.remove('flash'), 1000);
+                }
+            }
+        }
+
+        function nextQuestion() { if (currentQuestion < 30) goToQuestion(currentQuestion + 1); }
+        function previousQuestion() { if (currentQuestion > 21) goToQuestion(currentQuestion - 1); }
+
+        function updateAnsweredIndicators() {
+            // Individual question buttons (21-30) - for checkboxes we use the group
+            for (let q = 21; q <= 30; q++) {
+                const btn = document.querySelector(`.subQuestion[onclick="goToQuestion(${q})"]`);
+                if (!btn) continue;
+                if (btn.classList.contains('correct') || btn.classList.contains('incorrect')) continue;
+                let answered = false;
+                if (q >= 21 && q <= 26) {
+                    const group = q <= 22 ? 'q21-22' : (q <= 24 ? 'q23-24' : 'q25-26');
+                    answered = document.querySelectorAll(`input[name="${group}"]:checked`).length > 0;
+                } else {
+                    const radio = document.querySelector(`input[name="q${q}"]:checked`);
+                    answered = radio !== null;
+                }
+                btn.classList.toggle('answered', answered);
+            }
+            const count = document.querySelectorAll('.subQuestion.answered, .subQuestion.correct, .subQuestion.incorrect').length;
+            document.getElementById('answered-count').textContent = `${Math.min(count, 10)} of 10`;
+        }
+
+        function setupCheckboxLimits() {
+            document.querySelectorAll('.checkbox-group[data-max]').forEach(group => {
+                const max = parseInt(group.dataset.max);
+                const name = group.dataset.name;
+                const checkboxes = group.querySelectorAll('input[type="checkbox"]');
+                const applyLimit = () => {
+                    const checked = group.querySelectorAll('input:checked').length;
+                    checkboxes.forEach(cb => { cb.disabled = checked >= max && !cb.checked; });
+                    updateAnsweredIndicators();
+                };
+                checkboxes.forEach(cb => cb.addEventListener('change', applyLimit));
+                applyLimit();
+            });
+        }
+
+        function checkAnswers() {
+            let score = 0;
+            let resultsData = [];
+            document.querySelectorAll('.correct-inline, .multi-choice-option.correct, .multi-choice-option.incorrect, label.correct, label.incorrect').forEach(el => {
+                if (el.classList.contains('correct-inline')) el.remove();
+                else el.classList.remove('correct', 'incorrect');
+            });
+            document.querySelectorAll('.multi-choice-option').forEach(opt => opt.classList.remove('correct', 'incorrect'));
+
+            // Handle checkbox groups
+            const checkboxGroups = [
+                { name: 'q21-22', correct: correctAnswers['q21-22'] },
+                { name: 'q23-24', correct: correctAnswers['q23-24'] },
+                { name: 'q25-26', correct: correctAnswers['q25-26'] }
+            ];
+            checkboxGroups.forEach(group => {
+                const checkboxes = document.querySelectorAll(`input[name="${group.name}"]`);
+                const userAnswers = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+                const correctSorted = [...group.correct].sort();
+                let groupScore = 0;
+                checkboxes.forEach(cb => {
+                    const label = cb.closest('label');
+                    if (!label) return;
+                    if (cb.checked) {
+                        if (correctSorted.includes(cb.value)) {
+                            label.classList.add('correct');
+                            groupScore++;
+                        } else {
+                            label.classList.add('incorrect');
+                        }
+                    } else if (correctSorted.includes(cb.value)) {
+                        label.classList.add('correct');
+                    }
+                });
+                score += groupScore;
+                resultsData.push({
+                    question: group.name.replace('q', '').replace('-', '–'),
+                    userAnswer: userAnswers.join(', ') || 'No Answer',
+                    correctAnswer: group.correct.join(', '),
+                    isCorrect: userAnswers.sort().join(',') === correctSorted.join(',')
+                });
+            });
+
+            // Handle MCQs 27-30
+            for (let q = 27; q <= 30; q++) {
+                const key = `q${q}`;
+                const correct = correctAnswers[key];
+                const checked = document.querySelector(`input[name="${key}"]:checked`);
+                const userAnswer = checked ? checked.value : '';
+                const isCorrect = userAnswer === correct;
+                if (isCorrect) score++;
+
+                document.querySelectorAll(`input[name="${key}"]`).forEach(radio => {
+                    const wrapper = radio.closest('.multi-choice-option');
+                    if (radio.value === correct) wrapper.classList.add('correct');
+                    else if (radio.checked) wrapper.classList.add('incorrect');
+                });
+
+                resultsData.push({
+                    question: q,
+                    userAnswer: userAnswer || 'No Answer',
+                    correctAnswer: correct,
+                    isCorrect
+                });
+            }
+
+            // Update subquestion buttons
+            for (let q = 21; q <= 30; q++) {
+                const btn = document.querySelector(`.subQuestion[onclick="goToQuestion(${q})"]`);
+                if (!btn) continue;
+                btn.classList.remove('answered');
+                // Determine if correct
+                let isQCorrect = false;
+                if (q <= 26) {
+                    const groupName = q <= 22 ? 'q21-22' : (q <= 24 ? 'q23-24' : 'q25-26');
+                    const groupResult = resultsData.find(r => r.question.includes(groupName.replace('q', '').replace('-', '–')));
+                    isQCorrect = groupResult?.isCorrect || false;
+                } else {
+                    const res = resultsData.find(r => r.question === q);
+                    isQCorrect = res?.isCorrect || false;
+                }
+                btn.classList.add(isQCorrect ? 'correct' : 'incorrect');
+            }
+
+            document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => input.disabled = true);
+
+            document.querySelector('.main-container').classList.add('results-mode');
+            const transcriptionSource = document.querySelector('#transcription-data [data-part="3"]');
+            document.getElementById('transcription-text').innerHTML = transcriptionSource ? transcriptionSource.innerHTML : '';
+
+            const modal = document.getElementById('result-modal');
+            document.getElementById('score-summary').textContent = `You scored ${score} out of 10`;
+            let tableHTML = `<table style="width:100%; border-collapse:collapse;"><tr><th>Q</th><th>Your Answer</th><th>Correct</th><th>Result</th></tr>`;
+            resultsData.forEach(r => {
+                tableHTML += `<tr>
+                    <td>${r.question}</td>
+                    <td>${r.userAnswer}</td>
+                    <td>${r.correctAnswer}</td>
+                    <td style="color:${r.isCorrect ? 'green' : 'red'}">${r.isCorrect ? '✔' : '✖'}</td>
+                </tr>`;
+            });
+            tableHTML += '</table>';
+            document.getElementById('result-details').innerHTML = tableHTML;
+            modal.style.display = 'flex';
+
+            const deliverBtn = document.getElementById('deliver-button');
+            deliverBtn.classList.add('success');
+            deliverBtn.innerHTML = '<span>My Results</span>';
+            deliverBtn.disabled = false;
+            deliverBtn.onclick = () => { modal.style.display = 'flex'; };
+            updateAnsweredIndicators();
+        }
+
+        function highlightText() {
+            if (!selectedRange || selectedRange.collapsed) { closeContextMenu(); return; }
+            try {
+                const span = document.createElement('span');
+                span.className = 'highlight';
+                selectedRange.surroundContents(span);
+            } catch(e) {
+                document.execCommand('backColor', false, 'yellow');
+            }
+            window.getSelection().removeAllRanges();
+            closeContextMenu();
+        }
+        function clearAllHighlights() {
+            document.querySelectorAll('.highlight').forEach(el => {
+                const parent = el.parentNode;
+                while (el.firstChild) parent.insertBefore(el.firstChild, el);
+                parent.removeChild(el);
+            });
+            closeContextMenu();
+        }
+        function closeContextMenu() { document.getElementById('contextMenu').style.display = 'none'; }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initDarkMode();
+            initFontSize();
+            goToQuestion(21);
+            setupCheckboxLimits();
+
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+            fontSizeToggle.addEventListener('click', () => fontSizeOptions.classList.toggle('show'));
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.font-size-container')) fontSizeOptions.classList.remove('show');
+            });
+            document.querySelectorAll('.font-size-options div').forEach(opt => {
+                opt.addEventListener('click', () => changeFontSize(opt.dataset.size));
+            });
+            document.getElementById('deliver-button').addEventListener('click', checkAnswers);
+            document.getElementById('modal-close-button').addEventListener('click', () => {
+                document.getElementById('result-modal').style.display = 'none';
+            });
+            document.querySelectorAll('input[type="radio"]').forEach(input => {
+                input.addEventListener('change', updateAnsweredIndicators);
+            });
+            document.body.addEventListener('contextmenu', (e) => {
+                const selection = window.getSelection().toString();
+                if (!selection) return;
+                e.preventDefault();
+                const menu = document.getElementById('contextMenu');
+                menu.style.left = e.pageX + 'px';
+                menu.style.top = e.pageY + 'px';
+                menu.style.display = 'block';
+            });
+            document.body.addEventListener('click', (e) => {
+                if (!e.target.closest('.context-menu')) closeContextMenu();
+            });
+            document.addEventListener('selectionchange', () => {
+                const sel = window.getSelection();
+                if (sel && sel.rangeCount > 0 && !sel.isCollapsed) {
+                    selectedRange = sel.getRangeAt(0);
+                }
+            });
+            updateAnsweredIndicators();
+        });
+    </script>
+</body>
+</html>

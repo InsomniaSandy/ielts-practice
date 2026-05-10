@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading Practice – Ballet</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --header-bg: #ffffff;
+            --border-color: #e0e0e0;
+            --panel-bg: #ffffff;
+            --question-bg: #ffffff;
+            --input-bg: #ffffff;
+            --input-border: #bfbfbf;
+            --input-focus: #3581d8;
+            --correct-color: #28a745;
+            --incorrect-color: #dc3545;
+            --highlight-bg: #ffff00;
+            --modal-bg: #ffffff;
+            --nav-bg: #ffffff;
+            --resizer-bg: #f0f0f0;
+            --part-header-bg: #f1f2ec;
+            --timer-bg: #f0f0f0;
+            --link-color: #1e88e5;
+            --shadow-color: rgba(0,0,0,0.1);
+            --table-border: #ddd;
+            --table-header-bg: #007bff;
+            --table-cell-bg: #fafafa;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #e0e0e0;
+            --header-bg: #2d2d2d;
+            --border-color: #444444;
+            --panel-bg: #2d2d2d;
+            --question-bg: #333333;
+            --input-bg: #3a3a3a;
+            --input-border: #555555;
+            --input-focus: #4a90e2;
+            --correct-color: #2ecc71;
+            --incorrect-color: #e74c3c;
+            --highlight-bg: #ffeb3b;
+            --modal-bg: #2d2d2d;
+            --nav-bg: #2d2d2d;
+            --resizer-bg: #444444;
+            --part-header-bg: #3a3a3a;
+            --timer-bg: #444444;
+            --link-color: #64b5f6;
+            --shadow-color: rgba(0,0,0,0.3);
+            --table-border: #555;
+            --table-header-bg: #0056b3;
+            --table-cell-bg: #3a3a3a;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.5;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .header {
+            background-color: var(--header-bg);
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            height: 60px;
+            transition: all 0.3s;
+        }
+
+        .header-left { display: flex; align-items: center; gap: 16px; }
+        .header-right { display: flex; align-items: center; gap: 16px; }
+
+        .ielts-logo { height: 50px; width: auto; }
+
+        .telegram-link {
+            display: flex; align-items: center; gap: 6px;
+            text-decoration: none; color: var(--link-color);
+            font-weight: bold; font-size: 14px; font-family: Arial, sans-serif;
+        }
+        .telegram-link:hover { text-decoration: underline; }
+
+        .timer-container {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 16px; font-weight: 500; color: var(--text-color);
+            font-family: Arial, sans-serif;
+        }
+
+        .timer-display { font-weight: 700; min-width: 60px; font-size: 18px; }
+
+        .timer-controls { display: flex; gap: 6px; }
+
+        .timer-controls button, .dark-mode-btn {
+            background: var(--timer-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .timer-controls button:hover, .dark-mode-btn:hover {
+            background: var(--border-color); transform: scale(1.05);
+        }
+
+        .timer-controls button svg, .dark-mode-btn svg {
+            width: 18px; height: 18px; fill: var(--text-color); transition: fill 0.3s;
+        }
+
+        .dark-mode-btn { position: relative; }
+        .dark-mode-btn .sun-icon, .dark-mode-btn .moon-icon {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .dark-mode-btn .moon-icon { opacity: 0; transform: translate(-50%, -50%) rotate(90deg); }
+        [data-theme="dark"] .dark-mode-btn .sun-icon { opacity: 0; transform: translate(-50%, -50%) rotate(-90deg); }
+        [data-theme="dark"] .dark-mode-btn .moon-icon { opacity: 1; transform: translate(-50%, -50%) rotate(0deg); }
+
+        .main-container {
+            margin-top: 60px;
+            display: flex; flex-direction: column;
+            background: var(--bg-color);
+            height: calc(100vh - 60px);
+        }
+
+        .part-header {
+            background-color: var(--part-header-bg);
+            padding: 12px 20px;
+            border: 1px solid var(--border-color);
+            margin: 10px 20px;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            color: var(--text-color);
+        }
+        .part-header p { margin: 0; color: var(--text-color); font-size: 15px; }
+        .part-header p:first-child { margin-bottom: 4px; }
+
+        .panels-container { display: flex; flex: 1; overflow: hidden; }
+
+        .passage-panel, .questions-panel {
+            flex: 1; padding: 20px 24px 110px;
+            overflow-y: auto; min-width: 200px;
+            background-color: var(--panel-bg);
+            transition: background-color 0.3s;
+        }
+
+        .questions-panel { border-left: 1px solid var(--border-color); font-family: Arial, sans-serif; }
+
+        .resizer {
+            width: 10px; cursor: col-resize;
+            background-color: var(--resizer-bg);
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23888"/></svg>');
+            background-repeat: no-repeat; background-position: center;
+            flex-shrink: 0; flex-grow: 0;
+        }
+
+        /* Passage */
+        .reading-passage h4 {
+            font-size: 22px; font-weight: bold;
+            margin-bottom: 14px; text-align: center;
+            color: var(--text-color); font-family: Georgia, serif;
+        }
+
+        .reading-passage p {
+            margin-bottom: 1.1em; color: var(--text-color);
+            text-align: justify; hyphens: auto;
+        }
+
+        .ballet-image-wrap {
+            float: right;
+            margin: 0 0 16px 20px;
+            max-width: 240px;
+        }
+
+        .ballet-image-wrap img {
+            width: 100%;
+            border-radius: 6px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+            display: block;
+        }
+
+        .ballet-image-wrap figcaption {
+            font-size: 12px; color: var(--text-color);
+            opacity: 0.65; text-align: center;
+            margin-top: 5px; font-style: italic;
+        }
+
+        /* Questions */
+        .question { margin-bottom: 36px; }
+
+        .question-prompt { margin-bottom: 16px; color: var(--text-color); }
+        .question-prompt p { margin-bottom: 8px; color: var(--text-color); }
+        .question-prompt strong { color: var(--text-color); }
+
+        /* TF questions */
+        .tf-question {
+            margin-bottom: 22px; padding: 8px 0;
+            border-radius: 4px;
+        }
+
+        .tf-question-line {
+            display: flex; align-items: flex-start;
+            margin-bottom: 12px; padding: 4px 0;
+        }
+
+        .tf-question-number {
+            border: 2px solid var(--border-color);
+            padding: 2px 8px; margin-right: 10px;
+            border-radius: 3px; font-weight: bold;
+            background-color: var(--input-bg);
+            color: var(--text-color); white-space: nowrap;
+            font-size: 15px; transition: border-color 0.2s;
+        }
+
+        .tf-question.active-question .tf-question-number { border-color: var(--input-focus); }
+
+        .tf-question-text { padding-top: 2px; color: var(--text-color); font-size: 15px; line-height: 1.45; }
+
+        .tf-options { padding-left: 4px; }
+
+        .tf-option {
+            display: flex; align-items: center;
+            padding: 9px 12px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px; margin-bottom: 5px;
+            cursor: pointer; color: var(--text-color);
+            transition: background-color 0.2s, border-color 0.2s;
+            font-size: 15px;
+        }
+
+        .tf-option:hover { background-color: var(--part-header-bg); }
+        .tf-option:has(input:checked) { background-color: rgba(74,144,226,0.18); border-color: var(--input-focus); }
+        .tf-option.correct { background-color: rgba(40,167,69,0.2) !important; border-color: var(--correct-color) !important; }
+        .tf-option.incorrect { background-color: rgba(220,53,69,0.2) !important; border-color: var(--incorrect-color) !important; }
+
+        .tf-option input[type="radio"] {
+            margin-right: 10px; transform: scale(1.2);
+            accent-color: var(--input-focus);
+        }
+
+        /* Notes completion inputs */
+        .notes-table { width: 100%; border-collapse: collapse; margin: 10px 0 16px; }
+        .notes-table td { padding: 7px 10px; color: var(--text-color); font-size: 15px; vertical-align: middle; }
+
+        .answer-input {
+            border: 1px solid var(--input-border);
+            border-radius: 4px;
+            background-color: var(--input-bg);
+            padding: 3px 8px;
+            font-size: 15px; font-weight: 700;
+            margin: 0 5px;
+            height: 30px; min-width: 140px;
+            color: var(--text-color);
+            font-family: Arial, sans-serif;
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+
+        .answer-input:focus { border-color: var(--input-focus); border-width: 2px; outline: none; }
+        .answer-input.active-input { border-color: var(--input-focus); border-width: 2px; }
+        .answer-input.correct { border-color: var(--correct-color); background-color: rgba(40,167,69,0.1); }
+        .answer-input.incorrect { border-color: var(--incorrect-color); background-color: rgba(220,53,69,0.1); }
+
+        .correct-answer-display {
+            font-weight: bold; color: var(--correct-color);
+            margin-left: 8px; font-size: 13px;
+        }
+
+        .notes-box {
+            background: var(--part-header-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px; padding: 16px 20px;
+            margin: 10px 0;
+        }
+
+        .notes-box p { margin-bottom: 10px; color: var(--text-color); font-size: 15px; line-height: 1.7; }
+        .notes-box p:last-child { margin-bottom: 0; }
+        .notes-box strong { color: var(--text-color); }
+
+        /* Navigation Arrows */
+        .nav-arrows {
+            position: fixed; bottom: 90px; right: 18px;
+            display: flex; gap: 6px; z-index: 101;
+        }
+
+        .nav-arrow {
+            width: 44px; height: 44px; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; color: #fff;
+            transition: transform 0.1s, background-color 0.2s;
+            box-shadow: 0 2px 6px var(--shadow-color);
+            border-radius: 50%;
+        }
+
+        .nav-arrow.prev { background-color: #4b5563; }
+        .nav-arrow.next { background-color: #000000; }
+        [data-theme="dark"] .nav-arrow.prev { background-color: #6b7280; }
+        [data-theme="dark"] .nav-arrow.next { background-color: #333; }
+        .nav-arrow:hover { transform: translateY(-1px); }
+
+        /* Bottom nav */
+        .nav-row {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--nav-bg);
+            display: flex; align-items: center;
+            height: 74px; z-index: 100;
+            border-top: 1px solid var(--border-color);
+            padding: 0 16px;
+            font-family: Arial, sans-serif;
+        }
+
+        .footer__questionWrapper { display: flex; align-items: center; gap: 4px; }
+
+        .footer__questionNo {
+            background: none; border: none;
+            padding: 8px 12px; font-size: 15px; font-weight: 600;
+            color: var(--text-color); cursor: pointer;
+            border-radius: 4px; transition: background-color 0.2s;
+            display: flex; align-items: center; gap: 5px;
+        }
+
+        .footer__questionNo:hover { background-color: var(--part-header-bg); }
+
+        .footer__subquestions { display: flex; gap: 3px; flex-wrap: wrap; }
+
+        .subQuestion {
+            width: 32px; height: 32px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg); color: var(--text-color);
+            font-size: 13px; font-weight: 500;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; border-radius: 3px;
+        }
+
+        .subQuestion:hover { background-color: var(--part-header-bg); border-color: var(--input-focus); }
+        .subQuestion.answered { background-color: var(--part-header-bg); }
+        .subQuestion.correct { background-color: var(--correct-color); color: white; border-color: var(--correct-color); }
+        .subQuestion.incorrect { background-color: var(--incorrect-color); color: white; border-color: var(--incorrect-color); }
+        .subQuestion.active { background-color: var(--input-focus); color: white; border-color: var(--input-focus); }
+
+        .footer__deliverButton {
+            margin-left: auto;
+            background-color: var(--part-header-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 10px 18px; font-size: 15px; font-weight: 700;
+            cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px;
+            transition: transform 0.08s, background-color 0.2s;
+            border-radius: 4px; font-family: Arial, sans-serif;
+        }
+
+        .footer__deliverButton:hover { background-color: var(--border-color); }
+        .footer__deliverButton:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+        .hidden { display: none !important; }
+
+        /* Context Menu */
+        .context-menu {
+            position: absolute; background: var(--modal-bg);
+            border: 1px solid var(--border-color); border-radius: 6px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            z-index: 1000; display: none; min-width: 130px;
+        }
+
+        .context-menu-item {
+            padding: 11px 14px; cursor: pointer; font-size: 15px;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s; color: var(--text-color);
+            font-family: Arial, sans-serif;
+        }
+
+        .context-menu-item:hover { background-color: var(--part-header-bg); }
+        .context-menu-item:last-child { border-bottom: none; }
+
+        .highlight { background-color: var(--highlight-bg); color: #000; }
+        .comment-highlight { background-color: #90EE90; color: #000; cursor: help; }
+
+        /* Answer highlights in passage */
+        .answer-highlight {
+            background-color: #ffe066;
+            padding: 1px 3px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: #000;
+            position: relative;
+        }
+
+        .answer-badge {
+            display: inline-flex; align-items: center; justify-content: center;
+            background: #2196f3; color: white;
+            border-radius: 50%; width: 18px; height: 18px;
+            font-size: 11px; font-weight: bold;
+            vertical-align: super; margin-left: 2px;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(17,24,39,0.6);
+            backdrop-filter: blur(3px);
+            z-index: 2000; display: flex;
+            justify-content: center; align-items: center;
+        }
+
+        .modal-overlay.hidden { display: none; }
+
+        .modal-content {
+            background: var(--modal-bg); padding: 24px;
+            border-radius: 12px; width: 92%; max-width: 720px;
+            max-height: 85vh; display: flex; flex-direction: column;
+            position: relative; border: 1px solid var(--border-color);
+            box-shadow: 0 20px 60px var(--shadow-color);
+            color: var(--text-color); font-family: Arial, sans-serif;
+        }
+
+        .modal-close-btn {
+            position: absolute; top: 10px; right: 14px;
+            background: none; border: none; font-size: 26px;
+            cursor: pointer; color: var(--text-color);
+        }
+
+        .modal-content h2 { text-align: center; margin-bottom: 16px; color: var(--text-color); }
+
+        .results-summary {
+            display: flex; gap: 12px; justify-content: center;
+            margin-bottom: 14px; text-align: center;
+            border-bottom: 1px solid var(--border-color); padding-bottom: 12px;
+        }
+
+        .results-summary p { margin: 0; font-size: 15px; color: var(--text-color); }
+        .results-summary p span {
+            display: inline-block; padding: 3px 10px; margin-left: 6px;
+            border-radius: 999px; background: var(--part-header-bg);
+            font-weight: 700; color: var(--text-color);
+        }
+
+        .results-details-container { overflow-y: auto; padding-right: 8px; border-radius: 6px; }
+
+        .result-row {
+            display: grid; grid-template-columns: 50px 1fr 1fr 110px;
+            gap: 10px; padding: 9px 8px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px; align-items: center;
+        }
+
+        .result-row.correct { background-color: rgba(40,167,69,0.08); }
+        .result-row.incorrect { background-color: rgba(220,53,69,0.08); }
+
+        .result-row .q-num {
+            font-weight: 700; color: var(--text-color);
+            background: var(--input-bg); border: 1px solid var(--border-color);
+            border-radius: 6px; width: 38px; height: 28px;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+
+        .result-row .user-ans {
+            color: var(--text-color); background: var(--part-header-bg);
+            border: 1px solid var(--border-color); padding: 3px 7px;
+            border-radius: 5px; font-size: 13px;
+        }
+
+        .result-row .correct-ans {
+            color: var(--correct-color); font-weight: 600;
+            background: rgba(40,167,69,0.1);
+            border: 1px solid var(--correct-color);
+            padding: 3px 7px; border-radius: 5px; font-size: 13px;
+        }
+
+        .status-badge {
+            justify-self: end; padding: 3px 9px;
+            border-radius: 999px; font-size: 12px; font-weight: 700;
+            border: 1px solid transparent;
+        }
+
+        .status-badge.ok { background: rgba(40,167,69,0.2); color: var(--correct-color); border-color: var(--correct-color); }
+        .status-badge.bad { background: rgba(220,53,69,0.2); color: var(--incorrect-color); border-color: var(--incorrect-color); }
+
+        /* Watermark */
+        body::after {
+            content: "@FOZILBEK_IELTS";
+            position: fixed; left: 50%; top: 50%;
+            transform: translate(-50%, -50%) rotate(-20deg);
+            font-size: 64px; font-weight: 800;
+            color: var(--text-color); opacity: 0.04;
+            pointer-events: none; z-index: 0;
+            white-space: nowrap; font-family: Arial, sans-serif;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--panel-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--input-focus); }
+    </style>
+</head>
+<body data-theme="light">
+
+<!-- Header -->
+<div class="header">
+    <div class="header-left">
+        <img src="https://i.pinimg.com/736x/88/93/a8/8893a81fed78f6989142a13e3605c45e.jpg" alt="IELTS Logo" class="ielts-logo">
+        <a href="https://t.me/FOZILBEK_IELTS" target="_blank" class="telegram-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-.38.24-1.07.7-.96.66-1.89 1.28-1.89 1.28s-.17.11-.49.03c-.32-.08-.72-.26-1.16-.47-.54-.26-1.17-.53-1.17-.53s-.87-.55.62-1.14c.32-.13 1.96-.84 2.99-1.2 1.05-.37 2.86-1.01 2.86-1.01s1.02-.4 1.02 0z" fill="currentColor"/>
+            </svg>
+            @FOZILBEK_IELTS
+        </a>
+    </div>
+    <div class="header-right">
+        <div class="timer-container">
+            <span class="timer-display" id="timer-display">20:00</span>
+            <div class="timer-controls">
+                <button id="timer-toggle-btn" title="Pause/Resume Timer">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 0 24 24" width="22px">
+                        <path d="M0 0h24v24H0V0z" fill="none"/>
+                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                    </svg>
+                </button>
+                <button id="timer-reset-btn" title="Reset Timer">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 0 24 24" width="22px">
+                        <path d="M0 0h24v24H0V0z" fill="none"/>
+                        <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+                    </svg>
+                </button>
+                <button class="dark-mode-btn" id="dark-mode-toggle" title="Toggle Dark Mode">
+                    <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main -->
+<div class="main-container">
+    <div class="part-header">
+        <p><strong>Part 1</strong> &nbsp;|&nbsp; You should spend about 20 minutes on Questions 1–13.</p>
+        <p>Read the text and answer questions 1–13.</p>
+    </div>
+
+    <div class="panels-container">
+        <!-- PASSAGE -->
+        <div class="passage-panel" id="passage-panel">
+            <div id="passage-text-1" class="reading-passage">
+                <h4>A Brief History of Ballet</h4>
+
+                <figure class="ballet-image-wrap">
+                    <img src="https://i.pinimg.com/736x/7b/bc/31/7bbc3131b016a6992280d740b2386576.jpg" alt="Ballet dancer on pointe" />
+                    <figcaption>Classical ballet on pointe</figcaption>
+                </figure>
+
+                <p>Ballet originated in the Italian Renaissance of the 15th century. The nobility were treated to extravagant events, especially wedding celebrations, where dancing and music created a detailed and fascinating spectacle. Dancing masters taught the dance steps to the nobility, who participated in the performances. In the 16th century Catherine de Medici, an Italian noblewoman, wife of the king of France and a great patron of the arts, began to fund ballet in the French court. Her elaborate festivals encouraged the growth of <em>ballet de cour</em>, a programme that included dance, costume, song, music and poetry. A century later, King Louis XIV helped to popularise and standardise the ballet. A passionate dancer, he performed many roles himself, including that of the Sun King in <em>Ballet de la Nuit</em>. His love of ballet raised it from a hobby for amateurs to a skill requiring professional training.</p>
+
+                <p>By 1661, a dance academy had opened in Paris, and in 1681 ballet moved to the stage. The French opera <em>Le Triomphe de L'Amour</em> incorporated ballet elements in its performance, creating a long-standing opera-ballet tradition in France. In the mid-18th century, however, French ballet master Jean Georges Noverre rebelled against the artifice of opera-ballet, believing that ballet could stand on its own as an art form. His idea — that ballet should contain expressive dramatic movement, and this should reveal relationships between characters — introduced the <em>ballet d'action</em>, a dramatic style of ballet that features a narrative. Noverre's work is considered the forerunner to the narrative ballets of the 19th century.</p>
+
+                <p>Early classical ballets such as <em>Giselle</em> explored the world of spirits and magic, and often showed women as passive and fragile. These themes are reflected in the ballets of the time which are called romantic ballets. This is the period which dancing on tiptoe, known as pointe work, became the normal style for the ballerina. The romantic tutu, a calf-length, full skirt, was also introduced at this time.</p>
+
+                <p>By the 19th century the popularity of ballet had soared in Russia and by the end of that century its composers and choreographers — who designed the movements and steps the dancers took — had taken the art form to new levels. <em>The Nutcracker</em> and <em>The Sleeping Beauty</em>, as choreographed by Marius Petipa, represent classical ballet in its grandest form. The primary purpose of Russian ballet in this period was to display classical technique such as pointe work, high leg lifts and precision of movement. Complicated sequences that drew attention to demanding steps, leaps and turns were choreographed into the story. The classical tutu, much shorter and stiffer than the romantic tutu, was introduced in the second half of the century to reveal a ballerina's legs and emphasise the skill of her footwork. George Balanchine is considered by many to be the greatest innovator of the contemporary "plotless" ballet, with no definite story line. Its purpose is to use movement to express the music and to depict human emotions. Today, the ballet takes many forms. Classical approaches, traditional stories and contemporary choreographic innovations blend together to produce the character of modern ballet.</p>
+
+                <p>Despite all the changes which ballet has undergone, pointe shoes, which were first worn in the 1830s, have remained the key ballet equipment. Specially made to allow ballerinas to dance on tiptoe, they create an illusion of lightness and even give a sense that the ballerina is floating on air. While they look very delicate, pointe shoes are, in fact, quite the opposite. The tip of the shoe is a rigid box made of densely packed layers of fabric, cardboard or paper which has been hardened by glue. The box needs to be extremely sturdy since the entire weight of the dancer's body is balanced on it. The rest of the shoe is made of leather, cotton and satin, and each shoe is hand-made to fit a dancer's specifications, which means that you'll never see two pairs that are identical. Sometimes, men will also wear pointe shoes, usually for comedic effect, but male dancers usually wear a leather or canvas slipper with a soft sole, which provides flexibility when jumping.</p>
+
+                <p>Each time a ballerina gets a new pair of pointe shoes, she has to break them in. This is done by pounding the box of the shoe with a hammer to soften it. Dancers also sew on ribbons and elastic to hold their shoes in place. Despite this time-consuming preparation, the shoes may only last for one performance, or even part of a performance, depending on the difficulty of the ballet. In the course of a single season, a professional ballerina can go through 100–120 pairs of pointe shoes.</p>
+            </div>
+        </div>
+
+        <div class="resizer" id="resizer"></div>
+
+        <!-- QUESTIONS -->
+        <div class="questions-panel" id="questions-panel">
+            <div id="questions-1">
+
+                <!-- Q 1–7: TRUE / FALSE / NOT GIVEN -->
+                <div class="question" data-q-start="1" data-q-end="7">
+                    <div class="question-prompt">
+                        <p><strong>Questions 1–7</strong></p>
+                        <p>Do the following statements agree with the information given in the passage?</p>
+                        <p>Write <strong>TRUE</strong> if the statement agrees with the information,<br>
+                        <strong>FALSE</strong> if the statement contradicts the information, or<br>
+                        <strong>NOT GIVEN</strong> if there is no information on this.</p>
+                    </div>
+
+                    <div class="tf-question" data-q-start="1" data-q-end="1">
+                        <div class="tf-question-line"><span class="tf-question-number">1</span><span class="tf-question-text">The first form of ballet was designed as entertainment for Italian society's upper classes.</span></div>
+                        <div class="tf-options">
+                            <label class="tf-option"><input type="radio" name="q1" value="TRUE"> TRUE</label>
+                            <label class="tf-option"><input type="radio" name="q1" value="FALSE"> FALSE</label>
+                            <label class="tf-option"><input type="radio" name="q1" value="NOT GIVEN"> NOT GIVEN</label>
+                        </div>
+                    </div>
+
+                    <div class="tf-question" data-q-start="2" data-q-end="2">
+                        <div class="tf-question-line"><span class="tf-question-number">2</span><span class="tf-question-text">The <em>Ballet de la Nuit</em> was Louis XIV's favourite ballet.</span></div>
+                        <div class="tf-options">
+                            <label class="tf-option"><input type="radio" name="q2" value="TRUE"> TRUE</label>
+                            <label class="tf-option"><input type="radio" name="q2" value="FALSE"> FALSE</label>
+                            <label class="tf-option"><input type="radio" name="q2" value="NOT GIVEN"> NOT GIVEN</label>
+                        </div>
+                    </div>
+
+                    <div class="tf-question" data-q-start="3" data-q-end="3">
+                        <div class="tf-question-line"><span class="tf-question-number">3</span><span class="tf-question-text">The strong link between ballet and opera was challenged in mid-18th century France.</span></div>
+                        <div class="tf-options">
+                            <label class="tf-option"><input type="radio" name="q3" value="TRUE"> TRUE</label>
+                            <label class="tf-option"><input type="radio" name="q3" value="FALSE"> FALSE</label>
+                            <label class="tf-option"><input type="radio" name="q3" value="NOT GIVEN"> NOT GIVEN</label>
+                        </div>
+                    </div>
+
+                    <div class="tf-question" data-q-start="4" data-q-end="4">
+                        <div class="tf-question-line"><span class="tf-question-number">4</span><span class="tf-question-text">In the first half of the 19th century the majority of ballet dancers were women.</span></div>
+                        <div class="tf-options">
+                            <label class="tf-option"><input type="radio" name="q4" value="TRUE"> TRUE</label>
+                            <label class="tf-option"><input type="radio" name="q4" value="FALSE"> FALSE</label>
+                            <label class="tf-option"><input type="radio" name="q4" value="NOT GIVEN"> NOT GIVEN</label>
+                        </div>
+                    </div>
+
+                    <div class="tf-question" data-q-start="5" data-q-end="5">
+                        <div class="tf-question-line"><span class="tf-question-number">5</span><span class="tf-question-text">Choreographers in 19th-century Russia were mostly interested in telling a story.</span></div>
+                        <div class="tf-options">
+                            <label class="tf-option"><input type="radio" name="q5" value="TRUE"> TRUE</label>
+                            <label class="tf-option"><input type="radio" name="q5" value="FALSE"> FALSE</label>
+                            <label class="tf-option"><input type="radio" name="q5" value="NOT GIVEN"> NOT GIVEN</label>
+                        </div>
+                    </div>
+
+                    <div class="tf-question" data-q-start="6" data-q-end="6">
+                        <div class="tf-question-line"><span class="tf-question-number">6</span><span class="tf-question-text">The classical tutu was very popular with ballerinas when it was first introduced.</span></div>
+                        <div class="tf-options">
+                            <label class="tf-option"><input type="radio" name="q6" value="TRUE"> TRUE</label>
+                            <label class="tf-option"><input type="radio" name="q6" value="FALSE"> FALSE</label>
+                            <label class="tf-option"><input type="radio" name="q6" value="NOT GIVEN"> NOT GIVEN</label>
+                        </div>
+                    </div>
+
+                    <div class="tf-question" data-q-start="7" data-q-end="7">
+                        <div class="tf-question-line"><span class="tf-question-number">7</span><span class="tf-question-text">George Balanchine began his ballet career in New York.</span></div>
+                        <div class="tf-options">
+                            <label class="tf-option"><input type="radio" name="q7" value="TRUE"> TRUE</label>
+                            <label class="tf-option"><input type="radio" name="q7" value="FALSE"> FALSE</label>
+                            <label class="tf-option"><input type="radio" name="q7" value="NOT GIVEN"> NOT GIVEN</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q 8–13: Notes Completion -->
+                <div class="question" data-q-start="8" data-q-end="13">
+                    <div class="question-prompt">
+                        <p><strong>Questions 8–13</strong></p>
+                        <p>Complete the notes below.</p>
+                        <p>Choose <strong>ONE WORD AND/OR A NUMBER</strong> from the passage for each answer.</p>
+                    </div>
+
+                    <div class="notes-box">
+                        <p><strong>Pointe shoes</strong></p>
+                        <p>• first worn in 1830s</p>
+                        <p>• make it seem as if the dancer is <input type="text" class="answer-input" id="q8" placeholder="8"> on air rather than dancing</p>
+                        <p>• are <input type="text" class="answer-input" id="q9" placeholder="9"> in appearance, but this is misleading</p>
+                        <p>• in the tip, layers of fabric, cardboard or paper form a rigid <input type="text" class="answer-input" id="q10" placeholder="10"></p>
+                        <p>• <input type="text" class="answer-input" id="q11" placeholder="11"> is used to make the materials tougher</p>
+                        <p>• no two pairs are identical</p>
+                        <p>• a <input type="text" class="answer-input" id="q12" placeholder="12"> is used to prepare shoes for dancing</p>
+                        <p>• dancers attach ribbons or elastic to their shoes</p>
+                        <p>• a ballerina can wear up to <input type="text" class="answer-input" id="q13" placeholder="13"> pairs in one season</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Nav arrows -->
+<div class="nav-arrows">
+    <button class="nav-arrow prev" onclick="previousQuestion()" aria-label="Previous">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="nav-arrow next" onclick="nextQuestion()" aria-label="Next">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+</div>
+
+<!-- Bottom nav -->
+<nav class="nav-row">
+    <div class="footer__questionWrapper">
+        <span class="footer__questionNo">
+            <strong>Part 1</strong>&nbsp;
+            <span id="attempted-count" style="font-weight:400; font-size:13px; opacity:0.7;">0 of 13</span>
+        </span>
+        <div class="footer__subquestions" id="sub-questions">
+            <!-- generated by JS -->
+        </div>
+    </div>
+    <button id="deliver-button" class="footer__deliverButton">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg>
+        <span>Check Answers</span>
+    </button>
+</nav>
+
+<!-- Context Menu -->
+<div id="contextMenu" class="context-menu">
+    <div class="context-menu-item" onclick="highlightText()">Highlight</div>
+    <div class="context-menu-item" onclick="addNote()">Note</div>
+    <div class="context-menu-item" id="menu-clear" onclick="clearHighlight()">Clear</div>
+</div>
+
+<!-- Results Modal -->
+<div id="results-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+        <button class="modal-close-btn" onclick="closeResultsModal()">&times;</button>
+        <h2>Results</h2>
+        <div class="results-summary">
+            <p>Score: <span id="results-score"></span> / 13</p>
+            <p>IELTS Band: <span id="results-band"></span></p>
+        </div>
+        <div id="results-details" class="results-details-container"></div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // ─── ANSWERS ───────────────────────────────────────────────
+    const correctAnswers = {
+        '1': 'TRUE',
+        '2': 'NOT GIVEN',
+        '3': 'TRUE',
+        '4': 'NOT GIVEN',
+        '5': 'FALSE',
+        '6': 'NOT GIVEN',
+        '7': 'NOT GIVEN',
+        '8': 'floating',
+        '9': 'delicate',
+        '10': 'box',
+        '11': 'glue',
+        '12': 'hammer',
+        '13': '100-120'
+    };
+
+    const TOTAL = 13;
+    let currentQuestion = 1;
+    let timeInSeconds = 1200; // 20 minutes
+    let timerInterval;
+    let selectedRange = null;
+
+    const timerDisplay = document.getElementById('timer-display');
+    const timerToggleBtn = document.getElementById('timer-toggle-btn');
+    const timerResetBtn = document.getElementById('timer-reset-btn');
+    const deliverBtn = document.getElementById('deliver-button');
+    const contextMenu = document.getElementById('contextMenu');
+    const passagePanel = document.getElementById('passage-panel');
+    const questionsPanel = document.getElementById('questions-panel');
+    const resizer = document.getElementById('resizer');
+
+    const pauseIcon = `<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 0 24 24" width="22px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+    const playIcon  = `<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 0 24 24" width="22px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/></svg>`;
+
+    // ─── DARK MODE ─────────────────────────────────────────────
+    document.body.setAttribute('data-theme', 'light');
+    document.getElementById('dark-mode-toggle').addEventListener('click', () => {
+        const isDark = document.body.getAttribute('data-theme') === 'dark';
+        document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    });
+
+    // ─── TIMER ─────────────────────────────────────────────────
+    function formatTime(s) {
+        const m = Math.floor(s / 60);
+        const sec = s % 60;
+        return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+    }
+
+    function startTimer() {
+        if (timerInterval) clearInterval(timerInterval);
+        timerToggleBtn.innerHTML = pauseIcon;
+        timerInterval = setInterval(() => {
+            timeInSeconds--;
+            timerDisplay.textContent = formatTime(timeInSeconds);
+            if (timeInSeconds <= 0) {
+                clearInterval(timerInterval);
+                timerDisplay.textContent = "Time's up!";
+                timerDisplay.style.color = '#dc3545';
+            }
+        }, 1000);
+    }
+
+    function pauseTimer() {
+        clearInterval(timerInterval);
+        timerToggleBtn.innerHTML = playIcon;
+    }
+
+    timerToggleBtn.addEventListener('click', () => {
+        if (timerToggleBtn.innerHTML.includes('M6 19h4V5H6')) {
+            pauseTimer();
+        } else {
+            startTimer();
+        }
+    });
+
+    timerResetBtn.addEventListener('click', () => {
+        timeInSeconds = 1200;
+        timerDisplay.textContent = formatTime(timeInSeconds);
+        timerDisplay.style.color = '';
+        startTimer();
+    });
+
+    // ─── BUILD SUB-QUESTION NAV ─────────────────────────────────
+    const subContainer = document.getElementById('sub-questions');
+    for (let i = 1; i <= TOTAL; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'subQuestion';
+        btn.setAttribute('data-qnum', i);
+        btn.innerHTML = `<span class="sr-only">Question ${i}</span><span aria-hidden="true">${i}</span>`;
+        btn.addEventListener('click', () => goToQuestion(i));
+        subContainer.appendChild(btn);
+    }
+
+    // ─── NAVIGATION ────────────────────────────────────────────
+    function goToQuestion(n) {
+        currentQuestion = n;
+        updateNavHighlight();
+
+        // Try to find the element (text input or radio group container)
+        const textEl = document.getElementById(`q${n}`);
+        if (textEl) {
+            scrollIfNeeded(textEl);
+            textEl.focus();
+        } else {
+            const block = document.querySelector(`.tf-question[data-q-start="${n}"]`);
+            if (block) {
+                scrollIfNeeded(block);
+                block.classList.add('active-question');
+            }
+        }
+    }
+
+    function updateNavHighlight() {
+        document.querySelectorAll('.subQuestion').forEach(b => b.classList.remove('active'));
+        const active = document.querySelector(`.subQuestion[data-qnum="${currentQuestion}"]`);
+        if (active) active.classList.add('active');
+        updateAttemptedCount();
+    }
+
+    function scrollIfNeeded(el) {
+        const panel = el.closest('.questions-panel') || el.closest('.passage-panel');
+        if (!panel) return;
+        const pr = panel.getBoundingClientRect();
+        const er = el.getBoundingClientRect();
+        if (er.top < pr.top || er.bottom > pr.bottom) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    window.nextQuestion = () => { if (currentQuestion < TOTAL) goToQuestion(currentQuestion + 1); };
+    window.previousQuestion = () => { if (currentQuestion > 1) goToQuestion(currentQuestion - 1); };
+
+    function isAnswered(n) {
+        const t = document.getElementById(`q${n}`);
+        if (t && t.value.trim()) return true;
+        const r = document.querySelector(`input[name="q${n}"]:checked`);
+        return !!r;
+    }
+
+    function updateAttemptedCount() {
+        let count = 0;
+        for (let i = 1; i <= TOTAL; i++) if (isAnswered(i)) count++;
+        document.getElementById('attempted-count').textContent = `${count} of ${TOTAL}`;
+        document.querySelectorAll('.subQuestion').forEach(b => {
+            const n = parseInt(b.getAttribute('data-qnum'));
+            b.classList.toggle('answered', isAnswered(n));
+        });
+    }
+
+    document.body.addEventListener('input', updateAttemptedCount);
+    document.body.addEventListener('change', updateAttemptedCount);
+
+    // Click on TF question → navigate
+    document.querySelectorAll('.tf-question').forEach(el => {
+        el.addEventListener('click', () => {
+            const n = parseInt(el.dataset.qStart);
+            if (!isNaN(n)) goToQuestion(n);
+        });
+    });
+
+    // Focus on input → navigate
+    document.querySelectorAll('.answer-input[id]').forEach(input => {
+        input.addEventListener('focus', () => {
+            const n = parseInt(input.id.replace('q',''));
+            if (!isNaN(n)) goToQuestion(n);
+        });
+    });
+
+    document.querySelectorAll('input[type="radio"]').forEach(r => {
+        r.addEventListener('change', () => {
+            const n = parseInt(r.name.replace('q',''));
+            if (!isNaN(n)) goToQuestion(n);
+        });
+    });
+
+    // ─── RESIZER ───────────────────────────────────────────────
+    resizer.addEventListener('mousedown', e => {
+        e.preventDefault();
+        const startX = e.clientX;
+        const startW = passagePanel.offsetWidth;
+        const doDrag = e2 => {
+            const nw = startW + e2.clientX - startX;
+            if (nw > 200 && (document.body.clientWidth - nw - resizer.offsetWidth) > 200) {
+                passagePanel.style.flex = `0 0 ${nw}px`;
+            }
+        };
+        const stopDrag = () => {
+            window.removeEventListener('mousemove', doDrag);
+            window.removeEventListener('mouseup', stopDrag);
+        };
+        window.addEventListener('mousemove', doDrag);
+        window.addEventListener('mouseup', stopDrag);
+    });
+
+    // ─── CONTEXT MENU ──────────────────────────────────────────
+    document.addEventListener('selectionchange', () => {
+        const sel = window.getSelection();
+        if (sel && !sel.isCollapsed && sel.toString().trim()) {
+            const range = sel.getRangeAt(0);
+            if (passagePanel.contains(range.commonAncestorContainer) ||
+                questionsPanel.contains(range.commonAncestorContainer)) {
+                selectedRange = range;
+            }
+        }
+    });
+
+    [passagePanel, questionsPanel].forEach(panel => {
+        panel.addEventListener('contextmenu', e => {
+            const onHighlight = e.target.closest('.highlight, .comment-highlight');
+            const hasSelection = selectedRange && selectedRange.toString().trim();
+            if (!onHighlight && !hasSelection) return;
+            e.preventDefault();
+            contextMenu.targetEl = onHighlight || null;
+            document.getElementById('menu-clear').style.display = onHighlight ? 'block' : 'none';
+            contextMenu.style.display = 'block';
+            let left = e.pageX, top = e.pageY - contextMenu.offsetHeight - 4;
+            if (left + 140 > window.innerWidth) left = window.innerWidth - 145;
+            if (top < 0) top = e.pageY + 4;
+            contextMenu.style.left = `${left}px`;
+            contextMenu.style.top = `${top}px`;
+        });
+    });
+
+    document.addEventListener('click', e => {
+        if (!contextMenu.contains(e.target)) contextMenu.style.display = 'none';
+    });
+
+    window.highlightText = () => {
+        if (selectedRange && !selectedRange.collapsed) {
+            const span = document.createElement('span');
+            span.className = 'highlight';
+            span.appendChild(selectedRange.extractContents());
+            selectedRange.insertNode(span);
+        }
+        contextMenu.style.display = 'none';
+        window.getSelection().removeAllRanges();
+        selectedRange = null;
+    };
+
+    window.addNote = () => {
+        const note = prompt('Enter your note:');
+        if (note && selectedRange && !selectedRange.collapsed) {
+            const span = document.createElement('span');
+            span.className = 'comment-highlight';
+            span.title = note;
+            span.appendChild(selectedRange.extractContents());
+            selectedRange.insertNode(span);
+        }
+        contextMenu.style.display = 'none';
+        window.getSelection().removeAllRanges();
+        selectedRange = null;
+    };
+
+    window.clearHighlight = () => {
+        const el = contextMenu.targetEl;
+        if (el) {
+            const parent = el.parentNode;
+            while (el.firstChild) parent.insertBefore(el.firstChild, el);
+            parent.removeChild(el);
+            parent.normalize();
+        }
+        contextMenu.style.display = 'none';
+    };
+
+    // ─── BAND SCORE ────────────────────────────────────────────
+    function bandFromScore13(score) {
+        if (score >= 13) return '9.0';
+        if (score >= 12) return '8.5';
+        if (score >= 11) return '8.0';
+        if (score >= 10) return '7.5';
+        if (score >= 9)  return '7.0';
+        if (score >= 8)  return '6.5';
+        if (score >= 7)  return '6.0';
+        if (score >= 6)  return '5.5';
+        if (score >= 5)  return '5.0';
+        if (score >= 4)  return '4.5';
+        if (score >= 3)  return '4.0';
+        if (score >= 2)  return '3.5';
+        if (score >= 1)  return '3.0';
+        return '2.5';
+    }
+
+    // ─── CHECK ANSWERS ─────────────────────────────────────────
+    function normalize(s) {
+        return (s || '').toLowerCase().replace(/[^a-z0-9\-]/g,'').trim();
+    }
+
+    deliverBtn.addEventListener('click', checkAnswers);
+
+    function checkAnswers() {
+        // Disable inputs
+        document.querySelectorAll('input, select').forEach(el => el.disabled = true);
+        clearInterval(timerInterval);
+        deliverBtn.disabled = true;
+
+        let score = 0;
+        const detailsEl = document.getElementById('results-details');
+        detailsEl.innerHTML = '';
+
+        for (let i = 1; i <= TOTAL; i++) {
+            const correct = correctAnswers[String(i)];
+            let userAnswer = '';
+            let isCorrect = false;
+
+            const textInput = document.getElementById(`q${i}`);
+            const radioGroup = document.querySelectorAll(`input[name="q${i}"][type="radio"]`);
+
+            if (textInput) {
+                userAnswer = textInput.value.trim();
+                const normUser = normalize(userAnswer);
+                const normCorrect = normalize(correct);
+                // Accept both "100-120" and "100–120"
+                isCorrect = normUser === normCorrect || normUser === normCorrect.replace('-','');
+                textInput.classList.add(isCorrect ? 'correct' : 'incorrect');
+                if (!isCorrect && userAnswer) {
+                    const span = document.createElement('span');
+                    span.className = 'correct-answer-display';
+                    span.innerHTML = `&nbsp;➜&nbsp;${correct}`;
+                    textInput.parentNode.insertBefore(span, textInput.nextSibling);
+                }
+            } else if (radioGroup.length > 0) {
+                const checked = document.querySelector(`input[name="q${i}"]:checked`);
+                if (checked) {
+                    userAnswer = checked.value;
+                    isCorrect = userAnswer === correct;
+                    const lbl = checked.closest('.tf-option');
+                    if (lbl) lbl.classList.add(isCorrect ? 'correct' : 'incorrect');
+                }
+                if (!isCorrect) {
+                    const correctRadio = document.querySelector(`input[name="q${i}"][value="${correct}"]`);
+                    if (correctRadio) {
+                        const cl = correctRadio.closest('.tf-option');
+                        if (cl && !cl.classList.contains('incorrect')) cl.classList.add('correct');
+                    }
+                }
+            }
+
+            if (isCorrect) score++;
+
+            // Update nav button
+            const navBtn = document.querySelector(`.subQuestion[data-qnum="${i}"]`);
+            if (navBtn) {
+                navBtn.classList.remove('answered', 'active');
+                navBtn.classList.add(isCorrect ? 'correct' : 'incorrect');
+            }
+
+            // Result row
+            detailsEl.innerHTML += `
+                <div class="result-row ${isCorrect ? 'correct' : 'incorrect'}">
+                    <span class="q-num">${i}</span>
+                    <span class="user-ans">${userAnswer || 'Not Answered'}</span>
+                    <span class="correct-ans">${correct}</span>
+                    <span class="status-badge ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? 'Correct' : 'Incorrect'}</span>
+                </div>`;
+        }
+
+        document.getElementById('results-score').textContent = score;
+        document.getElementById('results-band').textContent = bandFromScore13(score);
+        document.getElementById('results-modal').classList.remove('hidden');
+
+        // Change button
+        deliverBtn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg><span>My Result</span>`;
+        deliverBtn.style.backgroundColor = '#4CAF50';
+        deliverBtn.style.color = 'white';
+        deliverBtn.style.borderColor = '#4CAF50';
+        deliverBtn.disabled = false;
+        deliverBtn.removeEventListener('click', checkAnswers);
+        deliverBtn.addEventListener('click', () => document.getElementById('results-modal').classList.remove('hidden'));
+
+        // Highlight answers in passage
+        highlightAnswersInPassage();
+    }
+
+    // ─── HIGHLIGHT ANSWERS IN PASSAGE ──────────────────────────
+    function highlightAnswersInPassage() {
+        const passage = document.getElementById('passage-text-1');
+        if (!passage) return;
+
+        // Map of answer text snippets to question numbers
+        const highlights = [
+            { q: 1,  phrase: 'The nobility were treated to extravagant events' },
+            { q: 2,  phrase: 'Ballet de la Nuit' },
+            { q: 3,  phrase: 'rebelled against the artifice of opera-ballet' },
+            { q: 5,  phrase: 'The primary purpose of Russian ballet in this period was to display classical technique' },
+            { q: 8,  phrase: 'give a sense that the ballerina is floating on air' },
+            { q: 9,  phrase: 'they look very delicate' },
+            { q: 10, phrase: 'The tip of the shoe is a rigid box' },
+            { q: 11, phrase: 'hardened by glue' },
+            { q: 12, phrase: 'pounding the box of the shoe with a hammer' },
+            { q: 13, phrase: '100–120 pairs of pointe shoes' },
+        ];
+
+        // Work on HTML of each paragraph
+        const paras = passage.querySelectorAll('p');
+        paras.forEach(para => {
+            let html = para.innerHTML;
+
+            highlights.forEach(item => {
+                // Case-insensitive search, but preserve original text
+                const escaped = item.phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                const re = new RegExp(`(${escaped})`, 'gi');
+                if (re.test(html)) {
+                    html = html.replace(re, (match) =>
+                        `<span class="answer-highlight">${match}<span class="answer-badge">${item.q}</span></span>`
+                    );
+                }
+            });
+
+            para.innerHTML = html;
+        });
+    }
+
+    window.closeResultsModal = () => document.getElementById('results-modal').classList.add('hidden');
+
+    // ─── START ─────────────────────────────────────────────────
+    startTimer();
+    goToQuestion(1);
+    updateAttemptedCount();
+});
+</script>
+</body>
+</html>

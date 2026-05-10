@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Full Reading Practice - Passage 2</title>
+    <style>
+        /* CSS Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            /* LIGHT MODE COLORS (DEFAULT) */
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --header-bg: #ffffff;
+            --border-color: #e0e0e0;
+            --panel-bg: #ffffff;
+            --question-bg: #ffffff;
+            --input-bg: #ffffff;
+            --input-border: #bfbfbf;
+            --input-focus: #3581d8;
+            --correct-color: #28a745;
+            --incorrect-color: #dc3545;
+            --highlight-bg: #ffff00;
+            --modal-bg: #ffffff;
+            --nav-bg: #ffffff;
+            --resizer-bg: #f0f0f0;
+            --part-header-bg: #f1f2ec;
+            --timer-bg: #f0f0f0;
+            --link-color: #1e88e5;
+            --shadow-color: rgba(0,0,0,0.1);
+            --table-border: #ddd;
+            --table-header-bg: #007bff;
+            --table-cell-bg: #fafafa;
+            --drop-zone-bg: #f9f9f9;
+            --drag-item-bg: #ffffff;
+            --logo-brightness: 1;
+        }
+        [data-theme="dark"] {
+            /* DARK MODE COLORS */
+            --bg-color: #1a1a1a;
+            --text-color: #e0e0e0;
+            --header-bg: #2d2d2d;
+            --border-color: #444444;
+            --panel-bg: #2d2d2d;
+            --question-bg: #333333;
+            --input-bg: #3a3a3a;
+            --input-border: #555555;
+            --input-focus: #4a90e2;
+            --correct-color: #2ecc71;
+            --incorrect-color: #e74c3c;
+            --highlight-bg: #ffeb3b;
+            --modal-bg: #2d2d2d;
+            --nav-bg: #2d2d2d;
+            --resizer-bg: #444444;
+            --part-header-bg: #3a3a3a;
+            --timer-bg: #444444;
+            --link-color: #64b5f6;
+            --shadow-color: rgba(0,0,0,0.3);
+            --table-border: #555;
+            --table-header-bg: #0056b3;
+            --table-cell-bg: #3a3a3a;
+            --drop-zone-bg: #3a3a3a;
+            --drag-item-bg: #444444;
+            --logo-brightness: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.4;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        /* Header Styles */
+        .header {
+            background-color: var(--header-bg);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 60px;
+            transition: all 0.3s;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .ielts-logo {
+            height: 55px;
+            width: auto;
+            filter: brightness(var(--logo-brightness, 1));
+        }
+        .telegram-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: var(--link-color);
+            font-weight: bold;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        .telegram-link:hover {
+            text-decoration: underline;
+        }
+        /* Timer Container */
+        .timer-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        .timer-display {
+            font-weight: 600;
+            min-width: 60px;
+        }
+        .timer-controls {
+            display: flex;
+            gap: 8px;
+        }
+        .timer-controls button,
+        .dark-mode-btn {
+            background: var(--timer-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        .timer-controls button:hover,
+        .dark-mode-btn:hover {
+            background: var(--border-color);
+            transform: scale(1.05);
+        }
+        .timer-controls button svg,
+        .dark-mode-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--text-color);
+            transition: fill 0.3s;
+        }
+        /* Main Container */
+        .main-container {
+            margin-top: 60px;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-color);
+            height: calc(100vh - 60px);
+            position: relative;
+        }
+        .panels-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        .passage-panel,
+        .questions-panel {
+            flex: 1;
+            padding: 20px 20px 100px;
+            overflow-y: auto;
+            min-width: 200px;
+            background-color: var(--panel-bg);
+            transition: background-color 0.3s;
+        }
+        .questions-panel {
+            border-left: 1px solid var(--border-color);
+        }
+        /* Resizer */
+        .resizer {
+            width: 10px;
+            cursor: col-resize;
+            background-color: var(--resizer-bg);
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23888"/></svg>');
+            background-repeat: no-repeat;
+            background-position: center;
+            flex-shrink: 0;
+            flex-grow: 0;
+            transition: background-color 0.3s;
+        }
+        [data-theme="dark"] .resizer {
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23aaa"/></svg>');
+        }
+        /* Passage Content */
+        .reading-passage h4 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #000000;
+        }
+        .reading-passage p {
+            margin-bottom: 1.2em;
+            color: #000000;
+        }
+        .reading-passage strong {
+            color: #000000;
+        }
+        /* Question Styles */
+        .question {
+            margin-bottom: 40px;
+        }
+        .question-prompt {
+            margin-bottom: 20px;
+        }
+        .question-prompt p {
+            margin-bottom: 10px;
+            color: #000000;
+        }
+        /* Answer Inputs */
+        .answer-input {
+            border: 1px solid var(--input-border);
+            border-radius: 4px;
+            background-color: var(--input-bg);
+            padding: 2px 8px;
+            font-size: 16px;
+            text-align: left;
+            font-weight: 700;
+            margin-right: 6px;
+            margin-left: 6px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s, color 0.3s;
+            height: 28px;
+            min-width: 150px;
+            color: #000000;
+        }
+        .answer-input.active-input,
+        .answer-input:focus {
+            border-color: var(--input-focus);
+            border-width: 2px;
+            outline: none;
+        }
+        .answer-input::placeholder {
+            color: #000000;
+            opacity: 0.7;
+            font-weight: 700;
+            text-align: center;
+        }
+        .answer-input.correct {
+            border-color: var(--correct-color);
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+        .answer-input.incorrect {
+            border-color: var(--incorrect-color);
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #000000;
+        }
+        /* Part Header */
+        .part-header {
+            background-color: var(--part-header-bg);
+            padding: 15px 20px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+            margin: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .part-header p {
+            margin: 0;
+            color: #000000;
+        }
+        .part-header p:first-child {
+            margin-bottom: 5px;
+        }
+        /* Matching Headings */
+        .heading-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .heading-table td {
+            padding: 12px;
+            border: 1px solid var(--table-border);
+            vertical-align: top;
+            color: #000000;
+        }
+        .heading-table .paragraph {
+            width: 60%;
+            background-color: var(--panel-bg);
+        }
+        .heading-table .select-cell {
+            width: 40%;
+            background-color: var(--table-cell-bg);
+        }
+        /* Summary Completion */
+        .summary-text {
+            margin-top: 15px;
+        }
+        .summary-text p {
+            margin-bottom: 15px;
+            color: #000000;
+        }
+        /* Matching Table for 24-26 */
+        .matching-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .matching-table th {
+            background-color: var(--table-header-bg);
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+            border: 1px solid var(--table-border);
+        }
+        .matching-table td {
+            padding: 12px;
+            border: 1px solid var(--table-border);
+            vertical-align: top;
+            color: #000000;
+        }
+        .matching-table .statement {
+            text-align: left;
+            width: 60%;
+            background-color: var(--panel-bg);
+        }
+        .matching-table td:not(.statement) {
+            text-align: center;
+            width: 8%;
+            min-width: 60px;
+            background-color: var(--table-cell-bg);
+        }
+        .matching-table .clickable-cell {
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-height: 40px;
+            border: 2px solid var(--border-color);
+            position: relative;
+            background-color: var(--table-cell-bg);
+            min-width: 40px;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 12px;
+            color: #000000;
+            font-weight: bold;
+        }
+        .matching-table .clickable-cell:hover {
+            background-color: var(--part-header-bg);
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
+        }
+        .matching-table .clickable-cell.selected {
+            background-color: rgba(74, 144, 226, 0.2);
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.3);
+        }
+        .matching-table .clickable-cell.correct {
+            background-color: rgba(40, 167, 69, 0.2) !important;
+            border-color: var(--correct-color) !important;
+        }
+        .matching-table .clickable-cell.incorrect {
+            background-color: rgba(220, 53, 69, 0.2) !important;
+            border-color: var(--incorrect-color) !important;
+        }
+        /* Navigation Arrows */
+        .nav-arrows {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            display: flex;
+            gap: 6px;
+            z-index: 101;
+        }
+        .nav-arrow {
+            width: 48px;
+            height: 48px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            transition: transform 0.1s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 6px var(--shadow-color);
+            outline: none;
+            border-radius: 50%;
+        }
+        .nav-arrow.prev { background-color: #4b5563; }
+        .nav-arrow.next { background-color: #000000; }
+        [data-theme="dark"] .nav-arrow.prev { background-color: #6b7280; }
+        [data-theme="dark"] .nav-arrow.next { background-color: #333333; }
+        .nav-arrow:hover { transform: translateY(-1px); }
+        .nav-arrow:active { transform: translateY(0); }
+        /* Bottom Navigation */
+        .nav-row {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--nav-bg);
+            padding: 0;
+            display: flex;
+            align-items: center;
+            height: 80px;
+            z-index: 100;
+            border-top: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+        .footer__questionWrapper___1tZ46 {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        .footer__questionNo___3WNct {
+            background: none;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #000000;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.2s;
+            border-radius: 4px;
+        }
+        .footer__questionNo___3WNct:hover {
+            background-color: var(--part-header-bg);
+        }
+        .section-prefix {
+            font-size: 16px;
+            color: #000000;
+        }
+        .sectionNr {
+            font-size: 16px;
+            font-weight: bold;
+            color: #000000;
+        }
+        .attemptedCount {
+            font-size: 14px;
+            color: #000000;
+            opacity: 0.7;
+            margin-left: 5px;
+            font-weight: 400;
+        }
+        .footer__subquestionWrapper___9GgoP {
+            display: none;
+            gap: 2px;
+            margin-left: 10px;
+        }
+        .footer__questionWrapper___1tZ46.selected .footer__subquestionWrapper___9GgoP {
+            display: flex;
+        }
+        .subQuestion {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            color: #000000;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            border-radius: 2px;
+        }
+        .subQuestion:hover {
+            background-color: var(--part-header-bg);
+            border-color: var(--input-focus);
+        }
+        .subQuestion.answered {
+            background-color: var(--part-header-bg);
+            border-color: var(--border-color);
+        }
+        .subQuestion.correct {
+            background-color: var(--correct-color);
+            color: white;
+            border-color: var(--correct-color);
+        }
+        .subQuestion.incorrect {
+            background-color: var(--incorrect-color);
+            color: white;
+            border-color: var(--incorrect-color);
+        }
+        .subQuestion.active {
+            background-color: var(--input-focus);
+            color: white;
+            border-color: var(--input-focus);
+        }
+        /* Submit Button */
+        .footer__deliverButton___3FM07 {
+            margin-left: auto;
+            margin-right: 20px;
+            background-color: var(--part-header-bg);
+            color: #000000;
+            border: 1px solid var(--border-color);
+            padding: 10px 16px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.08s ease, background-color 0.2s ease, border-color 0.2s ease;
+            min-width: 160px;
+            justify-content: center;
+            border-radius: 4px;
+        }
+        .footer__deliverButton___3FM07:hover {
+            background-color: var(--border-color);
+        }
+        .footer__deliverButton___3FM07:active {
+            transform: translateY(1px);
+        }
+        .footer__deliverButton___3FM07:disabled {
+            background: var(--part-header-bg);
+            opacity: 0.5;
+            color: #000000;
+            cursor: not-allowed;
+            border-color: var(--border-color);
+        }
+        /* Hidden Class */
+        .hidden {
+            display: none !important;
+        }
+        /* Context Menu */
+        .context-menu {
+            position: absolute;
+            background: var(--modal-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            z-index: 1000;
+            display: none;
+            min-width: 140px;
+        }
+        .context-menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            font-size: 16px;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #000000;
+        }
+        .context-menu-item:hover {
+            background-color: var(--part-header-bg);
+        }
+        .context-menu-item:last-child {
+            border-bottom: none;
+        }
+        /* Highlighting */
+        .highlight {
+            background-color: var(--highlight-bg);
+            color: #000;
+        }
+        .answer-highlight {
+            background-color: #ffeb3b;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: bold;
+            position: relative;
+            color: #000;
+        }
+        /* Results Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(17, 24, 39, 0.6);
+            backdrop-filter: blur(3px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-overlay.hidden {
+            display: none;
+        }
+        .modal-content {
+            background: var(--modal-bg);
+            padding: 24px;
+            border-radius: 14px;
+            width: 92%;
+            max-width: 780px;
+            max-height: 86vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 60px var(--shadow-color);
+            color: #000000;
+        }
+        .modal-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #000000;
+        }
+        .modal-content h2 {
+            text-align: center;
+            margin-bottom: 18px;
+            color: #000000;
+        }
+        .results-summary {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 16px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+        .results-summary p {
+            margin: 0;
+            font-size: 14px;
+            color: #000000;
+        }
+        .results-summary p span {
+            display: inline-block;
+            padding: 4px 10px;
+            margin-left: 6px;
+            border-radius: 999px;
+            background: var(--part-header-bg);
+            font-weight: 700;
+            color: #000000;
+        }
+        .results-details-container {
+            overflow-y: auto;
+            padding-right: 10px;
+            border-radius: 8px;
+        }
+        .result-row {
+            display: grid;
+            grid-template-columns: 56px 1fr 1fr 120px;
+            gap: 12px;
+            padding: 10px 8px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 15px;
+            align-items: center;
+        }
+        .result-row.correct {
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+        .result-row.incorrect {
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+        .result-row .q-num {
+            font-weight: 700;
+            color: #000000;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            width: 42px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .result-row .user-ans {
+            color: #000000;
+            background: var(--part-header-bg);
+            border: 1px solid var(--border-color);
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+        .result-row .correct-ans {
+            color: var(--correct-color);
+            font-weight: 600;
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid var(--correct-color);
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+        .status-badge {
+            justify-self: end;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            border: 1px solid transparent;
+        }
+        .status-badge.ok {
+            background: rgba(40, 167, 69, 0.2);
+            color: var(--correct-color);
+            border-color: var(--correct-color);
+        }
+        .status-badge.bad {
+            background: rgba(220, 53, 69, 0.2);
+            color: var(--incorrect-color);
+            border-color: var(--incorrect-color);
+        }
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--panel-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--input-focus);
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <!-- Header with Dark Mode Button -->
+    <div class="header">
+        <div class="header-left">
+            <img src="https://i.pinimg.com/736x/88/93/a8/8893a81fed78f6989142a13e3605c45e.jpg" alt="IELTS Logo" class="ielts-logo">
+            <a href="https://t.me/FOZILBEK_IELTS" target="_blank" class="telegram-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-.38.24-1.07.7-.96.66-1.89 1.28-1.89 1.28s-.17.11-.49.03c-.32-.08-.72-.26-1.16-.47-.54-.26-1.17-.53-1.17-.53s-.87-.55.62-1.14c.32-.13 1.96-.84 2.99-1.2 1.05-.37 2.86-1.01 2.86-1.01s1.02-.4 1.02 0z" fill="currentColor"/>
+                </svg>
+                @FOZILBEK_IELTS
+            </a>
+        </div>
+        <div class="header-right">
+            <div class="timer-container">
+                <span class="timer-display">20:00</span>
+                <div class="timer-controls">
+                    <button id="timer-toggle-btn" title="Pause/Resume Timer">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px">
+                            <path d="M0 0h24v24H0V0z" fill="none"/>
+                            <path d="M8 5v14l11-7L8 5z"/>
+                        </svg>
+                    </button>
+                    <button id="timer-reset-btn" title="Reset Timer">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px">
+                            <path d="M0 0h24v24H0V0z" fill="none"/>
+                            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+                        </svg>
+                    </button>
+                </div>
+                <button class="dark-mode-btn" id="dark-mode-toggle" title="Toggle Dark Mode">
+                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container" id="main-container">
+        <div id="passage-header-container">
+            <div id="part-header" class="part-header">
+                <p><strong>Reading Passage 2</strong></p>
+                <p>You should spend about 20 minutes on Questions 14–26, which are based on Reading Passage 2 below.</p>
+            </div>
+        </div>
+        <div class="panels-container">
+            <!-- PASSAGE PANEL -->
+            <div class="passage-panel" id="passage-panel">
+                <div id="passage-text" class="reading-passage">
+                    <h4 class="text-center">How do plants talk to each other?</h4>
+                    <p><strong>Research shows that plants communicate and interact with each other in surprisingly subtle and sophisticated ways.</strong></p>
+
+                    <p><strong>A</strong> In 1983, plant scientists Jack Schultz and Ian Baldwin reported that the leaves of young maple trees increased their defense systems when exposed to maples that had been damaged by plant-eating (herbivorous) insects. The injured trees, they suggested, were alerting neighbors to the presence of a predator by releasing chemical signals into the air. But the plant research community did not accept this. The results were difficult to replicate, critics pointed out. Many also questioned how it could be evolutionarily stable if it benefited neighboring plants but not the plant releasing the signal. By the late 1980s, most ecologists felt that Schultz and Baldwin’s idea had been discredited.</p>
+
+                    <p><strong>B</strong> A decade later, however, a number of more carefully designed experiments began to yield convincing indications to the contrary. In 2000, evolutionary ecologist Richard Karban showed that wild tobacco plants became resistant to herbivores when grown in close proximity to sagebrush plants whose leaves had been damaged by cutting. This change appeared to be in response to chemicals – known as volatile organic compounds or VOCs – released by the sagebrush plants. Other researchers soon reported similar VOC-induced defense responses in several other plants, including lima bean, broad bean, barley, and corn. And in 2006, Karban showed that VOCs released by damaged sagebrush induce herbivore resistance in plants growing at distances of up to 60 cm, well within the range of sagebrush neighbors in nature.</p>
+
+                    <p><strong>C</strong> But the question still remains: ‘Why should a plant waste valuable resources on a function which has no obvious advantage for it?’ One hypothesis is that external communication channels are merely an extension of within-plant signaling. In sagebrush, lima bean, and poplar, VOCs released from damaged parts of a plant induce resistance in intact sections of the same plant, suggesting that each individual plant uses the signals to coordinate its own physiological responses to protect itself. Karban agrees, saying: ‘The interplant signaling we see may be a result of plants co-opting that process.’ Alternatively, VOC-based signaling between plants may have been favored because it enhances the ‘extended fitness’ of the sender by aiding related plants of the same species: a strategy known as kin selection.</p>
+
+                    <p><strong>D</strong> Over the past few years, a team led by Ariel Novoplansky of Ben-Gurion University of the Negev in Israel seems to have found proof that distress signals can be passed through the plants’ roots. They planted garden pea plants in rows and subjected the first in each row to conditions similar to those experienced in a drought. They then evaluated the response by measuring the microscopic holes on leaves, known as pores, which react when there is a shortage of water. After fifteen minutes, the stressed plant was seen to be closing its pores, followed by all of its neighbors, one by one. Importantly, in a control setup where root contact between neighboring plants was blocked, pores stayed open. Meanwhile, David Johnson’s team at the University of Aberdeen in Scotland have been studying the labyrinths of hair-like fungi that occur around the roots of most plants. These fungi are involved in an important two-way relationship: in exchange for sugars, they provide plants with much-needed phosphorus and nitrogen. Research in which broad bean plants were infested with aphids – small herbivorous insects – revealed that these networks also served as a channel for warning neighboring plants of the infestation.</p>
+
+                    <p><strong>E</strong> Monica Gagliano of the University of Western Australia believes that plants may even use sounds to alert their neighbors. In one study, she demonstrated that chili plants growing next to fennel plants developed more quickly than seedlings grown with other chili plants. Gagliano and her colleagues suspect the chili plants were compensating for the presence of the fennel, which is known to release chemicals that inhibit the growth of other plants. Remarkably, however, when plant communication pathways – airborne volatiles, root contact, and common fungal networks – were blocked, the results begged for an alternative explanation. ‘We think this other channel of communication might be acoustic,’ says Gagliano. But behavioral ecologist Carel ten Cate of the University of Leiden in the Netherlands points out that taking advantage of such benefits would require sensory mechanisms yet to be described in plants. Despite widespread skepticism, Gagliano has received some encouragement. Richard Karban, for example, is cautiously enthusiastic. ‘Whether or not the explanation she favors is the right one,’ he says, ‘I think that she’s gotten results that, as a field, we need to come to grips with.’</p>
+
+                    <p><strong>F</strong> Researchers believe that knowledge of this phenomenon could eventually be applied to agriculture, and lead to the cultivation of hardier crops. But all agree that there is still much work to be done: applying our limited knowledge of plant-communication mechanisms to agriculture is a big jump, says Johnson, ‘but it is definitely on the horizon.’ Nevertheless, one message has emerged loud and clear from those studying this new realm of botanical interaction: despite not possessing eyes, ears, or a nervous system, plants are anything but uncommunicative. ‘When I started my PhD (in the late 1980s), all this stuff was considered very weird,’ recalls Ariel Novoplansky. ‘Today, there is no doubt. We now recognise that plants are capable of some very sophisticated exchanges of information with other plants. This idea is not strange anymore.’</p>
+                </div>
+            </div>
+
+            <div class="resizer" id="resizer"></div>
+
+            <!-- QUESTIONS PANEL -->
+            <div class="questions-panel" id="questions-panel">
+                <div id="questions" class="question-set">
+
+                    <!-- Questions 14-19: Matching Headings -->
+                    <div class="question" data-q-start="14" data-q-end="19">
+                        <div class="question-prompt">
+                            <p><strong>Questions 14–19</strong></p>
+                            <p>Reading Passage 2 has six paragraphs, A–F.</p>
+                            <p>Choose the correct heading for each paragraph from the list of headings below.</p>
+                            <p>Write the correct number, i–viii, in boxes 14–19 on your answer sheet.</p>
+                        </div>
+
+                        <table class="heading-table">
+                            <thead>
+                                <tr>
+                                    <th>List of Headings</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i Sending messages underground</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>ii Potential advantages for farmers</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>iii The widespread rejection of an idea</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>iv One species accelerating growth in another</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>v Some obstacles to plant communication</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>vi Evidence leading to renewed belief in a theory</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>vii New technologies which helped researchers</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>viii A suggested benefit to the sender of plant communication</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="summary-text">
+                            <p><strong>14</strong> Paragraph A 
+                                <select name="q14" id="q14" class="answer-input">
+                                    <option value="">Select</option>
+                                    <option value="i">i</option>
+                                    <option value="ii">ii</option>
+                                    <option value="iii">iii</option>
+                                    <option value="iv">iv</option>
+                                    <option value="v">v</option>
+                                    <option value="vi">vi</option>
+                                    <option value="vii">vii</option>
+                                    <option value="viii">viii</option>
+                                </select>
+                            </p>
+                            <p><strong>15</strong> Paragraph B 
+                                <select name="q15" id="q15" class="answer-input">
+                                    <option value="">Select</option>
+                                    <option value="i">i</option>
+                                    <option value="ii">ii</option>
+                                    <option value="iii">iii</option>
+                                    <option value="iv">iv</option>
+                                    <option value="v">v</option>
+                                    <option value="vi">vi</option>
+                                    <option value="vii">vii</option>
+                                    <option value="viii">viii</option>
+                                </select>
+                            </p>
+                            <p><strong>16</strong> Paragraph C 
+                                <select name="q16" id="q16" class="answer-input">
+                                    <option value="">Select</option>
+                                    <option value="i">i</option>
+                                    <option value="ii">ii</option>
+                                    <option value="iii">iii</option>
+                                    <option value="iv">iv</option>
+                                    <option value="v">v</option>
+                                    <option value="vi">vi</option>
+                                    <option value="vii">vii</option>
+                                    <option value="viii">viii</option>
+                                </select>
+                            </p>
+                            <p><strong>17</strong> Paragraph D 
+                                <select name="q17" id="q17" class="answer-input">
+                                    <option value="">Select</option>
+                                    <option value="i">i</option>
+                                    <option value="ii">ii</option>
+                                    <option value="iii">iii</option>
+                                    <option value="iv">iv</option>
+                                    <option value="v">v</option>
+                                    <option value="vi">vi</option>
+                                    <option value="vii">vii</option>
+                                    <option value="viii">viii</option>
+                                </select>
+                            </p>
+                            <p><strong>18</strong> Paragraph E 
+                                <select name="q18" id="q18" class="answer-input">
+                                    <option value="">Select</option>
+                                    <option value="i">i</option>
+                                    <option value="ii">ii</option>
+                                    <option value="iii">iii</option>
+                                    <option value="iv">iv</option>
+                                    <option value="v">v</option>
+                                    <option value="vi">vi</option>
+                                    <option value="vii">vii</option>
+                                    <option value="viii">viii</option>
+                                </select>
+                            </p>
+                            <p><strong>19</strong> Paragraph F 
+                                <select name="q19" id="q19" class="answer-input">
+                                    <option value="">Select</option>
+                                    <option value="i">i</option>
+                                    <option value="ii">ii</option>
+                                    <option value="iii">iii</option>
+                                    <option value="iv">iv</option>
+                                    <option value="v">v</option>
+                                    <option value="vi">vi</option>
+                                    <option value="vii">vii</option>
+                                    <option value="viii">viii</option>
+                                </select>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Questions 20-23: Summary Completion -->
+                    <div class="question" data-q-start="20" data-q-end="23">
+                        <div class="question-prompt">
+                            <p><strong>Questions 20–23</strong></p>
+                            <p>Complete the summary below. Choose ONE WORD ONLY from the passage for each answer.</p>
+                            <p>Write your answers in boxes 20–23 on your answer sheet.</p>
+                        </div>
+
+                        <div class="summary-text">
+                            <p><strong>Plant communication research in Israel and Scotland</strong></p>
+                            <p>Plants may send messages via their <input type="text" id="q20" class="answer-input" placeholder="20"> according to Ariel Novoplansky of Ben-Gurion University in Israel. In one study, Novoplansky’s team planted rows of garden peas, and created conditions like a <input type="text" id="q21" class="answer-input" placeholder="21"> around the first plant in each row. The plants responded by closing the tiny holes on their leaf surfaces, known as pores. They then appeared to signal to other plants nearby, causing them to respond in a similar way.</p>
+                            <p>Research at the University of Aberdeen in Scotland, meanwhile, has focused on the networks of <input type="text" id="q22" class="answer-input" placeholder="22"> which connect the plants beneath the soil. These structures, which extract sugars from the plants and supply them with phosphorus and nitrogen, also seem to play a key role in plant communication. Experiments involving broad bean plants and plant-eating insects called <input type="text" id="q23" class="answer-input" placeholder="23"> have also produced some interesting results.</p>
+                        </div>
+                    </div>
+
+                    <!-- Questions 24-26: Matching Researchers -->
+                    <div class="question" data-q-start="24" data-q-end="26">
+                        <div class="question-prompt">
+                            <p><strong>Questions 24–26</strong></p>
+                            <p>Look at the following statements (Questions 24–26) and the list of researchers below.</p>
+                            <p>Match each statement with the correct researcher, A–E.</p>
+                            <p>Write the correct letter, A–E, in boxes 24–26 on your answer sheet.</p>
+                        </div>
+
+                        <table class="matching-table">
+                            <thead>
+                                <tr>
+                                    <th>List of researchers</th>
+                                    <th>A</th>
+                                    <th>B</th>
+                                    <th>C</th>
+                                    <th>D</th>
+                                    <th>E</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="statement"><strong>24</strong> It is likely that research into plant communication will one day help to improve our food supply.</td>
+                                    <td class="clickable-cell" data-q="24" data-letter="A">A</td>
+                                    <td class="clickable-cell" data-q="24" data-letter="B">B</td>
+                                    <td class="clickable-cell" data-q="24" data-letter="C">C</td>
+                                    <td class="clickable-cell" data-q="24" data-letter="D">D</td>
+                                    <td class="clickable-cell" data-q="24" data-letter="E">E</td>
+                                </tr>
+                                <tr>
+                                    <td class="statement"><strong>25</strong> Plant communication could occur as a consequence of internal mechanisms intended to help a single plant.</td>
+                                    <td class="clickable-cell" data-q="25" data-letter="A">A</td>
+                                    <td class="clickable-cell" data-q="25" data-letter="B">B</td>
+                                    <td class="clickable-cell" data-q="25" data-letter="C">C</td>
+                                    <td class="clickable-cell" data-q="25" data-letter="D">D</td>
+                                    <td class="clickable-cell" data-q="25" data-letter="E">E</td>
+                                </tr>
+                                <tr>
+                                    <td class="statement"><strong>26</strong> Attitudes towards plant communication have changed greatly in recent decades.</td>
+                                    <td class="clickable-cell" data-q="26" data-letter="A">A</td>
+                                    <td class="clickable-cell" data-q="26" data-letter="B">B</td>
+                                    <td class="clickable-cell" data-q="26" data-letter="C">C</td>
+                                    <td class="clickable-cell" data-q="26" data-letter="D">D</td>
+                                    <td class="clickable-cell" data-q="26" data-letter="E">E</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="question-prompt" style="margin-top:10px;">
+                            <p><strong>List of researchers</strong></p>
+                            <p><strong>A</strong> Richard Karban</p>
+                            <p><strong>B</strong> Ariel Novoplansky</p>
+                            <p><strong>C</strong> David Johnson</p>
+                            <p><strong>D</strong> Monica Gagliano</p>
+                            <p><strong>E</strong> Carel ten Cate</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <div class="nav-arrows">
+        <button class="nav-arrow prev" onclick="previousQuestion()" id="prevBtn" aria-label="Previous question">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <button class="nav-arrow next" onclick="nextQuestion()" id="nextBtn" aria-label="Next question">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="nav-row" aria-label="Questions">
+        <div class="footer__questionWrapper___1tZ46 selected multiple" role="tablist">
+            <button role="tab" class="footer__questionNo___3WNct">
+                <span>
+                    <span aria-hidden="true" class="section-prefix">Questions </span>
+                    <span class="sectionNr">14–26</span>
+                    <span class="attemptedCount">0 of 13</span>
+                </span>
+            </button>
+            <div class="footer__subquestionWrapper___9GgoP">
+                <button class="subQuestion scorable-item" onclick="goToQuestion(14)">14</button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(15)">15</button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(16)">16</button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(17)">17</button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(18)">18</button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(19)">19</button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(20)">20</button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(21)">21</button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(22)">22</button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(23)">23</button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(24)">24</button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(25)">25</button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(26)">26</button>
+            </div>
+        </div>
+        <button id="deliver-button" class="footer__deliverButton___3FM07">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/>
+            </svg>
+            <span>Check Answers</span>
+        </button>
+    </nav>
+
+    <!-- Context Menu -->
+    <div id="contextMenu" class="context-menu">
+        <div id="menu-highlight" class="context-menu-item" onclick="highlightText()">Highlight</div>
+        <div id="menu-note" class="context-menu-item" onclick="addNote()">Note</div>
+        <div id="menu-clear" class="context-menu-item" onclick="clearHighlight()">Clear</div>
+    </div>
+
+    <!-- Results Modal -->
+    <div id="results-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeResultsModal()">×</button>
+            <h2>Results</h2>
+            <div class="results-summary">
+                <p>Score: <span id="results-score"></span> / 13</p>
+                <p>IELTS Band: <span id="results-band"></span></p>
+            </div>
+            <div id="results-details" class="results-details-container"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentQuestion = 14;
+            let timeInSeconds = 1200;
+            let timerInterval;
+            let activeQuestionElement = null;
+
+            const timerDisplay = document.querySelector('.timer-display');
+            const timerToggleButton = document.getElementById('timer-toggle-btn');
+            const timerResetButton = document.getElementById('timer-reset-btn');
+            const deliverButton = document.getElementById('deliver-button');
+            const resizer = document.getElementById('resizer');
+            const passagePanel = document.getElementById('passage-panel');
+            const questionsPanel = document.getElementById('questions-panel');
+            const contextMenu = document.getElementById('contextMenu');
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const body = document.body;
+
+            // Force light mode – text is already set to black
+            body.setAttribute('data-theme', 'light');
+
+            const correctAnswers = {
+                '14': 'iii',
+                '15': 'vi',
+                '16': 'viii',
+                '17': 'i',
+                '18': 'iv',
+                '19': 'ii',
+                '20': 'roots',
+                '21': 'drought',
+                '22': 'fungi',
+                '23': 'aphids',
+                '24': 'C',
+                '25': 'A',
+                '26': 'B'
+            };
+
+            function initialize() {
+                startTimer();
+                setupEventListeners();
+                updateAllIndicators();
+                goToQuestion(14);
+            }
+
+            function startTimer() {
+                if (timerInterval) clearInterval(timerInterval);
+                timerInterval = setInterval(() => {
+                    timeInSeconds--;
+                    const min = Math.floor(timeInSeconds / 60);
+                    const sec = timeInSeconds % 60;
+                    timerDisplay.textContent = `${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
+                    if (timeInSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        checkAnswers();
+                    }
+                }, 1000);
+                timerToggleButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+            }
+
+            function toggleTimer() {
+                if (timerToggleButton.innerHTML.includes('M6 19h4V5H6v14z')) {
+                    clearInterval(timerInterval);
+                    timerToggleButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/></svg>`;
+                } else {
+                    startTimer();
+                }
+            }
+
+            function resetTimer() {
+                timeInSeconds = 1200;
+                timerDisplay.textContent = '20:00';
+                startTimer();
+            }
+
+            function setupEventListeners() {
+                timerToggleButton.addEventListener('click', toggleTimer);
+                timerResetButton.addEventListener('click', resetTimer);
+                deliverButton.addEventListener('click', checkAnswers);
+                resizer.addEventListener('mousedown', initResize);
+
+                // Clickable cells for 24-26
+                document.querySelectorAll('.clickable-cell').forEach(cell => {
+                    cell.addEventListener('click', () => {
+                        const qNum = parseInt(cell.dataset.q);
+                        const letter = cell.dataset.letter;
+                        // Clear previous selection for this question
+                        document.querySelectorAll(`.clickable-cell[data-q="${qNum}"]`).forEach(c => c.classList.remove('selected'));
+                        cell.classList.add('selected');
+                        goToQuestion(qNum);
+                    });
+                });
+
+                // Select and input listeners
+                document.querySelectorAll('select, input[type="text"]').forEach(el => {
+                    el.addEventListener('change', updateAllIndicators);
+                    el.addEventListener('input', updateAllIndicators);
+                    el.addEventListener('focus', () => {
+                        const id = el.id || el.name;
+                        const qNum = parseInt(id.replace('q',''));
+                        if (!isNaN(qNum)) goToQuestion(qNum);
+                    });
+                });
+
+                darkModeToggle.addEventListener('click', () => {
+                    const isDark = body.getAttribute('data-theme') === 'dark';
+                    body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+                });
+            }
+
+            function goToQuestion(qNum) {
+                currentQuestion = qNum;
+                if (activeQuestionElement) activeQuestionElement.classList.remove('active-question', 'active-input');
+
+                let target = document.getElementById(`q${qNum}`);
+                if (target) {
+                    activeQuestionElement = target;
+                    target.classList.add('active-input');
+                    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    // For matching cells
+                    target = document.querySelector(`.clickable-cell[data-q="${qNum}"]`);
+                    if (target) {
+                        activeQuestionElement = target;
+                        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+                updateNavigation();
+            }
+
+            function updateNavigation() {
+                document.querySelectorAll('.subQuestion').forEach(btn => btn.classList.remove('active'));
+                const activeBtn = document.querySelector(`.subQuestion[onclick="goToQuestion(${currentQuestion})"]`);
+                if (activeBtn) activeBtn.classList.add('active');
+            }
+
+            function updateAllIndicators() {
+                let answered = 0;
+                for (let i = 14; i <= 26; i++) {
+                    if (isAnswered(i)) answered++;
+                }
+                document.querySelector('.attemptedCount').textContent = `${answered} of 13`;
+            }
+
+            function isAnswered(qNum) {
+                const input = document.getElementById(`q${qNum}`);
+                if (input) return input.value.trim() !== '' || (input.tagName === 'SELECT' && input.value !== '');
+                // For matching cells
+                return document.querySelector(`.clickable-cell.selected[data-q="${qNum}"]`) !== null;
+            }
+
+            function checkAnswers() {
+                // Disable inputs
+                document.querySelectorAll('select, input, .clickable-cell').forEach(el => {
+                    if (el.tagName === 'SELECT' || el.tagName === 'INPUT') el.disabled = true;
+                    else if (el.classList.contains('clickable-cell')) el.style.pointerEvents = 'none';
+                });
+                deliverButton.disabled = true;
+
+                let score = 0;
+                const resultsContainer = document.getElementById('results-details');
+                resultsContainer.innerHTML = '';
+
+                // Clear previous highlights
+                document.querySelectorAll('.answer-highlight').forEach(el => {
+                    const parent = el.parentNode;
+                    parent.replaceChild(document.createTextNode(el.textContent), el);
+                    parent.normalize();
+                });
+
+                for (let q = 14; q <= 26; q++) {
+                    const correct = correctAnswers[q];
+                    let user = '';
+                    let isCorrect = false;
+
+                    const input = document.getElementById(`q${q}`);
+                    if (input) {
+                        user = input.value.trim().toLowerCase();
+                        isCorrect = user === correct.toLowerCase();
+                        if (isCorrect) score++;
+                        input.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    } else {
+                        // Matching cells
+                        const selectedCell = document.querySelector(`.clickable-cell.selected[data-q="${q}"]`);
+                        if (selectedCell) {
+                            user = selectedCell.dataset.letter;
+                            isCorrect = user === correct;
+                            if (isCorrect) score++;
+                            selectedCell.classList.add(isCorrect ? 'correct' : 'incorrect');
+                        }
+                    }
+
+                    const rowHTML = `
+                        <div class="result-row ${isCorrect ? 'correct' : 'incorrect'}">
+                            <span class="q-num">${q}</span>
+                            <span class="user-ans">${user || '—'}</span>
+                            <span class="correct-ans">${correct}</span>
+                            <span class="status-badge ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? 'Correct' : 'Incorrect'}</span>
+                        </div>`;
+                    resultsContainer.innerHTML += rowHTML;
+
+                    // Update nav
+                    const navBtn = document.querySelector(`.subQuestion[onclick="goToQuestion(${q})"]`);
+                    if (navBtn) navBtn.classList.add(isCorrect ? 'correct' : 'incorrect');
+                }
+
+                document.getElementById('results-score').textContent = score;
+                document.getElementById('results-band').textContent = score >= 12 ? '9.0' : score >= 10 ? '8.5' : score >= 9 ? '8.0' : score >= 7 ? '7.5' : score >= 6 ? '7.0' : '6.5';
+                document.getElementById('results-modal').classList.remove('hidden');
+
+                // Highlight correct evidence in passage
+                highlightCorrectAnswersInPassage();
+            }
+
+            function highlightCorrectAnswersInPassage() {
+                const highlights = [
+                    { q: 14, text: "By the late 1980s, most ecologists felt that Schultz and Baldwin’s idea had been discredited" },
+                    { q: 15, text: "a number of more carefully designed experiments began to yield convincing indications to the contrary" },
+                    { q: 16, text: "Karban agrees, saying: ‘The interplant signaling we see may be a result of plants co-opting that process.’ Alternatively, VOC-based signaling between plants may have been favored because it enhances the ‘extended fitness’ of the sender" },
+                    { q: 17, text: "distress signals can be passed through the plants’ roots" },
+                    { q: 18, text: "chili plants growing next to fennel plants developed more quickly than seedlings grown with other chili plants" },
+                    { q: 19, text: "knowledge of this phenomenon could eventually be applied to agriculture, and lead to the cultivation of hardier crops" },
+                    { q: 20, text: "distress signals can be passed through the plants’ roots" },
+                    { q: 21, text: "conditions similar to those experienced in a drought" },
+                    { q: 22, text: "labyrinths of hair-like fungi that occur around the roots of most plants" },
+                    { q: 23, text: "broad bean plants were infested with aphids – small herbivorous insects" },
+                    { q: 24, text: "applying our limited knowledge of plant-communication mechanisms to agriculture is a big jump, says Johnson, ‘but it is definitely on the horizon.’" },
+                    { q: 25, text: "One hypothesis is that external communication channels are merely an extension of within-plant signaling" },
+                    { q: 26, text: "When I started my PhD (in the late 1980s), all this stuff was considered very weird,’ recalls Ariel Novoplansky. ‘Today, there is no doubt" }
+                ];
+
+                const passage = document.getElementById('passage-text');
+                highlights.forEach(h => {
+                    const paragraphs = passage.querySelectorAll('p');
+                    paragraphs.forEach(p => {
+                        if (p.textContent.toLowerCase().includes(h.text.toLowerCase())) {
+                            const regex = new RegExp(h.text, 'i');
+                            p.innerHTML = p.innerHTML.replace(regex, `<span class="answer-highlight" data-q="${h.q}">${h.text}</span>`);
+                        }
+                    });
+                });
+            }
+
+            function initResize(e) {
+                e.preventDefault();
+                const startX = e.clientX;
+                const startWidth = passagePanel.offsetWidth;
+                const doDrag = (ev) => {
+                    const newWidth = startWidth + ev.clientX - startX;
+                    if (newWidth > 200) passagePanel.style.flex = `0 0 ${newWidth}px`;
+                };
+                const stopDrag = () => {
+                    window.removeEventListener('mousemove', doDrag);
+                    window.removeEventListener('mouseup', stopDrag);
+                };
+                window.addEventListener('mousemove', doDrag);
+                window.addEventListener('mouseup', stopDrag);
+            }
+
+            window.previousQuestion = () => currentQuestion > 14 && goToQuestion(currentQuestion - 1);
+            window.nextQuestion = () => currentQuestion < 26 && goToQuestion(currentQuestion + 1);
+            window.goToQuestion = goToQuestion;
+            window.closeResultsModal = () => document.getElementById('results-modal').classList.add('hidden');
+
+            // Context menu (kept for highlighting)
+            function initializeContextMenu() {
+                let selectedRange = null;
+                document.addEventListener('selectionchange', () => {
+                    const sel = window.getSelection();
+                    if (sel && !sel.isCollapsed) selectedRange = sel.getRangeAt(0);
+                });
+                document.addEventListener('contextmenu', (e) => {
+                    if (passagePanel.contains(e.target) && selectedRange) {
+                        e.preventDefault();
+                        contextMenu.style.display = 'block';
+                        contextMenu.style.left = `${e.pageX}px`;
+                        contextMenu.style.top = `${e.pageY}px`;
+                    }
+                });
+                document.getElementById('menu-highlight').onclick = () => {
+                    if (selectedRange) {
+                        const span = document.createElement('span');
+                        span.className = 'highlight';
+                        span.appendChild(selectedRange.extractContents());
+                        selectedRange.insertNode(span);
+                    }
+                    contextMenu.style.display = 'none';
+                };
+                document.getElementById('menu-clear').onclick = () => {
+                    contextMenu.style.display = 'none';
+                };
+            }
+
+            initialize();
+            initializeContextMenu();
+        });
+    </script>
+</body>
+</html>

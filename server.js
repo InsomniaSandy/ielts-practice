@@ -4,23 +4,58 @@ const path = require("path");
 
 const app = express();
 
-// 📁 serve static files (css, mp3, html, etc.)
+// =====================
+// 1. STATIC FILES
+// =====================
 app.use(express.static(__dirname));
 
-/**
- * 🎧 AUTO INJECT AUDIO INTO Listening test HTML
- * Works for ANY test.html inside ANY folder
- */
-app.use((req, res, next) => {
 
-    // Only handle HTML test files
-    if (!req.path.endsWith(".html")) {
-        return next();
-    }
+// =====================
+// 2. API ROUTES (IMPORTANT - DO NOT TOUCH HTML LOGIC HERE)
+// =====================
+
+function scan(dir, base) {
+    let results = [];
+
+    const files = fs.readdirSync(dir);
+
+    files.forEach(file => {
+        const full = path.join(dir, file);
+        const stat = fs.statSync(full);
+
+        if (stat.isDirectory()) {
+            results = results.concat(scan(full, base + file + "/"));
+        } else if (file.endsWith(".html")) {
+            results.push({
+                name: file,
+                path: base + file
+            });
+        }
+    });
+
+    return results;
+}
+
+app.get("/api/reading", (req, res) => {
+    res.json(scan(path.join(__dirname, "Reading"), "Reading/"));
+});
+
+app.get("/api/listening", (req, res) => {
+    res.json(scan(path.join(__dirname, "Listening"), "Listening/"));
+});
+
+app.get("/api/writing", (req, res) => {
+    res.json(scan(path.join(__dirname, "Writing"), "Writing/"));
+});
+
+
+// =====================
+// 3. AUDIO AUTO-INJECT (ONLY FOR TEST PAGES)
+// =====================
+app.get("*.html", (req, res, next) => {
 
     const filePath = path.join(__dirname, req.path);
 
-    // If file doesn't exist → continue normally
     if (!fs.existsSync(filePath)) {
         return next();
     }
@@ -29,49 +64,39 @@ app.use((req, res, next) => {
 
     const folder = path.dirname(filePath);
 
-    let mp3File = null;
+    let mp3 = null;
 
     try {
         const files = fs.readdirSync(folder);
-        mp3File = files.find(f => f.endsWith(".mp3"));
-    } catch (err) {
-        console.log("Folder read error:", err.message);
-    }
+        mp3 = files.find(f => f.endsWith(".mp3"));
+    } catch (e) {}
 
-    // 🎧 inject audio if found
-    if (mp3File) {
-
-        const audioBlock = `
+    if (mp3) {
+        const inject = `
             <audio id="autoAudio" autoplay>
-                <source src="${mp3File}" type="audio/mpeg">
+                <source src="${mp3}" type="audio/mpeg">
             </audio>
 
             <script>
                 window.addEventListener("load", () => {
-                    const audio = document.getElementById("autoAudio");
-                    if (audio) {
-                        audio.play().catch(() => {
-                            console.log("Autoplay blocked by browser");
-                        });
-                    }
+                    const a = document.getElementById("autoAudio");
+                    if (a) a.play().catch(()=>{});
                 });
             </script>
         `;
 
-        html = html.replace("</body>", audioBlock + "</body>");
+        html = html.replace("</body>", inject + "</body>");
     }
 
     res.send(html);
 });
 
-// 🏠 OPTIONAL: home route (if needed)
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "index.html"));
-});
 
-// 🚀 START SERVER
+// =====================
+// 4. START SERVER
+// =====================
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log(`IELTS system running on http://localhost:${PORT}`);
+    console.log("IELTS system running on http://localhost:" + PORT);
 });

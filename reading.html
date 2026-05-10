@@ -43,7 +43,8 @@ fetch("/api/reading")
             const a = document.createElement("a");
             a.className = "item";
             a.href = "/" + file.path;
-            a.innerHTML = `<span class="num">${idx + 1}</span> Test ${idx + 1}`;
+            const label = file.title || ("Test " + (idx + 1));
+            a.innerHTML = `<span class="num">${idx + 1}</span> ${label}`;
             div.appendChild(a);
         });
 

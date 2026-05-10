@@ -4,47 +4,45 @@ const path = require("path");
 
 const app = express();
 
-app.use(express.static("public"));
 app.use(express.static(__dirname));
 
-// 🔥 AUTO SCANNER (no lists needed)
-function scan(dir, base) {
-    let results = [];
+// 🔥 AUTO INJECT AUDIO INTO HTML RESPONSE
+app.get("*/test.html", (req, res) => {
 
-    const files = fs.readdirSync(dir);
+    const filePath = path.join(__dirname, req.path);
 
-    files.forEach(file => {
-        const full = path.join(dir, file);
-        const stat = fs.statSync(full);
+    let html = fs.readFileSync(filePath, "utf8");
 
-        if (stat.isDirectory()) {
-            results = results.concat(scan(full, base + file + "/"));
-        } else if (file.endsWith(".html")) {
-            results.push({
-                name: file,
-                path: base + file
-            });
-        }
-    });
+    // folder where HTML is located
+    const folder = path.dirname(filePath);
 
-    return results;
-}
+    // find ANY mp3 in same folder
+    const files = fs.readdirSync(folder);
+    const mp3 = files.find(f => f.endsWith(".mp3"));
 
-// 📘 READING AUTO API
-app.get("/api/reading", (req, res) => {
-    res.json(scan(path.join(__dirname, "Reading"), "Reading/"));
-});
+    if (mp3) {
+        const audioTag = `
+            <audio id="autoAudio" autoplay>
+                <source src="${mp3}" type="audio/mpeg">
+            </audio>
 
-// 🎧 LISTENING AUTO API
-app.get("/api/listening", (req, res) => {
-    res.json(scan(path.join(__dirname, "Listening"), "Listening/"));
-});
+            <script>
+                window.onload = () => {
+                    const a = document.getElementById("autoAudio");
+                    if (a) {
+                        a.play().catch(() => {});
+                    }
+                }
+            </script>
+        `;
 
-// ✍️ WRITING AUTO API
-app.get("/api/writing", (req, res) => {
-    res.json(scan(path.join(__dirname, "Writing"), "Writing/"));
+        // inject before closing body
+        html = html.replace("</body>", audioTag + "</body>");
+    }
+
+    res.send(html);
 });
 
 app.listen(3000, () => {
-    console.log("IELTS system running: http://localhost:3000");
+    console.log("Server running on http://localhost:3000");
 });

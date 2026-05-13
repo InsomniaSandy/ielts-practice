@@ -6,6 +6,24 @@
 <link rel="stylesheet" href="/assets/main.css">
 </head>
 
+<style>.container {
+  position: relative;
+  min-height: 100vh; /* full screen */
+}
+
+/* Center only this text */
+.center-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff; /* change if needed */
+  pointer-events: none; /* optional: doesn't block clicks */
+}</style>
+
 <body>
 
 <div class="header">
@@ -29,6 +47,10 @@
     ✍️ Writing
     <span>Task 1 & Task 2 practice</span>
   </a>
+
+<div class="center-text">
+    by Zafarbek
+  </div>
 
 </div>
 

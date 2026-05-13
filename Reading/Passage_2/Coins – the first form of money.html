@@ -1,0 +1,1910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading Practice - Coins</title>
+    <style>
+        /* CSS Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --header-bg: #ffffff;
+            --border-color: #e0e0e0;
+            --panel-bg: #ffffff;
+            --question-bg: #ffffff;
+            --input-bg: #ffffff;
+            --input-border: #bfbfbf;
+            --input-focus: #3581d8;
+            --correct-color: #28a745;
+            --incorrect-color: #dc3545;
+            --highlight-bg: #ffff00;
+            --modal-bg: #ffffff;
+            --nav-bg: #ffffff;
+            --resizer-bg: #f0f0f0;
+            --part-header-bg: #f1f2ec;
+            --timer-bg: #f0f0f0;
+            --link-color: #1e88e5;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --table-border: #ddd;
+            --table-header-bg: #007bff;
+            --table-cell-bg: #fafafa;
+            --drop-zone-bg: #f9f9f9;
+            --drag-item-bg: #ffffff;
+            --logo-brightness: 1;
+            --checkbox-group-bg: #fafafa;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #e0e0e0;
+            --header-bg: #2d2d2d;
+            --border-color: #444444;
+            --panel-bg: #2d2d2d;
+            --question-bg: #333333;
+            --input-bg: #3a3a3a;
+            --input-border: #555555;
+            --input-focus: #4a90e2;
+            --correct-color: #2ecc71;
+            --incorrect-color: #e74c3c;
+            --highlight-bg: #ffeb3b;
+            --modal-bg: #2d2d2d;
+            --nav-bg: #2d2d2d;
+            --resizer-bg: #444444;
+            --part-header-bg: #3a3a3a;
+            --timer-bg: #444444;
+            --link-color: #64b5f6;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --table-border: #555;
+            --table-header-bg: #0056b3;
+            --table-cell-bg: #3a3a3a;
+            --drop-zone-bg: #3a3a3a;
+            --drag-item-bg: #444444;
+            --logo-brightness: 0;
+            --checkbox-group-bg: #3a3a3a;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.4;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .header {
+            background-color: var(--header-bg);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 60px;
+            transition: all 0.3s;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .ielts-logo {
+            height: 55px;
+            width: auto;
+            filter: brightness(var(--logo-brightness, 1));
+        }
+
+        .telegram-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: var(--link-color);
+            font-weight: bold;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .telegram-link:hover {
+            text-decoration: underline;
+        }
+
+        .timer-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .timer-display {
+            font-weight: 600;
+            min-width: 60px;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .timer-controls button,
+        .dark-mode-btn {
+            background: var(--timer-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .timer-controls button:hover,
+        .dark-mode-btn:hover {
+            background: var(--border-color);
+            transform: scale(1.05);
+        }
+
+        .timer-controls button svg,
+        .dark-mode-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--text-color);
+            transition: fill 0.3s;
+        }
+
+        .main-container {
+            margin-top: 60px;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-color);
+            height: calc(100vh - 60px);
+            position: relative;
+        }
+
+        .panels-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .passage-panel,
+        .questions-panel {
+            flex: 1;
+            padding: 20px 20px 100px;
+            overflow-y: auto;
+            min-width: 200px;
+            background-color: var(--panel-bg);
+            transition: background-color 0.3s;
+        }
+
+        .questions-panel {
+            border-left: 1px solid var(--border-color);
+        }
+
+        .resizer {
+            width: 10px;
+            cursor: col-resize;
+            background-color: var(--resizer-bg);
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23888"/></svg>');
+            background-repeat: no-repeat;
+            background-position: center;
+            flex-shrink: 0;
+            flex-grow: 0;
+            transition: background-color 0.3s;
+        }
+
+        [data-theme="dark"] .resizer {
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23aaa"/></svg>');
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .reading-passage h4 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            color: var(--text-color);
+        }
+
+        .reading-passage p {
+            margin-bottom: 1.2em;
+            color: var(--text-color);
+        }
+
+        .reading-passage strong {
+            color: var(--text-color);
+        }
+
+        .coin-image-container {
+            float: right;
+            margin: 0 0 15px 20px;
+            max-width: 280px;
+            width: 40%;
+            shape-outside: margin-box;
+        }
+
+        .coin-image-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            display: block;
+        }
+
+        .coin-image-caption {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-color);
+            opacity: 0.7;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        @media (max-width: 600px) {
+            .coin-image-container {
+                float: none;
+                margin: 10px auto 20px;
+                max-width: 220px;
+                width: 80%;
+            }
+        }
+
+        .question {
+            margin-bottom: 40px;
+        }
+
+        .question-prompt {
+            margin-bottom: 20px;
+        }
+
+        .question-prompt p {
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .question ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .question ul li {
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
+        .answer-input {
+            border: 1px solid var(--input-border);
+            border-radius: 4px;
+            background-color: var(--input-bg);
+            padding: 2px 8px;
+            font-size: 16px;
+            text-align: left;
+            font-weight: 700;
+            margin-right: 6px;
+            margin-left: 6px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s, color 0.3s;
+            height: 28px;
+            min-width: 150px;
+            color: var(--text-color);
+        }
+
+        .answer-input.active-input,
+        .answer-input:focus {
+            border-color: var(--input-focus);
+            border-width: 2px;
+            outline: none;
+        }
+
+        .answer-input::placeholder {
+            color: var(--text-color);
+            opacity: 0.7;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .answer-input.correct {
+            border-color: var(--correct-color);
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+
+        .answer-input.incorrect {
+            border-color: var(--incorrect-color);
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--text-color);
+        }
+
+        select.answer-input {
+            cursor: pointer;
+            min-width: 120px;
+            text-align: center;
+            appearance: auto;
+        }
+
+        .part-header {
+            background-color: var(--part-header-bg);
+            padding: 15px 20px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+            margin: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .part-header p {
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        .part-header p:first-child {
+            margin-bottom: 5px;
+        }
+
+        .tf-question {
+            margin-bottom: 25px;
+            padding: 10px 0px;
+            border-radius: 4px;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        .tf-question-line {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 5px 0px;
+            border-radius: 4px;
+        }
+
+        .tf-question-number {
+            border: 2px solid var(--border-color);
+            padding: 2px 8px;
+            margin-right: 10px;
+            border-radius: 3px;
+            font-weight: bold;
+            transition: border-color 0.3s;
+            display: inline-block;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        .tf-question.active-question .tf-question-number {
+            border-color: var(--input-focus);
+        }
+
+        .tf-question-text {
+            padding-top: 3px;
+            color: var(--text-color);
+        }
+
+        .tf-options {
+            padding-left: 5px;
+        }
+
+        .tf-option {
+            display: block;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
+        .tf-option:hover {
+            background-color: var(--part-header-bg);
+        }
+
+        .tf-option:has(input[type="radio"]:checked) {
+            background-color: rgba(74, 144, 226, 0.2);
+            border-color: var(--input-focus);
+        }
+
+        .tf-option.correct {
+            background-color: rgba(40, 167, 69, 0.2) !important;
+            border-color: var(--correct-color) !important;
+        }
+
+        .tf-option.incorrect {
+            background-color: rgba(220, 53, 69, 0.2) !important;
+            border-color: var(--incorrect-color) !important;
+        }
+
+        .tf-option input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+            accent-color: var(--input-focus);
+        }
+
+        /* Checkbox option styles (for q21-22) */
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 5px;
+            color: var(--text-color);
+            cursor: pointer;
+        }
+
+        .checkbox-option:hover {
+            background-color: var(--part-header-bg);
+        }
+
+        .checkbox-option:has(input:checked) {
+            background-color: rgba(74, 144, 226, 0.2);
+            border-color: var(--input-focus);
+        }
+
+        .checkbox-option.correct {
+            background-color: rgba(40, 167, 69, 0.2) !important;
+            border-color: var(--correct-color) !important;
+        }
+
+        .checkbox-option.incorrect {
+            background-color: rgba(220, 53, 69, 0.2) !important;
+            border-color: var(--incorrect-color) !important;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            margin-right: 12px;
+            transform: scale(1.3);
+            accent-color: var(--input-focus);
+        }
+
+        .checkbox-option label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+            color: var(--text-color);
+            width: 100%;
+        }
+
+        .multi-choice-question {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            border: 3px solid transparent;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        .multi-choice-question .question-prompt p>strong:first-child {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 24px;
+            padding: 2px 6px;
+            margin-right: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        .multi-choice-question.active-question .question-prompt p>strong:first-child {
+            border-color: var(--input-focus);
+            border-width: 2px;
+        }
+
+        .multi-choice-option {
+            padding: 10px 12px;
+            background-color: var(--input-bg);
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
+        .multi-choice-option:hover {
+            background-color: var(--part-header-bg);
+        }
+
+        .multi-choice-option:has(input:checked) {
+            background-color: rgba(74, 144, 226, 0.2);
+            border-color: var(--input-focus);
+        }
+
+        .multi-choice-option.correct {
+            background-color: rgba(40, 167, 69, 0.2) !important;
+            border-color: var(--correct-color) !important;
+        }
+
+        .multi-choice-option.incorrect {
+            background-color: rgba(220, 53, 69, 0.2) !important;
+            border-color: var(--incorrect-color) !important;
+        }
+
+        .multi-choice-option label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+            color: var(--text-color);
+        }
+
+        .multi-choice-option input[type="checkbox"],
+        .multi-choice-option input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.3);
+            accent-color: var(--input-focus);
+        }
+
+        .nav-arrows {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            display: flex;
+            gap: 6px;
+            z-index: 101;
+        }
+
+        .nav-arrow {
+            width: 48px;
+            height: 48px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            transition: transform 0.1s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 6px var(--shadow-color);
+            outline: none;
+            border-radius: 50%;
+        }
+
+        .nav-arrow.prev {
+            background-color: #4b5563;
+        }
+        .nav-arrow.next {
+            background-color: #000000;
+        }
+
+        [data-theme="dark"] .nav-arrow.prev {
+            background-color: #6b7280;
+        }
+        [data-theme="dark"] .nav-arrow.next {
+            background-color: #333333;
+        }
+
+        .nav-arrow:hover {
+            transform: translateY(-1px);
+        }
+        .nav-arrow:active {
+            transform: translateY(0);
+        }
+
+        .nav-row {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--nav-bg);
+            padding: 0;
+            display: flex;
+            align-items: center;
+            height: 80px;
+            z-index: 100;
+            border-top: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+
+        .footer__questionWrapper___1tZ46 {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .footer__questionNo___3WNct {
+            background: none;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.2s;
+            border-radius: 4px;
+        }
+
+        .footer__questionNo___3WNct:hover {
+            background-color: var(--part-header-bg);
+        }
+
+        .section-prefix {
+            font-size: 16px;
+            color: var(--text-color);
+        }
+
+        .sectionNr {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .attemptedCount {
+            font-size: 14px;
+            color: var(--text-color);
+            opacity: 0.7;
+            margin-left: 5px;
+            font-weight: 400;
+        }
+
+        .footer__subquestionWrapper___9GgoP {
+            display: flex;
+            gap: 2px;
+            margin-left: 10px;
+        }
+
+        .footer__questionWrapper___1tZ46.selected .footer__subquestionWrapper___9GgoP {
+            display: flex;
+        }
+
+        .subQuestion {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            color: var(--text-color);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            border-radius: 2px;
+        }
+
+        .subQuestion:hover {
+            background-color: var(--part-header-bg);
+            border-color: var(--input-focus);
+        }
+
+        .subQuestion.answered {
+            background-color: var(--part-header-bg);
+            border-color: var(--border-color);
+        }
+
+        .subQuestion.correct {
+            background-color: var(--correct-color);
+            color: white;
+            border-color: var(--correct-color);
+        }
+
+        .subQuestion.incorrect {
+            background-color: var(--incorrect-color);
+            color: white;
+            border-color: var(--incorrect-color);
+        }
+
+        .subQuestion.active {
+            background-color: var(--input-focus);
+            color: white;
+            border-color: var(--input-focus);
+        }
+
+        .footer__deliverButton___3FM07 {
+            margin-left: auto;
+            margin-right: 20px;
+            background-color: var(--part-header-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 10px 16px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.08s ease, background-color 0.2s ease, border-color 0.2s ease;
+            min-width: 160px;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .footer__deliverButton___3FM07:hover {
+            background-color: var(--border-color);
+        }
+
+        .footer__deliverButton___3FM07:active {
+            transform: translateY(1px);
+        }
+
+        .footer__deliverButton___3FM07:disabled {
+            background: var(--part-header-bg);
+            opacity: 0.5;
+            color: var(--text-color);
+            cursor: not-allowed;
+            border-color: var(--border-color);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .context-menu {
+            position: absolute;
+            background: var(--modal-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            z-index: 1000;
+            display: none;
+            min-width: 140px;
+        }
+
+        .context-menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            font-size: 16px;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-color);
+        }
+
+        .context-menu-item:hover {
+            background-color: var(--part-header-bg);
+        }
+
+        .context-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .highlight {
+            background-color: var(--highlight-bg);
+            color: #000;
+        }
+
+        .comment-highlight {
+            background-color: #90EE90;
+            position: relative;
+            cursor: help;
+            color: #000;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(17, 24, 39, 0.6);
+            backdrop-filter: blur(3px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.hidden {
+            display: none;
+        }
+
+        .modal-content {
+            background: var(--modal-bg);
+            padding: 24px;
+            border-radius: 14px;
+            width: 92%;
+            max-width: 780px;
+            max-height: 86vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 60px var(--shadow-color);
+            color: var(--text-color);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .modal-content h2 {
+            text-align: center;
+            margin-bottom: 18px;
+            color: var(--text-color);
+        }
+
+        .results-summary {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 16px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .results-summary p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .results-summary p span {
+            display: inline-block;
+            padding: 4px 10px;
+            margin-left: 6px;
+            border-radius: 999px;
+            background: var(--part-header-bg);
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .results-details-container {
+            overflow-y: auto;
+            padding-right: 10px;
+            border-radius: 8px;
+        }
+
+        .result-row {
+            display: grid;
+            grid-template-columns: 56px 1fr 1fr 120px;
+            gap: 12px;
+            padding: 10px 8px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 15px;
+            align-items: center;
+        }
+
+        .result-row.correct {
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+
+        .result-row.incorrect {
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+
+        .result-row .q-num {
+            font-weight: 700;
+            color: var(--text-color);
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            width: 42px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .result-row .user-ans {
+            color: var(--text-color);
+            background: var(--part-header-bg);
+            border: 1px solid var(--border-color);
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .result-row .correct-ans {
+            color: var(--correct-color);
+            font-weight: 600;
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid var(--correct-color);
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .status-badge {
+            justify-self: end;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            border: 1px solid transparent;
+        }
+
+        .status-badge.ok {
+            background: rgba(40, 167, 69, 0.2);
+            color: var(--correct-color);
+            border-color: var(--correct-color);
+        }
+
+        .status-badge.bad {
+            background: rgba(220, 53, 69, 0.2);
+            color: var(--incorrect-color);
+            border-color: var(--incorrect-color);
+        }
+
+        .correct-answer-display {
+            font-weight: bold;
+            color: var(--correct-color);
+            margin-left: 10px;
+            font-size: 14px;
+        }
+
+        .correct-answer-highlight {
+            background-color: rgba(40, 167, 69, 0.2);
+            border: 1px solid var(--correct-color);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        body::after {
+            content: "@FOZILBEK_IELTS";
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-20deg);
+            font-size: 72px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-color);
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 0;
+            white-space: nowrap;
+            transition: color 0.3s;
+        }
+
+        .dark-mode-btn {
+            position: relative;
+        }
+
+        .dark-mode-btn .sun-icon,
+        .dark-mode-btn .moon-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .dark-mode-btn .moon-icon {
+            opacity: 0;
+            transform: translate(-50%, -50%) rotate(90deg);
+        }
+
+        [data-theme="dark"] .dark-mode-btn .sun-icon {
+            opacity: 0;
+            transform: translate(-50%, -50%) rotate(-90deg);
+        }
+
+        [data-theme="dark"] .dark-mode-btn .moon-icon {
+            opacity: 1;
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--panel-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--input-focus);
+        }
+
+        .summary-text p {
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+
+        .summary-text strong {
+            color: var(--text-color);
+        }
+
+        .checkbox-limit-warning {
+            color: var(--incorrect-color);
+            font-size: 13px;
+            margin-top: 4px;
+            display: none;
+            font-weight: 600;
+        }
+
+        .checkbox-limit-warning.show {
+            display: block;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <img src="https://i.pinimg.com/736x/88/93/a8/8893a81fed78f6989142a13e3605c45e.jpg" alt="IELTS Logo" class="ielts-logo">
+            <a href="https://t.me/FOZILBEK_IELTS" target="_blank" class="telegram-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-.38.24-1.07.7-.96.66-1.89 1.28-1.89 1.28s-.17.11-.49.03c-.32-.08-.72-.26-1.16-.47-.54-.26-1.17-.53-1.17-.53s-.87-.55.62-1.14c.32-.13 1.96-.84 2.99-1.2 1.05-.37 2.86-1.01 2.86-1.01s1.02-.4 1.02 0z" fill="currentColor"/>
+                </svg>
+                @FOZILBEK_IELTS
+            </a>
+        </div>
+        <div class="header-right">
+            <div class="timer-container">
+                <span class="timer-display">20:00</span>
+                <div class="timer-controls">
+                    <button id="timer-toggle-btn" title="Pause/Resume Timer">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px">
+                            <path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/>
+                        </svg>
+                    </button>
+                    <button id="timer-reset-btn" title="Reset Timer">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px">
+                            <path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+                        </svg>
+                    </button>
+                </div>
+                <button class="dark-mode-btn" id="dark-mode-toggle" title="Toggle Dark Mode">
+                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container" id="main-container">
+        <div id="passage-header-container">
+            <div id="part-header-1" class="part-header">
+                <p><strong>Part 2</strong></p>
+                <p>Read the text and answer questions 14-26.</p>
+            </div>
+        </div>
+
+        <div class="panels-container">
+            <div class="passage-panel" id="passage-panel">
+                <!-- PASSAGE: Coins – the first form of money -->
+                <div id="passage-text-1" class="reading-passage">
+                    <h4 class="text-center">Coins – the first form of money</h4>
+                    <div class="coin-image-container">
+                        <img src="https://i.pinimg.com/736x/3d/67/13/3d6713834319ed470826655ec94c1854.jpg" alt="Ancient Coins">
+                        <p class="coin-image-caption">Ancient Greek and Roman coins</p>
+                    </div>
+                    <p><strong>A</strong> Few people pay much attention to coins; we take them for granted. Since the advent of paper currency and the abandonment of a monetary system based on intrinsic or actual value, they have been demoted to the status of 'change': what is left when you have paid for something with 'paper' money. There is even a belief that they will one day be obsolete, as will paper or plastic notes, and money will at last have achieved the pure status of a mathematical formulation, a system of electronic credits and debits.</p>
+                    <p><strong>B</strong> In the modern media environment, the sheer number of visual images is overwhelming, but it makes one stop to think that coins are among the most durable of our artefacts, and future archaeologists will scrutinise coins in order to learn about their distant ancestors. This is exactly the way ancient coins have informed us for over four millennia. There are thousands of different coins, each designed to carry meaning as well as value, tiny but rich sources of documentary evidence about events and cultural attitudes, frequently produced with exquisite craftsmanship.</p>
+                    <p><strong>C</strong> Coins in Europe date from 2,500 to 2,700 years ago, and seem to have originated in the ancient kingdom of Lydia, in what is now Turkey. Before coins, trade was based on barter: the direct trade of commodities. Barter required the physical presence of both commodities that were being traded. Metal coins were far more portable, and not subject to the same spoilage on long sea journeys as a commodity like grain might be if it became wet. However, they could also be accumulated, and these hoards could be stolen. Coins were therefore a temptation to criminals. The Greeks, however, were the first to realise the full potential of the new invention. They were a trading people of seafarers. Their civilisation, which was composed of dozens of city-states, was highly decentralised. Despite the potential for theft, the Greeks realised that they could benefit enormously from a system that used coins, because it meant that they no longer had to carry goods with them to barter.</p>
+                    <p><strong>D</strong> The value of coins was generally based on the intrinsic value of the metal they were made of. At first this was mostly silver, and this meant that the discovery of silver mines on Greek territory actually increased the quantity of money they could produce. Had the Greek mining been on a larger scale, it could have caused problems similar to those faced by the Spanish centuries later, when so much gold from the New World was brought into their economy that it resulted in serious inflation. One advantage of intrinsic value was that coins could be weighed to determine the amount of metal they contained, so that the only thing an issuing state had to guarantee was the purity of the metal to prevent accusations of fraud and cheating, which could cause fighting and unrest. This was quite difficult to do, especially with coins made of gold, until Archimedes realised that different metals have different weight-volume ratios, and that by measuring the amount of displacement when coins were immersed in water, it was possible to establish whether gold was alloyed with silver.</p>
+                    <p><strong>E</strong> All ancient coins were made by hand using engraved metal moulds. Many hundreds of coins were made, and as a result the moulds often cracked and new ones had to be engraved. This explains the endless variety encountered in coins with the same designs because the moulds had to be remade repeatedly, by many different artisans. One of the distinctive features of coins, in fact, is that they are the work of anonymous craftsmen, and yet each coin is an intimate reflection of the character of its city of origin. It was the Greeks who realised that coins could have a double function, as a unit of value and as a symbol of the identity of the city that issued them. The Greek view of life was deeply motivated by a spirit of competition, and coins, which circulated around the trading world, were a way of advertising the qualities of each particular city-state.</p>
+                    <p><strong>F</strong> Interestingly, Greek coins from the city of Athens, which was the home of the greatest sculptors of the classical period, seem to have been completely disconnected from the high sculptural tradition. The beautiful features of the city's patron, Athena (with her owl on the reverse of the coin), seem to have been repeated virtually unaltered for many years. Perhaps this was because the Athenian currency had grown increasingly to be the international standard and, like the US dollar today, a uniform design implied integrity.</p>
+                    <p><strong>G</strong> One side of a coin was always occupied by the head of a divinity, so it was a relatively small step, at around 323 BC, for Greek coins to replace that head with the portrait of the reigning monarch, a tradition that has continued in monarchies to the present day. Republicans may have either symbolic heads – going back to the older tradition of divinities – or the features of a distinguished past head of state. The Romans adopted the Greek practice of coin design and as a result, the features of many great Romans have survived and are known to modern generations, despite the fact that the art of portrait painting was completely lost for more than a millennium following the fall of the Roman Empire.</p>
+                </div>
+            </div>
+
+            <div class="resizer" id="resizer"></div>
+
+            <div class="questions-panel" id="questions-panel">
+                <!-- QUESTIONS -->
+                <div id="questions-1" class="question-set">
+                    <div class="questions-container">
+
+                        <!-- Questions 14-20: Paragraph Headings -->
+                        <div class="question" data-q-start="14" data-q-end="20">
+                            <div class="question-prompt">
+                                <p><strong>Questions 14-20</strong></p>
+                                <p>Reading Passage 2 has seven paragraphs, <strong>A-G</strong>.</p>
+                                <p>Choose the correct heading for each paragraph from the list of headings below.</p>
+                                <p>Write the correct number, <strong>i-xi</strong>, in boxes 14-20 on your answer sheet.</p>
+                                <p>&nbsp;</p>
+                                <p><strong>List of Headings</strong></p>
+                                <p><strong>i</strong> &nbsp; Training coin makers</p>
+                                <p><strong>ii</strong> &nbsp; A form of regional promotion</p>
+                                <p><strong>iii</strong> &nbsp; More gold than silver in Greece</p>
+                                <p><strong>iv</strong> &nbsp; Calculating what a coin was worth</p>
+                                <p><strong>v</strong> &nbsp; A simpler, more efficient way of trading</p>
+                                <p><strong>vi</strong> &nbsp; Putting a face to famous historical names</p>
+                                <p><strong>vii</strong> &nbsp; An uncertain future</p>
+                                <p><strong>viii</strong> &nbsp; Careless workmanship caused breakages</p>
+                                <p><strong>ix</strong> &nbsp; Unchanging coins signalled trustworthiness</p>
+                                <p><strong>x</strong> &nbsp; Reading the writing on coins</p>
+                                <p><strong>xi</strong> &nbsp; Significant records of past societies</p>
+                            </div>
+                            <div class="summary-text">
+                                <p><strong>14</strong> Paragraph A <select name="q14" id="q14" class="answer-input">
+                                        <option value="">Select...</option>
+                                        <option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option><option value="x">x</option><option value="xi">xi</option>
+                                </select></p>
+                                <p><strong>15</strong> Paragraph B <select name="q15" id="q15" class="answer-input">
+                                        <option value="">Select...</option>
+                                        <option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option><option value="x">x</option><option value="xi">xi</option>
+                                </select></p>
+                                <p><strong>16</strong> Paragraph C <select name="q16" id="q16" class="answer-input">
+                                        <option value="">Select...</option>
+                                        <option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option><option value="x">x</option><option value="xi">xi</option>
+                                </select></p>
+                                <p><strong>17</strong> Paragraph D <select name="q17" id="q17" class="answer-input">
+                                        <option value="">Select...</option>
+                                        <option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option><option value="x">x</option><option value="xi">xi</option>
+                                </select></p>
+                                <p><strong>18</strong> Paragraph E <select name="q18" id="q18" class="answer-input">
+                                        <option value="">Select...</option>
+                                        <option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option><option value="x">x</option><option value="xi">xi</option>
+                                </select></p>
+                                <p><strong>19</strong> Paragraph F <select name="q19" id="q19" class="answer-input">
+                                        <option value="">Select...</option>
+                                        <option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option><option value="x">x</option><option value="xi">xi</option>
+                                </select></p>
+                                <p><strong>20</strong> Paragraph G <select name="q20" id="q20" class="answer-input">
+                                        <option value="">Select...</option>
+                                        <option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option><option value="ix">ix</option><option value="x">x</option><option value="xi">xi</option>
+                                </select></p>
+                            </div>
+                        </div>
+
+                        <!-- Questions 21-22: Multiple Choice (select TWO) -->
+                        <div class="question" data-q-start="21" data-q-end="22">
+                            <div class="question-prompt">
+                                <p><strong>Questions 21-22</strong></p>
+                                <p>Write the correct letters in boxes 21 and 22 on your answer sheet.</p>
+                                <p><strong>Which TWO of these comments about ancient coins are made by the writer of the text?</strong></p>
+                                <p class="checkbox-limit-warning" id="checkbox-warning">Please select exactly TWO answers.</p>
+                            </div>
+                            <div class="checkbox-option" id="chk-opt-A">
+                                <label><input type="checkbox" name="q21_22" value="A" class="chk-21-22"> <strong>A</strong> There is no record of the names of the coin makers.</label>
+                            </div>
+                            <div class="checkbox-option" id="chk-opt-B">
+                                <label><input type="checkbox" name="q21_22" value="B" class="chk-21-22"> <strong>B</strong> Coins were not popular as payment for traded objects.</label>
+                            </div>
+                            <div class="checkbox-option" id="chk-opt-C">
+                                <label><input type="checkbox" name="q21_22" value="C" class="chk-21-22"> <strong>C</strong> Coins with the same design often looked quite different.</label>
+                            </div>
+                            <div class="checkbox-option" id="chk-opt-D">
+                                <label><input type="checkbox" name="q21_22" value="D" class="chk-21-22"> <strong>D</strong> Greek coins were more beautiful in design than Roman coins.</label>
+                            </div>
+                            <div class="checkbox-option" id="chk-opt-E">
+                                <label><input type="checkbox" name="q21_22" value="E" class="chk-21-22"> <strong>E</strong> At times, too many coins were produced in Greece.</label>
+                            </div>
+                        </div>
+
+                        <!-- Questions 23-26: Summary Completion -->
+                        <div class="question" data-q-start="23" data-q-end="26">
+                            <div class="question-prompt">
+                                <p><strong>Questions 23-26</strong></p>
+                                <p>Complete the summary below.</p>
+                                <p>Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+                                <p>Write your answers in boxes 23-26 on your answer sheet.</p>
+                            </div>
+                            <div class="summary-text">
+                                <p><strong>Greek traders and coins</strong></p>
+                                <p>The ancient Greek <input type="text" class="answer-input" id="q23" placeholder="23"> was made up of many city-states which were spread over a large area. Many Greeks were seafarers who travelled the seas trading. Before coins, they had to do this through <input type="text" class="answer-input" id="q24" placeholder="24">. This meant that, whenever they set out, they had to carry a lot of goods, which could get damaged on the voyages. The Greeks liked coins; they were made of metal, and the weather and sea had little effect on them. The Greeks had a plentiful supply of <input type="text" class="answer-input" id="q25" placeholder="25"> which they mined themselves, but were able to avoid the problem of <input type="text" class="answer-input" id="q26" placeholder="26"> which the Spanish encountered much later, after they allowed too much gold from the New World to enter their economy.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <div class="nav-arrows">
+        <button class="nav-arrow prev" onclick="previousQuestion()" id="prevBtn" aria-label="Previous question">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <button class="nav-arrow next" onclick="nextQuestion()" id="nextBtn" aria-label="Next question">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="nav-row perScorableItem" aria-label="Questions">
+        <div class="footer__questionWrapper___1tZ46 selected multiple" role="tablist">
+            <button role="tab" class="footer__questionNo___3WNct">
+                <span>
+                    <span aria-hidden="true" class="section-prefix">Part </span>
+                    <span class="sectionNr" aria-hidden="true">2</span>
+                    <span class="attemptedCount" aria-hidden="true">0 of 13</span>
+                </span>
+            </button>
+            <div class="footer__subquestionWrapper___9GgoP" style="display:flex;">
+                <button class="subQuestion scorable-item" onclick="goToQuestion(14)"><span class="sr-only">Question 14</span><span aria-hidden="true">14</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(15)"><span class="sr-only">Question 15</span><span aria-hidden="true">15</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(16)"><span class="sr-only">Question 16</span><span aria-hidden="true">16</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(17)"><span class="sr-only">Question 17</span><span aria-hidden="true">17</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(18)"><span class="sr-only">Question 18</span><span aria-hidden="true">18</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(19)"><span class="sr-only">Question 19</span><span aria-hidden="true">19</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(20)"><span class="sr-only">Question 20</span><span aria-hidden="true">20</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(21)"><span class="sr-only">Question 21</span><span aria-hidden="true">21</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(22)"><span class="sr-only">Question 22</span><span aria-hidden="true">22</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(23)"><span class="sr-only">Question 23</span><span aria-hidden="true">23</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(24)"><span class="sr-only">Question 24</span><span aria-hidden="true">24</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(25)"><span class="sr-only">Question 25</span><span aria-hidden="true">25</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(26)"><span class="sr-only">Question 26</span><span aria-hidden="true">26</span></button>
+            </div>
+        </div>
+        <button id="deliver-button" aria-label="Review your answers" class="footer__deliverButton___3FM07">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/>
+            </svg>
+            <span>Check Answers</span>
+        </button>
+    </nav>
+
+    <!-- Context Menu -->
+    <div id="contextMenu" class="context-menu">
+        <div id="menu-highlight" class="context-menu-item" onclick="highlightText()">Highlight</div>
+        <div id="menu-note" class="context-menu-item" onclick="addNote()">Note</div>
+        <div id="menu-clear" class="context-menu-item" onclick="clearHighlight()">Clear</div>
+    </div>
+
+    <!-- Results Modal -->
+    <div id="results-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeResultsModal()">&times;</button>
+            <h2>Results</h2>
+            <div class="results-summary">
+                <p>Score: <span id="results-score"></span> / 13</p>
+                <p>IELTS Band: <span id="results-band"></span></p>
+            </div>
+            <div id="results-details" class="results-details-container"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- STATE VARIABLES ---
+            let currentQuestion = 14;
+            let selectedRange = null;
+            let timeInSeconds = 1200; // 20 minutes
+            let timerInterval;
+            let activeQuestionElement = null;
+
+            // --- DARK MODE ---
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const body = document.body;
+            body.setAttribute('data-theme', 'light');
+            localStorage.removeItem('theme');
+
+            function toggleDarkMode() {
+                const isDark = body.getAttribute('data-theme') === 'dark';
+                if (isDark) {
+                    body.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    body.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+            }
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+
+            // --- DOM ELEMENTS ---
+            const timerDisplay = document.querySelector('.timer-display');
+            const timerToggleButton = document.getElementById('timer-toggle-btn');
+            const timerResetButton = document.getElementById('timer-reset-btn');
+            const deliverButton = document.getElementById('deliver-button');
+            const resizer = document.getElementById('resizer');
+            const passagePanel = document.getElementById('passage-panel');
+            const questionsPanel = document.getElementById('questions-panel');
+            const contextMenu = document.getElementById('contextMenu');
+
+            const playIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/></svg>';
+            const pauseIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+
+            // --- ANSWERS ---
+            const correctAnswers = {
+                '14': 'vii',
+                '15': 'xi',
+                '16': 'v',
+                '17': 'iv',
+                '18': 'ii',
+                '19': 'ix',
+                '20': 'vi',
+                '21': ['A', 'C'],
+                '22': ['A', 'C'],
+                '23': 'civilisation',
+                '24': 'barter',
+                '25': 'silver',
+                '26': 'inflation'
+            };
+
+            // --- INITIALIZATION ---
+            function initialize() {
+                console.log('Initializing application...');
+                startTimer();
+                document.body.addEventListener('input', updateAllIndicators);
+                document.body.addEventListener('change', updateAllIndicators);
+                deliverButton.addEventListener('click', checkAnswers);
+                timerToggleButton.addEventListener('click', toggleTimer);
+                timerResetButton.addEventListener('click', resetTimer);
+
+                // Auto-close dropdowns on selection
+                ['q14', 'q15', 'q16', 'q17', 'q18', 'q19', 'q20'].forEach(id => {
+                    const sel = document.getElementById(id);
+                    if (sel) { sel.addEventListener('change', () => sel.blur()); }
+                });
+
+                // Checkbox limit for q21-22 (max 2)
+                const checkboxes = document.querySelectorAll('.chk-21-22');
+                const warningEl = document.getElementById('checkbox-warning');
+                checkboxes.forEach(cb => {
+                    cb.addEventListener('change', () => {
+                        const checked = document.querySelectorAll('.chk-21-22:checked');
+                        if (checked.length > 2) {
+                            cb.checked = false;
+                            if (warningEl) warningEl.classList.add('show');
+                            setTimeout(() => { if (warningEl) warningEl.classList.remove(
+                                    'show'); }, 2000);
+                        } else {
+                            if (warningEl) warningEl.classList.remove('show');
+                        }
+                        updateAllIndicators();
+                    });
+                });
+
+                // Click listeners for question containers
+                document.querySelectorAll('[data-q-start]').forEach(el => {
+                    el.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        const qNum = parseInt(el.dataset.qStart, 10);
+                        if (!isNaN(qNum) && currentQuestion !== qNum) {
+                            goToQuestion(qNum);
+                        }
+                    });
+                });
+
+                // Click listeners for summary text paragraphs
+                document.querySelectorAll('.summary-text p').forEach(p => {
+                    p.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        const strongEl = p.querySelector('strong');
+                        if (strongEl) {
+                            const qNum = parseInt(strongEl.textContent, 10);
+                            if (!isNaN(qNum) && currentQuestion !== qNum) {
+                                goToQuestion(qNum);
+                            }
+                        }
+                    });
+                });
+
+                // Input listeners
+                document.querySelectorAll('.answer-input').forEach(inputEl => {
+                    const attach = (evtName) => inputEl.addEventListener(evtName, (e) => {
+                        const id = inputEl.id || '';
+                        if (id.startsWith('q')) {
+                            const qNum = parseInt(id.replace('q', ''), 10);
+                            if (!isNaN(qNum)) goToQuestion(qNum);
+                        }
+                    });
+                    attach('focus');
+                    attach('click');
+                    attach('input');
+                    attach('change');
+                });
+
+                // Checkbox option click listeners
+                document.querySelectorAll('.checkbox-option').forEach(opt => {
+                    opt.addEventListener('click', (e) => {
+                        if (e.target.tagName !== 'INPUT') {
+                            const cb = opt.querySelector('input[type="checkbox"]');
+                            if (cb) {
+                                const checked = document.querySelectorAll('.chk-21-22:checked');
+                                if (!cb.checked && checked.length >= 2) {
+                                    e.preventDefault();
+                                    const warningEl = document.getElementById('checkbox-warning');
+                                    if (warningEl) warningEl.classList.add('show');
+                                    setTimeout(() => { if (warningEl) warningEl.classList.remove('show'); }, 2000);
+                                    return;
+                                }
+                            }
+                        }
+                        goToQuestion(21);
+                    });
+                });
+
+                resizer.addEventListener('mousedown', initResize, false);
+                initializeContextMenu();
+                updateAllIndicators();
+                goToQuestion(14);
+            }
+
+            // --- CHECK ANSWERS ---
+            function checkAnswers() {
+                const allInputs = document.querySelectorAll('input, select, textarea');
+                allInputs.forEach(input => { input.disabled = true; });
+                deliverButton.disabled = true;
+                deliverButton.style.cursor = 'not-allowed';
+                clearInterval(timerInterval);
+
+                let score = 0;
+                const totalQuestions = 13;
+                const resultsDetailsContainer = document.getElementById('results-details');
+                resultsDetailsContainer.innerHTML = '';
+
+                document.querySelectorAll('.correct, .incorrect, .correct-answer-highlight').forEach(el => {
+                    el.classList.remove('correct', 'incorrect', 'correct-answer-highlight');
+                });
+                document.querySelectorAll('.correct-answer-display').forEach(el => el.remove());
+
+                // Handle q21-22 as a combined checkbox group
+                const checkedBoxes = document.querySelectorAll('.chk-21-22:checked');
+                const selectedValues = Array.from(checkedBoxes).map(cb => cb.value).sort();
+                const correctSet = ['A', 'C'];
+                const isQ2122Correct = selectedValues.length === 2 && selectedValues[0] === correctSet[0] && selectedValues[1] === correctSet[1];
+
+                // Mark checkbox options
+                document.querySelectorAll('.checkbox-option').forEach(opt => {
+                    const cb = opt.querySelector('.chk-21-22');
+                    if (cb) {
+                        if (cb.checked && correctSet.includes(cb.value) && isQ2122Correct) {
+                            opt.classList.add('correct');
+                        } else if (cb.checked && !isQ2122Correct) {
+                            opt.classList.add('incorrect');
+                        } else if (!cb.checked && correctSet.includes(cb.value) && !isQ2122Correct) {
+                            opt.classList.add('correct-answer-highlight');
+                        }
+                    }
+                });
+
+                for (let i = 14; i <= 26; i++) {
+                    const questionKey = String(i);
+                    const correctAnswer = correctAnswers[questionKey];
+                    let userAnswer = '';
+                    let isCorrect = false;
+                    let userAnswerDisplay = 'Not Answered';
+                    const correctAnswerText = Array.isArray(correctAnswer) ? correctAnswer.join(' & ') : correctAnswer;
+
+                    if (i === 21 || i === 22) {
+                        // Combined checkbox handling
+                        if (i === 21) {
+                            userAnswerDisplay = selectedValues.length > 0 ? selectedValues.join(', ') : 'Not Answered';
+                            userAnswer = selectedValues.join(',');
+                            isCorrect = isQ2122Correct;
+                            if (isCorrect) score += 2; // Both 21 and 22 correct
+                        } else {
+                            // q22 is the same result, skip duplicate processing but add to results
+                            userAnswerDisplay = selectedValues.length > 0 ? selectedValues.join(', ') : 'Not Answered';
+                            userAnswer = selectedValues.join(',');
+                            isCorrect = isQ2122Correct;
+                            // score already added for q21
+                        }
+                    } else {
+                        const textInput = document.getElementById(`q${i}`);
+                        if (textInput && (textInput.tagName === 'INPUT' || textInput.tagName === 'SELECT')) {
+                            userAnswer = textInput.value.trim();
+                            userAnswerDisplay = userAnswer || 'Not Answered';
+                            const normalize = (s) => (s || '').toString().toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim();
+                            if (textInput.tagName === 'SELECT') {
+                                isCorrect = userAnswer === correctAnswer;
+                            } else {
+                                const normUser = normalize(userAnswer);
+                                if (Array.isArray(correctAnswer)) {
+                                    isCorrect = correctAnswer.some(ans => normalize(ans) === normUser);
+                                } else {
+                                    isCorrect = normalize(correctAnswer) === normUser;
+                                }
+                            }
+                            if (isCorrect) {
+                                score++;
+                                textInput.classList.add('correct');
+                            } else {
+                                textInput.classList.add('incorrect');
+                                const correctSpan = document.createElement('span');
+                                correctSpan.className = 'correct-answer-display';
+                                correctSpan.innerHTML = `&nbsp;➜&nbsp;<span class="correct-answer-highlight">${correctAnswerText}</span>`;
+                                textInput.parentNode.insertBefore(correctSpan, textInput.nextSibling);
+                            }
+                        }
+                    }
+
+                    const resultRow = `
+                        <div class="result-row ${isCorrect ? 'correct' : 'incorrect'}">
+                            <span class="q-num">${i}</span>
+                            <span class="user-ans">${userAnswerDisplay}</span>
+                            <span class="correct-ans">${correctAnswerText}</span>
+                            <span class="status-badge ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? 'Correct' : 'Incorrect'}</span>
+                        </div>`;
+                    resultsDetailsContainer.innerHTML += resultRow;
+
+                    const navBtn = document.querySelector(`.subQuestion[onclick="goToQuestion(${i})"]`);
+                    if (navBtn) {
+                        navBtn.classList.remove('answered', 'active');
+                        navBtn.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    }
+                }
+
+                const finalScore = Math.min(score, 13);
+                document.getElementById('results-score').textContent = finalScore;
+                document.getElementById('results-band').textContent = calculateBandScore(finalScore);
+                document.body.classList.add('results-mode');
+                document.getElementById('results-modal').classList.remove('hidden');
+
+                deliverButton.innerHTML =
+                    '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="currentColor"/></svg><span>My Result</span>';
+                deliverButton.style.backgroundColor = '#4CAF50';
+                deliverButton.style.color = 'white';
+                deliverButton.style.borderColor = '#4CAF50';
+                deliverButton.disabled = false;
+                deliverButton.style.cursor = 'pointer';
+                deliverButton.removeEventListener('click', checkAnswers);
+                deliverButton.addEventListener('click', showResultsModal);
+
+                highlightCorrectAnswersInPassage();
+            }
+
+            function calculateBandScore(score) {
+                const mapping = { 13: 9.0, 12: 8.5, 11: 8.0, 10: 7.5, 9: 7.0, 8: 6.5, 7: 6.0, 6: 5.5, 5: 5.0, 4: 4.5, 3: 3.5, 2: 3.0, 1: 2.0, 0: 0.0 };
+                return mapping[score] !== undefined ? mapping[score].toFixed(1) : '0.0';
+            }
+
+            function highlightCorrectAnswersInPassage() {
+                const passageEl = document.getElementById('passage-text-1');
+                if (!passageEl) return;
+                passageEl.querySelectorAll('.answer-highlight').forEach(el => {
+                    const parent = el.parentNode;
+                    parent.replaceChild(document.createTextNode(el.textContent), el);
+                    parent.normalize();
+                });
+                const highlights = [
+                    { question: 14, text: "they will one day be obsolete".toLowerCase() },
+                    { question: 15, text: "rich sources of documentary evidence about events and cultural attitudes".toLowerCase() },
+                    { question: 16, text: "they could benefit enormously from a system that used coins".toLowerCase() },
+                    { question: 17, text: "coins could be weighed to determine the amount of metal they contained".toLowerCase() },
+                    { question: 18, text: "a way of advertising the qualities of each particular city-state".toLowerCase() },
+                    { question: 19, text: "repeated virtually unaltered for many years".toLowerCase() },
+                    { question: 20, text: "replace that head with the portrait of the reigning monarch".toLowerCase() },
+                    { question: 21, text: "the work of anonymous craftsmen".toLowerCase() },
+                    { question: 22, text: "the endless variety encountered in coins with the same designs".toLowerCase() },
+                    { question: 23, text: "their civilisation, which was composed of dozens of city-states".toLowerCase() },
+                    { question: 24, text: "trade was based on barter".toLowerCase() },
+                    { question: 25, text: "at first this was mostly silver".toLowerCase() },
+                    { question: 26, text: "it resulted in serious inflation".toLowerCase() }
+                ];
+                highlights.forEach(item => {
+                    const paragraphs = passageEl.querySelectorAll('p');
+                    paragraphs.forEach(paragraph => {
+                        const html = paragraph.innerHTML;
+                        if (!html || typeof html !== 'string') return;
+                        if (html.toLowerCase().includes(item.text)) {
+                            const escapeRegExp = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                            const re = new RegExp(escapeRegExp(item.text), 'i');
+                            const badge = `<span style="position:absolute;top:-8px;right:-8px;background-color:#2196f3;color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:bold;">${item.question}</span>`;
+                            const replaced = html.replace(re, `<span class="answer-highlight" data-question="${item.question}" style="background-color:#ffeb3b;padding:2px 4px;border-radius:3px;font-weight:bold;position:relative;color:#000;">${item.text}${badge}</span>`);
+                            paragraph.innerHTML = replaced;
+                        }
+                    });
+                });
+            }
+
+            function showResultsModal() {
+                document.getElementById('results-modal').classList.remove('hidden');
+            }
+            window.closeResultsModal = function() {
+                document.getElementById('results-modal').classList.add('hidden');
+                document.body.classList.remove('results-mode');
+            };
+
+            // --- NAVIGATION ---
+            function goToQuestion(questionNumber) {
+                console.log('goToQuestion:', questionNumber);
+                currentQuestion = questionNumber;
+                if (activeQuestionElement) {
+                    activeQuestionElement.classList.remove('active-question', 'active-input');
+                    const prevBlock = activeQuestionElement.closest('[data-q-start]');
+                    if (prevBlock) prevBlock.classList.remove('active-question');
+                }
+                let targetEl = document.getElementById(`q${questionNumber}`);
+                if (targetEl) {
+                    activeQuestionElement = targetEl;
+                    targetEl.classList.add('active-input');
+                    scrollIntoViewIfNeeded(targetEl);
+                } else {
+                    targetEl = document.querySelector(`[data-q-start="${questionNumber}"]`);
+                    if (targetEl) {
+                        activeQuestionElement = targetEl;
+                        if (targetEl.matches('input[type="text"]') || targetEl.matches('select')) {
+                            targetEl.classList.add('active-input');
+                        } else {
+                            targetEl.classList.add('active-question');
+                        }
+                        scrollIntoViewIfNeeded(targetEl);
+                    }
+                }
+                updateNavigation();
+            }
+
+            function updateNavigation() {
+                const navButtons = document.querySelectorAll('.subQuestion');
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                const activeNav = document.querySelector(`.subQuestion[onclick="goToQuestion(${currentQuestion})"]`);
+                if (activeNav) activeNav.classList.add('active');
+                const inputs = document.querySelectorAll('.answer-input');
+                inputs.forEach(input => input.classList.remove('active-input'));
+                const activeInput = document.getElementById(`q${currentQuestion}`);
+                if (activeInput) {
+                    activeInput.classList.add('active-input');
+                    if (typeof activeInput.focus === 'function') activeInput.focus();
+                }
+            }
+
+            window.nextQuestion = () => currentQuestion < 26 && goToQuestion(currentQuestion + 1);
+            window.previousQuestion = () => currentQuestion > 14 && goToQuestion(currentQuestion - 1);
+
+            function updateAllIndicators() {
+                updateAttemptedCount();
+                updateAnsweredNav();
+            }
+
+            function updateAnsweredNav() {
+                const navButtons = document.querySelectorAll('.subQuestion');
+                navButtons.forEach(btn => {
+                    let qNum = NaN;
+                    const onclickAttr = btn.getAttribute('onclick');
+                    if (onclickAttr) {
+                        const match = onclickAttr.match(/goToQuestion\((\d+)\)/);
+                        if (match) qNum = parseInt(match[1], 10);
+                    }
+                    if (isNaN(qNum)) {
+                        const visibleSpan = btn.querySelector('span[aria-hidden="true"]');
+                        if (visibleSpan) qNum = parseInt(visibleSpan.textContent.trim(), 10);
+                    }
+                    if (!isNaN(qNum) && isQuestionAnswered(qNum)) {
+                        btn.classList.add('answered');
+                    } else {
+                        btn.classList.remove('answered');
+                    }
+                });
+            }
+
+            function isQuestionAnswered(qNum) {
+                if (qNum === 21 || qNum === 22) {
+                    const checked = document.querySelectorAll('.chk-21-22:checked');
+                    return checked.length > 0;
+                }
+                const textInput = document.getElementById(`q${qNum}`);
+                if (textInput && textInput.value.trim() !== '') return true;
+                return false;
+            }
+
+            function scrollIntoViewIfNeeded(element) {
+                const panel = element.closest('.questions-panel, .passage-panel');
+                const panelRect = panel.getBoundingClientRect();
+                const elementRect = element.getBoundingClientRect();
+                if (elementRect.top < panelRect.top || elementRect.bottom > panelRect.bottom) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+
+            // --- TIMER ---
+            function startTimer() {
+                if (timerInterval) clearInterval(timerInterval);
+                timerInterval = setInterval(() => {
+                    timeInSeconds--;
+                    const minutes = Math.floor(timeInSeconds / 60);
+                    const seconds = timeInSeconds % 60;
+                    timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    if (timeInSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        timerDisplay.textContent = "Time's up!";
+                    }
+                }, 1000);
+                timerToggleButton.innerHTML = pauseIcon;
+            }
+
+            function pauseTimer() {
+                clearInterval(timerInterval);
+                timerToggleButton.innerHTML = playIcon;
+            }
+
+            function toggleTimer() {
+                if (timerToggleButton.innerHTML.includes('M6 19h4V5H6v14z')) {
+                    pauseTimer();
+                } else {
+                    startTimer();
+                }
+            }
+
+            function resetTimer() {
+                timeInSeconds = 1200;
+                const minutes = Math.floor(timeInSeconds / 60);
+                const seconds = timeInSeconds % 60;
+                timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                startTimer();
+                timerToggleButton.innerHTML = pauseIcon;
+            }
+
+            function updateAttemptedCount() {
+                let answeredCount = 0;
+                for (let i = 14; i <= 26; i++) {
+                    if (isQuestionAnswered(i)) answeredCount++;
+                }
+                const countSpan = document.querySelector('.attemptedCount');
+                if (countSpan) countSpan.textContent = `${answeredCount} of 13`;
+            }
+
+            // --- RESIZER ---
+            function initResize(e) {
+                e.preventDefault();
+                const startX = e.clientX;
+                const startWidth = passagePanel.offsetWidth;
+                const doDrag = (e) => {
+                    const newWidth = startWidth + e.clientX - startX;
+                    if (newWidth > 200 && (document.body.clientWidth - newWidth - resizer.offsetWidth) > 200) {
+                        passagePanel.style.flex = `0 0 ${newWidth}px`;
+                    }
+                };
+                const stopDrag = () => {
+                    window.removeEventListener('mousemove', doDrag, false);
+                    window.removeEventListener('mouseup', stopDrag, false);
+                };
+                window.addEventListener('mousemove', doDrag, false);
+                window.addEventListener('mouseup', stopDrag, false);
+            }
+
+            // --- CONTEXT MENU ---
+            function initializeContextMenu() {
+                const panels = [passagePanel, questionsPanel];
+                let targetElementForClear = null;
+                document.addEventListener('selectionchange', () => {
+                    const selection = window.getSelection();
+                    if (selection && !selection.isCollapsed && selection.toString().trim().length > 0) {
+                        const range = selection.getRangeAt(0);
+                        if (panels.some(panel => panel.contains(range.commonAncestorContainer))) {
+                            selectedRange = range;
+                            targetElementForClear = null;
+                        }
+                    }
+                });
+                const showContextMenu = (e) => {
+                    const target = e.target;
+                    const isClickOnHighlight = target.closest('.highlight, .comment-highlight');
+                    const isSelectionActive = selectedRange && selectedRange.toString().trim().length > 0;
+                    let showMenu = false;
+                    if (isClickOnHighlight) {
+                        document.getElementById('menu-highlight').style.display = 'none';
+                        document.getElementById('menu-note').style.display = 'none';
+                        document.getElementById('menu-clear').style.display = 'block';
+                        contextMenu.targetElementForClear = isClickOnHighlight;
+                        showMenu = true;
+                    } else if (isSelectionActive && panels.some(panel => panel.contains(selectedRange.commonAncestorContainer))) {
+                        document.getElementById('menu-highlight').style.display = 'flex';
+                        document.getElementById('menu-note').style.display = 'flex';
+                        document.getElementById('menu-clear').style.display = 'none';
+                        showMenu = true;
+                    }
+                    if (showMenu) {
+                        e.preventDefault();
+                        contextMenu.style.display = 'block';
+                        const menuHeight = contextMenu.offsetHeight;
+                        const menuWidth = contextMenu.offsetWidth;
+                        let left = e.pageX;
+                        let top = e.pageY;
+                        if (left + menuWidth > window.innerWidth) left = window.innerWidth - menuWidth - 5;
+                        if (top + menuHeight > window.innerHeight) top = e.pageY - menuHeight - 5;
+                        else top = e.pageY - menuHeight - 5;
+                        contextMenu.style.left = `${left}px`;
+                        contextMenu.style.top = `${top}px`;
+                    }
+                };
+                panels.forEach(panel => { panel.addEventListener('contextmenu', showContextMenu); });
+                document.addEventListener('click', (e) => {
+                    if (contextMenu.style.display === 'block' && !contextMenu.contains(e.target)) {
+                        closeContextMenu();
+                    }
+                });
+            }
+
+            function closeContextMenu() {
+                contextMenu.style.display = 'none';
+                selectedRange = null;
+            }
+
+            function unwrapElement(element) {
+                const parent = element.parentNode;
+                if (!parent) return;
+                while (element.firstChild) { parent.insertBefore(element.firstChild, element); }
+                parent.removeChild(element);
+                parent.normalize();
+            }
+
+            window.highlightText = () => {
+                if (selectedRange && !selectedRange.collapsed) {
+                    const span = document.createElement('span');
+                    span.className = 'highlight';
+                    span.appendChild(selectedRange.extractContents());
+                    selectedRange.insertNode(span);
+                }
+                closeContextMenu();
+                window.getSelection().removeAllRanges();
+            };
+
+            window.addNote = () => {
+                const note = prompt('Enter your note:');
+                if (note && selectedRange && !selectedRange.collapsed) {
+                    const span = document.createElement('span');
+                    span.className = 'comment-highlight';
+                    const tooltip = document.createElement('span');
+                    tooltip.className = 'comment-tooltip';
+                    tooltip.textContent = note;
+                    span.appendChild(selectedRange.extractContents());
+                    span.appendChild(tooltip);
+                    selectedRange.insertNode(span);
+                }
+                closeContextMenu();
+                window.getSelection().removeAllRanges();
+            };
+
+            window.clearHighlight = () => {
+                const elementToClear = contextMenu.targetElementForClear;
+                if (elementToClear) { unwrapElement(elementToClear); }
+                closeContextMenu();
+                window.getSelection().removeAllRanges();
+            };
+
+            // --- GLOBAL EXPOSURE ---
+            window.nextQuestion = window.nextQuestion;
+            window.previousQuestion = window.previousQuestion;
+            window.goToQuestion = goToQuestion;
+            window.closeResultsModal = window.closeResultsModal;
+            window.highlightText = window.highlightText;
+            window.addNote = window.addNote;
+            window.clearHighlight = window.clearHighlight;
+
+            // --- START ---
+            initialize();
+        });
+    </script>
+</body>
+</html>
